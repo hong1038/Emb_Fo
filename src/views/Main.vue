@@ -1,0 +1,1445 @@
+<template>
+<b-container fluid>
+    <Header @callbackLocation="resetArea"></Header>
+    <div class="home">
+        <div style="display:flex;">
+            <div class="inner mainInner">
+            <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
+                <div class="conWrap container-fluid">
+                    <div class="mapImg" :style="'background:url('+backgroundImage+') 40%'"> </div>
+                    <b-row>
+                        <b-col cols="3" class="con_leftWrap">
+                            <div class="con_left01">
+                                <div>대한민국</div>
+                                <div class="weatherWrap">
+                                    <div class="container-fluid">
+                                        <b-row>
+                                            <b-col cols="4">
+                                                <span>{{new Date().toLocaleDateString()}} {{week[new Date().getDay()]}}</span>
+                                                <span>{{weather.weather[0].main}}</span>
+                                            </b-col>
+                                            <b-col cols="4" id="weatherImg"><img :src="imgURL" alt="imgURL"></b-col>
+                                            <b-col cols="4" class="col-4">{{Math.ceil(weather.main.temp - 273.15)}} ºC</b-col>
+                                        </b-row>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <b-row>
+                                        <b-col cols="3">
+                                            <img src="../assets/icon/wind.png" style="height:35px;">
+                                        </b-col>
+                                        <b-col cols="3">
+                                            <span>{{weather.wind.speed}}</span>
+                                            <span>{{windDeg}}</span>
+                                        </b-col>
+                                        <b-col cols="3">
+                                            <img src="../assets/icon/water.png">
+                                        </b-col>
+                                        <b-col cols="3">
+                                            <span>습도</span>
+                                            <span>{{weather.main.humidity}}</span>
+                                        </b-col>
+                                    </b-row>
+                                </div>
+                            </div>
+                            <div class="con_left02">
+                                <div>{{pinName}} {{title}}가동률</div>
+                                <div class="chartWrap mt-4">
+                                    <ul class="chartSkills">
+                                        <li class="overChart overChart1"></li>
+                                        <li class="overChart overChart2"></li>
+                                        <li class="overChart overChart3"></li>
+                                        <li class="overChart overChart4"></li>
+                                        <li class="overChart overChart5"></li>
+                                        <li class="overChart overChart6"></li>
+                                        <li class="overChart overChart7"></li>
+                                        <li class="overChart overChart8"></li>
+                                        <li class="overChart overChart9"></li>
+                                        <li class="overChart overChart10"></li>
+                                    </ul>
+                                    <ul class="chartText">
+                                        <!-- <li :id="id1" v-on:click="changeChartType(1)">정상내역</li> -->
+                                        <!-- <li :id="id2" v-on:click="changeChartType(2)">초과내역</li> -->
+                                    </ul>
+                                    <span class="chartPer">{{opRate}}%</span>
+                                </div>
+                            </div>
+                            <div class="con_left03">
+                                <div>{{pinName}} 모니터링 내역</div>
+                                <div class="monitorWrap">
+                                    <b-row class="monitor" v-for="(item,idx) in moniList" :key="idx">
+                                        <b-col cols="4">{{item.equipment_name}}</b-col>
+                                        <b-col cols="4">
+                                            <ul>
+                                                <li :class="item.idx + '_percent_1 percent '"></li>
+                                                <li :class="item.idx + '_percent_2 percent '"></li>
+                                                <li :class="item.idx + '_percent_3 percent '"></li>
+                                                <li :class="item.idx + '_percent_4 percent '"></li>
+                                                <li :class="item.idx + '_percent_5 percent '"></li>
+                                                <li :class="item.idx + '_percent_6 percent '"></li>
+                                                <li :class="item.idx + '_percent_7 percent '"></li>
+                                                <li :class="item.idx + '_percent_8 percent '"></li>
+                                                <li :class="item.idx + '_percent_9 percent '"></li>
+                                                <li :class="item.idx + '_percent_10 percent '"></li>
+                                            </ul>
+                                        </b-col>
+                                        <b-col cols="4">{{item.inlet_avg}}/{{item.inlet_mean}}</b-col>
+                                    </b-row>
+                                </div>
+                            </div>
+                        </b-col>
+                        <b-col cols="6" class="pinWrap">
+                            <div v-on:click="pinClick(10014,'pin01','공주')" class="locationPin pin01" ref="pin" :disabled="busy">
+                                <p class="pin01Ball"></p>공주
+                            </div>
+                            <div v-on:click="pinClick(10021,'pin02','남원')" class="locationPin pin02">
+                                <p class="pin02Ball"></p>남원
+                            </div>
+                            <div v-on:click="pinClick(10015,'pin03','논산')" class="locationPin pin03">
+                                <p class="pin03Ball"></p>논산
+                            </div>
+                            <div v-on:click="pinClick(10031,'pin04','부산')" class="locationPin pin04">
+                                <p class="pin04Ball"></p>부산
+                            </div>
+                            <div v-on:click="pinClick(10041,'pin05','씨푸드 성남')" class="locationPin pin05">
+                                <p class="pin05Ball"></p>씨푸드 성남
+                            </div>
+                            <div v-on:click="pinClick(10040,'pin06','씨푸드 이천')" class="locationPin pin06">
+                                <p class="pin06Ball"></p>씨푸드 이천
+                            </div>
+                            <div v-on:click="pinClick(10051,'pin07','안산')" class="locationPin pin07">
+                                <p class="pin07Ball"></p>안산
+                            </div>
+                            <div v-on:click="pinClick(10030,'pin08','양산')" class="locationPin pin08">
+                                <p class="pin08Ball"></p>양산
+                            </div>
+                            <div v-on:click="pinClick(10004,'pin09','영등포')" class="locationPin pin09">
+                                <p class="pin09Ball"></p>영등포
+                            </div>
+                            <div v-on:click="pinClick(10010,'pin10','원지')" class="locationPin pin10">
+                                <p class="pin10Ball"></p>원지
+                            </div>
+                            <div v-on:click="pinClick(10011,'pin11','음성')" class="locationPin pin11">
+                                <p class="pin11Ball"></p>음성
+                            </div>
+                            <div v-on:click="pinClick(10001,'pin12','인천1')" class="locationPin pin12">
+                                <p class="pin12Ball"></p>인천1
+                            </div>
+                            <div v-on:click="pinClick(10002,'pin13','인천2')" class="locationPin pin13">
+                                <p class="pin13Ball"></p>인천2
+                            </div>
+                            <div v-on:click="pinClick(10003,'pin14','인천3')" class="locationPin pin14">
+                                <p class="pin14Ball"></p>인천3
+                            </div>
+                            <div v-on:click="pinClick(10000,'pin15','인천냉동')" class="locationPin pin15">
+                                <p class="pin15Ball"></p>인천냉동
+                            </div>
+                            <div v-on:click="pinClick(10020,'pin16','진안')" class="locationPin pin16">
+                                <p class="pin16Ball"></p>진안
+                            </div>
+                            <div v-on:click="pinClick(10012,'pin17','진천')" class="locationPin pin17">
+                                <p class="pin17Ball"></p>진천
+                            </div>
+                            <div v-on:click="pinClick(10013,'pin18','진천BC')" class="locationPin pin18">
+                                <p class="pin18Ball"></p>진천BC
+                            </div>
+                        </b-col>
+                        <b-col cols="3">
+                            <v-card max-width="400" class="mx-auto">
+                                <h1 style="margin-left:10px">{{areaNm}}</h1>
+                                <v-container class="card-list">
+                                    <v-card color="white" dark style="margin-bottom:10px" v-for="(item,i) in rowData " :key="i">
+                                        <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg)">
+                                            <v-avatar class="ma-3" size="125" tile>
+                                                <v-img v-bind:src="item.pinImg"></v-img>
+                                            </v-avatar>
+                                            <div class="card-text">
+                                                <p style="font-weight:bold;font-size:18px">
+                                                    {{item.name = item.name === "인천냉동식품공장" ? "인천냉동 식품공장" : item.name }}
+                                                </p>
+                                                <p v-if="item.air_abnormal_yn === 'X'">
+                                                    대기 : 값이없음
+                                                </p>
+                                                <p v-else-if="item.air_abnormal_yn === 'Y'" style="display:flex">
+                                                    대기 :  <span style="color:red;font-weight:bold">이상있음</span>
+                                                </p>
+                                                <p v-else-if="item.air_abnormal_yn === 'N'">
+                                                    대기 : 이상없음
+                                                </p>
+
+                                                <p v-if="item.water_abnormal_yn === 'X'">
+                                                    수질 : 값이없음
+                                                </p>
+                                                <p v-else-if="item.water_abnormal_yn === 'Y'" style="display:flex">
+                                                    수질 : <span style="color:red;font-weight:bold">이상있음</span>
+                                                </p>
+                                                <p v-else-if="item.water_abnormal_yn === 'N'">
+                                                    수질 : 이상없음
+                                                </p>
+
+                                                <p v-if="item.odor_abnormal_yn === 'X'">
+                                                    악취 : 값이없음
+                                                </p>
+                                                <p v-else-if="item.odor_abnormal_yn === 'Y'" style="display:flex">
+                                                    악취 : <span style="color:red;font-weight:bold">이상있음</span>
+                                                </p>
+                                                <p v-else-if="item.odor_abnormal_yn === 'N'">
+                                                    악취 : 이상없음
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </v-card>
+                                </v-container>
+                            </v-card>
+                        </b-col>
+                    </b-row>
+                </div>
+            </b-overlay>
+            </div>
+        </div>
+    </div>
+</b-container>
+</template>
+
+<script>
+// @ is an alias to /src
+import store from "@/store/index";
+import Header from '@/components/header.vue'
+
+// import busanimage from '@/assets/MAP_busan.png'
+// import chungbukimage from '@/assets/MAP_chungbuk.png'
+// import chungnamimage from '@/assets/MAP_chungnam.png'
+import gyunggiimage from '@/assets/MAP_gyunggi.png'
+import incheonimage from '@/assets/MAP_incheon.png'
+import junbukimage from '@/assets/MAP_junbuk.png'
+import junnamimage from '@/assets/MAP_junnam.png'
+import kangwonimage from '@/assets/MAP_kangwon.png'
+import kyungbukimage from '@/assets/MAP_kyungbuk.png'
+// import kyungnamimage from '@/assets/MAP_kyungnam.png'
+import seoulimage from '@/assets/MAP_seoul.png'
+import kyunginimage from '@/assets/MAP_kyungin.png'
+import bioimage from '@/assets/MAP_bio.png'
+import seafoodimage from '@/assets/MAP_seafood.png'
+import centerimage from '@/assets/MAP_center.png'
+import southimage from '@/assets/MAP_south.png'
+import mainimage from '@/assets/MAP.png'
+
+import pin01Img from '@/assets/rendering/pin01.png'
+import pin02Img from '@/assets/rendering/pin02.png'
+import pin03Img from '@/assets/rendering/pin03.png'
+import pin04Img from '@/assets/rendering/pin04.png'
+import pin05Img from '@/assets/rendering/pin05.png'
+import pin06Img from '@/assets/rendering/pin06.png'
+import pin07Img from '@/assets/rendering/pin07.png'
+import pin08Img from '@/assets/rendering/pin08.png'
+import pin09Img from '@/assets/rendering/pin09.png'
+import pin10Img from '@/assets/rendering/pin10.png'
+import pin11Img from '@/assets/rendering/pin11.png'
+import pin12Img from '@/assets/rendering/pin12.png'
+import pin13Img from '@/assets/rendering/pin13.png'
+import pin14Img from '@/assets/rendering/pin14.png'
+import pin15Img from '@/assets/rendering/pin15.png'
+import pin16Img from '@/assets/rendering/pin16.png'
+import pin17Img from '@/assets/rendering/pin17.png'
+import pin18Img from '@/assets/rendering/pin18.png'
+
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import {
+    AgGridVue
+} from "ag-grid-vue"
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+export default {
+    components: {
+        /* eslint-disable vue/no-unused-components */
+        Header,
+        AgGridVue,
+        // busanimage,
+        // chungbukimage,
+        // chungnamimage,
+        gyunggiimage,
+        incheonimage,
+        junbukimage,
+        junnamimage,
+        kangwonimage,
+        kyungbukimage,
+        // kyungnamimage,
+        seoulimage,
+        kyunginimage,
+        bioimage,
+        seafoodimage,
+        centerimage,
+        southimage,
+        mainimage,
+
+        pin01Img,
+        pin02Img,
+        pin03Img,
+        pin04Img,
+        pin05Img,
+        pin06Img,
+        pin07Img,
+        pin08Img,
+        pin09Img,
+        pin10Img,
+        pin11Img,
+        pin12Img,
+        pin13Img,
+        pin14Img,
+        pin15Img,
+        pin16Img,
+        pin17Img,
+        pin18Img
+    },
+    name: 'App',
+    data() {
+        return {
+            busy:false,
+            timeout : null,
+
+            week: ['일', '월', '화', '수', '목', '금', '토'],
+            columnDefs: null,
+            rowData: null,
+            weather: {},
+            areaPin: null,
+            imgURL: null,
+            windDeg: "",
+            opRate: 0,
+            title: "정상",
+            id1: "test1",
+            id2: "test2",
+            pinName: "전체",
+            pin: null,
+            backgroundImage: mainimage,
+            moniList: null,
+            checkPin:false,
+            areaNm:"전체"
+        }
+    },
+    beforeDestroy() {
+      this.clearTimeout()
+    },
+
+    beforeMount() {
+        // this.getfactory();
+        this.startArea();
+        store.state.ckServer = [];
+        store.state.ckCate = [];
+        store.state.ckEquip = [];
+        store.state.ckSensor = [];
+
+        this.columnDefs = [{
+                headerName: 'make',
+                field: 'make',
+                rowSpan: function (params) {
+                    return params.data.country === 'make' ? 2 : 1;
+                }
+            },
+            {
+                headerName: 'model',
+                field: 'model'
+            },
+        ];
+
+        // this.rowData = this.rowData
+    },
+    created() {
+        this.getWether();
+
+    },
+    watch: {
+        moniList() {
+            this.testmoni()
+        }
+    },
+    methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            }, 3000)
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.busy = false
+            })
+        },
+
+        pinClick(areaPin, pin, name){
+            this.onClick();
+
+            this.checkPin = true;
+            this.pinSelect(areaPin, pin, name);
+
+        },
+        gotoView(serverKey, serverName , bgImg) {
+            store.state.serverKey = serverKey
+            store.state.serverName = serverName
+            store.state.bgImg = bgImg
+            this.$router.push({
+                name: 'View'
+            })
+        },
+        pinSelect(areaPin, pin, name) {
+
+            this.areaPin = areaPin
+            this.pinName = name
+
+            this.$Axios.post("/api/daedan/cj/ems/main/omList", {
+                    serverList: this.serverList,
+                    userId: store.state.userInfo.userId,
+                    areaPin: this.areaPin,
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            //여기서 데이터치리요함.
+
+                                this.moniList = res.data.data.moni
+
+                                console.log(this.moniList)
+
+                                res.data.data.area[9].pinImg = pin01Img
+                                res.data.data.area[12].pinImg = pin02Img
+                                res.data.data.area[10].pinImg = pin03Img
+                                res.data.data.area[14].pinImg = pin04Img
+                                res.data.data.area[16].pinImg = pin05Img
+                                res.data.data.area[15].pinImg = pin06Img
+                                res.data.data.area[17].pinImg = pin07Img
+                                res.data.data.area[13].pinImg = pin08Img
+                                res.data.data.area[4].pinImg = pin09Img
+                                res.data.data.area[5].pinImg = pin10Img
+                                res.data.data.area[6].pinImg = pin11Img
+                                res.data.data.area[1].pinImg = pin12Img
+                                res.data.data.area[2].pinImg = pin13Img
+                                res.data.data.area[3].pinImg = pin14Img
+                                res.data.data.area[0].pinImg = pin15Img
+                                res.data.data.area[11].pinImg = pin16Img
+                                res.data.data.area[7].pinImg = pin17Img
+                                res.data.data.area[8].pinImg = pin18Img
+                                console.log(res.data.data.area,areaPin)
+                                try {
+                                    
+
+                                    if (this.checkPin === false) {
+                                        this.rowData = res.data.data.area    
+                                    }else{
+                                        this.rowData = res.data.data.area.filter((e) => Number(String(e.area_code).split("")[3]) === Number(String(this.areaPin).split("")[3]))
+                                        this.areaNm = res.data.data.area.filter((e) => e.area_code == areaPin)
+                                        console.log(this.areaNm)
+                                        this.areaNm = this.areaNm[0].area
+                                    }
+
+                                    this.opRate = res.data.data.oper.opRate.toFixed(2)
+
+                                    for (let index = 0; index < 10; index++) {
+                                        document.getElementsByClassName("overChart")[index].style.borderColor = "rgb(223, 223, 223)"
+                                    }
+                                    this.opRate = this.opRate > 100 ? 100 : this.opRate
+                                    for (let index = 1; index <= Math.floor(this.opRate / 10); index++) {
+                                        document.getElementsByClassName("overChart" + index)[0].style.borderColor = "rgb(81, 81, 255)"
+                                    }
+                                } catch (error) {
+                                    console.log(error)
+                                }
+
+
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("가동률데이터목록 추출 실패 \n" + err);
+                })
+            if (this.pin !== null) {
+                document.getElementsByClassName(this.pin + "Ball")[0].style.borderColor = "black"
+                document.getElementsByClassName(this.pin + "Ball")[0].style.backgroundColor = "transparent"
+                document.getElementsByClassName(this.pin + "Ball")[0].style.boxShadow = "0px 0px 0px 0px transparent"
+                document.getElementsByClassName(this.pin + "Ball")[0].style.width = "17px"
+                document.getElementsByClassName(this.pin + "Ball")[0].style.height = "17px"
+                document.getElementsByClassName(this.pin + "Ball")[0].style.top = "-15px"
+                document.getElementsByClassName(this.pin + "Ball")[0].style.left = "25px"
+                document.getElementsByClassName(this.pin)[0].style.fontWeight = "400"
+                document.getElementsByClassName(this.pin)[0].style.fontSize = ""
+            }
+            setTimeout(() => {
+                document.getElementsByClassName(pin + "Ball")[0].style.borderColor = "rgb(48, 230, 55)"
+                document.getElementsByClassName(pin + "Ball")[0].style.backgroundColor = "rgb(48, 230, 55)"
+                document.getElementsByClassName(pin + "Ball")[0].style.boxShadow = "0px 0px 10px 4px rgb(39, 107, 64)"
+                document.getElementsByClassName(pin + "Ball")[0].style.width = "25px"
+                document.getElementsByClassName(pin + "Ball")[0].style.height = "25px"
+                document.getElementsByClassName(pin + "Ball")[0].style.left = "21px"
+                document.getElementsByClassName(pin + "Ball")[0].style.top = "-26px"
+                document.getElementsByClassName(pin)[0].style.fontWeight = "900"
+            }, 1000);
+            this.pin = pin;
+            // this.testmoni()
+            this.changeMap()
+
+        },
+
+        testmoni() {
+            this.moniList.map((e, idx) => {
+                e.idx = idx;
+            })
+            if (this.moniList.length === 0) return false
+
+            setTimeout(() => {
+
+                this.moniList.map((e) => {
+                    // if (e.inlet_avg === 0) {
+                    //     return false
+                    // }
+                    console.log(e.inlet_avg, e.inlet_mean)
+                    for (let index = 1; index <= 10; index++) {
+                        if (index === 11) {
+                            break;
+                        }
+                        if (index < (Math.floor(e.inlet_avg) / (e.inlet_mean === 0 ? 1 : Math.floor(e.inlet_mean)) * 10) + 1) {
+                            document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(81, 81, 255)"
+                            document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(81, 81, 255)"
+                        } else {
+                            if (e.inlet_avg > e.inlet_mean) {
+                                console.log("red")
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(255, 76, 76)"
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(255, 76, 76)"
+                            }else{
+                                console.log('blue')
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(223, 223, 223)"
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(223, 223, 223)"
+                            }
+                        }
+                    }
+                })
+            }, 100);
+        },
+
+        changeMap() {
+            switch (this.pin) {
+                case 'pin01':
+                    this.backgroundImage = centerimage
+                    break;
+                case 'pin02':
+                    this.backgroundImage = junbukimage
+                    break;
+                case 'pin03':
+                    this.backgroundImage = centerimage
+                    break;
+                case 'pin04':
+                    this.backgroundImage = southimage
+                    break;
+                case 'pin05':
+                    this.backgroundImage = seafoodimage
+                    break;
+                case 'pin06':
+                    this.backgroundImage = seafoodimage
+                    break;
+                case 'pin07':
+                    this.backgroundImage = bioimage
+                    break;
+                case 'pin08':
+                    this.backgroundImage = southimage
+                    break;
+                case 'pin09':
+                    this.backgroundImage = kyunginimage
+                    break;
+                case 'pin10':
+                    this.backgroundImage = centerimage
+                    break;
+                case 'pin11':
+                    this.backgroundImage = centerimage
+                    break;
+                case 'pin12':
+                    this.backgroundImage = kyunginimage
+                    break;
+                case 'pin13':
+                    this.backgroundImage = kyunginimage
+                    break;
+                case 'pin14':
+                    this.backgroundImage = kyunginimage
+                    break;
+                case 'pin15':
+                    this.backgroundImage = kyunginimage
+                    break;
+                case 'pin16':
+                    this.backgroundImage = junbukimage
+                    break;
+                case 'pin17':
+                    this.backgroundImage = centerimage
+                    break;
+                case 'pin18':
+                    this.backgroundImage = centerimage
+                    break;
+
+                default:
+                    break;
+            }
+
+        },
+        changeChartType(type) {
+            if (type === 1) {
+                this.title = "정상";
+                this.id1 = "test1";
+                this.id2 = "test2";
+            } else {
+                this.title = "초과";
+                this.id1 = "test2";
+                this.id2 = "test1";
+            }
+            alert("처리중입니다.")
+        },
+        async getWether() {
+            const response = await fetch('http://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=696fa8118910f5ecc9778cfaf53d36b7')
+            const data = await response.json(); //경도(126.98)
+            this.weather = data;
+            /*
+            console.log("날씨정보" + data.coord.lon); //위도(37.57)
+            console.log("날씨정보.weather = " + data.weather[0].main); //하늘(Clear)
+            console.log("날씨정보.weatherde.scriptionn = " + data.weather[0].descriptionn) //하늘상세정보(clear sky)
+            console.log("날씨정보.weatherde.icon = " + data.weather[0].icon) //아이콘(01d)
+            console.log("날씨정보.main.temp = " + data.main.temp); //온도(280.45)
+            console.log("날씨정보.main.feels_like = " + data.main.feels_like); //체감온도(ㄹ275.18)
+            console.log("날씨정보.main.temp_min = " + data.main.temp_min); //최저기온(280.15)
+            console.log("날씨정보.main.temp_max = " + data.main.temp_max); //최고기온(281.15)
+            console.log("날씨정보.main.pressure = " + data.main.pressure); //기압(1024)
+            console.log("날씨정보.main.humidity = " + data.main.humidity); //습도(36)
+            console.log("날씨정보.visibility = " + data.visibility)
+            console.log("날씨정보.wind.speed = " + data.wind.speed); //풍속(2.12)
+            console.log("날씨정보.wind.deg = " + data.wind.deg) //방향(253)  
+            console.log("날씨정보.clouds.all = " + data.clouds.all)
+            console.log("날씨정보.dt = " + data.dt) //유닉스일자(1604482402)
+            console.log("날씨정보.sys.type = " + data.sys.type) //
+            console.log("날씨정보.sys.id = " + data.sys.id); //
+            console.log("날씨정보.sys.country = " + data.sys.country); //국가명(KR)
+            console.log("날씨정보.sys.sunrise = " + data.sys.sunrise); //일출시간(1604440807)
+            console.log("날씨정보.timezone = " + data.timezone) //시계열(32400)
+            console.log("날씨정보.id = " + data.id) //도시id
+            console.log("날씨정보.name = " + data.name) //도시명
+            console.log("날씨정보.cod = " + data.cod) //도시코드
+            */
+            this.imgURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png"; //아이콘URL
+
+            switch (data.wind.deg) {
+                case 0 || 360:
+                    this.windDeg = "북향"
+                    break;
+                case 90:
+                    this.windDeg = "동향"
+                    break;
+                case 180:
+                    this.windDeg = "남향"
+                    break;
+                case 270:
+                    this.windDeg = "서향"
+                    break;
+                default:
+                    if (0 < data.wind.deg && data.wind.deg < 90) {
+                        this.windDeg = "북동향"
+                    } else if (90 < data.wind.deg && data.wind.deg < 180) {
+                        this.windDeg = "동남향"
+                    } else if (180 < data.wind.deg && data.wind.deg < 270) {
+                        this.windDeg = "남서향"
+                    } else if (270 < data.wind.deg && data.wind.deg < 360) {
+                        this.windDeg = "서북향"
+                    }
+                    break
+            }
+
+        },
+
+        startArea() {
+
+            switch (store.state.areaCode) {
+
+                case 10014:
+                    this.pinSelect(10014, 'pin01', '공주')
+                    break;
+                case 10021:
+                    this.pinSelect(10021, 'pin02', '남원')
+                    break;
+                case 10015:
+                    this.pinSelect(10015, 'pin03', '논산')
+                    break;
+                case 10031:
+                    this.pinSelect(10031, 'pin04', '부산')
+                    break;
+                case 10041:
+                    this.pinSelect(10041, 'pin05', '씨푸드 성남')
+                    break;
+                case 10040:
+                    this.pinSelect(10040, 'pin06', '씨푸드 이천')
+                    break;
+                case 10051:
+                    this.pinSelect(10051, 'pin07', '안산')
+                    break;
+                case 10030:
+                    this.pinSelect(10030, 'pin08', '양산')
+                    break;
+                case 10004:
+                    this.pinSelect(10004, 'pin09', '영등포')
+                    break;
+                case 10010:
+                    this.pinSelect(10010, 'pin10', '원지')
+                    break;
+                case 10011:
+                    this.pinSelect(10011, 'pin11', '음성')
+                    break;
+                case 10001:
+                    this.pinSelect(10001, 'pin12', '인천1')
+                    break;
+                case 10002:
+                    this.pinSelect(10002, 'pin13', '인천2')
+                    break;
+                case 10003:
+                    this.pinSelect(10003, 'pin14', '인천3')
+                    break;
+                case 10000:
+                    this.pinSelect(10000, 'pin15', '인천냉동')
+                    break;
+                case 10020:
+                    this.pinSelect(10020, 'pin16', '진안')
+                    break;
+                case 10012:
+                    this.pinSelect(10012, 'pin17', '진천')
+                    break;
+                case 10013:
+                    this.pinSelect(10013, 'pin18', '진천BC')
+                    break;
+
+                default:
+                    this.pinSelect(0, '', '')
+                    break;
+            }
+
+        },
+        resetArea() {
+            /*
+            pin03 = 논산
+            pin06 = 씨푸드이천
+            pin08 = 양산
+            pin09 = 영등포
+            pin10 = 원지
+            pin11 = 음성
+            pin12 = 인천1
+            pin13 = 인천2
+            pin14 = 인천3
+            */
+            if (store.state.areaCode === 10000) {
+                this.pinSelect(store.state.areaCode, 'pin15', '인천냉동')
+            } else if (store.state.areaCode === 10013) {
+                this.pinSelect(store.state.areaCode, 'pin10', '공주')
+            } else if (store.state.areaCode === 10021) {
+                this.pinSelect(store.state.areaCode, 'pin02', '남원')
+            } else if (store.state.areaCode === 10031) {
+                this.pinSelect(store.state.areaCode, 'pin04', '부산')
+            } else if (store.state.areaCode === 10041) {
+                this.pinSelect(store.state.areaCode, 'pin05', '싸푸드성남')
+            } else if (store.state.areaCode === 10051) {
+                this.pinSelect(store.state.areaCode, 'pin07', '안산')
+            }
+            //console.log("area = " + area);
+            //this.pinSelect(store.state.areaCode,area,areaNm)
+            // this.getOperation();
+        },
+
+    },
+
+}
+</script>
+
+<style>
+* {
+    font-family: "Noto Sans KR";
+}
+
+.home {
+    height: 820px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.mainInner {
+    width: 100%;
+    height: 100%;
+}
+
+.conWrap {
+    width: 100%;
+    height: 100%;
+
+    font-size: 14px;
+}
+
+.conWrap>.mapImg {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 830px;
+    background: url(../assets/MAP.png) 40%;
+    background-size: 80% 100%;
+}
+
+.con_leftWrap>div {
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 20px;
+    background: #f3faff;
+    box-shadow: 0px 0px 3px rgb(0, 0, 0);
+}
+
+.con_left01 {
+    height: 220px;
+    margin-top: 0px;
+    text-align: left;
+}
+
+.weatherWrap>div>div {
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+/* 상단 - 대한민국 */
+.con_left01>div:nth-child(1) {
+    height: 40px;
+    font-size: 24px;
+    line-height: 40px;
+    box-sizing: border-box;
+}
+
+.con_leftWrap .row>div {
+    padding: 0;
+}
+
+/* 중단 - 날짜, 날씨, 온도 */
+.con_left01>div:nth-child(2) {
+    height: 70px;
+    margin-top: 10px;
+}
+
+/* 하단 - 바람,습도,강수확률 */
+.con_left01>div:nth-child(3) {
+    height: 80px;
+}
+
+.con_left01>div:nth-child(3)>div>div {
+    font-size: 14px;
+}
+
+.con_left01 span {
+    display: block;
+    width: 100%;
+    height: 50%;
+}
+
+.con_left01 img {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    opacity: 1;
+    width: 40px;
+    height: 50px;
+    margin-top: 5px;
+    margin-left: 7px;
+}
+
+.con_left01 #weatherImg {
+    position: relative;
+}
+
+.con_left01 #weatherImg img {
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 70px;
+    height: 70px;
+}
+
+.con_left01 .windIcon {
+    height: 40px;
+}
+
+.con_left01>div>div {
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.con_left01>div>div span,
+.weatherWrap>div>div>div {
+    line-height: 25px;
+    font-size: 16px;
+}
+
+.weatherWrap>div>div>div {
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: "bold";
+    font-family: "Arial";
+}
+
+.con_left02 {
+    margin-top: 5px;
+}
+
+.con_left02>div {
+    width: 100%;
+    text-align: left;
+}
+
+.con_left02>div:nth-child(1) {
+    font-size: 24px;
+}
+
+.con_left02>.chartWrap {
+    height: 150px;
+    position: relative;
+}
+
+.con_left02>.chartWrap>ul {
+    float: left;
+    width: 20%;
+}
+
+.con_left02>.chartWrap>.chartSkills {
+    width: 80%;
+}
+
+.chartSkills {
+    padding: 0;
+    list-style-type: none;
+    overflow: hidden;
+    position: relative;
+    width: 270px !important;
+    height: 135px;
+    margin-top: 20px;
+}
+
+.chartSkills *,
+.chartSkills::before {
+    box-sizing: border-box;
+}
+
+.chartSkills::before {
+    position: absolute;
+    content: '';
+    width: inherit;
+    height: inherit;
+    border: 45px solid rgba(211, 211, 211, .3);
+    border-bottom: none;
+    border-top-left-radius: 135px;
+    border-top-right-radius: 135px;
+}
+
+.v-application ul,
+.v-application ol {
+    padding-left: 0;
+}
+
+.chartSkills li {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    border: 45px solid;
+    border-top: none;
+    border-bottom-left-radius: 135px;
+    border-bottom-right-radius: 135px;
+    transform-origin: 50% 0;
+}
+
+.chartSkills li:nth-child(1) {
+    z-index: 10;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni1 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(2) {
+    z-index: 9;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni2 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(3) {
+    z-index: 8;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni3 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(4) {
+    z-index: 7;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni4 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(5) {
+    z-index: 6;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni5 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(6) {
+    z-index: 5;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni6 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(7) {
+    z-index: 4;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni7 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(8) {
+    z-index: 3;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni8 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(9) {
+    z-index: 2;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni9 2s linear 1 forwards;
+}
+
+.chartSkills li:nth-child(10) {
+    z-index: 1;
+    border-color: rgb(228, 228, 228);
+    animation: chartAni10 2s linear 1 forwards;
+}
+
+.chartText {
+    height: 100%;
+}
+
+.chartText>li {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+}
+
+#test1::before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: -20px;
+    width: 15px;
+    height: 15px;
+    background: rgb(81, 81, 255);
+    border-radius: 7px;
+}
+
+#test2::before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: -20px;
+    width: 15px;
+    height: 15px;
+    border-radius: 7px;
+    background: rgb(228, 228, 228);
+}
+
+.chartPer {
+    position: absolute;
+    top: 120px;
+    left: 105px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Arial';
+    text-align: center;
+}
+
+@keyframes chartAni1 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(18deg)
+    }
+}
+
+@keyframes chartAni2 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(36deg);
+    }
+}
+
+@keyframes chartAni3 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(54deg)
+    }
+}
+
+@keyframes chartAni4 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(72deg)
+    }
+}
+
+@keyframes chartAni5 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(90deg)
+    }
+}
+
+@keyframes chartAni6 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(108deg)
+    }
+}
+
+@keyframes chartAni7 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(126deg)
+    }
+}
+
+@keyframes chartAni8 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(144deg)
+    }
+}
+
+@keyframes chartAni9 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(162deg)
+    }
+}
+
+@keyframes chartAni10 {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    100% {
+        transform: rotateZ(180deg)
+    }
+}
+
+.con_left03 {
+    height: 330px;
+    margin-top: 5px;
+
+}
+
+.con_left03>div {
+    width: 100%;
+    text-align: left;
+}
+
+.con_left03>div:nth-child(1) {
+    font-size: 24px;
+    height: 40px;
+}
+
+.con_left03>.monitorWrap {
+    height: 240px;
+    overflow-y: scroll;
+
+}
+
+.con_left03 .monitorWrap .monitor {
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0;
+    margin-top: 3px;
+}
+
+.con_left03 .monitorWrap .monitor:nth-child(1) {
+    border-top: 1px solid rgb(221, 221, 221);
+    margin-top: 0;
+}
+
+.monitorWrap::-webkit-scrollbar {
+    width: 7px;
+    border-radius: 5px;
+}
+
+.monitorWrap::-webkit-scrollbar-thumb {
+    background: rgb(81, 81, 255);
+    border-radius: 5px;
+}
+
+.monitorWrap::-webkit-scrollbar-track {
+    background: rgb(179, 179, 179);
+    border-radius: 5px;
+}
+
+.con_left03>.monitorWrap>.monitor>div {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.con_left03>.monitorWrap>.monitor>div>ul {
+    width: 100%;
+    height: 10px;
+    margin-top: 15px;
+}
+
+.con_left03>.monitorWrap>.monitor>div>ul>li {
+    width: 9%;
+    height: 10px;
+    float: left;
+    box-sizing: border-box;
+    border: 2px solid rgb(223, 223, 223);
+    background: rgb(228, 228, 228);
+    margin-left: 1px;
+}
+
+.pinWrap {
+    position: relative;
+    margin-top: 20px;
+    height: 800px;
+}
+
+.pinWrap>div {
+    position: absolute;
+    width: 65px;
+    height: 25px;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    font-family: "Noto Sans KR";
+    cursor:pointer;
+}
+
+.pinWrap>div>p {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 25px;
+    width: 17px;
+    height: 17px;
+    border: 4px solid black;
+    border-radius: 100%;
+    transition: all 0.2s;
+}
+
+/*지도 pin 위치*/
+.pin01 {
+    /*공주*/
+    top: 400px;
+    left: 280px;
+}
+
+.pin02 {
+    /*남원*/
+    top: 580px;
+    left: 330px;
+}
+
+.pin03 {
+    /*논산*/
+    top: 420px;
+    left: 220px;
+}
+
+.pin04 {
+    /*부산*/
+    top: 640px;
+    left: 640px;
+}
+
+.pin05 {
+    /*씨푸드 성남*/
+    top: 260px;
+    left: 300px;
+}
+
+.pin06 {
+    /*씨푸드 이천*/
+    top: 220px;
+    left: 360px;
+}
+
+.pin07 {
+    /*안산*/
+    top: 210px;
+    left: 290px;
+}
+
+.pin08 {
+    /*양산*/
+    top: 610px;
+    left: 590px;
+}
+
+.pin09 {
+    /*영등포*/
+    top: 140px;
+    left: 260px;
+}
+
+.pin10 {
+    /*원지*/
+    top: 320px;
+    left: 190px;
+}
+
+.pin11 {
+    /*음성*/
+    top: 260px;
+    left: 410px;
+}
+
+.pin12 {
+    /*인천1*/
+    top: 80px;
+    left: 140px;
+}
+
+.pin13 {
+    /*인천2*/
+    top: 110px;
+    left: 180px;
+}
+
+.pin14 {
+    /*인천3*/
+    top: 150px;
+    left: 140px;
+}
+
+.pin15 {
+    /*인천냉동*/
+    top: 170px;
+    left: 200px;
+}
+
+.pin16 {
+    /*진안*/
+    top: 520px;
+    left: 350px;
+}
+
+.pin17 {
+    /*진천*/
+    top: 330px;
+    left: 360px;
+}
+
+.pin18 {
+    /*진천BC*/
+    top: 360px;
+    left: 400px;
+}
+
+.v-card {
+    padding: 10px;
+    padding-top: 20px;
+}
+
+.card-list {
+    overflow-y: scroll;
+    max-height: 730px;
+    margin-top: 10px;
+}
+
+/* 스크롤 스타일 변경 */
+.card-list::-webkit-scrollbar {
+    width: 7px;
+    border-radius: 5px;
+}
+
+.card-list::-webkit-scrollbar-thumb {
+
+    background: rgb(81, 81, 255);
+    border-radius: 5px;
+}
+
+.card-list::-webkit-scrollbar-track {
+    background: rgb(179, 179, 179);
+    border-radius: 5px;
+}
+
+/* card */
+
+.card-text>p {
+    margin-bottom: 3px;
+}
+
+.card-text {
+    word-break: keep-all;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.card-content .v-avatar {
+    width: 210px !important;
+    min-width: 210px !important;
+}
+
+.card-content .v-avatar .v-image .v-image__image--cover {
+    background-size: 125% 130% !important;
+}
+
+.v-card>a {
+    text-decoration: none;
+}
+
+.spinner-border{
+    width:7rem;
+    height:7rem;
+    border:.5rem solid currentColor;
+    border-right-color:transparent;
+}
+</style>

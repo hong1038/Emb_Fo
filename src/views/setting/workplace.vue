@@ -1,0 +1,770 @@
+<template>
+<b-container fluid>
+    <Header></Header>
+    <Left></Left>
+    <div style="display:flex">
+        <div class="inner settingInner">
+            <div class="con">
+                <div class="con_box_right measurementBox container-fluid float-left">
+                    <p>사업장 기준 정보</p>
+                    <b-row>
+                        <input type="button" class="measurementLookup" v-on:click="getList" value="조회">
+                        <input type="button" class="measurementPlus" v-on:click="showblock" value="등록">
+                    </b-row>
+                    <div class="mmtableWrap container-fluid" style="display:flex">
+                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                        <!--
+                        <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
+                        -->
+                        <b-card class="right_list" v-if="show">
+                            <b-row>
+                                <b-col class="popUpTitle" cols="12">사업장 기준 정보 등록</b-col>
+                                <b-col cols="3"></b-col>
+                                <b-col cols="3"><input type="button" class="mmSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장"></b-col>
+                                <b-col cols="3"><input type="button" class="mmListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록"></b-col>
+                                <b-col cols="3"><input type="button" class="mmListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제"></b-col>
+                            </b-row>
+                            <div>
+                                <b-row>
+                                    <b-col class="regiName col-4">사업장번호</b-col>
+                                    <b-form-input class="col" v-model="pid" size="sm" readonly></b-form-input>
+                                </b-row>
+
+                                <b-row>
+                                    <b-col class="regiName col-4">사업장명</b-col>
+                                    <b-form-input class="col" v-model="name1" size="sm"></b-form-input>
+                                </b-row>
+
+                                <b-row>
+                                    <b-col class="regiName col-4">사업장명(약식)</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="regiName col-4">이메일</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="email"></b-form-input>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="line2 regiName">지역</b-col>
+                                    <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm" @change="getServers"> </b-form-select>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="line2 regiName">관리서버</b-col>
+                                    <b-form-select class="col" v-model="serverKey" :options="comboServerKey" size="sm"> </b-form-select>
+                                </b-row>
+
+                                <b-row>
+                                    <b-col class="line2 regiName">관리자명</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="name"></b-form-input>
+                                </b-row>
+                            </div>
+                        </b-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <b-overlay :show="busy" no-wrap @shown="onShown" @hidden="onHidden">
+        <template v-slot:overlay>
+            <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
+                <b-icon icon="cloud-upload" font-scale="4"></b-icon>
+                <div class="mb-3">Processing...</div>
+                <b-progress min="1" max="20" :value="counter" variant="success" height="3px" class="mx-n4 rounded-0"></b-progress>
+            </div>
+            <div v-else ref="dialog" tabindex="-1" role="dialog" aria-modal="false" aria-labelledby="form-confirm-label" class="text-center p-3 popUpMessage">
+                <p><strong id="form-confirm-label">{{altMsg}}</strong></p>
+                <div class="d-flex">
+                    <b-row>
+                        <b-col cols="6" align="center" v-if="workTp ==='SAVE_INFO'" class="popUpInfo">
+                            <b-button v-on:click="saveInfoProc" variant="success" size="sm">저장</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" class="popUpInfo">
+                            <b-button variant="primary" @click="onCancel" size="sm">취소</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
+                            <b-button v-on:click="dropInfoProc" variant="danger" size="sm">삭제</b-button>
+                        </b-col>
+                    </b-row>
+                </div>
+            </div>
+        </template>
+    </b-overlay>
+
+</b-container>
+</template>
+
+<script>
+import Header from '@/components/header.vue'
+import Left from '@/components/Left2.vue'
+
+import Vue from 'vue'
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+import {
+    AgGridVue
+} from "ag-grid-vue"
+import VueConfirmDialog from "vue-confirm-dialog"
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import axios from 'axios';
+import store from '@/store/index';
+
+Vue.use(VueConfirmDialog)
+export default {
+    components: {
+        /* eslint-disable vue/no-unused-components */
+        Left,
+        Header,
+        AgGridVue,
+    },
+    data() {
+        return {
+            onRowClicked: "",
+            busy: false,
+            processing: false,
+            altMsg: '',
+            workTp: '',
+
+            pid:'',
+            addr:'',//주소
+            name1:'', //사업장명
+            name2:'',  //사업장명(약식)
+            areaCode:'',
+            sererKey:'',
+
+            comboAreaCode:[],
+            comboServerKey:[],
+
+            paginationPageSize: store.state.paginationPageSize,
+            config: {},
+            pageNo: 1,
+            pagerSz: 13,
+            list: [],
+            listCount: 0,
+
+            date: "",
+            show: false,
+            gridOptions: {
+
+            },
+
+        }
+    },
+
+    beforeMount() {
+        store.state.ckServer = [];
+        this.fields = [
+            { field: 'pid',  hide: true   },
+            { field: 'area_code',  hide:true } ,
+            { field: 'server_key', hide:true } ,
+
+            { field: 'name1', headerName: '사업장명' },
+            { field: 'name2', headerName: '사업장명(약식)'},
+            { field: 'area_name',  headerName: '지역'    } ,
+            { field: 'server_name',  headerName: '서버명'    } ,
+        ]
+        this.getComboServers();
+        this.getComboAreaCode();
+    },
+
+    mounted() {
+        this.gridOptions.api.sizeColumnsToFit()
+    },
+    created() {
+        this.config = {
+            headers: {
+                "authorization": this.$Axios.defaults.headers.common["authorization"]
+            }
+        }
+        // this.getConditionList();
+    },
+    methods: {
+        getComboAreaCode() {
+            let that = this;
+            axios.post("/api/daedan/cj/ems/setting/workplaceComboArea", {
+                areaCode: store.state.baseAreaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboAreaCode = res.data.data.areaList;
+                        if (that.comboAreaCode) {
+                            that.areaCode = that.comboAreaCode[0].value
+                            that.getComboServers();
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 관리영역 콤보 추출 실패 \n" + err);
+            })
+        },
+        async getComboServers() {
+            let that = this;
+            if (!this.areaCode) return;
+            await axios.post("/api/daedan/cj/ems/setting/WorkplaceComboServer", {
+                areaCode: this.areaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboServerKey = res.data.data.areaList;
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 관리서버 콤보 추출 실패 \n" + err);
+            })
+        },
+
+        onShown() {
+            this.$refs.dialog.focus()
+        },
+        onHidden() {},
+
+        onCancel() {
+            this.busy = false
+        },
+
+        saveblock() {
+            this.show = !this.show
+            this.resizing()
+        },
+        showblock() {
+            this.show = !this.show
+            this.resizing()
+        },
+        resizing() {
+            setTimeout(() => {
+                this.gridOptions.api.sizeColumnsToFit()
+            }, 1);
+        },
+        getServers() {
+            let that = this;
+            axios.post("/api/daedan/cj/ems/setting/comboServers", {
+                areaCode: this.areaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboServerKey = res.data.data
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장기준정보목록 추출 실패 \n" + err);
+            })
+        },
+        async getList() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            let that = this;
+            console.log("workplace.getList.store.state.ckServer = " + store.state.ckServer)
+            await axios.post("/api/daedan/cj/ems/setting/WorkplaceList", {
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.paginationPageSize,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.list = res.data.data
+                            that.listCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("사업장기준정보목록 추출 실패 \n" + err);
+                })
+        },
+        async getInfo(event) {
+            let that = this;
+            console.log("workplace.getInfo.pid = " +   event.data.pid)
+            await this.$Axios.post("/api/daedan/cj/ems/setting/WorkplaceInfo", {
+                    pid: event.data.pid,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.pid = res.data.data.pid;
+                            that.addr = res.data.data.addr;//주소
+                            that.name1 = res.data.data.name1; //사업장명
+                            that.name2 = res.data.data.name2;  //사업장명(약식)
+                            that.areaCode = res.data.data.area_code;
+                            that.serverKLey = res.data.data.server_key;
+                            that.show = true;
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("사업장 기준정보목록 추출 실패 \n" + err);
+                })
+
+        },
+        saveInfo() {
+            if (!this.name1) {
+                alert("사업장명은 필수 입력 항목 입니다.")
+                return;
+            }
+            if (!this.name2) {
+                alert("사업장명(약칭)은 필수 입력 항목 입니다.")
+                return;
+            }
+            if (!this.addr) {
+                alert("사업장주소는 필수 입력 항목 입니다.")
+                return;
+            }
+            if (!this.areaCode) {
+                alert("사업장 관할권역은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.serverKey) {
+                alert("사업장 측정서버는 필수 선택 항목 입니다.")
+                return;
+            }
+
+            this.busy = true;
+            this.altMsg = "처리중인 사업장 정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+
+        async saveInfoProc() {
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/setting/workplaceSave", {
+                pid : this.pid,
+                addr : this.addr,//주소
+                name1 : this.name1, //사업장명
+                name2 : this.name2,  //사업장명(약식)
+                area : this.area,
+                name : this.name, //성명
+                email : this.email, //메일주소
+                userId: store.state.userInfo.userId
+             }, this.config)
+             .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.saveblock();
+                        that.getList();
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장기준정보저장 실패 \n" + err);
+            })
+            this.busy = false;
+        },
+        dropInfo() {
+            this.busy = true;
+            this.altMsg = "처리중인 사업장정보를 샥제 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/setting/workplaceDrop", {
+                    mno: this.mno,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("사업장기준정보삭제 실패 \n" + err);
+                })
+            this.busy = false;
+        },
+
+    }
+}
+</script>
+
+<style>
+@font-face {
+    font-family: "CJ Onlyone Medium";
+    src: url(/fonts/CJOnlyoneMedium.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "CJ Onlyone Bold";
+    src: url(/fonts/CJOnlyoneBold.ttf);
+    font-weight: bold;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.col {
+    font-size: 16px;
+}
+
+/* .row {
+    justify-content: space-around;
+    align-items: center;
+} */
+
+.ag-theme-alpine-dark * {
+
+    color: white;
+}
+
+/* datePicker */
+
+.ui-datepicker {
+    width: 250px;
+    height: 280px;
+}
+
+.ui-datepicker th {
+    font-size: 0.8rem;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    font-size: 0.8rem;
+}
+
+.ui-datepicker-prev span.ui-icon,
+.ui-datepicker-next span.ui-icon {
+    /*background: url(../imgs/common/leftArrow.png) no-repeat center center;*/
+    background-size: 10px 10px;
+}
+
+.ui-datepicker-prev span.ui-icon {
+    transform: rotateZ(180deg);
+}
+
+/* title */
+.settingInner {
+    margin: 0 auto;
+}
+
+.measurementBox {
+    margin: 0 auto;
+}
+
+.con_box_right {
+    box-sizing: border-box;
+    font-family: "CJ Onlyone Medium";
+    position: relative;
+}
+
+.con_box_right>p {
+    width: 500px;
+    height: 50px;
+    font-family: "CJ Onlyone Bold";
+    font-size: 24px;
+    box-sizing: border-box;
+    border-bottom: 5px solid rgb(172, 172, 172);
+    padding-left: 10px;
+    text-align: left;
+}
+
+.measurementLookup {
+    position: absolute;
+    top: 30px;
+    right: 190px;
+    width: 150px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgb(187, 231, 248);
+    box-shadow: 0px 0px 3px blue;
+    text-decoration: none;
+    color: black;
+}
+
+.measurementPlus {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    width: 150px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgb(187, 231, 248);
+    box-shadow: 0px 0px 3px blue;
+    text-decoration: none;
+    color: black;
+}
+
+.measurementPlus:hover {
+    font-weight: bold;
+    background: rgb(81, 81, 255);
+    color: white;
+    text-decoration: none;
+}
+
+.mmtableWrap {
+    width: 100%;
+}
+
+/*팝업*/
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.measurementCreate_popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.measurementCreate_popup>div {
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px yellow;
+    border-radius: 10px;
+    margin: 0px auto;
+    margin-top: 50px;
+}
+
+.measurementCreate_popup>div>p {
+    width: 500px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+    border-bottom: 5px solid #ccc;
+    box-sizing: border-box;
+    padding-left: 7px;
+}
+
+.measurementCreate_popup>div>input {
+    position: absolute;
+    top: 40px;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgb(187, 231, 248);
+    box-shadow: 0px 0px 3px blue;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 40px;
+    text-align: center;
+    color: black;
+}
+
+.mmSaveBtn {
+    right: 160px;
+}
+
+.mmListBtn {
+    right: 40px;
+}
+
+.mmSaveBtn:hover,
+.mmListBtn:hover {
+    font-weight: bold;
+    background: rgb(81, 81, 255);
+    color: white;
+}
+
+.measurementRegister {
+    width: 100%;
+    height: 480px;
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.measurementRegister>div {
+    float: left;
+    width: 50%;
+    height: 440px;
+}
+
+.measurementRegister>div>div {
+    height: 60px;
+}
+
+.measurementRegister>div>div>div {
+    float: left;
+    width: 50%;
+    height: 50px;
+    font-size: 14px;
+    line-height: 50px;
+
+}
+
+.measurementRegister>div>div>div:nth-child(1) {
+    width: 30%;
+    border-radius: 5px;
+}
+
+.measurementRegister>div>div>div:nth-child(2) {
+    width: 70%;
+}
+
+/*분석항목*/
+.measurementRegister>div>.line1_box {
+    height: 140px;
+}
+
+.measurementRegister>div>div>.line2 {
+    line-height: 25px;
+}
+
+.measurementRegister>div>.line1_box>.line1 {
+    line-height: 140px;
+    height: 140px;
+}
+
+/*분석항목 체크박스*/
+.measurementRegister>div>.line1_box>div:nth-child(2) {
+    height: 100%;
+    padding-left: 20px;
+    box-sizing: border-box;
+    line-height: 30px;
+}
+
+/*왼쪽 분류 이름*/
+.measurementRegister>div>div>.regiName {
+    background: rgb(255, 235, 235);
+    box-shadow: 0px 0px 4px black;
+}
+
+.measurementRegister>div>div>div>select,
+.measurementRegister>div>div>div>input {
+    width: 260px;
+    height: 50px;
+    box-sizing: border-box;
+    padding-left: 7px;
+    font-size: 12px;
+    border: 1px solid rgb(199, 187, 255);
+    border-radius: 5px;
+}
+
+.measurementRegister>div>div>div>input {
+    margin: 0 auto;
+}
+
+.measurementRegister>div>div>div>input[type=checkbox] {
+    width: 12px;
+    height: 12px;
+    margin: 5px;
+}
+
+.right_list {
+    position: relative;
+    left: 10px;
+    width: 500px;
+    height: 715px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-top: 0;
+    overflow-y: scroll;
+    box-shadow: 0px 0px 10px 1px #ccc;
+}
+
+.right_list .popUpTitle {
+    font-size: 18px;
+}
+
+.right_list .btn {
+    margin-right: 7px;
+    font-size: 15px;
+}
+
+.mmtableWrap .row:not(.line1_box)>input,
+.mmtableWrap .row>select {
+    max-width: 210px;
+}
+
+.line1,
+.line2 {
+    box-sizing: border-box;
+    padding-left: 22px;
+}
+
+.line2+input {
+    position: relative;
+    left: -52px;
+}
+
+.measurementBox .check_list {
+    position: relative;
+    left: -45px;
+}
+
+.popUpMessage #form-confirm-label {
+    font-size: 28px;
+    font-family: 'Noto Sans KR';
+}
+
+.popUpMessage .popUpInfo>button {
+    width: 80px;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 7px;
+}
+
+.right_list::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+}
+
+.right_list::-webkit-scrollbar-track {
+    background-color: #cacaca;
+    border-radius: 10px;
+}
+
+.right_list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #1467d3;
+}
+
+.right_list::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
+.regiName {
+    word-break: keep-all;
+}
+</style>
