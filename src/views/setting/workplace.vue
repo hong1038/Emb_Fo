@@ -40,12 +40,25 @@
                                     <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
                                 </b-row>
                                 <b-row>
-                                    <b-col class="regiName col-4">이메일</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="email"></b-form-input>
+                                    <b-col class="regiName col-4">주소</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="addr"></b-form-input>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="line2 regiName">영역</b-col>
+                                    <b-form-select class="col" v-model="parAreaCode" :options="comboParAreaCode" size="sm"> </b-form-select>
                                 </b-row>
                                 <b-row>
                                     <b-col class="line2 regiName">지역</b-col>
+<<<<<<< HEAD
                                     <b-form-input class="col" type="text" size="sm" v-model="area"></b-form-input>
+=======
+                                    <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm"> </b-form-select>
+                                </b-row>
+                                
+                                <b-row>
+                                    <b-col class="line2 regiName">관리서버</b-col>
+                                    <b-form-select class="col" v-model="serverKey" :options="comboServerKey" size="sm"> </b-form-select>
+>>>>>>> 5faf5ed3983587d38921fb39395ded508ecb0e86
                                 </b-row>
                                 <b-row>
                                     <b-col class="line2 regiName">관리자명</b-col>
@@ -121,6 +134,20 @@ export default {
             altMsg: '',
             workTp: '',
 
+<<<<<<< HEAD
+=======
+            pid:'',
+            addr:'',//주소
+            name1:'', //사업장명
+            name2:'',  //사업장명(약식)
+            parAreaCode:'',
+            areaCode:'',
+            sererKey:'',
+
+            comboParAreaCode:[],
+            comboServerKey:[],
+
+>>>>>>> 5faf5ed3983587d38921fb39395ded508ecb0e86
             paginationPageSize: store.state.paginationPageSize,
             config: {},
             pageNo: 1,
@@ -226,6 +253,10 @@ export default {
                 headerName: '관리자명'
             },
         ]
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 5faf5ed3983587d38921fb39395ded508ecb0e86
     },
     mounted() {
         this.gridOptions.api.sizeColumnsToFit()
@@ -236,11 +267,84 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
-        // this.getConditionList();
+        this.getComboServers();
+        this.getComboAreaCode();
+    },
+    watch: {
+        parAreaCode() {
+            this.getComboSubAreaCode();
+        },
+        areaCode() {
+            this.getComboServers();
+        },
+
     },
     methods: {
+<<<<<<< HEAD
         test() {
             console.log(this.gridOptions.api)
+=======
+        getComboAreaCode() {
+            let that = this;
+            //alert("workplace.getComboAreaCode.store.state.baseAreaCode = " + store.state.baseAreaCode);//kill
+            axios.post("/api/daedan/cj/ems/setting/workplaceComboArea", {
+                parCodeNo: store.state.baseAreaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboParAreaCode = res.data.data;
+                        if (that.comboParAreaCode) {
+                            that.parAreaCode = that.comboParAreaCode[0].value
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 부모관리영역 콤보 추출 실패 \n" + err);
+            })
+        },
+        getComboSubAreaCode() {
+            let that = this;
+            //alert("workplace.getComboSubAreaCode = " + this.areaCode);//kill
+            axios.post("/api/daedan/cj/ems/setting/workplaceComboArea", {
+                parCodeNo: this.parAreaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboAreaCode = res.data.data;
+                        if (that.comboAreaCode) {
+                            that.areaCode = that.comboAreaCode[0].value
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 관리영역 콤보 추출 실패 \n" + err);
+            })
+        },
+
+        async getComboServers() {
+            let that = this;
+            if (!this.areaCode) return;
+            await axios.post("/api/daedan/cj/ems/setting/WorkplaceComboServer", {
+                areaCode: this.areaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboServerKey = res.data.data;
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 관리서버 콤보 추출 실패 \n" + err);
+            })
+>>>>>>> 5faf5ed3983587d38921fb39395ded508ecb0e86
         },
         onShown() {
             this.$refs.dialog.focus()
@@ -388,10 +492,14 @@ export default {
         },
         async getInfo() {
             let that = this;
+<<<<<<< HEAD
             // console.log("getInfo.event = " + event.data.mno)
             // this.mno = event.data.mno;
             // let oldServerKey = this.server_key;
 
+=======
+            //console.log("workplace.getInfo.pid = " +   event.data.pid)
+>>>>>>> 5faf5ed3983587d38921fb39395ded508ecb0e86
             await this.$Axios.post("/api/daedan/cj/ems/setting/WorkplaceInfo", {
                     mno: this.mno,
                     userId: store.state.userInfo.userId
