@@ -196,17 +196,28 @@ export default {
                 case 1:
                     store.state.ckServer = []
                     this.checkListVal1 = []
-                    this.getEquipPos();
+                    this.checkListVal2 = [0]
+                    this.checkListVal3 = [0]
+                    this.checkListVal4 = [0]
+                    this.equipPos = [0]
+                    this.sensors = [0]
+                    // this.getEquipPos();
                     break;
                 case 2:
-                    store.state.ckCate = []
-                    this.checkListVal2 = []
-                    this.getEquipPos();
+                    store.state.ckCate = [0]
+                    store.state.ckEquip = [0]
+                    store.state.ckSensor = [0]
+                    this.checkListVal2 = [0]
+                    this.checkListVal3 = [0]
+                    this.checkListVal4 = [0]
+                    this.equipPos = [0]
+                    this.sensors = [0]
+                    // this.getEquipPos();
                     break;
                 case 3:
                     store.state.ckEquip = []
                     this.checkListVal3 = []
-                    this.getSensors();
+                    // this.getSensors();
                     break;
                 default:
                     store.state.ckSensor = []

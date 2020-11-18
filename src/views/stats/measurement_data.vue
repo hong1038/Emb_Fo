@@ -26,10 +26,12 @@
                             </div>
                         </div>
                     </div>
+                    <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="mt-4 container-fluid">
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
                     </div>
+                    </b-overlay>
                 </div>
             </div>
         </div>
@@ -45,7 +47,7 @@ import Left from '@/components/Left.vue'
 
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-
+import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
@@ -67,6 +69,9 @@ export default {
     },
     data() {
         return {
+            busy:false,
+            timeout : null,
+
             config: {},
             mode: 'single', //날짜선택방법
             findTps: [{
@@ -75,8 +80,10 @@ export default {
             }],
             paginationPageSize: store.state.paginationPageSize,
             gridOptions: {},
-            dateFr: store.state.szCurMmFr,
-            dateTo: store.state.szCurMmTo,
+            // dateFr: store.state.szCurMmFr,
+            dateFr: "",
+            // dateTo: store.state.szCurMmTo,
+            dateTo: "",
             findTp: '',
             findSz: '',
             list: [],
@@ -149,7 +156,37 @@ export default {
         //this.getList(); 여기서 실행하면 최초 실행시 -1일식 차감해서 검색일자가 설정되는 오류 발생됨.
     },
 
+    beforeDestroy() {
+      this.clearTimeout()
+    },
+
     methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },300)
+            // 시간 변경
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            // this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.busy = false
+            })
+        },
+
         resetPageNo() {
             this.pageNo = 1;
         },
@@ -162,6 +199,12 @@ export default {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
+            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
 
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
@@ -200,7 +243,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {
@@ -282,6 +325,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .measurementDateCheck>div>div>div>input {

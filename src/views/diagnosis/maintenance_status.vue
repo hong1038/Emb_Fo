@@ -22,10 +22,12 @@
                                 </div>
                             </div>
                         </div>
+                        <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 text-center container-fluid">
                             <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :paginationPageSize="paginationPageSize">
                             </ag-grid-vue>
                         </div>
+                        </b-overlay>
                     </div>
                 </div>
             </div>
@@ -65,6 +67,9 @@ export default {
     },
     data() {
         return {
+            busy:false,
+            timeout : null,
+            
             checkedNames: [],
             checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             checkList2: ["악취", "대기", "수질"],
@@ -81,7 +86,8 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
-            dateFr: store.state.szCurDt,
+            // dateFr: store.state.szCurDt,
+            dateFr: "",
             findTp: '',
             findSz: '',
             list: [],
@@ -133,6 +139,9 @@ export default {
     computed: {
 
     },
+    beforeDestroy() {
+      this.clearTimeout()
+    },
 
     beforeMount() {
 
@@ -145,6 +154,32 @@ export default {
     },
 
     methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },10000)
+            // 시간 변경
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.busy = false
+            })
+        },
+
         axLen3(e) { //최대 3자 이하로구성
             return String(e).substring(0, 3);
         },
@@ -155,6 +190,17 @@ export default {
             this.pageNo = 1;
         },
         getList() { //구매품의중인 자재목록
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {

@@ -12,16 +12,7 @@
                         <input type="button" class="measurementPlus" v-on:click="addOn" value="등록">
                     </b-row>
                     <div class="mmtableWrap container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 715px;" 
-                                     class="ag-theme-alpine-dark" 
-                                     rowSelection="single" 
-                                     @row-clicked="getInfo" 
-                                     :columnDefs="fields" 
-                                     :rowData="list" 
-                                     :gridOptions="gridOptions" 
-                                     :pagination="true" 
-                                     :paginationPageSize="paginationPageSize" 
-                                     :onRowClicked="onRowClicked" />
+                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
                         <!--
                         <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
                         -->
@@ -107,6 +98,105 @@
             </div>
         </div>
     </div>
+    <!-- <transition name="fade">
+        <div class="measurementCreate_popup" v-if="show">
+            <div>
+                <p>측정기별 기준 정보 등록</p>
+                <input type="button" class="mmSaveBtn" v-on:click="show = !show" value="저장">
+                <input type="button" class="mmListBtn" v-on:click="show = !show" value="목록">
+                <div class="mt-4 text-center container-fluid measurementRegister">
+                    <div class="leftBox">
+                        <div>
+                            <div class="regiName">사업장</div>
+                            <div>
+                                <b-form-select v-model="findTp" :options="findTps" size="sm"></b-form-select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">측정위치</div>
+                            <div>
+                                <b-form-select v-model="findTp" :options="findMeasureLoc" size="sm"></b-form-select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">분야</div>
+                            <div>
+                                <b-form-select v-model="findTp" :options="findType" size="sm"></b-form-select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">시설분류</div>
+                            <div>
+                                <b-form-select v-model="findTp" :options="findFac" size="sm"></b-form-select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">위치분류</div>
+                            <div>
+                                <b-form-select v-model="findTp" :options="findLoc" size="sm"></b-form-select>
+                            </div>
+                        </div>
+                        <div class="line1_box">
+                            <div class="line1 regiName">분석항목</div>
+                            <div>
+                                <input type="checkbox" name="check01" value="1">
+                                <label for="check01">odor</label>
+                                <input type="checkbox" name="check01" value="1">
+                                <label for="check01">배수</label>
+                                <input type="checkbox" name="check01" value="1">
+                                <label for="check01">정문옥상</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rightBox">
+                        <div>
+                            <div class="regiName">법적기준</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">관리기준</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">단위</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">내부명칭</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">공정명</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="line2 regiName">악취방지시설<br>고유일련번호</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="regiName">내부관리번호</div>
+                            <div>
+                                <b-form-input type="text" size="sm"></b-form-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition> -->
+
     <b-overlay :show="busy" no-wrap @shown="onShown" @hidden="onHidden">
         <template v-slot:overlay>
             <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
@@ -431,7 +521,7 @@ export default {
                     equipList: store.state.ckEquip,
                     sensorList: store.state.ckSensor,
                     pageNo: this.pageNo,
-                    pageSz: this.perPage,
+                    pageSz: this.pageSz,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

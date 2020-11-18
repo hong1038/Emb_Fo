@@ -184,7 +184,7 @@ export default {
             this.timeout = setTimeout(() => {
             this.clearTimeout()
             callback()
-            },10000)
+            },200)
             // 시간 변경
         },
         onHidden() {

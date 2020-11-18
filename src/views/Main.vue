@@ -348,6 +348,7 @@ export default {
     },
     created() {
         this.getWether();
+        this.onClick();
 
     },
     watch: {

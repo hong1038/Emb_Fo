@@ -25,8 +25,6 @@ export default new Vuex.Store({
     serverName:null,
     areaCode:0,
     bgImg:null,
-    
-    baseAreaCode:100,
   },
  
   mutations: {

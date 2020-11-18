@@ -40,6 +40,7 @@
                             </b-col>
                         </b-row>
                     </div>
+                    <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="monthlyTableSelectBox container-fluid">
                         <div>
                             <div><span>1. 월말 보고 Summary</span></div>
@@ -56,6 +57,7 @@
 
                         </div>
                     </div>
+                    </b-overlay>
                 </div>
             </div>
         </div>
@@ -92,10 +94,16 @@ export default {
     },
     data() {
         return {
+            busy:false,
+            timeout : null,
+
             checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
         }
+    },
+    beforeDestroy() {
+      this.clearTimeout()
     },
     watch: {
         selectWorkplace() {
@@ -106,7 +114,39 @@ export default {
         }
     },
     methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },10000)
+            // 시간 변경
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.busy = false
+            })
+        },
         getList() {
+            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
             this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsByDayList", {
                 currentDate: this.currentDate,
             })
@@ -230,6 +270,10 @@ export default {
 
 .monthlyDateCheck>div>div>.dateSelect {
     width: 150px;
+}
+
+.monthlyDateCheck>div>div>.dateSelect input[type="text"]{
+    font-size:14px;
 }
 
 .v-input__prepend-outer {

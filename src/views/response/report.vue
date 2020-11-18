@@ -12,11 +12,11 @@
                             <div class="col-7">
                                 <div>월 선택</div>
                                 <div class="dateSelect">
-                                    <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y min-width="290px">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field :placeholder="currentDate" v-model="date" label="" prepend-icon=" mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable>
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu = false">
                                                 Cancel
@@ -25,8 +25,8 @@
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
-                                    </v-menu> -->
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    </v-menu>
+                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
                                 </div>
                             </div>
                             <div class="col-5 report_clickBox">
@@ -334,6 +334,7 @@ export default {
                 alert("날짜를 선택해주세요.")
                 return;
             }
+            
 
             this.onClick();
 

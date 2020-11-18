@@ -7,11 +7,12 @@
                 <div class="con_box_right container-fluid float-left">
                     <p>사용자 정보</p>
                     <b-row>
-                        <!-- <label for="location" class="managerLocationLabel">사업장을 선택해주세요.</label> -->
+                        <label for="location" class="managerLocationLabel">사업장을 선택해주세요.</label>
                         <b-form-select name="location" class="managerLocation" v-model="server_key" :options="comboServers" size="sm" aria-placeholder="사업장"></b-form-select>
                         <input type="button" class="managerLookUp" v-on:click="getList" value="조회">
                         <input type="button" class="managerPlus" v-on:click="showblock" value="등록">
                     </b-row>
+                    <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
                     <div class="managertableWrap container-fluid" style="display:flex">
                         <ag-grid-vue style="width: 100%; height: 670px;" class="ag-theme-alpine-dark" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
@@ -48,6 +49,7 @@
                             </div>
                         </b-card>
                     </div>
+                    </b-overlay>
                 </div>
             </div>
         </div>
@@ -109,6 +111,9 @@ export default {
 
     data() {
         return {
+            Loadbusy:false,
+            timeout : null,
+
             paginationPageSize: store.state.paginationPageSize,
             gridOptions: {},
             selectWorkplace: "",
@@ -174,7 +179,37 @@ export default {
     mounted() {
         this.gridOptions.api.sizeColumnsToFit()
     },
+
+    beforeDestroy() {
+      this.clearTimeout()
+    },
     methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },10000)
+            // 시간 변경
+        },
+        onLoadHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.Loadbusy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.Loadbusy = false
+            })
+        },
+
         test() {
             console.log(this.gridOptions.api)
         },
@@ -266,6 +301,12 @@ export default {
                     this.showblock();
         },
         async getList() {
+            // if (store.state.ckServer.length == 0) {
+            //     alert("사업장은 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            this.onClick();
+
             axios.post("/api/daedan/cj/ems/setting/managerList", {
                     serverKey:this.comboServers[0].id,
                     pageNo:this.pageNo,
@@ -413,17 +454,21 @@ export default {
     width: 150px;
     height: 30px;
     font-size: 16px;
-    line-height: 30px;
+    line-height: 20px;
     display: inline-block;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: rgba(235, 249, 255, 0.35);
+    padding-left:8px;
     box-shadow: 0px 0px 3px blue;
     text-decoration: none;
     color: black;
+}
+
+.managerLocation>option{
+    padding-left:5px;
 }
 
 .managerLocationLabel {
@@ -434,6 +479,7 @@ export default {
     font-size: 12px;
     text-align: center;
 }
+
 
 .managerLookUp {
     position: absolute;

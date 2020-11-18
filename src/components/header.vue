@@ -1064,7 +1064,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .dateSelect {
     position: relative;
     width: 150px;
-    height: 100%;
+    height: 30px;
     cursor: pointer;
 }
 
@@ -1112,11 +1112,28 @@ only screen and (min-device-pixel-ratio: 1.5) {
     height: 100%;
 }
 
-.dateSelect>div>input {
+.dateSelect>div input {
+    position: relative;
+    z-index: 2;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding-left: 10px;
+}
+.v-input__prepend-outer {
+    display: none;
+}
+
+.v-input__slot {
+    margin-bottom: 0;
+}
+
+.v-text-field__details {
+    display: none;
+}
+
+.v-picker__body {
+    width: 100% !important;
 }
 
 .spinner-border{
@@ -1125,4 +1142,5 @@ only screen and (min-device-pixel-ratio: 1.5) {
     border:.5rem solid currentColor;
     border-right-color:transparent;
 }
+
 </style>

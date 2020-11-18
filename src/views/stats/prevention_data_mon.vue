@@ -13,11 +13,11 @@
                                 <div>날짜 선택</div>
                                 <!-- <input type="date" class="" v-model="dateFr"> -->
                                 <div class="dateSelect">
-                                    <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="310px" min-width="300px">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field :placeholder="currentDate" v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable>
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu = false">
                                                 Cancel
@@ -26,8 +26,8 @@
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
-                                    </v-menu> -->
-                                    <datetime type="date" v-model="dateFr" :placeholder="cureentDate" class="datetime"></datetime>
+                                    </v-menu>
+                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
                                 </div>
                             </div>
                             <div class="col-9">
@@ -65,6 +65,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
+import 'ag-grid-enterprise';
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -227,6 +228,10 @@ export default {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
             this.onClick();
 
             let that = this;
@@ -264,7 +269,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {

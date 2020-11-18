@@ -59,7 +59,7 @@ import Left from '@/components/Left.vue'
 
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-
+import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
@@ -80,10 +80,10 @@ export default {
         // DatePicker,
     },
     computed: {
-        currentDate() {
-            let s = new Date().toLocaleDateString();
-            return s;
-        }
+        // currentDate() {
+        //     let s = new Date().toLocaleDateString();
+        //     return s;
+        // }
     },
     data() {
         return {
@@ -289,7 +289,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {
