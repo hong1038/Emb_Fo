@@ -73,16 +73,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkedNames: [],
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
-            checkList2: ["악취", "대기", "수질"],
-            checkList3: ["정문옥상", "기숙사 옥상", "수질보전장", "흡입구", "배출구", "굴뚝#1", "배출구", "흡입구", "new equipment", "인천1-1", "인천1-2", "발효대두박 전단", "발효대두박 후단", "추출 A 전단", "추출 A 후단", "추출 A 전단", "추출 A 후단", "대두박 전단", "대두박 후단", "흡입구", "부지경계선", "중간", "배출구", "설비제어", "중간", "배출구", "폐수처리장 흡입구", "폐수처리장 배출구", ],
-            checkList4: ["odor", "voc", "h2s", "nh3", "습도", "온도", "ch1", "정문옥상", "정문옥상 풍향", "정문옥상 풍속", "odor", "voc", "h2s", "nh3", "온도", "습도", "ch1", "기숙사 옥상", "기숙사옥상 풍향", "기숙사옥상 풍속", "odor", "voc", "h2s", "nh3", "습도", "온도", "ch1", "수질보전장", "수질보전장 풍향", "수질보전장 풍속", "TOC", "원수 TOC", "ODOR", "VOC", "H2S", "NH3", "온도", "배출구", "ODOR", "VOC", "H2S", "NH3", "온도", "흡입구", "ODOR", "VOC", "H2S", "NH3", "온도", "온도2", "습도", "배출구", "ODOR", "VOC", "H2S", "NH3", "온도", "온도2", "습도", "흡입구", "황화수소", "암모니아", "총휘발성유기화합물", "복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "추출A전단 복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "추출A후단 복합악취", "NH3 추출 A 전단", "H2S 추출A전단", "NH3 추출A전단", "TVOC 추출A전단", "OU 추출A전단", "H2S 추출A후단", "NH3 추출A후단", "TVOC 추출A후단", "OU 추출A후단", "H2S 대두박전단", "NH3 대두박전단", "TVOC 대두박전단", "OU 대두박전단", "H2S 대두박후단", "NH3 대두박후단", "TVOC 대두박후단", "OU 대두박후단", "흡1", "흡2", "흡3", "흡4", "흡입구", "흡입구", "부1", "부2", "부3", "부4", "부지경계선", "중1", "중2", "중3", "중4", "중11", "배1", "전류 풍향", "전류 풍속", "배2", "배3", "배4", "3", "4", "배출구 배수", "중1", "중2", "중3", "중4", "2H LAMP", "배1", "풍속", "풍향", "배2", "배3", "배4", "배출구", "S-CUBE 배출구", "S-CUBE배출구", "odor", "voc", "h2s", "nh4", "온도", "폐수처리장 흡입구", "odor", "voc", "h2s", "nh3", "온도", "폐수처리장 배출구", ],
-            checkListVal1: [],
-            checkListVal2: [],
-            checkListVal3: [],
-            checkListVal4: [],
-
             List: [],
             ListCount: 0,
             ListField: [{
@@ -95,12 +85,13 @@ export default {
                     label: 'name'
                 },
             ],
-            dateFr: store.state.szCurMmFr,
-            dateTo: store.state.szCurMmTo,
+            dateFr: '',
+            dateTo: '',
             findTp: 'codeNm',
             findSz: '',
             pageNo: 1,
             perPage: 10,
+            paginationPageSize: store.state.paginationPageSize,
             perCodeNo: 1,
 
             date: new Date(),
@@ -171,7 +162,6 @@ export default {
         },
         async getRootCodeList() {
             let that = this;
-
             await this.$Axios.post("/api/daedan/haccp/code/codeList", {
                     parCodeNo: this.parCodeNo,
                     dateFr: this.dateFr,
@@ -201,17 +191,20 @@ export default {
                     alert("기본코드목록 추출실패\n" + err.message);
                 })
         },
+        getList(){
+            console.log()
+        },
         // 조회버튼 클릭
         searchBtn() {
-            this.onClick();
+            console.log()
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            console.log()
         },
         // 그래프버튼 클릭
         graphBtn() {
-
+            console.log()
         }
 
     },
