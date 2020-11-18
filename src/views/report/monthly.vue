@@ -18,11 +18,11 @@
                                 </div>
                                 <div>월 선택</div>
                                 <div class="dateSelect">
-                                    <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="date" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field :placeholder="currentDate" v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable>
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu = false">
                                                 Cancel
@@ -31,8 +31,8 @@
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
-                                    </v-menu> -->
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    </v-menu>
+                                    <!--<datetime type="date" v-model="dateFr" class="datetime"></datetime>-->
                                 </div>
                             </b-col>
                             <b-col cols="3">
@@ -43,12 +43,18 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="monthlyTableSelectBox container-fluid">
                         <div>
-                            <div><span class="tabbtn" v-on:click="summaryBtn">1. 월말 보고 Summary</span></div>
-                            <div><span class="tabbtn" v-on:click="operBtn">2. 운전 현황(월간 통계)</span></div>
-                            <div><span class="tabbtn" v-on:click="preventBtn">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</span></div>
-                            <div><span class="tabbtn" v-on:click="outletBtn">4. 배출구 초과이력 관리</span></div>
-                            <div><span class="tabbtn" v-on:click="errorBtn">5. 설비적/기계적 문제 발생 및 대응 현황</span></div>
-                            <div><span class="tabbtn" v-on:click="etcBtn">6. 운영 특이사항</span></div>
+                            <div><button type="button" class="tabbtn" v-on:click="summaryBtn">1. 월말 보고 Summary</button></div>
+                            <div><button type="button" class="tabbtn" v-on:click="operBtn">2. 운전 현황(월간 통계)</button></div>
+                            <div><button type="button" class="tabbtn" v-on:click="preventBtn">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</button></div>
+                            <div><button type="button" class="tabbtn" v-on:click="outletBtn">4. 배출구 초과이력 관리</button></div>
+                            <div><button type="button" class="tabbtn" v-on:click="errorBtn">5. 설비적/기계적 문제 발생 및 대응 현황</button></div>
+                            <div><button type="button" class="tabbtn" v-on:click="etcBtn">6. 운영 특이사항</button></div>
+                            <!-- <div><button class="tabbtn" value="1" type="button" v-on:click="tabSelectBtn">1. 월말 보고 Summary</button></div>
+                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">2. 운전 현황(월간 통계)</button></div>
+                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</button></div>
+                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">4. 배출구 초과이력 관리</button></div>
+                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">5. 설비적/기계적 문제 발생 및 대응 현황</button></div>
+                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">6. 운영 특이사항</button></div> -->
                         </div>
                     </div>
 
@@ -91,11 +97,11 @@
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
-import Vue from 'vue'
+// import Vue from 'vue'
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
-// import BootstrapVue from 'bootstrap-vue'
+// import Datetime from 'vue-datetime'
+// import 'vue-datetime/dist/vue-datetime.css'
+// // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -106,7 +112,7 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-Vue.use(Datetime)
+// Vue.use(Datetime)
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -450,6 +456,21 @@ export default {
             this.busy = false
             })
         },
+        // tabSelectBtn(){
+        //     let tab = new Array();
+        //     let tabBtn = new Array();
+        //     tab = document.getElementsByClassName('con_table');
+        //     tabBtn = document.getElementsByClassName('tabbtn');
+        //     for (let i = 0; i< tab.length; i++){
+        //         tab[i].style.display = 'none';
+        //         tabBtn[i].style.fontWeight = "400";
+        //         tabBtn[i].style.backgroundColor = "transparent";
+        //     }
+        //     let div1 = document.getElementById(this);
+        //     let align = div1.getAttribute("value");
+        //     console.log(align);
+        //     tab[0].style.display = "block"
+        // },
         summaryBtn(){
             let tab = new Array();
             let tabBtn = new Array();
@@ -463,7 +484,6 @@ export default {
             tab[0].style.display = "block"
             tabBtn[0].style.fontWeight = "bold";
             tabBtn[0].style.backgroundColor = "white";
-            
         },
         operBtn(){
             let tab = new Array();
@@ -573,32 +593,6 @@ export default {
     padding: 0;
 }
 
-/* datePicker */
-
-.ui-datepicker {
-    width: 250px;
-    height: 280px;
-}
-
-.ui-datepicker th {
-    font-size: 0.8rem;
-}
-
-.ui-datepicker td span,
-.ui-datepicker td a {
-    font-size: 0.8rem;
-}
-
-.ui-datepicker-prev span.ui-icon,
-.ui-datepicker-next span.ui-icon {
-    /*background: url(../imgs/common/leftArrow.png) no-repeat center center;*/
-    background-size: 10px 10px;
-}
-
-.ui-datepicker-prev span.ui-icon {
-    transform: rotateZ(180deg);
-}
-
 /* title */
 
 .con_box_right {
@@ -673,6 +667,7 @@ export default {
 
 .monthlyDateCheck>div>div>.dateSelect input[type="text"]{
     font-size:14px;
+    height:30px;
 }
 
 .v-input__prepend-outer {
@@ -733,12 +728,7 @@ export default {
     width: 170px;
 }
 
-.monthlyTableSelectBox>div>div:hover span {
-    background: #f9fcff;
-    font-weight: bold;
-}
-
-.monthlyTableSelectBox>div>div>span {
+.monthlyTableSelectBox>div>div>button {
     display: block;
     width: 170px;
     height: 30px;
@@ -753,16 +743,21 @@ export default {
     text-align: center;
 }
 
-.monthlyTableSelectBox>div>div:nth-child(3)>span {
+.monthlyTableSelectBox>div>div:nth-child(3)>button {
     width: 430px;
 }
 
-.monthlyTableSelectBox>div>div:nth-child(5)>span {
+.monthlyTableSelectBox>div>div:nth-child(5)>button {
     width: 250px;
 }
 
-.monthlyTableSelectBox>div>div:nth-child(6)>span {
+.monthlyTableSelectBox>div>div:nth-child(6)>button {
     width: 150px;
+}
+
+.monthlyTableSelectBox>div>div>button:focus{
+    outline:none;
+    border:none;
 }
 
 /* Contents */
@@ -790,6 +785,9 @@ export default {
     display:block;
     margin:0 auto;
     font-size:16px;
+}
+.v-text-field__slot:after{
+    width:0;
 }
 
 </style>
