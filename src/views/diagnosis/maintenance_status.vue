@@ -24,7 +24,7 @@
                         </div>
                         <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 text-center container-fluid">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :paginationPageSize="paginationPageSize">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :gridOptions="gridOptions" :paginationPageSize="paginationPageSize">
                             </ag-grid-vue>
                         </div>
                         </b-overlay>
@@ -80,6 +80,7 @@ export default {
             checkListVal3: [],
             checkListVal4: [],
 
+            gridOptions:{},
             config: {},
             mode: 'single', //날짜선택방법
             findTps: [{
@@ -237,7 +238,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {
