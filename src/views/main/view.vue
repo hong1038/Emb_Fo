@@ -12,7 +12,7 @@
                 <!-- <div class="imgBox" :style="{ backgroundImage: 'url(' + this.bgImg + ')' }"> -->
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
-                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" class="view_pin01" v-on:click="infoBtn()">{{item.pin_name}}</div>
+                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn()">{{item.pin_name}}</div>
                         <!-- <div class="view_pin02">2</div>
                         <div class="view_pin03">3</div>
                         <div class="view_pin04">4</div>
@@ -30,10 +30,13 @@
                         <div class="view_pin16">16</div>
                         <div class="view_pin17">17</div>
                         <div class="view_pin18">18</div> -->
+                        </div>
                         <div style="position:absolute;top:5px;left:10px;font-size:14px">
                             <p v-for="item in pinList" :key="item.pin_code" style="margin-bottom:3px" >{{item.pin_code}}.{{item.pin_name}}</p>
                         </div>
-                        <b-overlay class="overlay" v-if="show">
+                    </div>
+                    <!-- <b-overlay class="overlay" v-if="show" v-on:click="infoClose()"> -->
+                        <div class="overlay" v-if="show" v-on:click="infoClose()">
                             <div>
                                 <div class="overlayImg">
                                     <img src="../../assets/rendering/1.jpg">
@@ -41,7 +44,7 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="overlayTitle">폐기물보관소 흡입구</div>
+                                <div class="overlayTitle">타이틀</div>
                                 <div class="overlayText">
                                     <div>악취</div>
                                     <div>440배수</div>
@@ -55,8 +58,7 @@
                                     <div>440배수</div>
                                 </div>
                             </div>
-                        </b-overlay>
-                    </div>
+                        <!-- </b-overlay> -->
                 </div>
                 <div class="bottomBox">
                     <div class="bottom_subMenuBox bottom_subMenuBox01" v-if="equipList.length <= 8">
@@ -409,7 +411,12 @@ export default {
             })
         },
         infoBtn(){
-            this.show = true;
+            this.show = true;            
+            document.getElementsByClassName('overlayTitle').innetHTML = document.getElementsByClassName('view_pin01').getAttribute('value');
+            
+        },
+        infoClose(){
+            this.show = false;
         }
     }
 
@@ -487,20 +494,23 @@ export default {
     font-family: 'Arial';
     font-size: 12px;
     box-sizing: border-box;
+    cursor:pointer;
 }
 
-.imgBox .overlay{
-    position:absolute;
-    top:260px;
-    left:900px;
+.overlay{
+    position:absolute !important;
+    z-index:3;
+    top:460px;
+    left:920px;
     width:300px;
-    height:200px;
+    height:150px;
     font-size:16px;
     background:rgb(21, 5, 58);
     border-radius:7px;
+    cursor:pointer;
 }
 
-.imgBox .overlay>div{
+.overlay>div{
     float:left;
     width:50%;
     height:100%;
@@ -509,7 +519,7 @@ export default {
 }
 
 
-.imgBox .overlay div .overlayImg{
+.overlay div .overlayImg{
     position:relative;
     height:100%;
     box-sizing:border-box;
@@ -517,36 +527,36 @@ export default {
     
 }
 
-.imgBox .overlay div .overlayImg img{
+.overlay div .overlayImg img{
     width:100%;
-    height:90%;
-    margin-top:10px;
+    height:98%;
+    margin-top:3px;
     border-radius: 7px;
 }
 
-.imgBox .overlay div .overlayImg .stateBar{
+.overlay div .overlayImg .stateBar{
     position:absolute;
-    top:10px;
+    top:3px;
     left:5px;
     width:10px;
-    height:90%;
+    height:98%;
     background:green;
 }
 
-.imgBox .overlay div .overlayTitle{
-    height:45px;
-    line-height:45px;
+.overlay div .overlayTitle{
+    height:30px;
+    line-height:30px;
     color:white;
 }
 
-.imgBox .overlay div .overlayText{
-    height:45px;
+.overlay div .overlayText{
+    height:35px;
 }
-.imgBox .overlay div .overlayText>div{
+.overlay div .overlayText>div{
     float:left;
     width:50%;
-    height:45px;
-    line-height:45px;
+    height:100%;
+    line-height:40px;
     color:white;
 }
 
