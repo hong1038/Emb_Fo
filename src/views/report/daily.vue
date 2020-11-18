@@ -56,25 +56,25 @@
                         </div>
                     </div>
                     <div class="con_tableWrap container-fluid">
-                        <div class="con_table" id="con_table01" v-show="show01">
+                        <div class="con_table" id="con_table01">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                        </ag-grid-vue>
+                            </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table02" v-show="show02"  >
+                        <div class="con_table" id="con_table02">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                        </ag-grid-vue>
+                            </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table03" v-show="show03"  >
+                        <div class="con_table" id="con_table03">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                        </ag-grid-vue>
+                            </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table04" v-show="show04"  >
+                        <div class="con_table" id="con_table04">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                        </ag-grid-vue>
+                            </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table05" v-show="show05"  >
+                        <div class="con_table" id="con_table05">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                        </ag-grid-vue>
+                            </ag-grid-vue>
                         </div>
                     </div>
                     <!--<div class="con_tableWrap container-fluid" v-show="show02">
@@ -807,10 +807,16 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
+    display:none;
+}
+
+#con_table01{
+    display:block;
 }
 
 .ag-header-group-text{
     display:block;
     margin:0 auto;
+    font-size:16px;
 }
 </style>
