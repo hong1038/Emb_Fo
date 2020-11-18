@@ -169,9 +169,7 @@ export default {
             date: "",
             show: false,
 
-            gridOptions: {
-
-            },
+            gridOptions: {},
 
             paginationPageSize: store.state.paginationPageSize,
 
@@ -374,7 +372,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-            console.log()
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {

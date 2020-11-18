@@ -383,7 +383,6 @@ export default {
         },
 
         pinClick(areaPin, pin, name){
-            this.onClick();
 
             this.checkPin = true;
             this.pinSelect(areaPin, pin, name);
@@ -398,7 +397,7 @@ export default {
             })
         },
         pinSelect(areaPin, pin, name) {
-
+            this.onClick();
             this.areaPin = areaPin
             this.pinName = name
 

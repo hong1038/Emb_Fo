@@ -144,6 +144,7 @@
 </template>
 
 <script>
+import 'ag-grid-enterprise';
 import store from '@/store/index';
 export default {
     methods: {

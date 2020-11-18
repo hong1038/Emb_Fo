@@ -263,7 +263,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {
