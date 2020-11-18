@@ -7,36 +7,41 @@
             <div class="con">
                 <div class="con_box_right container-fluid float-left">
                     <p>본부 월말 보고 통계</p>
-
                     <div class="hmtableSelectBox container-fluid">
-                        <div>
-                            <div>
-                                <span>
-                                    <router-link :to="{ name: 'headMonthly1'}">전체 통계</router-link>
-                                </span>
-                            </div>
-                            <div>
-                                <span class="headMonthly_style02">
-                                    <router-link :to="{ name: 'headMonthly2'}">유형별 통계</router-link>
-                                </span>
-                            </div>
-                            <div>
-                                <span>
-                                    <router-link :to="{ name: 'headMonthly3'}">문제점 / 이슈사항</router-link>
-                                </span>
-                            </div>
-                            <div>
-                                <span>
-                                    <router-link :to="{ name: 'headMonthly4'}">이상점 및 비정상 대응 확인</router-link>
-                                </span>
-                            </div>
-                        </div>
+                        <b-row>
+                            <b-col cols="3">
+                                <router-link :to="{ name: 'headMonthly1'}" class="check01">전체 통계</router-link>
+                            </b-col>
+                            <b-col cols="3" class="check02">
+                                <router-link :to="{ name: 'headMonthly2'}">유형별 통계</router-link>
+                            </b-col>
+                            <b-col cols="3">
+                                <router-link :to="{ name: 'headMonthly3'}">문제점 / 이슈사항</router-link>
+                            </b-col>
+                            <b-col cols="3">
+                                <router-link :to="{ name: 'headMonthly4'}">이상점 및 비정상 대응 확인</router-link>
+                            </b-col>
+                        </b-row>
                     </div>
-
+                    <div class="monthSelectWrap container-fluid">
+                        <b-row>
+                            <b-col cols="1"><button type="button">1월</button></b-col>
+                            <b-col cols="1"><button type="button">2월</button></b-col>
+                            <b-col cols="1"><button type="button">3월</button></b-col>
+                            <b-col cols="1"><button type="button">4월</button></b-col>
+                            <b-col cols="1"><button type="button">5월</button></b-col>
+                            <b-col cols="1"><button type="button">6월</button></b-col>
+                            <b-col cols="1"><button type="button">7월</button></b-col>
+                            <b-col cols="1"><button type="button">8월</button></b-col>
+                            <b-col cols="1"><button type="button">9월</button></b-col>
+                            <b-col cols="1"><button type="button">10월</button></b-col>
+                            <b-col cols="1"><button type="button">11월</button></b-col>
+                            <b-col cols="1"><button type="button">12월</button></b-col>
+                        </b-row>
+                    </div>
                     <div class="con_tableWrap">
-                        <div class="con_table con_table01 container-fluid text-center">
-
-                        </div>
+                        <ag-grid-vue style="width: 100%; height: 630px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                        </ag-grid-vue>
                     </div>
                 </div>
             </div>
@@ -56,6 +61,13 @@ import vue from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import 'ag-grid-enterprise';
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+import {
+    AgGridVue
+} from "ag-grid-vue"
+
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -63,12 +75,61 @@ export default {
         vue,
         Left,
         Main,
+        AgGridVue,
     },
     data() {
         return {
             checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
-            date: ""
+            date: "",
+
+            fields: [
+                {
+                    field: '',
+                    headerName: '대분류',
+                    width: '140px'
+                },
+                {
+                    field: '',
+                    headerName: '소분류',
+                    width: '140px'
+                },
+                {
+                    field: '',
+                    headerName: '단위',
+                    width: '80px'
+                },
+                {
+                    field: '',
+                    headerName: '경인권',
+                    width: '190px'
+                },
+                {
+                    field: '',
+                    headerName: '중부권',
+                    width : '190'
+                },
+                {
+                    field: '',
+                    headerName: '남부권',
+                    width: '190px'
+                },
+                {
+                    field: '',
+                    headerName: '영남권',
+                    width : '190'
+                },
+                {
+                    field: '',
+                    headerName: '계열사',
+                    width: '190px'
+                },
+                {
+                    field: '',
+                    headerName: '합계',
+                    width : '190'
+                },
+            ],
         }
     },
     watch: {
@@ -100,32 +161,6 @@ export default {
     padding: 0;
 }
 
-/* datePicker */
-
-.ui-datepicker {
-    width: 250px;
-    height: 280px;
-}
-
-.ui-datepicker th {
-    font-size: 0.8rem;
-}
-
-.ui-datepicker td span,
-.ui-datepicker td a {
-    font-size: 0.8rem;
-}
-
-.ui-datepicker-prev span.ui-icon,
-.ui-datepicker-next span.ui-icon {
-    /*background: url(../imgs/common/leftArrow.png) no-repeat center center;*/
-    background-size: 10px 10px;
-}
-
-.ui-datepicker-prev span.ui-icon {
-    transform: rotateZ(180deg);
-}
-
 /* title */
 .con_box_right {
     box-sizing: border-box;
@@ -146,11 +181,11 @@ export default {
 
 /*  search and Excel Save*/
 
+
 /*Table Select */
 .hmtableSelectBox {
     width: 100%;
     height: 35px;
-    margin-top: 15px;
 }
 
 .hmtableSelectBox>div>div {
@@ -158,50 +193,67 @@ export default {
     width: 130px;
     height: 35px;
     box-sizing: border-box;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: #99C5F2;
+    background: #292929;
     cursor: pointer;
+    border:1px solid rgb(97, 97, 97);
 }
 
-.hmtableSelectBox>div>div:nth-child(3) {
-    width: 160px;
+.hmtableSelectBox>div>.check02{
+    background:black;
+    font-weight:bold;
 }
 
-.hmtableSelectBox>div>div:nth-child(4) {
-    width: 210px;
+.hmtableSelectBox>div>.check02>a{
+    font-size:16px;
+    line-height:20px;
 }
 
-.hmtableSelectBox>div>div:hover span {
-    background: #f9fcff;
-    font-weight: bold;
+.hmtableSelectBox>.row{
+    margin:0;
+    padding:0;
 }
 
-.hmtableSelectBox>div>div>.headMonthly_style02 {
-    background: #f9fcff;
-    font-weight: bold;
+.hmtableSelectBox>.row>.col-3{
+    padding:0;
 }
 
-.hmtableSelectBox>div>div>span {
-    display: block;
-    width: 110px;
-    height: 30px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: inherit;
-    font-size: 14px;
-    margin: 5px 0px 0px 5px;
-    line-height: 30px;
-    transition: all 0.3s;
+.hmtableSelectBox>div>div>a {
+    display:block;
+    width:90%;
+    margin:7px auto;
+    text-decoration: none;
+    color:white;
+    font-size:14px;
     text-align: center;
 }
 
-.hmtableSelectBox>div>div:nth-child(3)>span {
-    width: 140px;
+
+/*monthSelect*/
+.monthSelectWrap{
+    height:40px;
+    margin-top:10px;
 }
 
-.hmtableSelectBox>div>div:nth-child(4)>span {
-    width: 190px;
+.monthSelectWrap>.row{
+    height:100%;
+    margin:0;
+}
+
+.monthSelectWrap>div>.col-1{
+    height:100%;
+    padding:0;
+    font-size:14px;
+    box-sizing:border-box;
+    border:1px solid rgb(126, 126, 126);
+}
+
+.monthSelectWrap>div>div>button{
+    display:block;
+    width:100%;
+    height:40px;
+    background:#343a40;
+    color:white;
+    margin:0 auto;
 }
 
 /* Contents */
@@ -215,56 +267,5 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-}
-
-.con_table>div {
-    height: inherit;
-    font-family: "CJ Onlyone Bold";
-}
-
-.con_table>div>div {
-    line-height: 80px;
-    box-sizing: border-box;
-    border-right: 1px solid #d7dadd;
-    font-size: 14px;
-}
-
-.con_table01>div>div:nth-child(3)>div,
-.con_table01>div>div:nth-child(4)>div {
-    height: 40px;
-    line-height: 40px;
-}
-
-.con_table01>div>div:nth-child(3)>div>span {
-    display: block;
-    width: 33.33%;
-    float: left;
-}
-
-.con_table01>div>div:nth-child(4)>div>span {
-    display: block;
-    width: 15%;
-    float: left;
-}
-
-.con_table01>div>div:nth-child(4)>div>span:nth-child(5) {
-    width: 40%;
-}
-
-.con_table01>div>div:nth-child(5) {
-    line-height: 40px;
-}
-
-.con_table02>div>div>div {
-    line-height: 40px;
-    height: 50%;
-}
-
-.con_table02>div>div>div>span {
-    width: 23%;
-}
-
-.con_table02>div>div>div>span:nth-child(4) {
-    width: 31%;
 }
 </style>
