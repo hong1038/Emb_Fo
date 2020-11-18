@@ -12,7 +12,7 @@
                 <!-- <div class="imgBox" :style="{ backgroundImage: 'url(' + this.bgImg + ')' }"> -->
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
-                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" class="view_pin01">{{item.pin_name}}</div>
+                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" class="view_pin01" v-on:click="infoBtn()">{{item.pin_name}}</div>
                         <!-- <div class="view_pin02">2</div>
                         <div class="view_pin03">3</div>
                         <div class="view_pin04">4</div>
@@ -33,6 +33,29 @@
                         <div style="position:absolute;top:5px;left:10px;font-size:14px">
                             <p v-for="item in pinList" :key="item.pin_code" style="margin-bottom:3px" >{{item.pin_code}}.{{item.pin_name}}</p>
                         </div>
+                        <b-overlay class="overlay" v-if="show">
+                            <div>
+                                <div class="overlayImg">
+                                    <img src="../../assets/rendering/1.jpg">
+                                    <div class="stateBar"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="overlayTitle">폐기물보관소 흡입구</div>
+                                <div class="overlayText">
+                                    <div>악취</div>
+                                    <div>440배수</div>
+                                </div>
+                                <div class="overlayText">
+                                    <div>악취</div>
+                                    <div>440배수</div>
+                                </div>
+                                <div class="overlayText">
+                                    <div>악취</div>
+                                    <div>440배수</div>
+                                </div>
+                            </div>
+                        </b-overlay>
                     </div>
                 </div>
                 <div class="bottomBox">
@@ -115,6 +138,10 @@ export default {
     },
     data() {
         return {
+            busy:false,
+            timeout : null,
+            show:false,
+
             equipList: [],
             equipList2:[],
             scrubber: [],
@@ -380,6 +407,9 @@ export default {
 
 
             })
+        },
+        infoBtn(){
+            this.show = true;
         }
     }
 
@@ -458,6 +488,68 @@ export default {
     font-size: 12px;
     box-sizing: border-box;
 }
+
+.imgBox .overlay{
+    position:absolute;
+    top:260px;
+    left:900px;
+    width:300px;
+    height:200px;
+    font-size:16px;
+    background:rgb(21, 5, 58);
+    border-radius:7px;
+}
+
+.imgBox .overlay>div{
+    float:left;
+    width:50%;
+    height:100%;
+    box-sizing: border-box;
+    padding:5px;
+}
+
+
+.imgBox .overlay div .overlayImg{
+    position:relative;
+    height:100%;
+    box-sizing:border-box;
+    padding-left:5px;
+    
+}
+
+.imgBox .overlay div .overlayImg img{
+    width:100%;
+    height:90%;
+    margin-top:10px;
+    border-radius: 7px;
+}
+
+.imgBox .overlay div .overlayImg .stateBar{
+    position:absolute;
+    top:10px;
+    left:5px;
+    width:10px;
+    height:90%;
+    background:green;
+}
+
+.imgBox .overlay div .overlayTitle{
+    height:45px;
+    line-height:45px;
+    color:white;
+}
+
+.imgBox .overlay div .overlayText{
+    height:45px;
+}
+.imgBox .overlay div .overlayText>div{
+    float:left;
+    width:50%;
+    height:45px;
+    line-height:45px;
+    color:white;
+}
+
 
 /* 인천냉동식품 공장 핀 위치
 .view_pin01 {
