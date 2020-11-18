@@ -12,7 +12,7 @@
                 <!-- <div class="imgBox" :style="{ backgroundImage: 'url(' + this.bgImg + ')' }"> -->
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
-                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" class="view_pin01">{{item.pin_code}}</div>
+                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" class="view_pin01">{{item.pin_name}}</div>
                         <!-- <div class="view_pin02">2</div>
                         <div class="view_pin03">3</div>
                         <div class="view_pin04">4</div>
@@ -153,7 +153,7 @@ export default {
                                 //     // e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;  background:red"                                    
                                 // }else{
                                 //     }
-                                e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px; background:green"
+                                e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;"
                             })
                             this.pinList = res.data.data;
 
@@ -446,9 +446,9 @@ export default {
 
 .imgBox .viewPinWrap>div:not(:last-child) {
     position: absolute;
-    width: 25px;
-    height: 25px;
-    border-radius: 100%;
+    /* width: 25px; */
+    /* height: 25px; */
+    /* border-radius: 100%; */
     background: white;
     border: 1px solid black;
     text-align: center;
