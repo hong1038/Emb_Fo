@@ -40,13 +40,18 @@
                                     <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
                                 </b-row>
                                 <b-row>
-                                    <b-col class="regiName col-4">이메일</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="email"></b-form-input>
+                                    <b-col class="regiName col-4">주소</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="addr"></b-form-input>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="line2 regiName">영역</b-col>
+                                    <b-form-select class="col" v-model="parAreaCode" :options="comboParAreaCode" size="sm"> </b-form-select>
                                 </b-row>
                                 <b-row>
                                     <b-col class="line2 regiName">지역</b-col>
-                                    <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm" @change="getServers"> </b-form-select>
+                                    <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm"> </b-form-select>
                                 </b-row>
+                                
                                 <b-row>
                                     <b-col class="line2 regiName">관리서버</b-col>
                                     <b-form-select class="col" v-model="serverKey" :options="comboServerKey" size="sm"> </b-form-select>
@@ -130,10 +135,11 @@ export default {
             addr:'',//주소
             name1:'', //사업장명
             name2:'',  //사업장명(약식)
+            parAreaCode:'',
             areaCode:'',
             sererKey:'',
 
-            comboAreaCode:[],
+            comboParAreaCode:[],
             comboServerKey:[],
 
             paginationPageSize: store.state.paginationPageSize,
@@ -164,8 +170,7 @@ export default {
             { field: 'area_name',  headerName: '지역'    } ,
             { field: 'server_name',  headerName: '서버명'    } ,
         ]
-        this.getComboServers();
-        this.getComboAreaCode();
+      
     },
 
     mounted() {
@@ -177,22 +182,53 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
-        // this.getConditionList();
+        this.getComboServers();
+        this.getComboAreaCode();
+    },
+    watch: {
+        parAreaCode() {
+            this.getComboSubAreaCode();
+        },
+        areaCode() {
+            this.getComboServers();
+        },
+
     },
     methods: {
         getComboAreaCode() {
             let that = this;
+            //alert("workplace.getComboAreaCode.store.state.baseAreaCode = " + store.state.baseAreaCode);//kill
             axios.post("/api/daedan/cj/ems/setting/workplaceComboArea", {
-                areaCode: store.state.baseAreaCode,
+                parCodeNo: store.state.baseAreaCode,
                 userId: store.state.userInfo.userId
             }, this.config)
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
-                        that.comboAreaCode = res.data.data.areaList;
+                        that.comboParAreaCode = res.data.data;
+                        if (that.comboParAreaCode) {
+                            that.parAreaCode = that.comboParAreaCode[0].value
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 부모관리영역 콤보 추출 실패 \n" + err);
+            })
+        },
+        getComboSubAreaCode() {
+            let that = this;
+            //alert("workplace.getComboSubAreaCode = " + this.areaCode);//kill
+            axios.post("/api/daedan/cj/ems/setting/workplaceComboArea", {
+                parCodeNo: this.parAreaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboAreaCode = res.data.data;
                         if (that.comboAreaCode) {
                             that.areaCode = that.comboAreaCode[0].value
-                            that.getComboServers();
                         }
                     }
                 }
@@ -201,6 +237,7 @@ export default {
                 alert("사업장 기준정보 처리용 관리영역 콤보 추출 실패 \n" + err);
             })
         },
+
         async getComboServers() {
             let that = this;
             if (!this.areaCode) return;
@@ -211,7 +248,7 @@ export default {
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
-                        that.comboServerKey = res.data.data.areaList;
+                        that.comboServerKey = res.data.data;
                     }
                 }
             })
@@ -286,7 +323,7 @@ export default {
         },
         async getInfo(event) {
             let that = this;
-            console.log("workplace.getInfo.pid = " +   event.data.pid)
+            //console.log("workplace.getInfo.pid = " +   event.data.pid)
             await this.$Axios.post("/api/daedan/cj/ems/setting/WorkplaceInfo", {
                     pid: event.data.pid,
                     userId: store.state.userInfo.userId
