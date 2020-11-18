@@ -107,7 +107,7 @@
 </template>
 
 <script>
-// import store from "@/store/index";
+import store from "@/store/index";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
@@ -165,6 +165,7 @@ export default {
             pageNo: 1,
             perPage: 10,
             
+            pageSz:13,
             monitorFields: [
                 // {
                 //     field: 'server_key',
@@ -499,9 +500,42 @@ export default {
             document.getElementById('con_table01').style.display = "block";
             tabBtn[0].style.fontWeight = "bold";
             tabBtn[0].style.backgroundColor = "white";
-            
+            this.getList1()
         },
+        getList1() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.list = res.data.data
+                            that.listCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
         inletBtn(){
             let tab = new Array();
             let tabBtn = new Array();

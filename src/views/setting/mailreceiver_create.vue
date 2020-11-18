@@ -12,7 +12,7 @@
                         <div>
                             <div>사업장</div>
                             <div>
-                                <b-form-select v-model="findTp" :options="findTps" size="sm"></b-form-select>
+                                <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm"></b-form-select>
                             </div>
                         </div>
                         <div>
@@ -47,6 +47,8 @@ import vue from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import axios from 'axios';
+import store from '@/store/index';
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -68,6 +70,9 @@ export default {
             checkListVal2: [],
             checkListVal3: [],
             checkListVal4: [],
+
+            comboServers: null, //사업장   
+            comboCategories: null, //측청분야     
 
             mode: 'single',
             info: {},
@@ -194,10 +199,44 @@ export default {
 
     },
     created() {
-
+        this.config = {
+            headers: {
+                "authorization": this.$Axios.defaults.headers.common["authorization"]
+            }
+        }
+        this.getConditionList();
     },
-
     methods: {
+        onHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.busy = false
+            })
+        },
+        async getConditionList() {
+            let that = this;
+            await axios.post("/api/daedan/cj/ems/setting/conditionList", {
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboServers = res.data.data.serverList; //사업장
+                            that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
+                    console.log(err)
+                })
+
+        },
         axLen3(e) { //최대 3자 이하로구성
             return String(e).substring(0, 3);
         },

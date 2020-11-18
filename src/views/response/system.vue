@@ -48,7 +48,7 @@
 
                                     <b-row>
                                         <b-col class="regiName col-4">측정분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm">
+                                        <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm"> 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
@@ -372,7 +372,7 @@ export default {
                 alert("날짜를 선택해주세요.")
                 return;
             }
-
+            
             this.onClick();
 
             let that = this;
@@ -382,7 +382,7 @@ export default {
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
                     pageNo: this.pageNo,
-                    pageSz: 10000,
+                    pageSz: this.perPage,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
