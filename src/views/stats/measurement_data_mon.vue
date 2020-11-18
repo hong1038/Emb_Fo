@@ -236,7 +236,7 @@ export default {
                     equipList: store.state.ckEquip,
                     sensorList: store.state.ckSensor,
                     pageNo: this.pageNo,
-                    pageSz: this.perPage,
+                    pageSz: 10000,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

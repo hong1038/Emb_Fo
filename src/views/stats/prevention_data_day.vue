@@ -264,7 +264,7 @@ export default {
                     findTp: this.findTp,
                     findSz: this.findSz,
                     pageNo: this.pageNo,
-                    pageSz: this.perPage,
+                    pageSz: 10000,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

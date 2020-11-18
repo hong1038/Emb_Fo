@@ -12,7 +12,7 @@
                 <!-- <div class="imgBox" :style="{ backgroundImage: 'url(' + this.bgImg + ')' }"> -->
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
-                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn()">{{item.pin_name}}</div>
+                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"><p style="display:flex;align-items:center;padding:0 5px"><span :style="'margin-right:5px;position:absoulte;left:35%;top:20px;border:1px solid #9bb5c7v;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p></div>
                         <!-- <div class="view_pin02">2</div>
                         <div class="view_pin03">3</div>
                         <div class="view_pin04">4</div>
@@ -32,7 +32,7 @@
                         <div class="view_pin18">18</div> -->
                         </div>
                         <div style="position:absolute;top:5px;left:10px;font-size:14px">
-                            <p v-for="item in pinList" :key="item.pin_code" style="margin-bottom:3px" >{{item.pin_code}}.{{item.pin_name}}</p>
+                            <p v-for="item in pinList" :key="item.pin_code" style="margin-bottom:3px;display:flex;align-items:center;" ><span :style="'border:1px solid black;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p>
                         </div>
                     </div>
                     <!-- <b-overlay class="overlay" v-if="show" v-on:click="infoClose()"> -->
@@ -40,11 +40,11 @@
                             <div>
                                 <div class="overlayImg">
                                     <img src="../../assets/rendering/1.jpg">
-                                    <div class="stateBar"></div>
+                                    <div class="stateBar" :style="'background:'+item.color"></div>
                                 </div>
                             </div>
                             <div>
-                                <div class="overlayTitle">타이틀</div>
+                                <div class="overlayTitle">{{item.pin_name}}</div>
                                 <div class="overlayText">
                                     <div>악취</div>
                                     <div>440배수</div>
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                         <!-- </b-overlay> -->
-                </div>
+                        </div>
                 <div class="bottomBox">
                     <div class="bottom_subMenuBox bottom_subMenuBox01" v-if="equipList.length <= 8">
                         <div @click="selectEq(item.equipment_key)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10  && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
@@ -144,6 +144,7 @@ export default {
             timeout : null,
             show:false,
 
+            item:{},
             equipList: [],
             equipList2:[],
             scrubber: [],
@@ -183,6 +184,9 @@ export default {
                                 // }else{
                                 //     }
                                 e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;"
+                            })
+                            res.data.data.map(e=>{
+                                e.color = '#' + Math.round(Math.random() * 0xffffff).toString(16)
                             })
                             this.pinList = res.data.data;
 
@@ -410,9 +414,10 @@ export default {
 
             })
         },
-        infoBtn(){
+        infoBtn(item){
             this.show = true;            
-            document.getElementsByClassName('overlayTitle').innetHTML = document.getElementsByClassName('view_pin01').getAttribute('value');
+            this.item = item;
+            // document.getElementsByClassName('overlayTitle').innetHTML = document.getElementsByClassName('view_pin01').getAttribute('value');
             
         },
         infoClose(){
@@ -481,7 +486,7 @@ export default {
     height: 100%;
 }
 
-.imgBox .viewPinWrap>div:not(:last-child) {
+.imgBox .viewPinWrap>div {
     position: absolute;
     /* width: 25px; */
     /* height: 25px; */
