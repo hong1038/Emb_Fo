@@ -42,7 +42,10 @@
                     <div class="bottom_subMenuBox bottom_subMenuBox02" v-else>
                         <div @click="selectEq(item.equipment_key)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList2" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10 && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
                     </div>
-                    <div class="bottom_letBox">
+                    <div class="bottom_letBox" v-if="scrubber.length <= 0">
+                        <p style="font-size:18px">데이터가 없습니다.</p>
+                    </div>
+                    <div class="bottom_letBox"  v-else>
                         <div class="infoBox" v-for="(item,key) in scrubber" v-bind:key="key">
                             <div :class="'infoTitle infoTitle_'+key"> {{item.internal_name}} 스크러버</div>
                             <div class="infoBody">
@@ -83,7 +86,10 @@
                     </div>
                 </div>
             </div>
-            <div class="viewBox viewRightBox">
+            <div class="viewBox viewRightBox" v-if="scrubber.length <= 0" >
+                <p style="font-size:18px">데이터가 없습니다.</p>
+            </div>
+            <div v-else class="viewBox viewRightBox">
                 <div class="canvasWrap" v-for="(item,idx) in scrubber" v-bind:key="idx">
                     <div>{{item.internal_name}}</div>
                     <canvas :id="'line-graph'+idx" width="560" height="200"></canvas>
