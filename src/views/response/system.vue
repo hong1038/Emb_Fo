@@ -130,6 +130,7 @@ export default {
             busy:false,
             timeout : null,
 
+            gridOptions:{},
             config: {},
             mode: 'single', //날짜선택방법
             // dateFr: store.state.szCurMmFr,
@@ -406,7 +407,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {

@@ -83,6 +83,7 @@ export default {
             dateFr: "",
             // dateTo: store.state.szCurMmTo,
             dateTo: "",
+            gridOptions:{}, 
             list: [],
             listCount: 0,
             pageNo: 1,
@@ -245,7 +246,7 @@ export default {
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
-
+            this.gridOptions.api.exportDataAsExcel({});
         },
         // 그래프버튼 클릭
         graphBtn() {
