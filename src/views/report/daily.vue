@@ -185,29 +185,14 @@ export default {
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '200px'
+                    width: '300px'
                 },
                 {
                     field: '',
-                    headerName: '항목',
-                    width: '220px'
-                },
-                {
-                    field: '',
-                    headerName: '단위',
-                    width: '110px'
-                },
-                {
-                    field: '',
-                    headerName: '전단',
-                     width: '110px'
-                },
-                {
-                    field: '',
-                    headerName: '후단',
+                    headerName: '흡입구',
                     children: [{
                             field: '',
-                            headerName: '기준',
+                            headerName: '최대',
                             type: 'number',
                             width: '100px'
                         },
@@ -219,36 +204,59 @@ export default {
                         },
                         {
                             field: 'inlet_max_value',
-                            headerName: '최대',
+                            headerName: '최소',
                             type: 'number',
                             width: '100px'
                         },
                         {
                             field: 'inlet_min_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '100px'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [{
+                            field: '',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: '',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: '',
                             headerName: '최소',
                             type: 'number',
                             width: '100px'
                         },
                         {
                             field: '',
-                            headerName: '초과횟수',
+                            headerName: '기준',
                             type: 'number',
-                            width: '120px'
+                            width: '100px'
                         },
                     ]
                 },
                 {
                     field: '',
                     headerName: '방지시설 효율(%)',
-                    width:'200'
+                    width:'260'
                 },
             ],
 
             inletList: [],
             inletFields: [
                 {
-                    field: 'category',
-                    headerName: '구분',
+                    field: '',
+                    headerName: '분야',
                     width: '140px'
                 },
                 {
@@ -287,7 +295,7 @@ export default {
                 },
                 {
                     field: '',
-                    headerName: '변경점 / 이상점 대응 결과',
+                    headerName: '변경점/이상점 확인결과 원인',
                     width: '220px'
                 },
                 {
@@ -310,35 +318,41 @@ export default {
             outletList:[],
             outletFields: [
                 {
-                    field: 'category',
-                    headerName: '구분',
+                    field: '',
+                    headerName: '분야',
                     width: '80px'
                 },
                 {
                     field: 'equipment_name',
-                    headerName: '방지시설명',
-                    width: '190px'
+                    headerName: '측정위치',
+                    width: '160px'
                 },
                 {
                     field: '',
-                    headerName: '배출구',
+                    headerName: '흡입구',
                     children: [{
-                            field: '',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '80px'
-                        },
-                        {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
-                            headerName: '초과 횟수',
+                            field: 'inlet_avg_value',
+                            headerName: '평균',
                             type: 'number',
-                            width: '120px'
+                            width: '80px'
+                        },
+                        {
+                            field: 'inlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '이상점 발생 횟수',
+                            type: 'number',
+                            width: '160px'
                         },
                     ]
                 },
@@ -350,12 +364,12 @@ export default {
                 {
                     field: 'action_type',
                     headerName: '유형',
-                    width: '100px'
+                    width: '80px'
                 },
                 {
                     field: 'action',
-                    headerName: '초과사항 확인결과, 원인',
-                     width: '285px'
+                    headerName: '조치사항ㆍ원인',
+                     width: '220px'
                 },
                 {
                     field: 'action',
@@ -421,7 +435,7 @@ export default {
                 },
                 {
                     field: '',
-                    headerName: '완료 상태',
+                    headerName: '완료 여부',
                     width: '120px'
                 },
             ],
