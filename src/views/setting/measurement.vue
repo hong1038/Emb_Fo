@@ -12,11 +12,17 @@
                         <input type="button" class="measurementPlus" v-on:click="addOn" value="등록">
                     </b-row>
                     <div class="mmtableWrap container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
-                        <!--
-                        <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
-                        -->
-                        <b-card class="right_list" v-if="show">
+                        <ag-grid-vue style="width: 100%; height: 715px;" 
+                                     class="ag-theme-alpine-dark" 
+                                     rowSelection="single" 
+                                     @row-clicked="getInfo" 
+                                     :columnDefs="fields"
+                                     :rowData="list"
+                                     :gridOptions="gridOptions" 
+                                     :pagination="true" 
+                                     :paginationPageSize="1000" 
+                                     :onRowClicked="onRowClicked" />
+                            <b-card class="right_list" v-if="show">
                             <b-row>
                                 <b-col class="popUpTitle">측정기별 기준 정보 등록</b-col>
                                 <input type="button" class="mmSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
@@ -31,43 +37,43 @@
 
                                 <b-row>
                                     <b-col class="regiName col-4">사업장</b-col>
-                                    <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm">
-                                    </b-form-select>
+                                    <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm" disabled></b-form-select>
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">분야</b-col>
-                                    <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm"></b-form-select>
+                                    <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-select>
                                 </b-row>
-                                <b-row>
-                                    <b-col class="regiName col-4">공정명</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="public_name"></b-form-input>
-                                </b-row>
-
                                 <b-row>
                                     <b-col class="regiName col-4">시설분류</b-col>
-                                    <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm"></b-form-select>
+                                    <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm" disabled></b-form-select>
                                 </b-row>
 
                                 <b-row>
                                     <b-col class="regiName col-4">위치분류</b-col>
-                                    <b-form-select class="col" v-model="location" :options="comboLocations" size="sm"></b-form-select>
+                                    <b-form-select class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-select>
                                 </b-row>
 
                                 <b-row>
                                     <b-col class="regiName col-4">측정기시설명</b-col>
-                                    <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm"></b-form-select>
+                                    <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
                                 </b-row>
                                 <b-row class="line1_box">
                                     <b-col class="line1 regiName">분석항목</b-col>
                                     <div class="check_list scroll_box">
                                         <div v-for="(item ) in sensors" v-bind:item="item" v-bind:key="item.id">
                                             <ul class="type">
-                                                <input type="checkbox" :id=item.id :value=item.id v-model="usedSensors">
+                                                <input type="checkbox" :id=item.id :value=item.id v-model="usedSensors" disabled>
                                                 <label>{{item.val}}</label>
                                             </ul>
                                         </div>
                                     </div>
                                 </b-row>
+
+                                <b-row>
+                                    <b-col class="regiName col-4">공정명</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="public_name"></b-form-input>
+                                </b-row>
+
 
                                 <b-row>
                                     <b-col class="regiName col-4">법적기준</b-col>
@@ -139,9 +145,10 @@ import Left from '@/components/Left.vue'
 import Vue from 'vue'
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
-import {
-    AgGridVue
-} from "ag-grid-vue"
+import {    AgGridVue } from "ag-grid-vue"
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+
 import VueConfirmDialog from "vue-confirm-dialog"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -168,7 +175,7 @@ export default {
             paginationPageSize: store.state.paginationPageSize,
             config: {},
             pageNo: 1,
-            pageSz: store.state.paginationPageSize,
+
             list: [],
             listCount: 0,
             comboServers: null, //사업장   
@@ -201,20 +208,13 @@ export default {
             show: false,
 
             gridOptions: {
-
+     
+       
             },
 
         }
     },
     watch: {
-        exist_yn() {
-            if (this.exist_yn === ("Y")) {
-                console.log("exist.y")
-            }
-            else {
-                console.log("exist.n")
-            }
-        },
         server_key() {
             if (!this.server_key) return;
             this.getEquips();
@@ -239,15 +239,24 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
         this.fields = [ 
-            { headerName: '사업장'      ,field: 'server_name'   ,width: 60 },
-            { headerName: '분야'        ,field: 'category'      ,width: 50 },
-            { headerName: '공정명'      ,field: 'public_name'   ,width: 60 },
-            { headerName: '시설분류'     ,field: 'facility_nm'   ,width: 60 },
-            { headerName: '위치분류'     ,field: 'place_nm'      ,width: 60 },
-            { headerName: '측정기시설명'  ,field: 'equipment_name',width: 120 },
-            { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: 120 },
-            { headerName: '법적기준'     ,field: 'legal_standard' ,width: 70 },
-            { headerName: '관리기준'     ,field: 'manage_standard' ,width: 70 },
+           // {  headerName: "등록여부"    , field: "exist_yn",  width:60
+           //   , cellRenderer: params => { return `<input type='checkbox' ${params.value === 'Y' ? 'checked' : ''} />`; }
+           // },
+           // {  name: 'ID',  field: '',  displayName: 'Id', cellTemplate: '<span>{{rowRenderIndex+1}}</span>', width: '5%'},
+            { headerName: '등록여부'    ,field: 'exist_yn'       ,width: '5%' , 
+                cellStyle: function(params) {
+                    return { textAlign:"center",   backgroundColor: params.value === "기등록" ? "#222111" : "##7acef2" } 
+                },
+            },
+            { headerName: '사업장'      ,field: 'server_name'   ,width: '5%' },
+            { headerName: '분야'        ,field: 'category'      ,width: '5%' },
+            { headerName: '공정명'      ,field: 'public_name'   ,width: '10%' },
+            { headerName: '시설분류'     ,field: 'facility_nm'   ,width: '5%' },
+            { headerName: '위치분류'     ,field: 'place_nm'      ,width: '5%' },
+            { headerName: '측정기시설명'  ,field: 'equipment_name',width: '20%' },
+            { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: '20%' },
+            { headerName: '법적기준'     ,field: 'legal_standard' ,width:  '10%',cellStyle:{textAlign:"right"} },
+            { headerName: '관리기준'     ,field: 'manage_standard' ,width: '10%',cellStyle:{textAlign:"right"} },
         ]
     },
     mounted() {
@@ -406,6 +415,7 @@ export default {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
+            this.show = false;
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
             await axios.post("/api/daedan/cj/ems/setting/measurementByLagacyList", {
@@ -414,7 +424,7 @@ export default {
                     equipList: store.state.ckEquip,
                     sensorList: store.state.ckSensor,
                     pageNo: this.pageNo,
-                    pageSz: this.pageSz,
+                    pageSz: this.paginationPageSize,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
@@ -431,7 +441,6 @@ export default {
         },
         async getInfo(event) {
             let that = this;
-            console.log("getInfo.event = " + event.data.mno)
             this.mno = event.data.mno;
             let oldServerKey = this.server_key;
 
@@ -531,11 +540,11 @@ export default {
                     category: this.category_cd,
                     place: this.location,
                     facility: this.facility,
+                    public_name : this.public_name,
                     internal_name: this.internal_name,
                     internal_numger: this.internal_numger,
                     legal_standard: this.legal_standard,
                     manage_standard: this.manage_standard,
-                    public_name: this.public_name,
                     ordr_no: this.odor_no,
                     unit: this.unit,
                     usedSensors: this.usedSensors,
@@ -602,7 +611,9 @@ export default {
     margin: 0;
     padding: 0;
 }
-
+.ag-header-cell-label {
+   justify-content: center;
+}
 .col {
     font-size: 16px;
 }

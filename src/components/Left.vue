@@ -14,7 +14,7 @@
                     <div class="check_list scroll_box">
                         <ul class="servers">
                             <div v-for="(item, index) in servers" v-bind:item="item" v-bind:index="index" v-bind:key="item.id">
-                                <input type="checkbox" class="1_checkbox" name="server" :id=item.id :value=item.id v-model="checkListVal1">
+                                <input type="checkbox" class="1_checkbox" name="server" :id=item.id :value=item.id v-model="checkListVal1" @change="getEquipPos">
                                 <label>{{item.val}}</label>
                             </div>
                         </ul>
@@ -196,22 +196,41 @@ export default {
                 case 1:
                     store.state.ckServer = []
                     this.checkListVal1 = []
-                    this.checkListVal2 = [0]
-                    this.checkListVal3 = [0]
-                    this.checkListVal4 = [0]
-                    this.equipPos = [0]
-                    this.sensors = [0]
+                    //this.checkListVal2 = [0]
+                    //this.checkListVal3 = [0]
+                    //this.checkListVal4 = [0]
+                    //this.equipPos = [0]
+                    //this.sensors = [0]
+
+                    this.checkListVal2 = [];
+                    this.checkListVal3 = []
+                    this.checkListVal4 = []
+                    this.equipPos = []
+                    this.sensors = []
+
+
                     // this.getEquipPos();
                     break;
                 case 2:
-                    store.state.ckCate = [0]
-                    store.state.ckEquip = [0]
-                    store.state.ckSensor = [0]
-                    this.checkListVal2 = [0]
-                    this.checkListVal3 = [0]
-                    this.checkListVal4 = [0]
-                    this.equipPos = [0]
-                    this.sensors = [0]
+                    //store.state.ckCate = [0]
+                    //store.state.ckEquip = [0]
+                    //store.state.ckSensor = [0]
+                    //this.checkListVal2 = [0]
+                    //this.checkListVal3 = [0]
+                    //this.checkListVal4 = [0]
+                    //this.equipPos = [0]
+                    //this.sensors = [0]
+
+                    store.state.ckCate = []
+                    store.state.ckEquip = []
+                    store.state.ckSensor = []
+                    this.checkListVal2 = []
+                    this.checkListVal3 = []
+                    this.checkListVal4 = []
+                    this.equipPos = []
+                    this.sensors = []
+
+
                     // this.getEquipPos();
                     break;
                 case 3:
@@ -228,10 +247,23 @@ export default {
 
         async getEquipPos() {
             //alert("envPos.checkListVal1 = " + this.checkListVal1);
-            //alert("envPos.checkListVal2 = " + this.checkListVal2);
-            let that = this;
             this.equipPos = [];
             this.sensors = [];
+
+            if (!this.checkListVal1) {
+                return;
+            } 
+            if (this.checkListVal1.length == 0) {
+                return;
+            }
+
+            if (!this.checkListVal2) {
+                return;
+            }
+            if (this.checkListVal2.length == 0) {
+                return;
+            }
+            let that = this;
             await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
                     userId: store.state.userInfo.userId,
                     serverList: this.checkListVal1
