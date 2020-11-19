@@ -168,7 +168,7 @@ export default {
             paginationPageSize: store.state.paginationPageSize,
             config: {},
             pageNo: 1,
-            pageSz: store.state.paginationPageSize,
+            pageSz: 13,
             list: [],
             listCount: 0,
             comboServers: null, //사업장   
@@ -207,14 +207,6 @@ export default {
         }
     },
     watch: {
-        exist_yn() {
-            if (this.exist_yn === ("Y")) {
-                console.log("exist.y")
-            }
-            else {
-                console.log("exist.n")
-            }
-        },
         server_key() {
             if (!this.server_key) return;
             this.getEquips();
@@ -248,6 +240,7 @@ export default {
             { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: 120 },
             { headerName: '법적기준'     ,field: 'legal_standard' ,width: 70 },
             { headerName: '관리기준'     ,field: 'manage_standard' ,width: 70 },
+            { headerName: '단위'     ,field: 'unit' ,width: 50 }
         ]
     },
     mounted() {
@@ -408,7 +401,7 @@ export default {
             }
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
-            await axios.post("/api/daedan/cj/ems/setting/measurementByLagacyList", {
+            await axios.post("/api/daedan/cj/ems/setting/measurementsList", {
                     serverList: store.state.ckServer,
                     cateList: store.state.ckCate,
                     equipList: store.state.ckEquip,

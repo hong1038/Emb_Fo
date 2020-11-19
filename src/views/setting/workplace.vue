@@ -213,18 +213,6 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
         this.fields = [
-            // {
-            //     field: 'server_key',
-            //     hidden: true
-            // },
-            // {
-            //     field: 'equipment_key',
-            //     hidden: true
-            // },
-            // {
-            //     field: 'sensor_key',
-            //     hidden: true
-            // },
             {
                 field: 'pid',
                 headerName: '사업장번호',
