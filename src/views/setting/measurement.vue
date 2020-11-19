@@ -12,6 +12,7 @@
                         <input type="button" class="measurementPlus" v-on:click="addOn" value="등록">
                     </b-row>
                     <div class="mmtableWrap container-fluid" style="display:flex">
+<<<<<<< HEAD
                         <ag-grid-vue style="width: 100%; height: 715px;" 
                                      class="ag-theme-alpine-dark" 
                                      rowSelection="single" 
@@ -23,6 +24,13 @@
                                      :paginationPageSize="1000" 
                                      :onRowClicked="onRowClicked" />
                             <b-card class="right_list" v-if="show">
+=======
+                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :icons="icons"  :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                        <!--
+                        <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
+                        -->
+                        <b-card class="right_list" v-if="show">
+>>>>>>> f0bd506645080e3d0381359a8919071f9eeb0b89
                             <b-row>
                                 <b-col class="popUpTitle">측정기별 기준 정보 등록</b-col>
                                 <input type="button" class="mmSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
@@ -145,9 +153,15 @@ import Left from '@/components/Left.vue'
 import Vue from 'vue'
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+<<<<<<< HEAD
 import {    AgGridVue } from "ag-grid-vue"
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+=======
+import {
+    AgGridVue
+} from "ag-grid-vue"
+>>>>>>> f0bd506645080e3d0381359a8919071f9eeb0b89
 
 import VueConfirmDialog from "vue-confirm-dialog"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -186,7 +200,7 @@ export default {
 
             sensors: null,
             usedSensors: [], //선택된분석항목(센서)
-
+            icons:null,
             measurementInfo: {},
             mno: null, //관리번호
             server_key: null, //사업장
@@ -239,6 +253,7 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
         this.fields = [ 
+<<<<<<< HEAD
            // {  headerName: "등록여부"    , field: "exist_yn",  width:60
            //   , cellRenderer: params => { return `<input type='checkbox' ${params.value === 'Y' ? 'checked' : ''} />`; }
            // },
@@ -257,12 +272,25 @@ export default {
             { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: '20%' },
             { headerName: '법적기준'     ,field: 'legal_standard' ,width:  '10%',cellStyle:{textAlign:"right"} },
             { headerName: '관리기준'     ,field: 'manage_standard' ,width: '10%',cellStyle:{textAlign:"right"} },
+=======
+            { headerName: 'check'      ,field: 'icon'   ,width: 60 ,  icons: {  columns: '<i class="fa fa-handshake"/>',}},
+            { headerName: '사업장'      ,field: 'server_name'   ,width: 60 },
+            { headerName: '분야'        ,field: 'category'      ,width: 50 },
+            { headerName: '공정명'      ,field: 'public_name'   ,width: 60 },
+            { headerName: '시설분류'     ,field: 'facility_nm'   ,width: 60 },
+            { headerName: '위치분류'     ,field: 'place_nm'      ,width: 60 },
+            { headerName: '측정기시설명'  ,field: 'equipment_name',width: 120 },
+            { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: 120 },
+            { headerName: '법적기준'     ,field: 'legal_standard' ,width: 70 },
+            { headerName: '관리기준'     ,field: 'manage_standard' ,width: 70 },
+>>>>>>> f0bd506645080e3d0381359a8919071f9eeb0b89
         ]
     },
     mounted() {
         this.gridOptions.api.sizeColumnsToFit()
     },
     created() {
+
         this.config = {
             headers: {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
@@ -430,8 +458,17 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            res.data.data.map(e=>{
+                                if (e.exist_yn === "Y") {
+                                    
+                                    e.icon = true
+                                }else{
+                                    e.icon = true  
+                                }
+                            })
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
+                            console.log(that.list)
                         }
                     }
                 })
