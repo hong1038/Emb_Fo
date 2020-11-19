@@ -163,46 +163,41 @@ export default {
                 {
                     field: '',
                     headerName: '문제점/이슈사항',
-                    width: '600px'
+                    width: '550px'
                 },
                 {
                     field: '',
                     headerName: '대응방안',
-                    width: '600px'
+                    width: '550px'
                 },
                 {
                     field: '',
                     headerName: '개선일정',
-                    width: '180px'
+                    width: '150px'
+                },
+                {
+                    field: '',
+                    headerName: '완료여부',
+                    width: '130px'
                 },
             ],
             operFields: [
                 {
                     field: '',
                     headerName: '분야',
-                    width: '120px'
+                    width: '110px'
                 },
                 {
                     field: '',
                     headerName: '측정위치',
-                    width: '190px'
+                    width: '170px'
                 },
                 {
                     field: '',
-                    headerName: '항목',
-                    width: '250px'
-                },
-                {
-                    field: '',
-                    headerName: '단위',
-                    width: '100px'
-                },
-                {
-                    field: '',
-                    headerName: '후단',
+                    headerName: '흡입구',
                     children: [{
                             field: '',
-                            headerName: '기준',
+                            headerName: '최대',
                             type: 'number',
                             width: '120px'
                         },
@@ -214,7 +209,30 @@ export default {
                         },
                         {
                             field: '',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '120px'
+                        },
+                        {
+                            field: '',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '120px'
+                        },
+                    ]
+                },
+                 {
+                    field: '',
+                    headerName: '배출구',
+                    children: [{
+                            field: '',
                             headerName: '최대',
+                            type: 'number',
+                            width: '120px'
+                        },
+                        {
+                            field: '',
+                            headerName: '평균',
                             type: 'number',
                             width: '120px'
                         },
@@ -226,9 +244,9 @@ export default {
                         },
                         {
                             field: '',
-                            headerName: '초과횟수',
+                            headerName: '기준초과(수)',
                             type: 'number',
-                            width: '140px'
+                            width: '160px'
                         },
                     ]
                 },
@@ -241,59 +259,78 @@ export default {
             preventFields: [
                 {
                     field: '',
-                    headerName: '구분',
+                    headerName: '분야',
                     width: '80px'
                 },
                 {
                     field: '',
-                    headerName: '발생일자',
+                    headerName: '측정위치',
                     width: '120px'
                 },
                 {
                     field: '',
-                    headerName: '공정명',
-                    width: '120px'
-                },
-                {
-                    field: '',
-                    headerName: '측정위치명',
-                    width: '150px'
+                    headerName: '흡입구',
+                    children: [{
+                            field: '',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '80px'
+                        },
+                    ]
                 },
                 {
                     field: '',
                     headerName: '변경점/이상점 확인 결과 원인',
-                    width : '415'
+                    width : '300'
                 },
                 {
                     field: '',
                     headerName: '조치사항',
-                    width: '415px'
+                    width: '300px'
+                },
+                {
+                    field: '',
+                    headerName: '조치여부',
+                    width: '210px'
                 },
                 {
                     field: '',
                     headerName: '조치 완료일자',
-                    width: '200px'
+                    width: '170px'
                 },
             ],
             outletFields: [
                 {
                     field: '',
-                    headerName: '구분',
+                    headerName: '분야',
                     width: '80px'
                 },
                 {
                     field: '',
-                    headerName: '발생일자',
+                    headerName: '측정위치',
                     width: '110px'
                 },
                 {
                     field: '',
-                    headerName: '방지시설명',
-                    width: '130px'
-                },
-                {
-                    field: '',
-                    headerName: '초과횟수',
+                    headerName: '배출구',
                     children: [{
                             field: '',
                             headerName: '기준',
@@ -313,7 +350,7 @@ export default {
                             width: '110px'
                         },
                     ]
-                },
+                },                
                 {
                     field: '',
                     headerName: '방지시설 처리효율(%)',
@@ -322,17 +359,17 @@ export default {
                 {
                     field: '',
                     headerName: '유형',
-                    width: '90px'
+                    width: '80px'
                 },
                 {
                     field: '',
-                    headerName: '초과사항 확인결과 원인',
-                    width: '250px'
+                    headerName: '조치사항 원인',
+                    width: '260px'
                 },
                 {
                     field: '',
                     headerName: '조치사항',
-                    width: '130px'
+                    width: '260px'
                 },
                 {
                     field: '',
@@ -348,59 +385,36 @@ export default {
             errorFields: [
                 {
                     field: '',
-                    headerName: '일자',
-                    width: '80px'
-                },
-                {
-                    field: '',
-                    headerName: '측정위치',
+                    headerName: '분야',
                     width: '120px'
                 },
                 {
                     field: '',
+                    headerName: '측정위치',
+                    width: '170px'
+                },
+                {
+                    field: '',
                     headerName: '유형',
-                    width: '100px'
+                    width: '120px'
                 },
                 {
                     field: '',
                     headerName: '발생일자',
-                    width: '110px'
+                    width: '130px'
                 },
                 {
                     field: '',
                     headerName: '문제점 개선 계획',
-                    children: [{
-                            field: '',
-                            headerName: '문제점/이슈사항',
-                            type: 'number',
-                            width: '380px'
-                        },
-                        {
-                            field: '',
-                            headerName: '대응 방안',
-                            type: 'number',
-                            width: '380px'
-                        },
-                        {
-                            field: '',
-                            headerName: '일정',
-                            type: 'number',
-                            width: '130px'
-                        },
-                    ]
+                    width: '740px'
                 },
                 {
                     field: '',
-                    headerName: '완료상태',
-                    width : '200'
+                    headerName: '완료여부',
+                    width : '220'
                 },
             ],
             etcFields: [
-                {
-                    field: '',
-                    headerName: '일자',
-                    width: '150px'
-                },
                 {
                     field: '',
                     headerName: '분야',
@@ -414,7 +428,7 @@ export default {
                 {
                     field: '',
                     headerName: '특이사항',
-                    width: '1050px'
+                    width: '1200px'
                 },
             ],
         }
