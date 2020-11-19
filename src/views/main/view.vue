@@ -505,8 +505,8 @@ export default {
 .imgBox .viewPinWrap>div {
     position: absolute;
     /* width: 25px;
-    height: 25px;
     border-radius: 100%; */
+    height: 30px;
     background: white;
     border: 1px solid black;
     text-align: center;
