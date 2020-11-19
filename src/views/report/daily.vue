@@ -10,12 +10,6 @@
                     <div class="dailyDateCheck container-fluid">
                         <b-row>
                             <b-col cols="9" class="col-9">
-                                <div>사업장 선택</div>
-                                <div>
-                                    <select v-model="selectWorkplace">
-                                        <option v-for="(item, index) in checkList1" v-bind:item="item" v-bind:index="index" v-bind:key="item.id" :value="index">{{item}}</option>
-                                    </select>
-                                </div>
                                 <div>날짜 선택</div>
                                 <div class="dateSelect">
                                     <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="date" transition="scale-transition" offset-y min-width="290px">
@@ -108,6 +102,7 @@
 
 <script>
 import store from "@/store/index";
+import axios from 'axios';
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
@@ -154,7 +149,8 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
+            serverList: null,
+            comboServers: null,
             selectWorkplace: "",
             dateFr: '',
 
@@ -166,6 +162,8 @@ export default {
             perPage: 10,
             
             pageSz:13,
+
+            monitorList:[],
             monitorFields: [
                 // {
                 //     field: 'server_key',
@@ -180,7 +178,7 @@ export default {
                 //     hidden: true
                 // },
                 {
-                    field: '',
+                    field: 'category',
                     headerName: '분야',
                     width: '140px'
                 },
@@ -214,19 +212,19 @@ export default {
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
                             width: '100px'
@@ -246,9 +244,10 @@ export default {
                 },
             ],
 
+            inletList: [],
             inletFields: [
                 {
-                    field: '',
+                    field: 'category',
                     headerName: '구분',
                     width: '140px'
                 },
@@ -261,19 +260,19 @@ export default {
                     field: '',
                     headerName: '흡입구',
                     children: [{
-                            field: '',
+                            field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
                             width: '100px'
@@ -292,30 +291,31 @@ export default {
                     width: '220px'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '조치사항',
                     width: '170px'
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '조치 여부',
                      width: '110px'
                 },
                 {
-                    field: '',
+                    field: 'action_date',
                     headerName: '조치 완료일자',
                     width:'200'
                 },
             ],
             
+            outletList:[],
             outletFields: [
                 {
-                    field: '',
+                    field: 'category',
                     headerName: '구분',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '방지시설명',
                     width: '190px'
                 },
@@ -329,7 +329,7 @@ export default {
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '80px'
@@ -348,35 +348,36 @@ export default {
                     width: '190px'
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '유형',
                     width: '100px'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '초과사항 확인결과, 원인',
                      width: '285px'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '조치사항',
                     width:'120'
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '조치여부',
                     width:'110'
                 },
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '조치 완료일자',
                     width:'140'
                 },
             ],
 
+            errorList:[],
             errorFields: [
                 {
-                    field: '',
+                    field: 'category',
                     headerName: '분야',
                     width: '100px'
                 },
@@ -391,7 +392,7 @@ export default {
                     width: '190px'
                 },
                 {
-                    field: '',
+                    field: 'action_date',
                     headerName: '발생 일자',
                     width: '190px'
                 },
@@ -424,9 +425,11 @@ export default {
                     width: '120px'
                 },
             ],
+
+            etcList:[],
             etcFields: [
                 {
-                    field: '',
+                    field: 'category',
                     headerName: '분야',
                     width: '200px'
                 },
@@ -444,9 +447,16 @@ export default {
         }
     },
     beforeDestroy() {
-      this.clearTimeout()
+        this.clearTimeout()
     },
-
+    created() {
+        this.config = {
+            headers: {
+                "authorization": this.$Axios.defaults.headers.common["authorization"]
+            }
+        }
+        this.getConditionList()
+    },
     watch: {
         selectWorkplace() {
             console.log(this.selectWorkplace)
@@ -456,6 +466,24 @@ export default {
         }
     },
     methods: {
+        getConditionList() {
+            let that = this;
+            axios.post("/api/daedan/cj/ems/setting/conditionList", {
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboServers = res.data.data.serverList; //사업장
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
+                    console.log(err)
+                })
+
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -507,7 +535,7 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
-            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+            if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
             }
@@ -527,7 +555,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.list = res.data.data
+                            that.monitorList = res.data.data
                             that.listCount = res.data.totalCount
                         }
                     }
