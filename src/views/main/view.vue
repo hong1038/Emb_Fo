@@ -13,7 +13,8 @@
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
                         <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"><p style="display:flex;align-items:center;padding:0 5px"><span :style="'margin-right:5px;position:absoulte;left:35%;top:20px;border:1px solid #9bb5c7v;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p></div>
-                        <!-- <div class="view_pin02">2</div>
+                        <!--<div class="view_pin01">1</div>
+                        <div class="view_pin02">2</div>
                         <div class="view_pin03">3</div>
                         <div class="view_pin04">4</div>
                         <div class="view_pin05">5</div>
@@ -503,9 +504,9 @@ export default {
 
 .imgBox .viewPinWrap>div {
     position: absolute;
-    /* width: 25px; */
-    /* height: 25px; */
-    /* border-radius: 100%; */
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
     background: white;
     border: 1px solid black;
     text-align: center;
@@ -581,243 +582,243 @@ export default {
 }
 
 
-/* 인천냉동식품 공장 핀 위치
-.view_pin01 {
-    top: 340;
-    right: 450;
+/*인천냉동식품 공장 핀 위치*/
+/*.view_pin01 {
+    top: 400px;
+    right: 600px;
 }
 
 .view_pin02 {
-    top: 220;
-    right: 310;
+    top: 60px;
+    right: 550px;
 }
 
 .view_pin03 {
-    top: 250;
-    right: 470;
+    top: 270px;
+    right: 730px;
 }
 
 .view_pin04 {
-    top: 350;
-    right: 290;
+    top: 250px;
+    right: 290px;
 }
 
 .view_pin05 {
-    top: 310;
-    right: 480;
+    top: 350px;
+    right: 660px;
 }
 
 .view_pin06 {
-    top: 230;
-    right: 430;
+    top: 150px;
+    right: 660px;
 }
 
 .view_pin07 {
-    top: 280;
-    right: 340;
+    top: 170px;
+    right: 600px;
 }
 
 .view_pin08 {
-    top: 300;
-    right: 360;
+    top: 200px;
+    right: 600px;
 }
 
 .view_pin09 {
-    top: 290;
-    right: 310;
+    top: 170px;
+    right: 500px;
 }
 
 .view_pin10 {
-    top: 310;
-    right: 330;
+    top: 200px;
+    right: 500px;
 }
 
 .view_pin11 {
-    top: 360;
-    right: 330;
+    top: 350px;
+    right: 400px;
 }
 
 .view_pin12 {
-    top: 380;
-    right: 360;
+    top: 380px;
+    right: 450px;
 }
 
 .view_pin13 {
-    top: 360;
-    right: 400;
+    top: 400px;
+    right: 500px;
 }
 
 .view_pin14 {
-    top: 320;
-    right: 380;
+    top: 260px;
+    right: 600px;
 }
 
 .view_pin15 {
-    top: 335;
-    right: 400;
+    top: 290px;
+    right: 600px;
 }
 
 .view_pin16 {
-    top: 330;
-    right: 350;
+    top: 260px;
+    right: 500px;
 }
 
 .view_pin17 {
-    top: 350;
-    right: 370;
+    top: 290px;
+    right: 500px;
 }
 
 .view_pin18 {
-    top: 390;
-    right: 310;
+    top: 350px;
+    right: 310px;
 }*/
 
-/*인천1
-.view_pin01 {
-    top: 220;
-    right: 660;
+/*인천1*/
+/*.view_pin01 {
+    top: 30px;
+    right: 700px;
 }
 
 .view_pin02 {
-    top: 170;
-    right: 660;
+    top: 80px;
+    right: 650px;
 }
 
 .view_pin03 {
-    top: 270;
-    right: 200;
+    top: 30px;
+    right: 250px;
 }
 
 .view_pin04 {
-    top: 150;
-    right: 300;
+    top: 250px;
+    right: 50px;
 }*/
 
-/*인천2
-.view_pin01 {
-    top: 140;
-    right: 930;
+/*인천2*/
+/*.view_pin01 {
+    top: 130px;
+    right: 1040px;
 }
 
 .view_pin02 {
-    top: 180;
-    right: 950;
+    top: 180px;
+    right: 1040px;
 }
 
 .view_pin03 {
-    top: 80;
-    right: 580;
+    top: 10px;
+    right: 400px;
 }
 
 .view_pin04 {
-    top: 80;
-    right: 640;
+    top: 20px;
+    right: 490px;
 }
 
 .view_pin05 {
-    top: 110;
-    right: 640;
+    top: 50px;
+    right: 490px;
 }
 
 .view_pin06 {
-    top: 80;
-    right: 690;
+    top: 20px;
+    right: 590px;
 }
 
 .view_pin07 {
-    top: 110;
-    right: 690;
+    top: 50px;
+    right: 590px;
 }
 
 .view_pin08 {
-    top: 80;
-    right: 730;
+    top: 20px;
+    right: 640px;
 }
 
 .view_pin09 {
-    top: 110;
-    right: 730;
+    top: 50px;
+    right: 640px;
 }
 
 .view_pin10 {
-    top: 200;
-    right: 710;
+    top: 250px;
+    right: 470px;
 }
 
 .view_pin11 {
-    top: 190;
-    right: 740;
+    top: 230px;
+    right: 570px;
 }
 
 .view_pin12 {
-    top: 200;
-    right: 770;
+    top: 250px;
+    right: 670px;
 }
 
 .view_pin13 {
-    top: 170;
-    right: 710;
+    top: 170px;
+    right: 470px;
 }
 
 .view_pin14 {
-    top: 170;
-    right: 770;
+    top: 170px;
+    right: 650px;
 }
 
 .view_pin15 {
-    top: 140;
-    right: 740;
+    top: 120px;
+    right: 550px;
 }
 
 .view_pin16 {
-    top: 165;
-    right: 740;
-}
-*/
-/*안산
-.view_pin01 {
-    top: 230;
-    right: 480;
+    top: 165px;
+    right: 550px;
+}*/
+
+/*안산*/
+/*.view_pin01 {
+    top: 260px;
+    right: 300px;
 }
 
 .view_pin02 {
-    top: 200;
-    right: 480;
+    top: 220px;
+    right: 300px;
 }
 
 .view_pin03 {
-    top: 170;
-    right: 480;
+    top: 170px;
+    right: 300px;
 }
 
 .view_pin04 {
-    top: 170;
-    right: 1050;
+    top: 170px;
+    right: 1050px;
 }
 
 .view_pin05 {
-    top: 220;
-    right: 1030;
+    top: 220px;
+    right: 1030px;
 }
 
 .view_pin06 {
-    top: 210;
-    right: 320;
+    top: 230px;
+    right: 120px;
 }
 
 .view_pin07 {
-    top: 180;
-    right: 320;
+    top: 200px;
+    right: 120px;
 }
 
 .view_pin08 {
-    top: 150;
-    right: 410;
+    top: 110px;
+    right: 200px;
 }
 
 .view_pin09 {
-    top: 250;
-    right: 650;
+    top: 300px;
+    right: 520px;
 }*/
 
 /*씨푸드 성남
@@ -831,175 +832,176 @@ export default {
     right: 850;
 }*/
 
-/*진천
+/*진천*/
+/*
 .view_pin01 {
-    top: 140;
-    right: 230;
+    top: 70px;
+    right: 400px;
 }
 
 .view_pin02 {
-    top: 140;
-    right: 200;
+    top: 70px;
+    right: 300px;
 }
 
 .view_pin03 {
-    top: 95;
-    right: 230;
+    top: 30px;
+    right: 350px;
 }
 
 .view_pin04 {
-    top: 110;
-    right: 200;
+    top: 50px;
+    right: 230px;
 }
 
 .view_pin05 {
-    top: 170;
-    right: 230;
+    top: 120px;
+    right: 280px;
 }
 
 .view_pin06 {
-    top: 170;
-    right: 200;
+    top: 130px;
+    right: 350px;
 }
 
 .view_pin07 {
-    top: 160;
-    right: 260;
+    top: 150px;
+    right: 420px;
 }*/
 
-/*진천BC
-.view_pin01 {
-    top: 380;
-    right: 1090;
+/*진천BC*/
+/*.view_pin01 {
+    top: 10px;
+    right: 300px;
 }
 
 .view_pin02 {
-    top: 380;
-    right: 1120;
+    top: 10px;
+    right: 350px;
 }
 
 .view_pin03 {
-    top: 380;
-    right: 1150;
+    top: 10px;
+    right: 400px;
 }
 
 .view_pin04 {
-    top: 270;
-    right: 800;
+    top: 350px;
+    right: 800px;
 }
 
 .view_pin05 {
-    top: 330;
-    right: 700;
+    top: 100px;
+    right: 1000px;
 }
 
 .view_pin06 {
-    top: 260;
-    right: 1130;
+    top: 150px;
+    right: 150px;
 }*/
 
-/*공주
-.view_pin01 {
-    top: 350;
-    right: 750;
+/*공주*/
+/*.view_pin01 {
+    top: 350px;
+    right: 920px;
 }*/
 
-/*논산
-.view_pin01 {
-    top: 200;
-    right: 730;
+/*논산*/
+/*.view_pin01 {
+    top: 200px;
+    right: 850px;
 }
 
 .view_pin02 {
-    top: 180;
-    right: 700;
+    top: 150px;
+    right: 870px;
 }
 
 .view_pin03 {
-    top: 170;
-    right: 740;
+    top: 150px;
+    right: 920px;
 }
 
 .view_pin04 {
-    top: 170;
-    right: 220;
+    top: 300px;
+    right: 320px;
 }
 
 .view_pin05 {
-    top: 160;
-    right: 190;
+    top: 300px;
+    right: 250px;
 }
 
 .view_pin06 {
-    top: 150;
-    right: 160;
+    top: 300px;
+    right: 150px;
 }
 
 .view_pin07 {
-    top: 210;
-    right: 180;
+    top: 350px;
+    right: 300px;
 }
 */
-/*진안
-.view_pin01 {
-    top: 200;
-    right: 870;
+/*진안*/
+/*.view_pin01 {
+    top: 100px;
+    right: 900px;
 }*/
 
-/*부산
-.view_pin01 {
-    top: 170;
-    right: 650;
+/*부산*/
+/*.view_pin01 {
+    top: 220px;
+    right: 720px;
 }
 
 .view_pin02 {
-    top: 200;
-    right: 650;
+    top: 180px;
+    right: 710px;
 }
 
 .view_pin03 {
-    top: 190;
-    right: 580;
+    top: 220px;
+    right: 620px;
 }
 
 .view_pin04 {
-    top: 270;
-    right: 650;
+    top: 320px;
+    right: 650px;
 }
 
 .view_pin05 {
-    top: 300;
-    right: 650;
+    top: 360px;
+    right: 650px;
 }
 
 .view_pin06 {
-    top: 190;
-    right: 350;
+    top: 300px;
+    right: 300px;
 }
 
 .view_pin07 {
-    top: 260;
-    right: 850;
+    top: 310px;
+    right: 960px;
 }
 
 .view_pin08 {
-    top: 100;
-    right: 350;
+    top: 80px;
+    right: 280px;
 }
 
 .view_pin09 {
-    top: 330;
-    right: 970;
+    top: 400px;
+    right: 1130px;
 }
 
 .view_pin10 {
-    top: 330;
-    right: 400;
+    top: 400px;
+    right: 480px;
 }
 
 .view_pin11 {
-    top: 130;
-    right: 880;
+    top: 130px;
+    right: 1000px;
 }*/
 
 /*LeftBox bottom */
