@@ -104,7 +104,7 @@
 import store from "@/store/index";
 import axios from 'axios';
 import Header from '@/components/header.vue'
-import Left from '@/components/Left.vue'
+import Left from '@/components/Left2.vue'
 import Main from '@/components/main.vue'
 import Vue from 'vue'
 // import DatePicker from "v-calendar/lib/components/date-picker.umd"
@@ -161,8 +161,9 @@ export default {
             pageNo: 1,
             perPage: 10,
             
-            pageSz:13,
+            pageSz:10,
 
+            monitorListCount:0,
             monitorList:[],
             monitorFields: [
                 // {
@@ -178,7 +179,7 @@ export default {
                 //     hidden: true
                 // },
                 {
-                    field: 'category',
+                    field: 'category_nm',
                     headerName: '분야',
                     width: '140px'
                 },
@@ -191,7 +192,7 @@ export default {
                     field: '',
                     headerName: '흡입구',
                     children: [{
-                            field: '',
+                            field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '100px'
@@ -209,7 +210,7 @@ export default {
                             width: '100px'
                         },
                         {
-                            field: 'inlet_min_value',
+                            field: 'inlet_standard_value',
                             headerName: '기준',
                             type: 'number',
                             width: '100px'
@@ -220,25 +221,25 @@ export default {
                     field: '',
                     headerName: '배출구',
                     children: [{
-                            field: '',
+                            field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
                             width: '100px'
@@ -252,10 +253,11 @@ export default {
                 },
             ],
 
+            inletListCount:0,
             inletList: [],
             inletFields: [
                 {
-                    field: '',
+                    field: 'category_nm',
                     headerName: '분야',
                     width: '140px'
                 },
@@ -315,10 +317,11 @@ export default {
                 },
             ],
             
+            outletListCount:0,
             outletList:[],
             outletFields: [
                 {
-                    field: '',
+                    field: 'category_nm',
                     headerName: '분야',
                     width: '80px'
                 },
@@ -388,10 +391,11 @@ export default {
                 },
             ],
 
+            errorListCount:0,
             errorList:[],
             errorFields: [
                 {
-                    field: 'category',
+                    field: 'category_nm',
                     headerName: '분야',
                     width: '100px'
                 },
@@ -440,10 +444,11 @@ export default {
                 },
             ],
 
+            etcListCount:0,
             etcList:[],
             etcFields: [
                 {
-                    field: 'category',
+                    field: 'category_nm',
                     headerName: '분야',
                     width: '200px'
                 },
@@ -570,7 +575,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.monitorList = res.data.data
-                            that.listCount = res.data.totalCount
+                            that.monitorListCount = res.data.totalCount
                         }
                     }
                 })
@@ -578,6 +583,7 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
         },
+        
         inletBtn(){
             let tab = new Array();
             let tabBtn = new Array();
@@ -591,7 +597,41 @@ export default {
             document.getElementById('con_table02').style.display = "block";
             tabBtn[1].style.fontWeight = "bold";
             tabBtn[1].style.backgroundColor = "white";
-            
+            this.getList2()
+        },
+        getList2() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/inletList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.inletList = res.data.data
+                            that.inletListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
         },
         outletBtn(){
             let tab = new Array();
@@ -606,6 +646,41 @@ export default {
             document.getElementById('con_table03').style.display = "block";
             tabBtn[2].style.fontWeight = "bold";
             tabBtn[2].style.backgroundColor = "white";
+            this.getList3()
+        },
+        getList3() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.outletList = res.data.data
+                            that.outletListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
         },
         errorBtn(){
             let tab = new Array();
@@ -620,7 +695,41 @@ export default {
             document.getElementById('con_table04').style.display = "block";
             tabBtn[3].style.fontWeight = "bold";
             tabBtn[3].style.backgroundColor = "white";
+            this.getList4()
+        },
+        getList4() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.errorList = res.data.data
+                            that.errorListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
         },
         etcBtn(){
             let tab = new Array();
@@ -635,7 +744,41 @@ export default {
             document.getElementById('con_table05').style.display = "block";
             tabBtn[4].style.fontWeight = "bold";
             tabBtn[4].style.backgroundColor = "white";
+            this.getList5()
+        },
+        getList5() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.etcList = res.data.data
+                            that.etcListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
         },
         getList() {
             // if (store.state.ckServer.length == 0) {
