@@ -54,7 +54,7 @@
                                 
                                 <b-row>
                                     <b-col class="line2 regiName">관리서버</b-col>
-                                    <b-form-select class="col" v-model="serverKey" :options="comboServerKey" size="sm"> </b-form-select>
+                                    <b-form-select class="col" v-model="serverKey" :options="comboServer" size="sm"> </b-form-select>
                                 </b-row>
                                 <b-row>
                                     <b-col class="line2 regiName">관리자명</b-col>
@@ -139,7 +139,7 @@ export default {
             sererKey:'',
 
             comboParAreaCode:[],
-            comboServerKey:[],
+            comboServer:[],
 
             paginationPageSize: store.state.paginationPageSize,
             config: {},
@@ -183,9 +183,10 @@ export default {
         }
     },
     watch: {
-                parAreaCode() {
+        parAreaCode() {
             this.getComboSubAreaCode();
         },
+
         areaCode() {
             this.getComboServers();
         },
@@ -213,32 +214,10 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
         this.fields = [
-            {
-                field: 'pid',
-                headerName: '사업장번호',
-                // hidden: true
-            },
-            {
-                field: 'name1',
-                headerName: '사업장명'
-            },
-            {
-                field: 'name2',
-                headerName: '사업장명(약식)'
-            },
-
-            {
-                field: 'email',
-                headerName: '이메일'
-            },
-            {
-                field: 'area',
-                headerName: '지역'
-            },
-            {
-                field: 'name',
-                headerName: '관리자명'
-            },
+            { field: 'pid'      , headerName: '사업장번호'   , hide: true },
+            { field: 'name1'    , headerName: '사업장명' },
+            { field: 'name2'    , headerName: '사업장명(약식)' },
+            { field: 'area'     , headerName: '지역'         },
         ]
       
     },
@@ -255,6 +234,25 @@ export default {
         this.getComboAreaCode();
     },
     methods: {
+        async getComboServers() {
+            let that = this;
+            if (!this.areaCode) return;
+            await axios.post("/api/daedan/cj/ems/setting/WorkplaceComboServer", {
+                areaCode: this.areaCode,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboServer = res.data.data;
+                    }
+                }
+            })
+            .catch(err => {
+                alert("사업장 기준정보 처리용 관리서버 콤보 추출 실패 \n" + err);
+            })
+        },
+
         getComboAreaCode() {
             let that = this;
             //alert("workplace.getComboAreaCode.store.state.baseAreaCode = " + store.state.baseAreaCode);//kill
@@ -298,24 +296,6 @@ export default {
             })
         },
 
-        async getComboServers() {
-            let that = this;
-            if (!this.areaCode) return;
-            await axios.post("/api/daedan/cj/ems/setting/WorkplaceComboServer", {
-                areaCode: this.areaCode,
-                userId: store.state.userInfo.userId
-            }, this.config)
-            .then(res => {
-                if (res.status === 200) {
-                    if (res.data.statusCode === 200) {
-                        that.comboServerKey = res.data.data;
-                    }
-                }
-            })
-            .catch(err => {
-                alert("사업장 기준정보 처리용 관리서버 콤보 추출 실패 \n" + err);
-            })
-        },
         onShown() {
             this.$refs.dialog.focus()
         },

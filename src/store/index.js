@@ -23,6 +23,7 @@ export default new Vuex.Store({
     paginationPageSize:1000,
     serverKey:0,
     serverName:null,
+    baseAreaCode:100,
     areaCode:0,
     bgImg:null,
   },
