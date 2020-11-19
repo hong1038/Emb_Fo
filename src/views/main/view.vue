@@ -199,7 +199,7 @@ export default {
                                 //     // e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;  background:red"                                    
                                 // }else{
                                 //     }
-                                e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;"
+                                e.style = "top:"+e.pin_px+"px;"+"right:"+e.pin_py+"px;"
                             })
                             res.data.data.map(e=>{
                                 e.color = '#' + Math.round(Math.random() * 0xffffff).toString(16)
@@ -504,9 +504,9 @@ export default {
 
 .imgBox .viewPinWrap>div {
     position: absolute;
-    width: 25px;
+    /* width: 25px;
     height: 25px;
-    border-radius: 100%;
+    border-radius: 100%; */
     background: white;
     border: 1px solid black;
     text-align: center;
