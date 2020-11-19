@@ -137,6 +137,7 @@ export default {
     created() {
         this.getEquips();
         this.test()
+        this.test2()
     },
     data() {
         return {
@@ -162,6 +163,20 @@ export default {
     },
 
     methods: {
+    test2(){
+        this.$Axios.post("/api/daedan/cj/ems/main/MainDetails", {
+            serverKey: store.state.serverKey,
+        }, this.config).then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            console.log(res.data,"asd")
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("가동률데이터목록 추출 실패 \n" + err);
+                })
+    },
         test(){
             this.$Axios.post("/api/daedan/cj/ems/main/FpList", {
                     serverKey: store.state.serverKey,
