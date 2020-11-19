@@ -12,7 +12,7 @@
                         <input type="button" class="measurementPlus" v-on:click="addOn" value="등록">
                     </b-row>
                     <div class="mmtableWrap container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :icons="icons"  :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
                         <!--
                         <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
                         -->
@@ -142,6 +142,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
+
 import VueConfirmDialog from "vue-confirm-dialog"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -179,7 +180,7 @@ export default {
 
             sensors: null,
             usedSensors: [], //선택된분석항목(센서)
-
+            icons:null,
             measurementInfo: {},
             mno: null, //관리번호
             server_key: null, //사업장
@@ -239,6 +240,7 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
         this.fields = [ 
+            { headerName: 'check'      ,field: 'icon'   ,width: 60 ,  icons: {  columns: '<i class="fa fa-handshake"/>',}},
             { headerName: '사업장'      ,field: 'server_name'   ,width: 60 },
             { headerName: '분야'        ,field: 'category'      ,width: 50 },
             { headerName: '공정명'      ,field: 'public_name'   ,width: 60 },
@@ -254,6 +256,7 @@ export default {
         this.gridOptions.api.sizeColumnsToFit()
     },
     created() {
+
         this.config = {
             headers: {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
@@ -420,8 +423,17 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            res.data.data.map(e=>{
+                                if (e.exist_yn === "Y") {
+                                    
+                                    e.icon = true
+                                }else{
+                                    e.icon = true  
+                                }
+                            })
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
+                            console.log(that.list)
                         }
                     }
                 })
