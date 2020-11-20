@@ -2,7 +2,6 @@
 <b-container fluid>
     <Header></Header>
     <div style="display:flex">
-        <Left></Left>
         <div class="inner">
             <div class="con">
                 <div class="con_box_right container-fluid float-left">

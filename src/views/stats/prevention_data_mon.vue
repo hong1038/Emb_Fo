@@ -136,12 +136,12 @@ export default {
                 //     //측정항목
                 // },
                 {
-                    field: 'date_tm',
+                    field: 'prevention_date',
                     headerName: '측정시각',
                     width: '200px'
                 },
                 {
-                    field: 'min_val',
+                    field: 'measurement_min_value',
                     headerName: '최소',
                     width: '200px'
                 },
@@ -151,7 +151,7 @@ export default {
                     width: '200px'
                 },
                 {
-                    field: 'max_val',
+                    field: 'measurement_max_value',
                     headerName: '최대',
                     width: '200px'
                 },
