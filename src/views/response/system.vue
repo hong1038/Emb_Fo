@@ -23,13 +23,13 @@
                                 <div class="col-5">
                                     <input type="button" value="조회" class="s_btn01" v-on:click="getList">
                                     <input type="button" value="등록" class="s_btn02" v-on:click="insertBtn">
-                                    <input type="button" value="엑셀 저장" class="s_btn03" v-on:click="excelBtn">
+                                    <input type="button" value="엑셀 저장" class="s_btn03" v-on:click="excelBtn">              
                                 </div>
                             </div>
                         </div>
                         <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getList" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
                             <!--
                         <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
                         -->
@@ -41,49 +41,62 @@
                                     <input type="button" class="systemListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
                                 </b-row>
                                 <div>
+                                    <b-row v-if="hide">
+                                        <b-col class="regiName col-4">키값</b-col>
+                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.rs_key"></b-form-input>
+                                    </b-row>
                                     <b-row>
-                                        <b-col class="regiName col-4">측정장소</b-col>
-                                        <b-form-input class="col" v-model="server_key" size="sm" readonly></b-form-input>
+                                        <b-col class="regiName col-4">사업장</b-col>
+                                        <b-form-select class="col" v-model="erInfo.server_key" :options="comboServers" size="sm"/>
                                     </b-row>
 
                                     <b-row>
-                                        <b-col class="regiName col-4">측정분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm"> 
+                                        <b-col class="regiName col-4">분야</b-col>
+                                        <b-form-select class="col" v-model="erInfo.category_cd" :options="comboCategories" size="sm"> 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_key" :options="comboCategories" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="erInfo.equipment_key" :options="comboEquipments" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">유형</b-col>
-                                        <b-form-select class="col" v-model="location" :options="comboLocations" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="erInfo.abnormal_type" size="sm">
+                                            <option disabled value="">==선택==</option>
+                                            <option>센서이상</option>
+                                            <option>통신이상</option>
+                                            <option>방지시설이상</option>
+                                            <option>PC이상</option>
+                                        </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">발생일자</b-col>
-                                        <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm"></b-form-select>
+                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.rs_date"></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
-                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm"></b-form-select>
+                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.cause"></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">대응방안</b-col>
-                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm"></b-form-select>
+                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.action"></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">개선일정</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="legal_standard"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.action_date"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="manage_standard"></b-form-input>
+                                        <b-form-select class="col" v-model="erInfo.action_type" size="sm">
+                                            <option value="진행">진행</option>
+                                            <option value="완료">완료</option>
+                                        </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="unit"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.complete_date"></b-form-input>
                                     </b-row>
                                 </div>
                             </b-card>
@@ -130,6 +143,7 @@ export default {
             busy:false,
             timeout : null,
 
+            erInfo:{},
             gridOptions:{},
             config: {},
             mode: 'single', //날짜선택방법
@@ -137,25 +151,17 @@ export default {
             dateFr: "",
             // dateTo: store.state.szCurMmTo,
             dateTo: "",
-            comboTypes: [{
-                value: 'type',
-                text: '유형1'
-            }, {
-                value: 'type',
-                text: '유형2'
-            }, {
-                value: 'type',
-                text: '유형3'
-            }],
 
             show: false,
             hide: false,
 
-            comboServers: null, //사업장   
-            comboCategories: null, //측청분야     
-            comboEquipments: null, //측정위치
-            comboFacilities: null, //시설분류
-            comboLocations: null, //위치분류
+            paginationPageSize: store.state.paginationPageSize,
+
+            comboServers: [], //사업장   
+            comboCategories: [], //분야     
+            comboEquipments: [], //측정위치
+            comboFacilities: [], //시설분류
+            comboLocations: [], //위치분류
 
             list: [],
             listCount: 0,
@@ -190,12 +196,12 @@ export default {
                     width: '180px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'abnormal_type',
                     headerName: '유형',
                     width: '160px'
                 },
                 {
-                    field: 'action_date',
+                    field: 'response_date',
                     headerName: '발생일자',
                     width: '140px'
                 },
@@ -214,7 +220,7 @@ export default {
                             width: '180px'
                         },
                         {
-                            field: 'prevention_date',
+                            field: 'action_date',
                             headerName: '개선일정',
                             width: '120px'
                         },
@@ -282,6 +288,7 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.comboServers = res.data.data.serverList; //사업장
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
+                            that.category_cd = res.data.data.category_cd
                         }
                     }
                 })
@@ -289,7 +296,7 @@ export default {
                     alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
-
+                // this.getEquips()
         },
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
@@ -304,9 +311,6 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.comboEquipments = res.data.data.equipPos; //측정위치
-                            if (that.measurementInfo.equipment_key) {
-                                that.equipment_key = that.measurementInfo.equipment_key;
-                            }
                         }
                     }
                 })
@@ -404,6 +408,42 @@ export default {
                 })
         },
 
+        saveInfo(){
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
+                    erInfo:this.erInfo,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.erInfo = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
+        dropInfo(){
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
+                    erInfo:this.erInfo,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.erInfo = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
         onPageChange(params) {
             this.pageNo = params.currentPage;
             this.getList();
@@ -425,6 +465,9 @@ export default {
         },
         showblock() {
             this.show = false
+        },
+        onRowClicked() {
+            this.busy = true
         }
     }
 }

@@ -72,6 +72,7 @@ export default {
             busy:false,
             timeout : null,
 
+            exInfo: {},
             config: {},
             mode: 'single', //날짜선택방법
             findTps: [{
@@ -291,7 +292,24 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
         },
-
+        saveInfo() {
+            let that = this;
+            this.$Axios.post("/api/daedan/cj/ems/response/excessSave", {
+                    exInfo:this.exInfo,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.list = res.data.data
+                            that.listCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
         onPageChange(params) {
             this.pageNo = params.currentPage;
             this.getList();
