@@ -96,42 +96,96 @@ export default {
             pageNo: 1,
             perPage: 10,
             fields: [
-                // {
-                //     field: 'serverKey',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipmentKey',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensorKey',
-                //     hidden: true
-                // },
                 {
-                    field: 'serverName',
-                    headerName: '측정장소',
-                    width: '250px'
+                    field: '',
+                    headerName: '사업장',
+                    width: '120px'
                 },
                 {
                     field: 'equipmentName',
                     headerName: '측정위치',
-                    width: '250px'
+                    width: '140px'
                 },
                 {
                     field: '',
                     headerName: '유지보수 계약여부',
-                    width: '300px'
-                },
-                {
-                    field: '',
-                    headerName: '유지보수 계획 및 실적',
-                    width: '300px'
-                },
-                {
-                    field: '',
-                    headerName: '특이사항',
                     width: '250px'
+                },
+                {
+                    headerName: '유지보수 계획 및 실적',
+                    children: [{
+                            field: '',
+                            headerName: '1월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '2월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '3월',
+                            type: 'number',
+                            width: '80'
+                        },
+                        {
+                            field: '',
+                            headerName: '4월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '5월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '6월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '7월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '8월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '9월',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '10월',
+                            type: 'number',
+                            width: '90px'
+                        },
+                        {
+                            field: '',
+                            headerName: '11월',
+                            type: 'number',
+                            width: '90px'
+                        },
+                        {
+                            field: '',
+                            headerName: '12월',
+                            type: 'number',
+                            width: '90px'
+                        },
+                    ]
                 },
 
             ],
@@ -353,5 +407,11 @@ export default {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
+}
+
+.ag-header-group-text{
+    display:block;
+    margin:0 auto;
+    font-size:14px;
 }
 </style>

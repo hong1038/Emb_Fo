@@ -459,5 +459,6 @@ export default {
 .ag-header-group-text{
     display:block;
     margin:0 auto;
+    font-size:14px;
 }
 </style>
