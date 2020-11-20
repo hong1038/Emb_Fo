@@ -109,10 +109,10 @@ export default {
                 {
                     field: '',
                     headerName: '유지보수 계약여부',
-                    width: '250px'
+                    width: '170px'
                 },
                 {
-                    headerName: '유지보수 계획 및 실적',
+                    headerName: '유지보수 계획 및 실적(계획/실적)',
                     children: [{
                             field: '',
                             headerName: '1월',
@@ -184,6 +184,12 @@ export default {
                             headerName: '12월',
                             type: 'number',
                             width: '90px'
+                        },
+                        {
+                            field: '',
+                            headerName: '합계',
+                            type: 'number',
+                            width: '80px'
                         },
                     ]
                 },
