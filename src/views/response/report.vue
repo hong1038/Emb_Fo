@@ -306,7 +306,7 @@ export default {
 
         },
         onCancel() {
-            this.busy = false
+            this.busyPop = false
         },
         saveblock() {
             this.show = !this.show
@@ -415,7 +415,6 @@ export default {
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
             this.showblock();
-            
         },
         saveInfo(){
             // if (!this.server_key) {

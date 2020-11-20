@@ -464,39 +464,6 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
         },
-        dropInfo(){
-            let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
-                    erInfo:this.erInfo,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.erInfo = res.data.data
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-        },
-        onPageChange(params) {
-            this.pageNo = params.currentPage;
-            this.getList();
-        },
-        onRowClick: function (obj) {
-            console.log("onRowClck.obj = " + obj);
-        },
-        // 엑셀저장버튼 클릭
-        excelBtn() {
-            this.gridOptions.api.exportDataAsExcel({});
-        },
-        // 그래프버튼 클릭
-        graphBtn() {
-
-        },
         saveInfo() {
             if (!this.server_key) {
                 alert("사업자는 필수 선택 항목 입니다.")
@@ -578,8 +545,42 @@ export default {
             this.busyPop = false;
 
         },
+        dropInfo(){
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
+                    erInfo:this.erInfo,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.erInfo = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
+        onPageChange(params) {
+            this.pageNo = params.currentPage;
+            this.getList();
+        },
+        onRowClick: function (obj) {
+            console.log("onRowClck.obj = " + obj);
+        },
+        // 엑셀저장버튼 클릭
+        excelBtn() {
+            this.gridOptions.api.exportDataAsExcel({});
+        },
+        // 그래프버튼 클릭
+        graphBtn() {
+
+        },
+        
         showblock() {
-            this.show = false
+            this.show = !this.show
         },
         onRowClicked() {
             this.busy = true
