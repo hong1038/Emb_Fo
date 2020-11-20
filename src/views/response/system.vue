@@ -329,10 +329,6 @@ export default {
         //     this.show = !this.show
         //     this.resizing()
         // },
-        showblock() {
-            this.show = !this.show
-            // this.resizing()
-        },
         resizing() {
             setTimeout(() => {
                 this.gridOptions.api.sizeColumnsToFit()
@@ -468,25 +464,6 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
         },
-
-        saveInfo(){
-            let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
-                    erInfo:this.erInfo,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.erInfo = res.data.data
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-        },
         dropInfo(){
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
@@ -545,6 +522,24 @@ export default {
                 alert("선택된 분석항목이 없습니다.")
                 return;
             }
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
+                    erInfo:this.erInfo,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.erInfo = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"

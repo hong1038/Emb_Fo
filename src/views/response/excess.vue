@@ -175,6 +175,7 @@ export default {
             processing: false,
             show:false,
 
+            exInfo: {},
             config: {},
             mode: 'single', //날짜선택방법
             findTps: [{
@@ -415,9 +416,7 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
-        },
-
-        onPageChange(params) {
+        },eChange(params) {
             this.pageNo = params.currentPage;
             this.getList();
         },
@@ -457,6 +456,24 @@ export default {
                 alert("선택된 분석항목이 없습니다.")
                 return;
             }
+
+            let that = this;
+            this.$Axios.post("/api/daedan/cj/ems/response/excessSave", {
+                    exInfo:this.exInfo,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.list = res.data.data
+                            that.listCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
