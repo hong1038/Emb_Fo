@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-5">
                                     <input type="button" value="조회" class="s_btn01" v-on:click="getList">
-                                    <input type="button" value="등록" class="s_btn02" v-on:click="insertBtn">
+                                    <input type="button" value="등록" class="s_btn02" v-on:click="addOn">
                                     <input type="button" value="엑셀 저장" class="s_btn03" v-on:click="excelBtn">
                                 </div>
                             </div>
@@ -42,12 +42,12 @@
                                 </b-row>
                                 <div>
                                     <b-row>
-                                        <b-col class="regiName col-4">측정장소</b-col>
+                                        <b-col class="regiName col-4">사업장</b-col>
                                         <b-form-input class="col" v-model="server_key" size="sm" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
-                                        <b-col class="regiName col-4">측정분야</b-col>
+                                        <b-col class="regiName col-4">분야</b-col>
                                         <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm"> 
                                         </b-form-select>
                                     </b-row>
@@ -94,6 +94,31 @@
             </div>
         </div>
     </div>
+<b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
+    <template v-slot:overlay>
+        <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
+            <b-icon icon="cloud-upload" font-scale="4"></b-icon>
+            <div class="mb-3">Processing...</div>
+            <b-progress min="1" max="20" :value="counter" variant="success" height="3px" class="mx-n4 rounded-0"></b-progress>
+        </div>
+        <div v-else ref="dialog" tabindex="-1" role="dialog" aria-modal="false" aria-labelledby="form-confirm-label" class="text-center p-3 popUpMessage">
+            <p><strong id="form-confirm-label">{{altMsg}}</strong></p>
+            <div class="d-flex">
+                <b-row>
+                    <b-col cols="6" align="center" v-if="workTp ==='SAVE_INFO'" class="popUpInfo">
+                        <b-button v-on:click="saveInfoProc" variant="success" size="sm">저장</b-button>
+                    </b-col>
+                    <b-col cols="6" align="center" class="popUpInfo">
+                        <b-button variant="primary" @click="onCancel" size="sm">취소</b-button>
+                    </b-col>
+                    <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
+                        <b-button v-on:click="dropInfoProc" variant="danger" size="sm">삭제</b-button>
+                    </b-col>
+                </b-row>
+            </div>
+        </div>
+    </template>
+</b-overlay>
 </b-container>
 </template>
 
@@ -129,6 +154,8 @@ export default {
         return {
             busy:false,
             timeout : null,
+            busyPop: false,
+            processing: false,
 
             gridOptions:{},
             config: {},
@@ -270,6 +297,40 @@ export default {
             this.setTimeout(() => {
             this.busy = false
             })
+        },
+        onCancel() {
+            this.busyPop = false
+        },
+        addOn() {
+            // this.mno = null; //관리번호
+            // //this.server_key = null; //사업장
+            // this.equipment_key = null; //측정위치
+            // this.category = null; //측정분야명
+            // this.category_cd = null; //측정분야코드
+            // this.facility = null; //시설분류
+            // this.location = null; //위치분류
+            // this.legal_standard = null; //법적기준
+            // this.manage_standard = null; //관리기준
+            // this.unit = null; //단위
+            // this.internal_name = null; //내부관리명
+            // this.internal_number = null; //내부관리번호
+            // this.public_name = null; //공정명
+            // this.odor_number = null; //악취방지시설고유일련번호
+            // this.sensors = [];
+            this.showblock();
+        },
+        // saveblock() {
+        //     this.show = !this.show
+        //     this.resizing()
+        // },
+        showblock() {
+            this.show = !this.show
+            // this.resizing()
+        },
+        resizing() {
+            setTimeout(() => {
+                this.gridOptions.api.sizeColumnsToFit()
+            }, 1);
         },
 
         async getConditionList() {
@@ -419,13 +480,93 @@ export default {
         graphBtn() {
 
         },
-        insertBtn() {
-            this.show = true
+        saveInfo() {
+            if (!this.server_key) {
+                alert("사업자는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.equipment_key) {
+                alert("설치장소는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.category_cd) {
+                alert("분야는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.facility) {
+                alert("시설분류는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.location) {
+                alert("측정위치는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.usedSensors) {
+                alert("선택된 분석항목이 없습니다.")
+                return;
+            }
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+        async saveInfoProc() {
+            // let that = this;
+            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
+            //         mno: this.mno,
+            //         server_key: this.server_key,
+            //         equipment_key: this.equipment_key,
+            //         category: this.category_cd,
+            //         place: this.location,
+            //         facility: this.facility,
+            //         public_name : this.public_name,
+            //         internal_name: this.internal_name,
+            //         internal_numger: this.internal_numger,
+            //         legal_standard: this.legal_standard,
+            //         manage_standard: this.manage_standard,
+            //         ordr_no: this.odor_no,
+            //         unit: this.unit,
+            //         usedSensors: this.usedSensors,
+                    
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.saveblock();
+            //                 that.getList();
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("측정기별기준정보저장 실패 \n" + err);
+            //     })
+            this.busyPop = false;
 
         },
-        showblock() {
-            this.show = false
-        }
+        dropInfo() {
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 샥제 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+            // let that = this;
+            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
+            //         mno: this.mno,
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.saveblock();
+            //                 that.getList();
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("측정기별기준정보삭제 실패 \n" + err);
+            //     })
+            this.busyPop = false;
+        },
     }
 }
 </script>

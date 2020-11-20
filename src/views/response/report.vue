@@ -48,11 +48,11 @@
                                 </b-row>
                                 <div>
                                     <b-row>	
-                                     <b-col class="regiName col-4">측정장소</b-col>
-                                        <b-form-input class="col" v-model="server_name" size="sm"></b-form-input>
+                                     <b-col class="regiName col-4">사업장</b-col>
+                                        <b-form-input class="col" v-model="server_key" size="sm"></b-form-input>
                                     </b-row>
                                     <b-row>	
-                                        <b-col class="regiName col-4">측정구분</b-col>
+                                        <b-col class="regiName col-4">구분</b-col>
                                         <b-form-input class="col" v-model="category" size="sm"></b-form-input>
                                     </b-row>
                                     <b-row>
@@ -71,10 +71,6 @@
                                         <b-col class="regiName col-4">완료여부</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="action_type"></b-form-input>
                                     </b-row>
-                                    <b-row>
-                                        <b-col class="regiName col-4">완료일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="complete_date"></b-form-input>
-                                    </b-row>
                                     <!-- <b-row>
                                         <b-col class="regiName col-4">측정구분</b-col>
                                         <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm">
@@ -88,6 +84,33 @@
             </div>
         </div>
     </div>
+
+    <b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
+        <template v-slot:overlay>
+            <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
+                <b-icon icon="cloud-upload" font-scale="4"></b-icon>
+                <div class="mb-3">Processing...</div>
+                <b-progress min="1" max="20" :value="counter" variant="success" height="3px" class="mx-n4 rounded-0"></b-progress>
+            </div>
+            <div v-else ref="dialog" tabindex="-1" role="dialog" aria-modal="false" aria-labelledby="form-confirm-label" class="text-center p-3 popUpMessage">
+                <p><strong id="form-confirm-label">{{altMsg}}</strong></p>
+                <div class="d-flex">
+                    <b-row>
+                        <b-col cols="6" align="center" v-if="workTp ==='SAVE_INFO'" class="popUpInfo">
+                            <b-button v-on:click="saveInfoProc" variant="success" size="sm">저장</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" class="popUpInfo">
+                            <b-button variant="primary" @click="onCancel" size="sm">취소</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
+                            <b-button v-on:click="dropInfoProc" variant="danger" size="sm">삭제</b-button>
+                        </b-col>
+                    </b-row>
+                </div>
+            </div>
+        </template>
+    </b-overlay>
+
 </b-container>
 </template>
 
@@ -132,6 +155,8 @@ export default {
         return {
             Loadbusy:false,
             timeout : null,
+            busyPop : false,
+
 
             onRowClicked: "",
             busy: false,
@@ -374,15 +399,115 @@ export default {
             console.log()
         },
         insertBtn() {
-            this.show = true
-            this.saveInfo();
+            // this.mno = null; //관리번호
+            // //this.server_key = null; //사업장
+            // this.equipment_key = null; //측정위치
+            // this.category = null; //측정분야명
+            // this.category_cd = null; //측정분야코드
+            // this.facility = null; //시설분류
+            // this.location = null; //위치분류
+            // this.legal_standard = null; //법적기준
+            // this.manage_standard = null; //관리기준
+            // this.unit = null; //단위
+            // this.internal_name = null; //내부관리명
+            // this.internal_number = null; //내부관리번호
+            // this.public_name = null; //공정명
+            // this.odor_number = null; //악취방지시설고유일련번호
+            // this.sensors = [];
+            this.showblock();
+            
         },
         saveInfo(){
-            console.log();
+            // if (!this.server_key) {
+            //     alert("사업자는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.category) {
+            //     alert("구분은 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.cause) {
+            //     alert("문제점/이슈사항은 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.action) {
+            //     alert("대응방안은 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.prevention_date) {
+            //     alert("개선일정은 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.action_type) {
+            //     alert("완료여부는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.usedSensors) {
+            //     alert("선택된 분석항목이 없습니다.")
+            //     return;
+            // }
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
         },
-        dropInfo(){
-            console.log();
-        }
+        async saveInfoProc() {
+        //     let that = this;
+        //     await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
+        //             mno: this.mno,
+        //             server_key: this.server_key,
+        //             equipment_key: this.equipment_key,
+        //             category: this.category_cd,
+        //             place: this.location,
+        //             facility: this.facility,
+        //             public_name : this.public_name,
+        //             internal_name: this.internal_name,
+        //             internal_numger: this.internal_numger,
+        //             legal_standard: this.legal_standard,
+        //             manage_standard: this.manage_standard,
+        //             ordr_no: this.odor_no,
+        //             unit: this.unit,
+        //             usedSensors: this.usedSensors,
+                    
+        //             userId: store.state.userInfo.userId
+        //         }, this.config)
+        //         .then(res => {
+        //             if (res.status === 200) {
+        //                 if (res.data.statusCode === 200) {
+        //                     that.saveblock();
+        //                     that.getList();
+        //                 }
+        //             }
+        //         })
+        //         .catch(err => {
+        //             alert("측정기별기준정보저장 실패 \n" + err);
+        //         })
+            this.busyPop = false;
+
+        },
+        dropInfo() {
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 샥제 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+        //     let that = this;
+        //     await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
+        //             mno: this.mno,
+        //             userId: store.state.userInfo.userId
+        //         }, this.config)
+        //         .then(res => {
+        //             if (res.status === 200) {
+        //                 if (res.data.statusCode === 200) {
+        //                     that.saveblock();
+        //                     that.getList();
+        //                 }
+        //             }
+        //         })
+        //         .catch(err => {
+        //             alert("측정기별기준정보삭제 실패 \n" + err);
+        //         })
+            this.busyPop = false;
+        },
     }
 
 }
@@ -587,5 +712,18 @@ export default {
 .systemtableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+}
+
+
+.popUpMessage #form-confirm-label {
+    font-size: 28px;
+    font-family: 'Noto Sans KR';
+}
+
+.popUpMessage .popUpInfo>button {
+    width: 80px;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 7px;
 }
 </style>

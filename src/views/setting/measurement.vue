@@ -109,7 +109,7 @@
     </div>
   
 
-    <b-overlay :show="busy" no-wrap @shown="onShown" @hidden="onHidden">
+    <b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
         <template v-slot:overlay>
             <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
                 <b-icon icon="cloud-upload" font-scale="4"></b-icon>
@@ -134,7 +134,6 @@
             </div>
         </template>
     </b-overlay>
-
 </b-container>
 </template>
 
@@ -168,7 +167,7 @@ export default {
     data() {
         return {
             onRowClicked: "",
-            busy: false,
+            busyPop: false,
             processing: false,
             altMsg: '',
             workTp: '',
@@ -282,7 +281,7 @@ export default {
         onHidden() {},
 
         onCancel() {
-            this.busy = false
+            this.busyPop = false
         },
         addOn() {
             this.mno = null; //관리번호
@@ -538,7 +537,7 @@ export default {
                 alert("선택된 분석항목이 없습니다.")
                 return;
             }
-            this.busy = true;
+            this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
         },
@@ -573,11 +572,11 @@ export default {
                 .catch(err => {
                     alert("측정기별기준정보저장 실패 \n" + err);
                 })
-            this.busy = false;
+            this.busyPop = false;
 
         },
         dropInfo() {
-            this.busy = true;
+            this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 샥제 하시겠습니까 ? ";
             this.workTp = "DROP_INFO"
         },
@@ -598,7 +597,7 @@ export default {
                 .catch(err => {
                     alert("측정기별기준정보삭제 실패 \n" + err);
                 })
-            this.busy = false;
+            this.busyPop = false;
         },
 
     }
