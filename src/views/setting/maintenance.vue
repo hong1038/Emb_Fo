@@ -49,7 +49,7 @@
 <script>
 import Vue from "vue";
 import Header from '@/components/header.vue'
-import Left from '@/components/Left2.vue'
+import Left from '@/components/Left3.vue'
 
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'

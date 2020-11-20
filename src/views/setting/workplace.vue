@@ -5,7 +5,7 @@
     <div style="display:flex">
         <div class="inner settingInner">
             <div class="con">
-                <div class="con_box_right measurementBox container-fluid float-left">
+                <div class="con_box_right workplaceBox container-fluid float-left">
                     <p>사업장 기준 정보</p>
                     <b-row>
                         <input type="button" class="measurementLookup" v-on:click="getList" value="조회">
@@ -36,7 +36,7 @@
                                 </b-row>
 
                                 <b-row>
-                                    <b-col class="regiName col-4">사업장명(약식)</b-col>
+                                    <b-col class="regiName col-4 line03">사업장명(약식)</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
                                 </b-row>
                                 <b-row>
@@ -44,20 +44,20 @@
                                     <b-form-input class="col" type="text" size="sm" v-model="addr"></b-form-input>
                                 </b-row>
                                 <b-row>
-                                    <b-col class="line2 regiName">영역</b-col>
+                                    <b-col class="col-4 regiName">영역</b-col>
                                     <b-form-select class="col" v-model="parAreaCode" :options="comboParAreaCode" size="sm"> </b-form-select>
                                 </b-row>
                                 <b-row>
-                                    <b-col class="line2 regiName">지역</b-col>
+                                    <b-col class="col-4 regiName">지역</b-col>
                                     <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm"> </b-form-select>
                                 </b-row>
                                 
                                 <b-row>
-                                    <b-col class="line2 regiName">관리서버</b-col>
+                                    <b-col class="col-4 regiName">관리서버</b-col>
                                     <b-form-select class="col" v-model="serverKey" :options="comboServer" size="sm"> </b-form-select>
                                 </b-row>
                                 <b-row>
-                                    <b-col class="line2 regiName">관리자명</b-col>
+                                    <b-col class="col-4 regiName">관리자명</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="name"></b-form-input>
                                 </b-row>
                             </div>
@@ -99,7 +99,7 @@
 
 <script>
 import Header from '@/components/header.vue'
-import Left from '@/components/Left2.vue'
+import Left from '@/components/Left3.vue'
 
 import Vue from 'vue'
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -627,7 +627,7 @@ export default {
     margin: 0 auto;
 }
 
-.measurementBox {
+.workplaceBox {
     margin: 0 auto;
 }
 
@@ -837,7 +837,7 @@ export default {
 }
 
 /*왼쪽 분류 이름*/
-.measurementRegister>div>div>.regiName {
+.workplaceBox>div>div>.regiName {
     background: rgb(255, 235, 235);
     box-shadow: 0px 0px 4px black;
 }
@@ -885,23 +885,34 @@ export default {
     font-size: 15px;
 }
 
-.mmtableWrap .row:not(.line1_box)>input,
-.mmtableWrap .row>select {
+.workplaceBox .right_list .btn {
+    margin-right: 7px;
+    font-size: 15px;
+    height: 30px;
+    margin-top: 12px;
+}
+
+.workplaceBox .row>input,
+.workplaceBox .row>select {
     max-width: 210px;
 }
 
-.line1,
-.line2 {
-    box-sizing: border-box;
-    padding-left: 22px;
+.workplaceBox .right_list .regiName {
+    font-size: 16px;
+    word-break: keep-all;
 }
 
-.line2+input {
-    position: relative;
-    left: -52px;
+.workplaceBox .right_list .regiName+input,
+.workplaceBox .right_list .regiName+select {
+    height: 30px;
+    margin-top: 10px;
 }
 
-.measurementBox .check_list {
+.workplaceBox .right_list .line03+input{
+    margin-top:25px;
+}
+
+.workplaceBox .check_list {
     position: relative;
     left: -45px;
 }
