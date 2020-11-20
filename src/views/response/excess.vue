@@ -1,16 +1,17 @@
 <template>
 <b-container fluid>
     <Header></Header>
-    <div style="display:flex">
+    <div style="display:flex;">
         <Left></Left>
         <div class="inner">
             <div class="con">
-                <div class="con_box_right container-fluid">
+                <div class="con_box_right container-fluid float-left">
                     <p>초과이력 대응</p>
-                    <div class="excessDateCheck container-fluid mt-4">
+                    <div class="measurementDateCheck container-fluid mt-4">
                         <div class="row">
                             <div class="col-7">
-                                <div>기간 선택 : </div>
+                                <div>기간 선택</div>
+                                <v-date-picker value="range" is-range />
                                 <div class="dateSelect">
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
@@ -20,8 +21,8 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <input type="button" class="e_btn01" value="조회" v-on:click="getList">
-                                <input type="button" class="e_btn02" value="엑셀 저장" v-on:click="excelBtn">
+                                <input class="md_btn01" type="button" v-on:click="getList" value="조회">
+                                <input class="md_btn02" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </div>
                         </div>
                     </div>
@@ -43,37 +44,33 @@ import store from "@/store/index";
 import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
+
+import Datetime from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
+import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(Datetime)
+
+//달력관련
+//import DatePicker from "v-calendar/lib/components/date-picker.umd"
+
 export default {
     components: {
-        /* eslint-disable vue/no-unused-components */
         Header,
         Left,
         AgGridVue,
-        // DatePicker,
-        // BootstrapVue,
+        // vue,
+        // DatePicker  
     },
     data() {
         return {
             busy:false,
             timeout : null,
-
-            gridOptions: null,
-            gridApi: null,
-            columnApi: null,
-            columnDefs: null,
-            defaultColDef: null,
-            rowData: null,
 
             config: {},
             mode: 'single', //날짜선택방법
@@ -81,6 +78,8 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
+            paginationPageSize: store.state.paginationPageSize,
+            gridOptions: {},
             // dateFr: store.state.szCurMmFr,
             dateFr: "",
             // dateTo: store.state.szCurMmTo,
@@ -91,100 +90,111 @@ export default {
             listCount: 0,
             pageNo: 1,
             perPage: 10,
-        }
-    },
-    computed: {},
-
-    beforeMount() {
-        this.gridOptions = {};
-        this.fields = [{
-                    headerName: '측정일시',
-                    field: 'actionDate',
-                    type: 'leftAligned',
-                    width: '120',
+            fields: [
+                // {
+                //     field: 'server_key',
+                //     hidden: true
+                // },
+                // {
+                //     field: 'equipment_key',
+                //     hidden: true
+                // },
+                // {
+                //     field: 'sensor_key',
+                //     hidden: true
+                // },
+                {
+                    field: 'server_name',
+                    headerName: '일자',
+                    width: '100px'
                 },
                 {
-                    headerName: '측정장소',
-                    field: 'serverName',
-                    type: 'leftAligned',
-                    width: '120',
+                    field: 'equipment_name',
+                    headerName: '사업장',
+                    width: '160px'
                 },
                 {
-                    headerName: '측정구분',
                     field: 'category',
-                    width: '120',
+                    headerName: '분야',
+                    width: '80px'
                 },
                 {
+                    field: 'date_time',
                     headerName: '측정위치',
-                    field: 'equipmentName',
-                    wodth: '150',
+                    width: '110px'
                 },
                 {
-                    headerName: '흡입구',
-                    field: 'inlet',
-                    width: '150',
-                    colSpan: (params) => {
-                        var inlet = params.data.inlet;
-                        if (inlet === 'inlet') {
-                            return 3;
-                        } else {
-                            return 1;
-                        }
-                    }
+                    field: 'sensor_name',
+                    headerName: '흡입구'
                 },
                 {
+                    field: 'sensor_data_value',
                     headerName: '배출구',
-                    field: "outlet",
-                    width: '150',
+                    width: '110px',
                 },
                 {
-                    headerName: '처리효율',
-                    field: 'procRate',
-                    width: '120',
+                    field: 'sensor_data_value',
+                    headerName: '방지시설',
+                    width: '110px',
                 },
                 {
-                    headerName: '원인',
-                    field: 'cause',
-                    width: '115',
+                    field: 'sensor_data_value',
+                    headerName: '유형',
+                    width: '110px',
                 },
                 {
+                    field: 'sensor_data_value',
                     headerName: '조치사항',
-                    field: 'actionItem',
-                    width: '170',
+                    width: '110px',
                 },
                 {
+                    field: 'sensor_data_value',
+                    headerName: '원인',
+                    width: '110px',
+                },
+                {
+                    field: 'sensor_data_value',
+                    headerName: '조치사항',
+                    width: '110px',
+                },            
+                {
+                    field: 'sensor_data_value',
                     headerName: '조치여부',
-                    field: 'actionCheck',
-                    width: "120",
+                    width: '110px',
+                },                
+                {
+                    field: 'sensor_data_value',
+                    headerName: '조치',
+                    width: '110px',
                 },
                 {
+                    field: 'sensor_data_value',
                     headerName: '완료일자',
-                    field: 'endDate',
-                    width: '120',
+                    width: '110px',
                 },
             ],
-            this.list = [{
-                actionDate: '20.11.03',
-                serverName: '인천1',
-                category: '수질',
-                equipmentName: '정문옥상',
-                inlet: '30',
-                outlet: '30',
-                procRate: '90%',
-                cause: '원인',
-                actionItem: '조치사항',
-                actionCheck: '조치여부',
-                endDate: '20.11.03',
-
-            }]
+        }
     },
+
+    beforeMount() {
+        store.state.ckServer = [];
+        store.state.ckCate = [];
+        store.state.ckEquip = [];
+        store.state.ckSensor = [];
+    },
+
     created() {
         this.config = {
             headers: {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
+        setTimeout(() => {
+            this.gridOptions.api.sizeColumnsToFit()
+        }, 1);
+        //this.getList(); 여기서 실행하면 최초 실행시 -1일식 차감해서 검색일자가 설정되는 오류 발생됨.
     },
+
     beforeDestroy() {
       this.clearTimeout()
     },
@@ -201,12 +211,12 @@ export default {
             this.timeout = setTimeout(() => {
             this.clearTimeout()
             callback()
-            },10000)
+            },300)
             // 시간 변경
         },
         onHidden() {
             // Return focus to the button once hidden
-            this.$refs.pin.focus()
+            // this.$refs.pin.focus()
         },
         onClick() {
             this.busy = true
@@ -224,6 +234,10 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
+            if (store.state.ckCate.length == 0) {
+                alert("분야는 필수 선택 항목 입니다.")
+                return;
+            }
             if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
                 alert("날짜를 선택해주세요.")
                 return;
@@ -232,11 +246,16 @@ export default {
             this.onClick();
 
             let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/response/excessList", {
+            //console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
+                    cateList: store.state.ckCate,
+                    equipList: store.state.ckEquip,
+                    sensorList: store.state.ckSensor,
+                    findTp: this.findTp,
+                    findSz: this.findSz,
                     pageNo: this.pageNo,
                     pageSz: 10000,
                     userId: store.state.userInfo.userId
@@ -286,6 +305,14 @@ export default {
     font-weight: bold;
 }
 
+.ag-header-cell-label {
+    justify-content: left;
+}
+
+.ag-theme-alpine-dark * {
+    color: white;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -310,46 +337,62 @@ export default {
 
 /* Top DateCheck , search and Excel Save*/
 
-.excessDateCheck {
+.measurementDateCheck {
     width: 100%;
     height: 50px;
     font-family: "CJ Onlyone Medium";
 }
 
-.excessDateCheck>div>div>div {
+.measurementDateCheck>div>div>div {
     float: left;
     height: 100%;
 }
 
-.excessDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+.measurementDateCheck>div>div>div:nth-child(1) {
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
-.excessDateCheck>div>div>div:nth-child(2),
-.excessDateCheck>div>div>div:nth-child(4) {
+.measurementDateCheck>div>div>div:nth-child(2),
+.measurementDateCheck>div>div>div:nth-child(4) {
     width: 150px;
     font-size: 14px;
     font-family: 'Arial';
 }
 
-.excessDateCheck>div>div>div:nth-child(3) {
+.measurementDateCheck>div>div>div:nth-child(3) {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
-.excessDateCheck>div>div>div>input {
+.measurementDateCheck>div>div>div>input {
     width: 130px;
     text-align: right;
     box-sizing: border-box;
     border-bottom: 1px solid rgb(170, 170, 170);
 }
 
-.e_btn01,
-.e_btn02 {
+/*datepicker css*/
+
+.dateSelect input {
+    font-family: "Arial";
+}
+
+.v-text-field {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.v-input__prepend-outer {
+    display: none;
+}
+
+/*datepicker css*/
+
+.md_btn01,
+.md_btn02 {
     position: absolute;
     top: 0;
     width: 150px;
@@ -365,16 +408,15 @@ export default {
     font-size: 16px;
 }
 
-.e_btn01 {
+.md_btn01 {
     right: 190px;
 }
 
-.e_btn02 {
+.md_btn02 {
     right: 20px;
 }
 
-.e_btn01:hover,
-.e_btn02:hover {
+.measurementDateCheck>div>div:nth-child(2)>input:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;

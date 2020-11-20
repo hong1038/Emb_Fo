@@ -2,7 +2,6 @@
 <b-container fluid>
     <Header></Header>
     <div style="display:flex">
-        <Left></Left>
         <div class="inner">
             <div class="con">
                 <div class="con_box_right container-fluid float-left">
@@ -79,7 +78,6 @@ export default {
     },
     data() {
         return {
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             date: "",
 

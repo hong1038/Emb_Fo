@@ -141,7 +141,7 @@ export default {
                     width: '110px'
                 },
                 {
-                    field: 'min_value',
+                    field: 'measurement_min_value',
                     headerName: '최소',
                     type: 'number',
                     width: '140px'
@@ -153,7 +153,7 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: 'max_value',
+                    field: 'measurement_max_value',
                     headerName: '최대',
                     type: 'number',
                     width: '140px'

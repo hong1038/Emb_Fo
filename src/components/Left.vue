@@ -196,31 +196,14 @@ export default {
                 case 1:
                     store.state.ckServer = []
                     this.checkListVal1 = []
-                    //this.checkListVal2 = [0]
-                    //this.checkListVal3 = [0]
-                    //this.checkListVal4 = [0]
-                    //this.equipPos = [0]
-                    //this.sensors = [0]
-
                     this.checkListVal2 = [];
                     this.checkListVal3 = []
                     this.checkListVal4 = []
                     this.equipPos = []
                     this.sensors = []
-
-
                     // this.getEquipPos();
                     break;
                 case 2:
-                    //store.state.ckCate = [0]
-                    //store.state.ckEquip = [0]
-                    //store.state.ckSensor = [0]
-                    //this.checkListVal2 = [0]
-                    //this.checkListVal3 = [0]
-                    //this.checkListVal4 = [0]
-                    //this.equipPos = [0]
-                    //this.sensors = [0]
-
                     store.state.ckCate = []
                     store.state.ckEquip = []
                     store.state.ckSensor = []
@@ -229,8 +212,6 @@ export default {
                     this.checkListVal4 = []
                     this.equipPos = []
                     this.sensors = []
-
-
                     // this.getEquipPos();
                     break;
                 case 3:

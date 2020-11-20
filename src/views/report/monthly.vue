@@ -10,12 +10,6 @@
                     <div class="monthlyDateCheck container-fluid">
                         <b-row>
                             <b-col cols="9">
-                                <div>사업장 선택</div>
-                                <div>
-                                    <select v-model="selectWorkplace">
-                                        <option v-for="(item, index) in checkList1" v-bind:item="item" v-bind:index="index" v-bind:key="item.id" :value="index">{{item}}</option>
-                                    </select>
-                                </div>
                                 <div>월 선택</div>
                                 <div class="dateSelect">
                                     <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
