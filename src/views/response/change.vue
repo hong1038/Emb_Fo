@@ -102,6 +102,11 @@ export default {
                 //     hidden: true
                 // },
                 {
+                    field: '',
+                    headerName: '일자',
+                    width: '80px'
+                },
+                {
                     field: 'server_name',
                     headerName: '사업장',
                     width: '100px'
@@ -109,45 +114,52 @@ export default {
                 {
                     field: 'category',
                     headerName: '분야',
-                    width: '120px'
+                    width: '80px'
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '200px'
+                    width: '120px'
                 },
                 {
                     field: 'measurement_date',
                     headerName: '흡입구',
-                    children: [{
-                            field: 'inlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '90px'
-                        },
+                    children: [
                         {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '90px'
+                            width: '80px'
+                        },
+                        {
+                            field: 'inlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '80px'
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '90px'
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '이상점 발생횟수',
+                            type: 'number',
+                            width: '150px'
                         },
                     ]
                 },
                 {
                     field: 'cause',
                     headerName: '변경점 / 이상점 확인결과 원인',
-                    width: '260px'
+                    width: '230px'
                 },
                 {
                     field: 'action',
                     headerName: '조치사항',
-                    width: '220px'
+                    width: '170px'
                 },
                 {
                     field: 'acttion_type',
@@ -156,7 +168,7 @@ export default {
                 },
                 {
                     field: 'action_date',
-                    headerName: '완료일자',
+                    headerName: '조치 완료일자',
                     width: '170px'
                 },
             ],

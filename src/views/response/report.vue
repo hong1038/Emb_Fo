@@ -197,23 +197,23 @@ export default {
                 // },
                 {
                     field: 'server_name',
-                    headerName: '측정장소',
+                    headerName: '사업장',
                     width: '250px'
                 },
                 {
                     field: 'category',
-                    headerName: '측정구분',
+                    headerName: '구분',
                     width: '250px'
                 },
                 {
                     field: 'cause',
                     headerName: '문제점/이슈사항',
-                    width: '300px'
+                    width: '400px'
                 },
                 {
                     field: 'action',
                     headerName: '대응방안',
-                    width: '250px'
+                    width: '300px'
                 },
                 {
                     field: 'preventio_dDate',
@@ -223,11 +223,6 @@ export default {
                 {
                     field: 'action_type',
                     headerName: '완료여부',
-                    width: '150px'
-                },
-                {
-                    field: 'complete_date',
-                    headerName: '완료일자',
                     width: '150px'
                 },
             ],

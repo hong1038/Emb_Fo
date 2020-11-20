@@ -27,10 +27,10 @@
                         </div>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="mt-4 container-fluid">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
-                        </ag-grid-vue>
-                    </div>
+                        <div class="mt-4 container-fluid excessTable">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
+                            </ag-grid-vue>
+                        </div>
                     </b-overlay>
                 </div>
             </div>
@@ -47,7 +47,7 @@ import Left from '@/components/Left2.vue'
 
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-import 'ag-grid-enterprise';
+// import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
@@ -78,101 +78,122 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
-            paginationPageSize: store.state.paginationPageSize,
-            gridOptions: {},
             // dateFr: store.state.szCurMmFr,
             dateFr: "",
             // dateTo: store.state.szCurMmTo,
             dateTo: "",
-            findTp: '',
-            findSz: '',
+            gridOptions:{}, 
             list: [],
             listCount: 0,
             pageNo: 1,
             perPage: 10,
             fields: [
-                // {
-                //     field: 'server_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipment_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensor_key',
-                //     hidden: true
-                // },
                 {
-                    field: 'server_name',
+                    field: '',
                     headerName: '일자',
-                    width: '100px'
+                    width: '70px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'server_name',
                     headerName: '사업장',
-                    width: '160px'
+                    width: '80px'
                 },
                 {
                     field: 'category',
                     headerName: '분야',
+                    width: '70px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '120px'
+                },
+                {
+                    field: '',
+                    headerName: '흡입구',
+                    children: [
+                        {
+                            field: 'inlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '60px'
+                        },
+                        {
+                            field: 'inlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '60px'
+                        },
+                        {
+                            field: 'inlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '60px'
+                        },
+                        {
+                            field: '',
+                            headerName: '이상점 발생횟수',
+                            type: 'number',
+                            width: '120px'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '60px'
+                        },
+                        {
+                            field: 'outlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '60px'
+                        },
+                        {
+                            field: 'outlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '60px'
+                        },
+                        {
+                            field: '',
+                            headerName: '이상점 발생횟수',
+                            type: 'number',
+                            width: '120px'
+                        },
+                    ]
+                },
+                {
+                    field: 'cause',
+                    headerName: '방지시설 처리효율(%)',
+                    width: '150px'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항ㆍ원인',
+                    width: '120px'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항',
+                    width: '90px'
+                },
+                {
+                    field: 'acttion_type',
+                    headerName: '조치여부',
                     width: '80px'
                 },
                 {
-                    field: 'date_time',
-                    headerName: '측정위치',
-                    width: '110px'
+                    field: 'action_date',
+                    headerName: '조치 완료일자',
+                    width: '120px'
                 },
-                {
-                    field: 'sensor_name',
-                    headerName: '흡입구'
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '배출구',
-                    width: '110px',
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '방지시설',
-                    width: '110px',
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '유형',
-                    width: '110px',
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '조치사항',
-                    width: '110px',
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '원인',
-                    width: '110px',
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '조치사항',
-                    width: '110px',
-                },            
-                {
-                    field: 'sensor_data_value',
-                    headerName: '조치여부',
-                    width: '110px',
-                },                
-                {
-                    field: 'sensor_data_value',
-                    headerName: '조치',
-                    width: '110px',
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '완료일자',
-                    width: '110px',
-                },
-            ],
+            ]
         }
     },
 
@@ -189,9 +210,7 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
-        setTimeout(() => {
-            this.gridOptions.api.sizeColumnsToFit()
-        }, 1);
+        
         //this.getList(); 여기서 실행하면 최초 실행시 -1일식 차감해서 검색일자가 설정되는 오류 발생됨.
     },
 
@@ -305,13 +324,6 @@ export default {
     font-weight: bold;
 }
 
-.ag-header-cell-label {
-    justify-content: left;
-}
-
-.ag-theme-alpine-dark * {
-    color: white;
-}
 
 * {
     margin: 0;
@@ -374,23 +386,6 @@ export default {
     border-bottom: 1px solid rgb(170, 170, 170);
 }
 
-/*datepicker css*/
-
-.dateSelect input {
-    font-family: "Arial";
-}
-
-.v-text-field {
-    padding-top: 0;
-    margin-top: 0;
-}
-
-.v-input__prepend-outer {
-    display: none;
-}
-
-/*datepicker css*/
-
 .md_btn01,
 .md_btn02 {
     position: absolute;
@@ -420,5 +415,21 @@ export default {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
+}
+
+.excessTable *{
+    font-size:12px;
+}
+
+.ag-header-group-text{
+    display:block;
+    margin:0 auto;
+}
+.excessTable .ag-header-group-cell-label{
+    overflow:auto;
+}
+
+.excessTable .ag-icon{
+    display:none;
 }
 </style>

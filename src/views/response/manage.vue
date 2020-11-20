@@ -172,14 +172,19 @@ export default {
                 //     hidden: true
                 // },
                 {
+                    field: 'server_name',
+                    headerName: '사업장',
+                    width: '200px'
+                },
+                {
                     field: 'category',
-                    headerName: '측정구분',
-                    width: '300px'
+                    headerName: '분야',
+                    width: '150px'
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '300px'
+                    width: '250px'
                 },
                 {
                     field: 'prevention_date',

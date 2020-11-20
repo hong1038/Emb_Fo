@@ -176,12 +176,12 @@ export default {
                 // },
                 {
                     field: 'server_name',
-                    headerName: '측정장소',
+                    headerName: '사업장',
                     width: '140px'
                 },
                 {
                     field: 'category',
-                    headerName: '측정분야',
+                    headerName: '분야',
                     width: '160px'
                 },
                 {
@@ -200,19 +200,25 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: 'cause',
-                    headerName: '문제점/이슈사항',
-                    width: '180px'
-                },
-                {
-                    field: 'action',
-                    headerName: '대응방안',
-                    width: '180px'
-                },
-                {
-                    field: 'prevention_date',
-                    headerName: '개선일정',
-                    width: '120px'
+                    field: '',
+                    headerName: '문제점 개선 계획',
+                    children: [
+                        {
+                            field: 'cause',
+                            headerName: '문제점/이슈사항',
+                            width: '180px'
+                        },
+                        {
+                            field: 'action',
+                            headerName: '대응방안',
+                            width: '180px'
+                        },
+                        {
+                            field: 'prevention_date',
+                            headerName: '개선일정',
+                            width: '120px'
+                        },
+                    ]
                 },
                 {
                     field: 'action_type',
