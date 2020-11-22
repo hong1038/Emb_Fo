@@ -36,36 +36,12 @@
                         </div>
                     </div>
                     <!-- <b-overlay class="overlay" v-if="show" v-on:click="infoClose()"> -->
-                        <div class="overlay" v-if="show" v-on:click="infoClose()">
-                            <div>
-                                <div class="overlayImg">
-                                    <img src="../../assets/rendering/1.jpg">
-                                    <div class="stateBar" :style="'background:'+item.color"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="overlayTitle">{{item.pin_name}}</div>
-                                <div class="overlayText">
-                                    <div>악취</div>
-                                    <div>440배수</div>
-                                </div>
-                                <div class="overlayText">
-                                    <div>악취</div>
-                                    <div>440배수</div>
-                                </div>
-                                <div class="overlayText">
-                                    <div>악취</div>
-                                    <div>440배수</div>
-                                </div>
-                            </div>
-                        <!-- </b-overlay> -->
-                        </div>
                 <div class="bottomBox">
                     <div class="bottom_subMenuBox bottom_subMenuBox01" v-if="equipList.length <= 8">
                         <div @click="selectEq(item.equipment_key)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10  && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
                     </div>
                     <div class="bottom_subMenuBox bottom_subMenuBox02" v-else>
-                        <div @click="selectEq(item.equipment_key)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList2" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10 && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
+                        <div @click="selectEq(item.equipment_key,item)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList2" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10 && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
                     </div>
                     <div class="bottom_letBox" v-if="scrubber.length <= 0">
                         <p style="font-size:18px">데이터가 없습니다.</p>
@@ -108,6 +84,34 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="viewBox viewRightTop">
+                <div  v-for="(item, idx) in pinList" :key='idx'>
+                    <div class="overlay" v-if="item.show" v-on:click="item.show = false">
+                        <div>
+                            <div class="overlayImg">
+                                <img src="../../assets/rendering/1.jpg">
+                                <div class="stateBar" :style="'background:'+item.color"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="overlayTitle">{{item.pin_name}}</div>
+                            <div class="overlayText">
+                                <div>악취</div>
+                                <div>440배수</div>
+                            </div>
+                            <div class="overlayText">
+                                <div>악취</div>
+                                <div>440배수</div>
+                            </div>
+                            <div class="overlayText">
+                                <div>악취</div>
+                                <div>440배수</div>
+                            </div>
+                        </div>
+                    <!-- </b-overlay> -->
                     </div>
                 </div>
             </div>
@@ -186,6 +190,7 @@ export default {
                                 e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;"
                             })
                             res.data.data.map(e=>{
+                                e.show = false;
                                 e.color = '#' + Math.round(Math.random() * 0xffffff).toString(16)
                             })
                             this.pinList = res.data.data;
@@ -316,7 +321,8 @@ export default {
                 this.Chart.update()
             })
         },
-        selectEq(eqKey) {
+        selectEq(eqKey,item) {
+            console.log(item)
             for (let index = 0; index < this.equipList.length; index++) {
                 document.getElementsByClassName("eqKey")[index].style.color = 'black'
             }
@@ -415,13 +421,16 @@ export default {
             })
         },
         infoBtn(item){
-            this.show = true;            
-            this.item = item;
+            // this.show = true;            
+            // this.item = item;
+            item.show = true
+            console.log(item)
             // document.getElementsByClassName('overlayTitle').innetHTML = document.getElementsByClassName('view_pin01').getAttribute('value');
             
         },
-        infoClose(){
+        infoClose(item){
             this.show = false;
+            console.log(item)
         }
     }
 
@@ -457,8 +466,24 @@ export default {
 .viewLeftBox {
     width: 65%;
 }
-
+.viewRightTop{
+    padding: 5px 5px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 140px;
+    right: 20px;
+    height: 170px;
+    width: 633px;
+    border: 2px solid #ccc;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.viewRightTop > div > div{
+    margin-right: 3px;
+}
 .viewRightBox {
+    margin-top: 190px;
     width: 34%;
     margin-left: 1%;
 }
@@ -489,7 +514,7 @@ export default {
 .imgBox .viewPinWrap>div {
     position: absolute;
     /* width: 25px; */
-    /* height: 25px; */
+    height: 30px;
     /* border-radius: 100%; */
     background: white;
     border: 1px solid black;
@@ -501,12 +526,13 @@ export default {
     box-sizing: border-box;
     cursor:pointer;
 }
-
-.overlay{
+.infos{
     position:absolute !important;
     z-index:3;
     top:460px;
     left:920px;
+}
+.overlay{
     width:300px;
     height:150px;
     font-size:16px;
@@ -1146,5 +1172,22 @@ export default {
     width: 5px;
     background: #ccc;
     border-radius: 5px;
+}
+
+.viewRightTop::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+}
+
+.viewRightTop::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 10px;
+    background: rgb(136, 136, 136);
+}
+
+.viewRightTop::-webkit-scrollbar-track {
+    width: 5px;
+    height: 10px;
+    background: #ccc;
 }
 </style>
