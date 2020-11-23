@@ -22,14 +22,14 @@
                                 </div>
                                 <div class="col-3">
                                     <input type="button" class="c_btn01" value="조회" v-on:click="getList">
-                                    <input type="button" class="c_btn02" value="등록" v-on:click="addOn">
+                                    <input type="button" class="c_btn02" value="등록" v-on:click="addOn2">
                                     <input type="button" class="c_btn03" value="엑셀 저장" v-on:click="excelBtn">
                                 </div>
                             </div>
                         </div>
                         <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid changeTableWrap" style="display:flex">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" />
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" />
                             <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">변경점<br>대응 등록</b-col>
@@ -40,54 +40,54 @@
                                 <div>
                                     <b-row>
                                         <b-col class="regiName col-4">일자</b-col>
-                                        <b-form-input class="col" v-model="dat" size="sm" readonly></b-form-input>
+                                        <b-form-input class="col" v-model="chInfo.prevention_date" size="sm" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="server_name" :options="comboServers" size="sm"> 
+                                        <b-form-select class="col" v-model="chInfo.server_name" :options="comboServers" size="sm"> 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category" :options="comboCategories" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="chInfo.category" :options="comboCategories" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_name" :options="comboLocations" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="chInfo.equipment_name" :options="comboLocations" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_max_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_max_value"></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_avg_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_avg_value"></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">흡입구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_min_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_min_value"></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">흡입구 이상점 발생횟수</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_value"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-4">변경점 / 이상점 확인결과 원인</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="cause"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.cause"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치사항</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.action"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="acttion_type"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.action_type"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치 완료일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action_date"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.action_date"></b-form-input>
                                     </b-row>
                                 </div>
                             </b-card>
@@ -162,6 +162,7 @@ export default {
             hide:false,
             busyPop: false,
 
+            chInfo:{},
             config: {},
             mode: 'single', //날짜선택방법
             findTps: [{
@@ -191,9 +192,9 @@ export default {
                 //     hidden: true
                 // },
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '일자',
-                    width: '80px'
+                    width: '120px'
                 },
                 {
                     field: 'server_name',
@@ -303,7 +304,18 @@ export default {
         onCancel() {
             this.busyPop = false
         },
-        addOn() {
+        addOn(obj) {
+            this.chInfo.prevention_date = obj.data.prevention_date
+            this.chInfo.server_name = obj.data.server_name
+            this.chInfo.category = obj.data.category
+            this.chInfo.equipment_name = obj.data.equipment_name
+            this.chInfo.inlet_max_value = obj.data.inlet_max_value
+            this.chInfo.inlet_min_value = obj.data.inlet_max_value
+            this.chInfo.inlet_avg_value = obj.data.inlet_avg_value
+            this.chInfo.cause = obj.data.cause
+            this.chInfo.action = obj.data.action
+            this.chInfo.action_type = obj.data.action_type
+            this.chInfo.action_date = obj.data.action_date
             // this.mno = null; //관리번호
             // //this.server_key = null; //사업장
             // this.equipment_key = null; //측정위치
@@ -319,6 +331,9 @@ export default {
             // this.public_name = null; //공정명
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
+            this.showblock();
+        },
+        addOn2(){
             this.showblock();
         },
         showblock() {
