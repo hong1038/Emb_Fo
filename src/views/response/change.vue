@@ -423,36 +423,36 @@ export default {
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
-            // let that = this;
-            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
-            //         mno: this.mno,
-            //         server_key: this.server_key,
-            //         equipment_key: this.equipment_key,
-            //         category: this.category_cd,
-            //         place: this.location,
-            //         facility: this.facility,
-            //         internal_name: this.internal_name,
-            //         internal_numger: this.internal_numger,
-            //         legal_standard: this.legal_standard,
-            //         manage_standard: this.manage_standard,
-            //         public_name: this.public_name,
-            //         ordr_no: this.odor_no,
-            //         unit: this.unit,
-            //         usedSensors: this.usedSensors,
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/response/changeSave", {
+                    // mno: this.mno,
+                    server_key: this.server_key,
+                    equipment_key: this.equipment_key,
+                    category: this.category_cd,
+                    // place: this.location,
+                    // facility: this.facility,
+                    // internal_name: this.internal_name,
+                    // internal_numger: this.internal_numger,
+                    // legal_standard: this.legal_standard,
+                    // manage_standard: this.manage_standard,
+                    // public_name: this.public_name,
+                    // ordr_no: this.odor_no,
+                    // unit: this.unit,
+                    // usedSensors: this.usedSensors,
                     
-            //         userId: store.state.userInfo.userId
-            //     }, this.config)
-            //     .then(res => {
-            //         if (res.status === 200) {
-            //             if (res.data.statusCode === 200) {
-            //                 that.saveblock();
-            //                 that.getList();
-            //             }
-            //         }
-            //     })
-            //     .catch(err => {
-            //         alert("측정기별기준정보저장 실패 \n" + err);
-            //     })
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보저장 실패 \n" + err);
+                })
             this.busyPop = false;
 
         },
