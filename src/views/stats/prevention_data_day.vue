@@ -43,6 +43,11 @@
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :gridOptions="gridOptions"  :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
                     </div>
+                    <div class="small">
+                        <button style="width:30px;height:30px;background:red;" v-on:click="close()">X</button>
+                        <canvas id="daily-chart" width="1300" height="800"></canvas>
+                        <canvas id="daily-chart2" width="1300" height="800"></canvas>
+                    </div>
                     </b-overlay>
                 </div>
             </div>
@@ -69,7 +74,7 @@ import {
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import Chart from 'chart.js'
 Vue.use(Datetime)
 export default {
     components: {
@@ -191,6 +196,15 @@ export default {
                     width: '146px'
                 },
             ],
+            inletgraphLabel: [],
+            inletgraphDataMin: [],
+            inletgraphDataAvg: [],
+            inletgraphDataMax: [],
+
+            outletgraphLabel: [],
+            outletgraphDataMin: [],
+            outletgraphDataAvg: [],
+            outletgraphDataMax: [],
         }
     },
     beforeDestroy() {
@@ -272,6 +286,50 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
+
+                            console.log(that.list)
+                            this.inletgraphLabel = []
+                            this.inletgraphDataMin = []
+                            this.inletgraphDataAvg = []
+                            this.inletgraphDataMax = []
+                            that.list.map(e => {
+                                this.inletgraphLabel.push(e.prevention_date)
+                                this.inletgraphDataMin.push(e.inlet_min_value)
+                                this.inletgraphDataAvg.push(e.inlet_avg_value)
+                                this.inletgraphDataMax.push(e.inlet_max_value)
+                            })          
+                            const inletgraphDataMin2 = []
+                            const inletgraphDataMax2 = []
+                            this.list.map(()=>{
+                                inletgraphDataMin2.push(Math.min.apply(null,this.inletgraphDataMin))
+                            })
+                            this.list.map(()=>{
+                                inletgraphDataMax2.push(Math.max.apply(null,this.inletgraphDataMax))
+                            })  
+                            this.inletgraphDataMin = inletgraphDataMin2 
+                            this.inletgraphDataMax = inletgraphDataMax2
+
+
+                            this.outletgraphLabel = []
+                            this.outletgraphDataMin = []
+                            this.outletgraphDataAvg = []
+                            this.outletgraphDataMax = []
+                            that.list.map(e => {
+                                this.outletgraphLabel.push(e.prevention_date)
+                                this.outletgraphDataMin.push(e.outlet_min_value)
+                                this.outletgraphDataAvg.push(e.outlet_avg_value)
+                                this.outletgraphDataMax.push(e.outlet_max_value)
+                            })          
+                            const outletgraphDataMin2 = []
+                            const outletgraphDataMax2 = []
+                            this.list.map(()=>{
+                                outletgraphDataMin2.push(Math.min.apply(null,this.outletgraphDataMin))
+                            })
+                            this.list.map(()=>{
+                                outletgraphDataMax2.push(Math.max.apply(null,this.outletgraphDataMax))
+                            })  
+                            this.outletgraphDataMin = outletgraphDataMin2 
+                            this.outletgraphDataMax = outletgraphDataMax2
                         }
                     }
                 })
@@ -293,7 +351,180 @@ export default {
         },
         // 그래프버튼 클릭
         graphBtn() {
+            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 1) {
+                this.randarDailyChart()
+                document.getElementsByClassName("small")[0].style.display = 'flex'
+            }else{
+                alert('리스트가 없거나 사업장,분야,측정위치가 여러곳이 선택되어 그래프를 그릴수 없습니다.')
+            }
+        },
 
+        close() {
+            document.getElementsByClassName("small")[0].style.display = 'none'
+        },
+        randarDailyChart() {
+
+            if (this.dailyChart) {
+                this.dailyChart.destroy();
+            }
+            if (this.dailyChart2) {
+                this.dailyChart2.destroy();
+            }
+            this.ctxDaily = document.getElementById('daily-chart').getContext('2d');
+
+            this.ctxDaily.height = "100%";
+            this.ctxDaily.width = "100%";
+            // this.ctxDaily.font = "5rem";
+            // console.log(this.dailyChartLabel,this.dailyChartData)
+            let ctxFontSize = 14
+            if (this.winWidth === 3840) {
+                ctxFontSize = 26
+            }
+            this.ctxConfig = {
+                type: 'line',
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true,
+                                fontSize: ctxFontSize
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontSize: ctxFontSize
+                            }
+                        }]
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#444',
+                            align: 'center',
+                            anchor: 'end',
+                            font: {
+                                family: 'Roboto',
+                                size: 14,
+                                weight: 700
+                            },
+                            // display: function(context) {
+                            //     return context.dataset.data[context.dataIndex] > 0;
+                            // },
+
+                            //backgroundColor: 'rgba(255.255.255,0.8)',
+                            borderRadius: 4
+                        }
+                    },
+                    maintainAspectRatio: false,
+                },
+                data: {
+
+                    labels: this.inletgraphLabel,
+                    datasets: [{
+                            label: '흡입최소',
+                            borderColor: '#3f5df1',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataMin
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '흡입평균',
+                            borderColor: '#42f13f',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataAvg
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '흡입최대',
+                            borderColor: '#f13f3f',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                    ]
+                },
+            }
+            this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
+            this.dailyChart.update()
+
+
+
+
+            this.ctxDaily2 = document.getElementById('daily-chart2').getContext('2d');
+
+            this.ctxDaily2.height = "100%";
+            this.ctxDaily2.width = "100%";
+            // this.ctxDaily.font = "5rem";
+            // console.log(this.dailyChartLabel,this.dailyChartData)
+
+            this.ctxConfig2 = {
+                type: 'line',
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true,
+                                fontSize: ctxFontSize
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontSize: ctxFontSize
+                            }
+                        }]
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#444',
+                            align: 'center',
+                            anchor: 'end',
+                            font: {
+                                family: 'Roboto',
+                                size: 14,
+                                weight: 700
+                            },
+                            // display: function(context) {
+                            //     return context.dataset.data[context.dataIndex] > 0;
+                            // },
+
+                            //backgroundColor: 'rgba(255.255.255,0.8)',
+                            borderRadius: 4
+                        }
+                    },
+                    maintainAspectRatio: false,
+                },
+                data: {
+
+                    labels: this.inletgraphLabel,
+                    datasets: [{
+                            label: '배출최소',
+                            borderColor: '#3f5df1',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMin
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '배출평균',
+                            borderColor: '#42f13f',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataAvg
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '배출최대',
+                            borderColor: '#f13f3f',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                    ]
+                },
+            }
+            this.dailyChart2 = new Chart(this.ctxDaily2, this.ctxConfig2);
+            this.dailyChart2.update()
         }
     },
 

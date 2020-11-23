@@ -43,6 +43,10 @@
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list"  :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
                     </div>
+                    <div class="small">
+                        <button style="width:30px;height:30px;background:red;" v-on:click="close()">X</button>
+                        <canvas id="daily-chart" width="1300" height="800"></canvas>
+                    </div>
                     </b-overlay>
                 </div>
             </div>
@@ -69,7 +73,7 @@ import 'ag-grid-enterprise';
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import Chart from 'chart.js'
 Vue.use(Datetime)
 export default {
     components: {
@@ -163,6 +167,10 @@ export default {
                 //     //처리효율
                 // },
             ],
+            graphLabel: [],
+            graphDataMin: [],
+            graphDataAvg: [],
+            graphDataMax: [],
         }
     },
     beforeDestroy() {
@@ -254,6 +262,28 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
+
+                            
+                            this.graphLabel = []
+                            this.graphDataMin = []
+                            this.graphDataAvg = []
+                            this.graphDataMax = []
+                            that.list.map(e => {
+                                this.graphLabel.push(e.measurement_tm)
+                                this.graphDataMin.push(e.min_value)
+                                this.graphDataAvg.push(e.measurement_avg_value)
+                                this.graphDataMax.push(e.max_value)
+                            })          
+                            const graphDataMin2 = []
+                            const graphDataMax2 = []
+                            this.list.map(()=>{
+                                graphDataMin2.push(Math.min.apply(null,this.graphDataMin))
+                            })
+                            this.list.map(()=>{
+                                graphDataMax2.push(Math.max.apply(null,this.graphDataMax))
+                            })  
+                            this.graphDataMin = graphDataMin2 
+                            this.graphDataMax = graphDataMax2
                         }
                     }
                 })
@@ -274,7 +304,99 @@ export default {
         },
         // 그래프버튼 클릭
         graphBtn() {
+            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 1) {
+                this.randarDailyChart()
+                document.getElementsByClassName("small")[0].style.display = 'flex'
+            }else{
+                alert('리스트가 없거나 사업장,분야,측정위치가 여러곳이 선택되어 그래프를 그릴수 없습니다.')
+            }
+        },
+        close() {
+            document.getElementsByClassName("small")[0].style.display = 'none'
+        },
+        randarDailyChart() {
 
+            if (this.dailyChart) {
+                this.dailyChart.destroy();
+            }
+
+            this.ctxDaily = document.getElementById('daily-chart').getContext('2d');
+
+            this.ctxDaily.height = "100%";
+            this.ctxDaily.width = "100%";
+            // this.ctxDaily.font = "5rem";
+            // console.log(this.dailyChartLabel,this.dailyChartData)
+            let ctxFontSize = 14
+            if (this.winWidth === 3840) {
+                ctxFontSize = 26
+            }
+            this.ctxConfig = {
+                type: 'line',
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true,
+                                fontSize: ctxFontSize
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontSize: ctxFontSize
+                            }
+                        }]
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#444',
+                            align: 'center',
+                            anchor: 'end',
+                            font: {
+                                family: 'Roboto',
+                                size: 14,
+                                weight: 700
+                            },
+                            // display: function(context) {
+                            //     return context.dataset.data[context.dataIndex] > 0;
+                            // },
+
+                            //backgroundColor: 'rgba(255.255.255,0.8)',
+                            borderRadius: 4
+                        }
+                    },
+                    maintainAspectRatio: false,
+                },
+                data: {
+
+                    labels: this.graphLabel,
+                    datasets: [{
+                            label: '흡입최소',
+                            borderColor: '#3f5df1',
+                            backgroundColor: 'transparent',
+                            data: this.graphDataMin
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '흡입평균',
+                            borderColor: '#42f13f',
+                            backgroundColor: 'transparent',
+                            data: this.graphDataAvg
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '흡입최대',
+                            borderColor: '#f13f3f',
+                            backgroundColor: 'transparent',
+                            data: this.graphDataMax
+                            // data:this.dailyChartData
+                        },
+                    ]
+                },
+            }
+            this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
+            this.dailyChart.update()
         }
     }
 }

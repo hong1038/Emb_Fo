@@ -28,7 +28,7 @@
                                             </v-btn>
                                         </v-date-picker>
                                     </v-menu> -->
-                                    <datetime type="date" v-model="dateFr" :placeholder="cureentDate" class="datetime"></datetime>
+                                    <datetime type="date" v-model="dateFr"  class="datetime"></datetime>
                                 </div>
                             </b-col>
                             <b-col cols="5">
@@ -114,6 +114,7 @@ export default {
             busy:false,
             timeout : null,
 
+            paginationPageSize:store.state.paginationPageSize,
             gridOptions : {},
             ctxConfig: null,
             dailyChart: null,
@@ -206,6 +207,13 @@ export default {
     },
 
     created() {
+        this.$Axios.get('http://cjenv.daedan.com/api/getValue/CJ_Jincheon_05/1').then((response) => {this.results = response.data.results}).catch( error => { console.log(error); });
+//          this.$Axios.post("http://cjenv.daedan.com/api/getValue/CJ_Jincheon_05/1").then(res => {
+//      console.log(res)
+//  }).catch(err => {
+//     console.log(err)
+//  })
+
         // this.randarDailyChart()
         this.config = {
             headers: {
@@ -291,6 +299,8 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            
+                            res.data.data.reverse()
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
                             // this.test2 = res.data.data
@@ -301,23 +311,35 @@ export default {
                             //     return acc
                             // },[]).filter(v => v)
                             // console.log(this.test2)
+        
                             this.graphLabel = []
                             this.graphDataMin = []
                             this.graphDataAvg = []
                             this.graphDataMax = []
                             that.list.map(e => {
-                                console.log(e)
                                 this.graphLabel.push(e.measurement_tm)
                                 this.graphDataMin.push(e.min_value)
                                 this.graphDataAvg.push(e.measurement_avg_value)
                                 this.graphDataMax.push(e.max_value)
+                            })          
+                            const graphDataMin2 = []
+                            const graphDataMax2 = []
+                            this.list.map(()=>{
+                                graphDataMin2.push(Math.min.apply(null,this.graphDataMin))
                             })
+                            this.list.map(()=>{
+                                graphDataMax2.push(Math.max.apply(null,this.graphDataMax))
+                            })  
+                            this.graphDataMin = graphDataMin2 
+                            this.graphDataMax = graphDataMax2
                         }
                     }
                 })
                 .catch(err => {
                     alert("일간통계데이터목록 추출 실패 \n" + err);
                 })
+
+
         },
         onPageChange(params) {
             this.pageNo = params.currentPage;
@@ -332,9 +354,11 @@ export default {
         },
         // 그래프버튼 클릭
         graphBtn() {
-            if (this.list !== []) {
+            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 1) {
                 this.randarDailyChart()
                 document.getElementsByClassName("small")[0].style.display = 'flex'
+            }else{
+                alert('리스트가 없거나 사업장,분야,측정위치가 여러곳이 선택되어 그래프를 그릴수 없습니다.')
             }
         },
 
@@ -342,6 +366,9 @@ export default {
             document.getElementsByClassName("small")[0].style.display = 'none'
         },
         randarDailyChart() {
+            if (this.dailyChart) {
+                this.dailyChart.destroy();
+            }
             this.ctxDaily = document.getElementById('daily-chart').getContext('2d');
 
             this.ctxDaily.height = "100%";
@@ -418,6 +445,7 @@ export default {
                 },
             }
             this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
+            this.dailyChart.update()
         }
 
     }
