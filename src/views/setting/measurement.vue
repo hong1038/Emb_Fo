@@ -53,6 +53,7 @@
                                     <b-form-select class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-select>
                                 </b-row>
 
+
                                 <b-row>
                                     <b-col class="regiName col-4">측정기시설명</b-col>
                                     <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
@@ -87,6 +88,12 @@
                                     <b-col class="regiName col-4">관리단위</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="unit"></b-form-input>
                                 </b-row>
+
+                                <b-row>
+                                    <b-col class="regiName col-4">측정대상 시설 내부명칭</b-col>
+                                    <b-form-input class="col" v-model="equipment_inner_nm" size="sm"></b-form-input>
+                                </b-row>
+
                                 <b-row>
                                     <b-col class="regiName col-4">측정기내부명</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="internal_name"></b-form-input>
@@ -94,7 +101,7 @@
                               
                                 <b-row>
                                     <b-col class="line2 regiName">고유일련번호</b-col>
-                                    <b-form-input class="col" type="text" size="sm"> v-model="odor_number"</b-form-input>
+                                    <b-form-input class="col" type="text" size="sm" v-model="odor_number"></b-form-input>
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">내부관리번호</b-col>
@@ -190,6 +197,7 @@ export default {
             measurementInfo: {},
             mno: null, //관리번호
             server_key: null, //사업장
+            equipment_inner_nm:null,//측정대상 시설 내부명칭
             equipment_key: null, //측정위치
             category: null, //측정분야명
             category_cd: null, //측정분야코드
@@ -253,6 +261,7 @@ export default {
             { headerName: '공정명'      ,field: 'public_name'   ,width: '10%' },
             { headerName: '시설분류'     ,field: 'facility_nm'   ,width: '5%' },
             { headerName: '위치분류'     ,field: 'place_nm'      ,width: '5%' },
+            { headerName: '측정대상 시설 내부명칭'  ,field: 'equipment_inner_nm',width: '20%' },
             { headerName: '측정기시설명'  ,field: 'equipment_name',width: '20%' },
             { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: '20%' },
             { headerName: '법적기준'     ,field: 'legal_standard' ,width:  '10%',cellStyle:{textAlign:"right"} },
@@ -286,6 +295,7 @@ export default {
         addOn() {
             this.mno = null; //관리번호
             //this.server_key = null; //사업장
+            this.equipment_inner_nm = null,//측정대상 시설 내부명칭
             this.equipment_key = null; //측정위치
             this.category = null; //측정분야명
             this.category_cd = null; //측정분야코드
@@ -464,6 +474,7 @@ export default {
                             that.measurementInfo = res.data.data;
                             that.server_key = res.data.data.server_key
                             that.category_cd = res.data.data.category_cd
+                            that.equipment_inner_nm = res.data.equipment_inner_nm
                             that.equipment_key = res.data.equipment_key
 
                             that.internal_name = res.data.data.internal_name
@@ -546,6 +557,7 @@ export default {
             await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
                     mno: this.mno,
                     server_key: this.server_key,
+                    equipment_inner_nm: this.equipment_inner_nm,
                     equipment_key: this.equipment_key,
                     category: this.category_cd,
                     place: this.location,
