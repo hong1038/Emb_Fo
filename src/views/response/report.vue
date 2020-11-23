@@ -38,7 +38,7 @@
                     </div>
                     <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
                     <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
+                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
                         <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">월말 보고<br>등록</b-col>

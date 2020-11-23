@@ -21,14 +21,14 @@
                             </div>
                             <div class="col-5">
                                 <input type="button" value="조회" class="m_btn01" v-on:click="getList">
-                                <input type="button" value="등록" class="m_btn02" v-on:click="insertBtn">
+                                <input type="button" value="등록" class="m_btn02" v-on:click="addOn">
                                 <input type="button" value="엑셀 저장" class="m_btn03" v-on:click="excelBtn">
                             </div>
                         </div>
                     </div>
                     <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
                     <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
+                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
                     <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">운영 특이사항 등록</b-col>
@@ -373,7 +373,7 @@ export default {
         graphBtn() {
             console.log();
         },
-        insertBtn() {
+        addOn() {
             // this.mno = null; //관리번호
             // //this.server_key = null; //사업장
             // this.equipment_key = null; //측정위치

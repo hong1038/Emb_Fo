@@ -29,7 +29,7 @@
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid excessTable" style="display:flex;">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                             </ag-grid-vue>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -41,7 +41,7 @@
                                 <div>
                                     <b-row>
                                         <b-col class="regiName col-4">일자</b-col>
-                                        <b-form-input class="col" v-model="mno" size="sm" readonly></b-form-input>
+                                        <b-form-input class="col" v-model="date_time" size="sm" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
@@ -193,7 +193,7 @@ export default {
             perPage: 10,
             fields: [
                 {
-                    field: '',
+                    field: 'data_time',
                     headerName: '일자',
                     width: '70px'
                 },
@@ -379,10 +379,10 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
-            if (store.state.ckCate.length == 0) {
-                alert("분야는 필수 선택 항목 입니다.")
-                return;
-            }
+            // if (store.state.ckCate.length == 0) {
+            //     alert("분야는 필수 선택 항목 입니다.")
+            //     return;
+            // }
             if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
                 alert("날짜를 선택해주세요.")
                 return;

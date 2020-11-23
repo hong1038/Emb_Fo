@@ -29,7 +29,7 @@
                         </div>
                         <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getList" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
                             <!--
                         <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
                         -->
@@ -47,12 +47,12 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-input class="col" v-model="server_key" size="sm" readonly></b-form-input>
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm"> 
+                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" > 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
@@ -335,7 +335,7 @@ export default {
             }, 1);
         },
 
-        async getConditionList() {
+        async getConditionList(event) {
             let that = this;
             await axios.post("/api/daedan/cj/ems/setting/conditionList", {
                     userId: store.state.userInfo.userId
@@ -346,6 +346,7 @@ export default {
                             that.comboServers = res.data.data.serverList; //사업장
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                             that.category_cd = res.data.data.category_cd
+                            that.server_key = res.data.data.serverList[event].id
                         }
                     }
                 })
@@ -353,12 +354,12 @@ export default {
                     alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
-                // this.getEquips()
+                this.getEquips()
         },
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
             let that = this;
-
+            this.serverKey = store.state.ckServer
             await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
                     serverKey: this.server_key,
                     userId: store.state.userInfo.userId
