@@ -105,8 +105,13 @@ export default {
                 // },
                 {
                     field: 'server_name',
-                    headerName: '측정장소',
+                    headerName: '사업장',
                     width: '100px'
+                },
+                {
+                    field: 'category',
+                    headerName: '분야',
+                    width: '80px'
                 },
                 {
                     field: 'equipment_name',
@@ -114,9 +119,14 @@ export default {
                     width: '160px'
                 },
                 {
-                    field: 'category',
-                    headerName: '측정구분',
-                    width: '80px'
+                    field: 'sensor_name',
+                    headerName: '센서목록',
+                    width: '130px'
+                },
+                {
+                    field: 'unit',
+                    headerName: '단위',
+                    width: '70px'
                 },
                 {
                     field: 'date_time',
@@ -124,13 +134,9 @@ export default {
                     width: '110px'
                 },
                 {
-                    field: 'sensor_name',
-                    headerName: '센서명'
-                },
-                {
                     field: 'sensor_data_value',
                     headerName: '측정값',
-                    width: '110px',
+                    width: '80px',
                     type: 'number'
                 },
             ],
