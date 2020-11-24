@@ -8,8 +8,7 @@
                 <div class="con_box_right measurementBox container-fluid float-left">
                     <p>측정기별 기준 정보</p>
                     <b-row>
-                        <input type="button" class="measurementLookup" v-on:click="getList" value="조회">
-                        <input type="button" class="measurementPlus" v-on:click="addOn" value="등록">
+                        <input type="button" class="measurementPlus" v-on:click="getList" value="조회">
                     </b-row>
                     <div class="mmtableWrap container-fluid" style="display:flex">
                         <ag-grid-vue style="width: 100%; height: 715px;" 
@@ -41,29 +40,29 @@
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">분야</b-col>
-                                    <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-select>
+                                    <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" ></b-form-select>
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">시설분류</b-col>
-                                    <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm" disabled></b-form-select>
+                                    <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm" ></b-form-select>
                                 </b-row>
 
                                 <b-row>
                                     <b-col class="regiName col-4">위치분류</b-col>
-                                    <b-form-select class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-select>
+                                    <b-form-select class="col" v-model="location" :options="comboLocations" size="sm" ></b-form-select>
                                 </b-row>
 
 
                                 <b-row>
                                     <b-col class="regiName col-4">측정기시설명</b-col>
-                                    <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
+                                    <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" ></b-form-select>
                                 </b-row>
                                 <b-row class="line1_box">
                                     <b-col class="line1 regiName">분석항목</b-col>
                                     <div class="check_list scroll_box">
                                         <div v-for="(item ) in sensors" v-bind:item="item" v-bind:key="item.id">
                                             <ul class="type">
-                                                <input type="checkbox" :id=item.id :value=item.id v-model="usedSensors" disabled>
+                                                <input type="checkbox" :id=item.id :value=item.id v-model="usedSensors">
                                                 <label>{{item.val}}</label>
                                             </ul>
                                         </div>
