@@ -211,7 +211,7 @@ export default {
             public_name: null, //공정명
             odor_number: null, //악취방지시설고유일련번호
             sensorList: [], //분석항목리스트
-
+            serverList:{},
             date: "",
             show: false,
 
@@ -422,10 +422,10 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
-            if (store.state.ckCate.length == 0) {
-                alert("분야는 필수 선택 항목 입니다.")
-                return;
-            }
+            // if (store.state.ckCate.length == 0) {
+            //     alert("분야는 필수 선택 항목 입니다.")
+            //     return;
+            // }
             this.show = false;
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
@@ -462,10 +462,14 @@ export default {
         async getInfo(event) {
             let that = this;
             this.mno = event.data.mno;
-            let oldServerKey = this.server_key;
-
+            let oldServerKey = event.data.server_key;
+            let oldEquipmentKey = event.data.equipment_key;
+            let oldSensorKey = event.data.sensor_key;
             await this.$Axios.post("/api/daedan/cj/ems/setting/measurementInfo", {
                     mno: this.mno,
+                    server_key:oldServerKey,
+                    equipment_key:oldEquipmentKey,
+                    sensor_key:oldSensorKey,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
@@ -495,7 +499,7 @@ export default {
                     }
                 })
                 .catch(err => {
-                    alert("측정기별기준정보목록 추출 실패 \n" + err);
+                    alert("측정기별기준정보 추출 실패 \n" + err);
                 })
 
         },
