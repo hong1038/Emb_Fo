@@ -7,12 +7,49 @@
             <div class="con">
                 <div class="con_box_right container-fluid float-left">
                     <p>정규분포</p>
-                    <div class="distri_dateCheck container-fluid mt-4">
+                    <!--<div class="distri_dateCheck container-fluid mt-4">
                         <div class="row">
                             <div class="col-7">
                                 <div>월 선택</div>
+                                <input type="date" v-model="dateFr">
+                                <div class="distri_dateSelect">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                </div>
+
+                            </div>
+                            <div class="col-5">
+                                <input class="nd_btn01" type="button" v-on:click="getList" value="조회">
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="ndDateCheck container-fluid mt-4">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="float-left select01">
+                                    <router-link :to="{ name: 'normalDistribution1'}">위치별 정규분포</router-link>
+                                </div>
+                                <div class="float-left">
+                                    <router-link :to="{ name: 'normalDistribution2'}">월별 정규분포</router-link>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">월 선택</div>
                                 <!-- <input type="date" v-model="dateFr"> -->
-                                <div class="dateSelect">
+                                <div class="dateSelect float-left">
                                     <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
@@ -39,84 +76,35 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="canvasWrap canvasLoc container-fluid mt-3">
                         <b-row>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
                         </b-row>
                         <b-row>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
-                    </div>
-                    <div class="canvasWrap canvasMon container-fluid mt-3">
-                        <b-row>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
                         </b-row>
                         <b-row>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="2">
+                            <b-col cols="4">
                                 <canvas></canvas>
                             </b-col>
                         </b-row>
@@ -303,46 +291,47 @@ export default {
 
 /* Top DateCheck , search and Excel Save*/
 
-.distri_dateCheck {
+.ndDateCheck {
     width: 100%;
     height: 50px;
     font-family: "CJ Onlyone Medium";
 }
 
-.distri_dateCheck>div>div>div {
-    float: left;
-    height: 100%;
+.ndDateCheck>div{
+    height:100%;
 }
 
-.distri_dateCheck>div>div>div:nth-child(1) {
-    width: 80px;
-    font-size: 16px;
-    line-height: 32px;
+.ndDateCheck>div>div{
+    height:100%;
 }
 
-.distri_dateCheck>div>div>div:nth-child(2),
-.distri_dateCheck>div>div>div:nth-child(4) {
-    width: 150px;
-    font-size: 14px;
-    font-family: 'Arial';
+.ndDateCheck>div>div:nth-child(1)>div{
+    width:50%;
+    height:30px;
+    font-size:14px;
+    background:#CCE2F8;
 }
 
-.distri_dateCheck>div>div>div:nth-child(3) {
-    width: 20px;
-    font-size: 16px;
-    font-weight: bold;
+.ndDateCheck>div>div:nth-child(1)>.select01{
+    background:#0052BB;
 }
 
-.distri_dateCheck>div>div>div>input {
-    width: 130px;
-    text-align: right;
-    box-sizing: border-box;
-    border-bottom: 1px solid rgb(170, 170, 170);
+.ndDateCheck>div>div:nth-child(1)>div>a{
+    display:block;
+    color:black;
+    line-height:30px;
+    text-align: center;
+    text-decoration: none;
 }
 
-.distri_dateCheck>div>div:nth-child(2)>input {
+.ndDateCheck>div>div:nth-child(1)>.select01>a{
+    color:white;
+}
+
+.nd_btn01 {
     position: absolute;
     top: 0;
+    right: 20px;
     width: 150px;
     height: 30px;
     display: inline-block;
@@ -356,10 +345,7 @@ export default {
     font-size: 16px;
 }
 
-.nd_btn01 {
-    right: 20px;
-}
-.distri_dateCheck>div>div:nth-child(2)>input:hover {
+.nd_btn01:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
@@ -401,7 +387,7 @@ export default {
 }
 
 .canvasWrap {
-    height:300px;
+    height:450px;
     box-sizing: border-box;
     border-top: 2px solid #ccc;
     padding: 0;
@@ -414,7 +400,7 @@ export default {
 
 .canvasWrap>div canvas{
     width:100%;
-    height:100%;
+    height:200px;
     outline:1px solid;
 }
 
