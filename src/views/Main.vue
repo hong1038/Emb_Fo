@@ -149,7 +149,7 @@
                                 <h1 style="margin-left:10px">{{areaNm}}</h1>
                                 <v-container class="card-list">
                                     <v-card color="white" dark style="margin-bottom:10px" v-for="(item,i) in rowData " :key="i">
-                                        <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg3d)">
+                                        <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg3d,item.pinImg2d)">
                                             <v-avatar class="ma-3" size="125" tile>
                                                 <v-img v-bind:src="item.pinImg"></v-img>
                                             </v-avatar>
@@ -251,21 +251,38 @@ import pin02Img3D from '@/assets/rendering/pin02_view.jpg';
 import pin03Img3D from '@/assets/rendering/pin03_view.jpg';
 import pin04Img3D from '@/assets/rendering/pin04_view.jpg';
 import pin05Img3D from '@/assets/rendering/pin05_view.jpg';
-        import pin06Img3D from '@/assets/rendering/pin06_view.jpg';
+import pin06Img3D from '@/assets/rendering/pin06_view.jpg';
 import pin07Img3D from '@/assets/rendering/pin07_view.jpg';
-        import pin08Img3D from '@/assets/rendering/pin08_view.jpg';
-        import pin09Img3D from '@/assets/rendering/pin09_view.jpg';
-        import pin10Img3D from '@/assets/rendering/pin10_view.jpg';
-        import pin11Img3D from '@/assets/rendering/pin11_view.jpg';
+import pin08Img3D from '@/assets/rendering/pin08_view.jpg';
+import pin09Img3D from '@/assets/rendering/pin09_view.jpg';
+import pin10Img3D from '@/assets/rendering/pin10_view.jpg';
+import pin11Img3D from '@/assets/rendering/pin11_view.jpg';
 import pin12Img3D from '@/assets/rendering/pin12_view.jpg';
-        import pin13Img3D from '@/assets/rendering/pin13_view.jpg';
-        import pin14Img3D from '@/assets/rendering/pin14_view.jpg';
+import pin13Img3D from '@/assets/rendering/pin13_view.jpg';
+import pin14Img3D from '@/assets/rendering/pin14_view.jpg';
 import pin15Img3D from '@/assets/rendering/pin15_view.jpg';
 import pin16Img3D from '@/assets/rendering/pin16_view.jpg';
 import pin17Img3D from '@/assets/rendering/pin17_view.jpg';
 import pin18Img3D from '@/assets/rendering/pin18_view.jpg';
 
-
+import pin01Img2D from '@/assets/rendering/pin01_map.jpg';
+import pin02Img2D from '@/assets/rendering/pin02_map.jpg';
+import pin03Img2D from '@/assets/rendering/pin03_map.jpg';
+import pin04Img2D from '@/assets/rendering/pin04_map.jpg';
+import pin05Img2D from '@/assets/rendering/pin05_map.jpg';
+import pin06Img2D from '@/assets/rendering/pin06_map.jpg';
+import pin07Img2D from '@/assets/rendering/pin07_map.jpg';
+import pin08Img2D from '@/assets/rendering/pin08_map.jpg';
+import pin09Img2D from '@/assets/rendering/pin09_map.jpg';
+import pin10Img2D from '@/assets/rendering/pin10_map.jpg';
+import pin11Img2D from '@/assets/rendering/pin11_map.jpg';
+import pin12Img2D from '@/assets/rendering/pin12_map.jpg';
+import pin13Img2D from '@/assets/rendering/pin13_map.jpg';
+import pin14Img2D from '@/assets/rendering/pin14_map.jpg';
+import pin15Img2D from '@/assets/rendering/pin15_map.jpg';
+import pin16Img2D from '@/assets/rendering/pin16_map.jpg';
+import pin17Img2D from '@/assets/rendering/pin17_map.jpg';
+import pin18Img2D from '@/assets/rendering/pin18_map.jpg';
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -411,10 +428,11 @@ export default {
             this.pinSelect(areaPin, pin, name);
 
         },
-        gotoView(serverKey, serverName , bgImg) {
+        gotoView(serverKey, serverName , bgImg, bgImg2d) {
             store.state.serverKey = serverKey
             store.state.serverName = serverName
             store.state.bgImg = bgImg
+            store.state.bgImg2d = bgImg2d
             this.$router.push({
                 name: 'View'
             })
@@ -475,6 +493,26 @@ export default {
                                 res.data.data.area[11].pinImg3d = pin16Img3D
                                 res.data.data.area[7].pinImg3d = pin17Img3D
                                 res.data.data.area[8].pinImg3d = pin18Img3D
+
+                                res.data.data.area[9].pinImg2d = pin01Img2D
+                                res.data.data.area[12].pinImg2d = pin02Img2D
+                                res.data.data.area[10].pinImg2d = pin03Img2D
+                                res.data.data.area[14].pinImg2d = pin04Img2D
+                                res.data.data.area[16].pinImg2d = pin05Img2D
+                                res.data.data.area[15].pinImg2d = pin06Img2D
+                                res.data.data.area[17].pinImg2d = pin07Img2D
+                                res.data.data.area[13].pinImg2d = pin08Img2D
+                                res.data.data.area[4].pinImg2d = pin09Img2D
+                                res.data.data.area[5].pinImg2d = pin10Img2D
+                                res.data.data.area[6].pinImg2d = pin11Img2D
+                                res.data.data.area[1].pinImg2d = pin12Img2D
+                                res.data.data.area[2].pinImg2d = pin13Img2D
+                                res.data.data.area[3].pinImg2d = pin14Img2D
+                                res.data.data.area[0].pinImg2d = pin15Img2D
+                                res.data.data.area[11].pinImg2d = pin16Img2D
+                                res.data.data.area[7].pinImg2d = pin17Img2D
+                                res.data.data.area[8].pinImg2d = pin18Img2D
+
                                 console.log(res.data.data.area,areaPin)
                                 try {
                                     
