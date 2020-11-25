@@ -2191,7 +2191,7 @@ export default {
     width: 12.5%;
     height: 40px;
     line-height: 35px;
-    font-size: 12px;
+    font-size: 16px;
     font-family: "Noto Sans KR";
     box-sizing: border-box;
     text-align: center;
