@@ -40,10 +40,10 @@
                         </div>
                     </div>
                     <div class="pinBoxWrap" style="width:100%;">
-                        <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="item in boxList" :key="item.box_code" :style="item.style">
+                        <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
                             <div class="pinTitle">{{item.equipment_inner_nm}}</div>
                             <div class="scrollbox"  style="overflow-y:scroll;height:70%">
-                                <div v-for="e in testdata" :key="e.equipment_inner_nm+e.mno">
+                                <div v-for="(e,idx) in testdata" :key="index+idx">
                                     <div  class="container" v-if="e.equipment_inner_nm == item.equipment_inner_nm">
                                         <b-row class="pinBody">
                                             <b-col cols="4">{{e.equipment_name}}</b-col>
