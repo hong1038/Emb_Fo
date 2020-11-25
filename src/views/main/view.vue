@@ -1342,7 +1342,7 @@ export default {
 
 .titleBox {
     position:relative;
-    width: 100%;
+    width: 65%;
     height: 40px;
     line-height: 40px;
     box-sizing: border-box;
@@ -1354,7 +1354,7 @@ export default {
 .titleBox .tabBox{
     position: absolute;
     top:0;
-    right:653px;
+    right:0;;
     width:200px;
     height:100%;
 }
