@@ -149,7 +149,7 @@
                                 <h1 style="margin-left:10px">{{areaNm}}</h1>
                                 <v-container class="card-list">
                                     <v-card color="white" dark style="margin-bottom:10px" v-for="(item,i) in rowData " :key="i">
-                                        <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg)">
+                                        <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg3d)">
                                             <v-avatar class="ma-3" size="125" tile>
                                                 <v-img v-bind:src="item.pinImg"></v-img>
                                             </v-avatar>
@@ -243,6 +243,29 @@ import pin15Img from '@/assets/rendering/pin15.png'
 import pin16Img from '@/assets/rendering/pin16.png'
 import pin17Img from '@/assets/rendering/pin17.png'
 import pin18Img from '@/assets/rendering/pin18.png'
+
+
+
+import pin01Img3D from '@/assets/rendering/pin01_view.jpg';
+import pin02Img3D from '@/assets/rendering/pin02_view.jpg';
+import pin03Img3D from '@/assets/rendering/pin03_view.jpg';
+import pin04Img3D from '@/assets/rendering/pin04_view.jpg';
+import pin05Img3D from '@/assets/rendering/pin05_view.jpg';
+        import pin06Img3D from '@/assets/rendering/pin06_view.jpg';
+import pin07Img3D from '@/assets/rendering/pin07_view.jpg';
+        import pin08Img3D from '@/assets/rendering/pin08_view.jpg';
+        import pin09Img3D from '@/assets/rendering/pin09_view.jpg';
+        import pin10Img3D from '@/assets/rendering/pin10_view.jpg';
+        import pin11Img3D from '@/assets/rendering/pin11_view.jpg';
+import pin12Img3D from '@/assets/rendering/pin12_view.jpg';
+        import pin13Img3D from '@/assets/rendering/pin13_view.jpg';
+        import pin14Img3D from '@/assets/rendering/pin14_view.jpg';
+import pin15Img3D from '@/assets/rendering/pin15_view.jpg';
+import pin16Img3D from '@/assets/rendering/pin16_view.jpg';
+import pin17Img3D from '@/assets/rendering/pin17_view.jpg';
+import pin18Img3D from '@/assets/rendering/pin18_view.jpg';
+
+
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -433,6 +456,25 @@ export default {
                                 res.data.data.area[11].pinImg = pin16Img
                                 res.data.data.area[7].pinImg = pin17Img
                                 res.data.data.area[8].pinImg = pin18Img
+
+                                res.data.data.area[9].pinImg3d = pin01Img3D
+                                res.data.data.area[12].pinImg3d = pin02Img3D
+                                res.data.data.area[10].pinImg3d = pin03Img3D
+                                res.data.data.area[14].pinImg3d = pin04Img3D
+                                res.data.data.area[16].pinImg3d = pin05Img3D
+                                res.data.data.area[15].pinImg3d = pin06Img3D
+                                res.data.data.area[17].pinImg3d = pin07Img3D
+                                res.data.data.area[13].pinImg3d = pin08Img3D
+                                res.data.data.area[4].pinImg3d = pin09Img3D
+                                res.data.data.area[5].pinImg3d = pin10Img3D
+                                res.data.data.area[6].pinImg3d = pin11Img3D
+                                res.data.data.area[1].pinImg3d = pin12Img3D
+                                res.data.data.area[2].pinImg3d = pin13Img3D
+                                res.data.data.area[3].pinImg3d = pin14Img3D
+                                res.data.data.area[0].pinImg3d = pin15Img3D
+                                res.data.data.area[11].pinImg3d = pin16Img3D
+                                res.data.data.area[7].pinImg3d = pin17Img3D
+                                res.data.data.area[8].pinImg3d = pin18Img3D
                                 console.log(res.data.data.area,areaPin)
                                 try {
                                     
