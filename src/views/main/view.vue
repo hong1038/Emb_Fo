@@ -40,6 +40,18 @@
                         </div>
                     </div>
                     <div class="pinBoxWrap" style="width:100%;">
+                        <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="item in boxList" :key="item.box_code" :style="item.style">
+                            <div class="pinTitle">{{item.equipment_inner_nm}}</div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">복합악취</b-col>
+                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">20</b-col>
+                                </b-row>
+                            </div>
+                        </div>
+
+
                         <!--공주 pin01-->
                         <!--<div class="pinBox pinBox01">
                             <div class="pinTitle">폐수처리장 방류수</div>
@@ -903,7 +915,18 @@
                     <div class="bottom_letBox" v-if="scrubber.length <= 0">
                         <p style="font-size:18px">데이터가 없습니다.</p>
                     </div>
-                    <div class="bottom_letBox"  v-else>
+                    
+                <div class="bottom_letBox"  v-else>
+                        <div style="width:100%;display:flex;justify-content:flex-end;padding-right:15px">
+                            <div style="display:flex;align-items:center;justify-content: flex-end;">
+                                <span style="margin-right:5px;display:block;width:12px;height:12px;border-radius:100%;background:rgb(81, 81, 255)"></span>
+                                <span style="font-size:18px">정상</span>
+                            </div>
+                            <div style="display:flex;align-items:center;margin-left:12px">
+                                <span style="margin-right:5px;display:block;width:12px;height:12px;border-radius:100%;background:#ff3131"></span>
+                                <span style="font-size:18px">비정상</span>
+                            </div>
+                        </div>
                         <div class="infoBox" v-for="(item,key) in scrubber" v-bind:key="key">
                             <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.internal_name}} 스크러버</span></div>
                             <div class="infoBody">
@@ -921,7 +944,7 @@
                                         <div :class="'in in'+key+'_9'"></div>
                                         <div :class="'in in'+key+'_10'"></div>
                                     </div>
-                                    <div>{{Math.floor(item.inlet_avg_value)}}/{{Math.floor(item.inlet_max_value)}}</div>
+                                    <div>1</div>
                                 </div>
                                 <div class="infoBody_outlet">
                                     <div>배출구</div>
@@ -937,7 +960,7 @@
                                         <div :class="'out out'+key+'_9'"></div>
                                         <div :class="'out out'+key+'_10'"></div>
                                     </div>
-                                    <div>{{Math.floor(item.outlet_avg_value)}}/{{Math.floor(item.outlet_max_value)}}</div>
+                                    <div>{{Math.floor(item.outlet_avg_value)}}/{{Math.floor(item.outlet_standard_value)}}</div>
                                 </div>
                             </div>
                         </div>
@@ -951,11 +974,11 @@
             <div v-else class="viewBox viewRightBox">
                 <div style="display:flex;justify-content:flex-end;margin-right:15px">
                     <div style="display:flex;align-items:center;justify-content: flex-end;">
-                        <span style="display:block;width:12px;height:12px;border-radius:100%;background:#f2c84c"></span>
+                        <span style="margin-right:5px;display:block;width:12px;height:12px;border-radius:100%;background:#f2c84c"></span>
                         <span style="font-size:18px">흡입</span>
                     </div>
                     <div style="display:flex;align-items:center;margin-left:12px">
-                        <span style="display:block;width:12px;height:12px;border-radius:100%;background:#2cd2f6"></span>
+                        <span style="margin-right:5px;display:block;width:12px;height:12px;border-radius:100%;background:#2cd2f6"></span>
                         <span style="font-size:18px">배출</span>
                     </div>
                 </div>
@@ -980,6 +1003,7 @@ export default {
     created() {
         this.getEquips();
         this.test()
+        this.test3()
     },
     data() {
         return {
@@ -1000,12 +1024,29 @@ export default {
             bgImg2d: store.state.bgImg2d,
             pinList: [],
 
-            imgBoxStyle:""
+            imgBoxStyle:"",
+            boxList:[],
         }
 
     },
 
     methods: {
+        test3(){
+            this.$Axios.post("/api/daedan/cj/ems/main/MapBoxList", {
+                serverKey: store.state.serverKey,
+            }, this.config).then(res => {
+                res.data.data.map(e=>{
+                    if (e.box_code < 10) {
+                        e.box_code = "0"+String(e.box_code)
+                    }
+                    e.style = 'top:'+e.box_py+'px;left:'+e.box_px+'px'
+                })
+                this.boxList = res.data.data
+                console.log(this.boxList)
+            }).catch(err =>{
+                alert(err)
+            })
+        },
         test(){
             this.$Axios.post("/api/daedan/cj/ems/main/FpList", {
                     serverKey: store.state.serverKey,

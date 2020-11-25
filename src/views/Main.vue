@@ -532,7 +532,7 @@ export default {
                                         document.getElementsByClassName("overChart")[index].style.borderColor = "rgb(223, 223, 223)"
                                     }
                                     this.opRate = this.opRate > 100 ? 100 : this.opRate
-                                    for (let index = 1; index <= Math.floor(this.opRate / 10); index++) {
+                                    for (let index = 1; index < Math.floor(this.opRate / 10); index++) {
                                         document.getElementsByClassName("overChart" + index)[0].style.borderColor = "rgb(81, 81, 255)"
                                     }
                                 } catch (error) {
