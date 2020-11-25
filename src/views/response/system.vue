@@ -346,7 +346,7 @@ export default {
                             that.comboServers = res.data.data.serverList; //사업장
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                             that.category_cd = res.data.data.category_cd
-                            that.server_key = res.data.data.serverList[event].id
+                            that.server_key = res.data.data.serverList[event]
                         }
                     }
                 })
