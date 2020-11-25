@@ -254,7 +254,7 @@ export default {
                 },
             },
             { headerName: '사업장'      ,field: 'server_name'   ,width: '5%' },
-            { headerName: '분야'        ,field: 'category'      ,width: '5%' },
+            { headerName: '분야'        ,field: 'category_nm'      ,width: '5%' },
             { headerName: '공정명'      ,field: 'public_name'   ,width: '10%' },
             { headerName: '시설분류'     ,field: 'facility_nm'   ,width: '5%' },
             { headerName: '위치분류'     ,field: 'place_nm'      ,width: '5%' },
