@@ -1369,6 +1369,8 @@ export default {
     text-align: center;
     line-height:35px;
     background:#cccccc;
+    color:rgb(131, 131, 131);
+    transition:all 0.2s;
     cursor:pointer;
 }
 
@@ -1380,6 +1382,12 @@ export default {
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
     border-left:none;
+}
+
+.titleBox .tabBox>div:hover{
+    background:#949494;
+    font-weight:bold;
+    color:black;
 }
 
 .viewInner>div {
@@ -2232,7 +2240,7 @@ export default {
     width: 12.5%;
     height: 40px;
     line-height: 35px;
-    font-size: 12px;
+    font-size: 16px;
     font-family: "Noto Sans KR";
     box-sizing: border-box;
     text-align: center;
