@@ -88,7 +88,7 @@
 
                                 <b-row>
                                     <b-col class="regiName col-4">측정대상 시설 내부명칭</b-col>
-                                    <b-form-input class="col" v-model="equipment_inner_nm" size="sm"></b-form-input>
+                                    <b-form-input class="col" type="text" v-model="equipment_inner_nm" size="sm"></b-form-input>
                                 </b-row>
 
                                 <b-row>
@@ -472,10 +472,11 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res)
                             that.measurementInfo = res.data.data;
                             that.server_key = res.data.data.server_key
                             that.category_cd = res.data.data.category_cd
-                            that.equipment_inner_nm = res.data.equipment_inner_nm
+                            that.equipment_inner_nm = res.data.data.equipment_inner_nm
                             that.equipment_key = res.data.equipment_key
 
                             that.internal_name = res.data.data.internal_name
