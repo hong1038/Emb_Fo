@@ -61,10 +61,8 @@
                                     <b-col class="line1 regiName">분석항목</b-col>
                                     <div class="check_list scroll_box">
                                         <div v-for="(item ) in sensors" v-bind:item="item" v-bind:key="item.id">
-                                            <ul class="type">
-                                                <input type="checkbox" :id=item.id :value=item.id v-model="usedSensors">
-                                                <label>{{item.val}}</label>
-                                            </ul>
+                                            <div><input type="checkbox" :id=item.id :value=item.id v-model="usedSensors"></div>
+                                            <div><label>{{item.val}}</label></div>
                                         </div>
                                     </div>
                                 </b-row>
@@ -875,10 +873,6 @@ export default {
     height: 140px;
 }
 
-.measurementRegister>div>div>.line2 {
-    line-height: 25px;
-}
-
 .measurementRegister>div>.line1_box>.line1 {
     line-height: 140px;
     height: 140px;
@@ -946,12 +940,6 @@ export default {
     max-width: 260px;
 }
 
-.line1,
-.line2 {
-    box-sizing: border-box;
-    /*padding-left: 22px;*/
-}
-
 .line2+input {
     position: relative;
     left: -52px;
@@ -975,13 +963,32 @@ export default {
     word-break: keep-all;
 }
 
-.measurementBox .scroll_box>div input[type=checkbox]{
-    margin-left:5px;
+.measurementBox .scroll_box>div:nth-child(1){
+    margin-top:5px;
+}
+
+.measurementBox .scroll_box>div>div{
+    float:left;
+}
+
+.measurementBox .scroll_box>div>div:nth-child(1){
+    width:5%;
+}
+
+.measurementBox .scroll_box>div>div:nth-child(1)>input[type=checkbox]{
+    margin:5px;
+    vertical-align: middle;
+}
+.measurementBox .scroll_box>div>div:nth-child(2){
+    width:93%;
+    margin-left:2%;
+    box-sizing: border-box;
 }
 
 .measurementBox .scroll_box>div label{
     padding-left:10px;
     width:90%;
+    font-size:14px;
 }
 
 .popUpMessage #form-confirm-label {
