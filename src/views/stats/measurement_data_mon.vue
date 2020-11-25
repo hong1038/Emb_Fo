@@ -44,9 +44,9 @@
                             </ag-grid-vue>
                         </div>
                     </b-overlay>
-                    <div class="small">
-                        <button style="width:30px;height:30px;background:red;" v-on:click="close()">X</button>
-                        <canvas id="daily-chart" width="1300" height="800"></canvas>
+                    <div class="small" style="z-index:10">
+                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
+                        <canvas style="background:white"  id="daily-chart" width="1300" height="800"></canvas>
                     </div>
                 </div>
             </div>
@@ -391,6 +391,18 @@ export default {
 </script>
 
 <style>
+.small {
+    /* max-width: 600px; */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .5);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
 @font-face {
     font-family: "CJ Onlyone Medium";
     src: url(/fonts/CJOnlyoneMedium.ttf);

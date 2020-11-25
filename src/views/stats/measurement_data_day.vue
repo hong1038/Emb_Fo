@@ -59,9 +59,9 @@
                         </ag-grid-vue>
                     </div>
                     </b-overlay>
-                    <div class="small">
-                        <button style="width:30px;height:30px;background:red;" v-on:click="close()">X</button>
-                        <canvas id="daily-chart" width="1300" height="800"></canvas>
+                    <div class="small" style="z-index:10">
+                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
+                        <canvas style="background:white" id="daily-chart" width="1300" height="800"></canvas>
                     </div>
                 </div>
             </div>

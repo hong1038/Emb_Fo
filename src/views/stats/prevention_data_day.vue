@@ -43,10 +43,13 @@
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :gridOptions="gridOptions"  :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
                     </div>
-                    <div class="small">
-                        <button style="width:30px;height:30px;background:red;" v-on:click="close()">X</button>
-                        <canvas id="daily-chart" width="1300" height="800"></canvas>
-                        <canvas id="daily-chart2" width="1300" height="800"></canvas>
+                    <div class="small" style="z-index:10">
+                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
+                        <div>
+
+                        <canvas style="background:white;margin-bottom:50px" id="daily-chart" width="1300" height="350"></canvas>
+                        <canvas style="background:white" id="daily-chart2" width="1300" height="350"></canvas>
+                        </div>
                     </div>
                     </b-overlay>
                 </div>
@@ -532,6 +535,18 @@ export default {
 </script>
 
 <style>
+.small {
+    /* max-width: 600px; */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .5);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
 @font-face {
     font-family: "CJ Onlyone Medium";
     src: url(/fonts/CJOnlyoneMedium.ttf);
