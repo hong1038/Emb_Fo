@@ -99,7 +99,7 @@
                                 </b-row>
                               
                                 <b-row>
-                                    <b-col class="line2 regiName">고유일련번호</b-col>
+                                    <b-col class="regiName col-4">고유일련번호</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="odor_number"></b-form-input>
                                 </b-row>
                                 <b-row>
@@ -943,13 +943,13 @@ export default {
 
 .mmtableWrap .row:not(.line1_box)>input,
 .mmtableWrap .row>select {
-    max-width: 210px;
+    max-width: 260px;
 }
 
 .line1,
 .line2 {
     box-sizing: border-box;
-    padding-left: 22px;
+    /*padding-left: 22px;*/
 }
 
 .line2+input {
@@ -959,7 +959,29 @@ export default {
 
 .measurementBox .check_list {
     position: relative;
-    left: -45px;
+    left: 0px;
+}
+
+.measurementBox .scroll_box{
+    overflow-y:scroll;
+    height:150px;
+    width:66.5%;
+    border:1px solid #cccccc;
+    border-radius: 3px;
+    left:-1.5px;
+}
+
+.measurementBox .scroll_box>div{
+    word-break: keep-all;
+}
+
+.measurementBox .scroll_box>div input[type=checkbox]{
+    margin-left:5px;
+}
+
+.measurementBox .scroll_box>div label{
+    padding-left:10px;
+    width:90%;
 }
 
 .popUpMessage #form-confirm-label {
