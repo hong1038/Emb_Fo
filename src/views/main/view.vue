@@ -6,6 +6,10 @@
         <div class="inner viewInner">
             <div class="titleBox">
                 {{this.title}}
+                <div class="tabBox">
+                    <div v-on:click="twoDBtn()">지도</div>
+                    <div v-on:click="threeDBtn()">3D</div>
+                </div>
             </div>
             <div class="viewBox viewLeftBox">
 
@@ -964,7 +968,6 @@
     </div>
 </b-container>
 </template>
-
 <script>
 import Header from '@/components/header.vue'
 import store from "@/store/index";
@@ -1289,6 +1292,7 @@ export default {
 }
 
 .titleBox {
+    position:relative;
     width: 100%;
     height: 40px;
     line-height: 40px;
@@ -1296,6 +1300,37 @@ export default {
     padding-left: 15px;
     font-weight: bold;
     font-size: 24px;
+}
+
+.titleBox .tabBox{
+    position: absolute;
+    top:0;
+    right:653px;
+    width:200px;
+    height:100%;
+}
+
+.titleBox .tabBox>div{
+    float:left;
+    width:50%;
+    height:100%;
+    box-sizing: border-box;
+    border:2px solid rgb(167, 167, 167);
+    font-size:16px;
+    text-align: center;
+    line-height:35px;
+    background:#cccccc;
+    cursor:pointer;
+}
+
+.titleBox .tabBox>div:nth-child(1){
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+.titleBox .tabBox>div:nth-child(2){
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-left:none;
 }
 
 .viewInner>div {
