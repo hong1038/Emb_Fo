@@ -6,6 +6,10 @@
         <div class="inner viewInner">
             <div class="titleBox">
                 {{this.title}}
+                <div class="tabBox">
+                    <div v-on:click="twoDBtn()">지도</div>
+                    <div v-on:click="threeDBtn()">3D</div>
+                </div>
             </div>
             <div class="viewBox viewLeftBox">
 
@@ -890,10 +894,10 @@
                 </div>
                     <!-- <b-overlay class="overlay" v-if="show" v-on:click="infoClose()"> -->
                 <div class="bottomBox">
-                    <div class="bottom_subMenuBox bottom_subMenuBox01" v-if="equipList.length <= 8">
+                    <div class="bottom_subMenuBox bottom_subMenuBox01" :style="'height:'+40*Math.ceil(equipList.length/8)" v-if="equipList.length <= 8">
                         <div @click="selectEq(item.equipment_key)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10  && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
                     </div>
-                    <div class="bottom_subMenuBox bottom_subMenuBox02" v-else>
+                    <div class="bottom_subMenuBox bottom_subMenuBox02" :style="'height:'+40*Math.ceil(equipList.length/8)+'px'"  v-else>
                         <div @click="selectEq(item.equipment_key,item)" :class="'eqKey eqKey'+item.equipment_key" v-for="item in equipList2" v-bind:key="item.equipment_key" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_name.length > 10 && item.check === true ? item.equipment_name.substr(0,10)+"..." :item.equipment_name}}</div>
                     </div>
                     <div class="bottom_letBox" v-if="scrubber.length <= 0">
@@ -901,7 +905,7 @@
                     </div>
                     <div class="bottom_letBox"  v-else>
                         <div class="infoBox" v-for="(item,key) in scrubber" v-bind:key="key">
-                            <div :class="'infoTitle infoTitle_'+key"> {{item.internal_name}} 스크러버</div>
+                            <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.internal_name}} 스크러버</span></div>
                             <div class="infoBody">
                                 <div class="infoBody_inlet">
                                     <div>흡입구</div>
@@ -945,6 +949,16 @@
                 <p style="font-size:18px">데이터가 없습니다.</p>
             </div>
             <div v-else class="viewBox viewRightBox">
+                <div style="display:flex;justify-content:flex-end;margin-right:15px">
+                    <div style="display:flex;align-items:center;justify-content: flex-end;">
+                        <span style="display:block;width:12px;height:12px;border-radius:100%;background:#f2c84c"></span>
+                        <span style="font-size:18px">흡입</span>
+                    </div>
+                    <div style="display:flex;align-items:center;margin-left:12px">
+                        <span style="display:block;width:12px;height:12px;border-radius:100%;background:#2cd2f6"></span>
+                        <span style="font-size:18px">배출</span>
+                    </div>
+                </div>
                 <div class="canvasWrap" v-for="(item,idx) in scrubber" v-bind:key="idx">
                     <div>{{item.internal_name}}</div>
                     <canvas :id="'line-graph'+idx" width="560" height="200"></canvas>
@@ -954,7 +968,6 @@
     </div>
 </b-container>
 </template>
-
 <script>
 import Header from '@/components/header.vue'
 import store from "@/store/index";
@@ -1090,6 +1103,7 @@ export default {
                 this.ctxConfig = {
                     type: 'line',
                     options: {
+ 
                         responsive: false,
                         scales: {
                             yAxes: [{
@@ -1124,22 +1138,27 @@ export default {
                             }
                         },
                         maintainAspectRatio: false,
+                        legend: {display: false},
                     },
                     data: {
 
                         labels: graphLabel,
                         datasets: [{
                                 label: '흡입구',
-                                borderColor: '#3f5df1',
+                                borderColor: '#f2c84c',
                                 backgroundColor: 'transparent',
-                                data: graphDataIn
+                                pointRadius: 0,
+                                data: graphDataIn,
+                                borderWidth:5,
                                 // data:dailyChartData
                             },
                             {
                                 label: '배출구',
-                                borderColor: '#f13f3f',
+                                borderColor: '#2cd2f6',
                                 backgroundColor: 'transparent',
-                                data: graphDataOut
+                                pointRadius: 0,
+                                data: graphDataOut,
+                                borderWidth:5
                                 // data:dailyChartData
                             },
                         ]
@@ -1273,6 +1292,7 @@ export default {
 }
 
 .titleBox {
+    position:relative;
     width: 100%;
     height: 40px;
     line-height: 40px;
@@ -1280,6 +1300,37 @@ export default {
     padding-left: 15px;
     font-weight: bold;
     font-size: 24px;
+}
+
+.titleBox .tabBox{
+    position: absolute;
+    top:0;
+    right:653px;
+    width:200px;
+    height:100%;
+}
+
+.titleBox .tabBox>div{
+    float:left;
+    width:50%;
+    height:100%;
+    box-sizing: border-box;
+    border:2px solid rgb(167, 167, 167);
+    font-size:16px;
+    text-align: center;
+    line-height:35px;
+    background:#cccccc;
+    cursor:pointer;
+}
+
+.titleBox .tabBox>div:nth-child(1){
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+.titleBox .tabBox>div:nth-child(2){
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-left:none;
 }
 
 .viewInner>div {
@@ -2124,7 +2175,7 @@ export default {
 }
 
 .bottomBox>.bottom_subMenuBox02 {
-    height: 80px;
+    /* height: 80px; */
 }
 
 .bottomBox>.bottom_subMenuBox>div {
@@ -2147,7 +2198,11 @@ export default {
 }
 
 .bottomBox>.bottom_letBox {
-    height: 190px;
+    box-shadow: 0 0px 11px 3px #ccc;
+    padding-left: 13px;
+    padding-top: 15px;
+    border: 2px solid #ccc;
+    /* height: 190px; */
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -2157,12 +2212,12 @@ export default {
 .bottomBox>.bottom_letBox>.infoBox {
     width: 390px;
     height: 140px;
-    margin-top: 20px;
+    margin-bottom: 20px;
     margin-right: 5px;
     box-sizing: border-box;
     border: 1px solid rgb(171, 171, 255);
     border-radius: 5px;
-    background: rgb(235, 254, 255);
+    /* background: rgb(235, 254, 255); */
 }
 
 .bottomBox>.bottom_letBox>.infoBox:last-child {
@@ -2239,7 +2294,7 @@ export default {
     width: 100%;
     height: 250px;
     box-sizing: border-box;
-    border: 1px solid rgb(135, 176, 192);
+    /* border: 1px solid rgb(135, 176, 192); */
     margin-top: 10px;
 }
 
@@ -2248,7 +2303,8 @@ export default {
 }
 
 .viewRightBox>.canvasWrap>div:nth-child(1) {
-    font-size: 14px;
+    font-size: 22px;
+    font-weight: bold;
     box-sizing: border-box;
     padding: 5px;
 }
