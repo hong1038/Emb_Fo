@@ -12,7 +12,9 @@
             <div class="nav">
                 <ul>
                     <li>
-                        <span class="menu_01" v-on:click="menuBtn">Main</span>
+                        <span class="menu" id="menu_01" v-on:click="menuBtn">
+                            Main
+                        </span>
                         <ul class="main_nav main_nav01">
                             <li>
                                 <router-link :to="{ name: 'Main'}">전체</router-link>
@@ -38,7 +40,7 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_02"  v-on:click="menuBtn">통계</span>
+                        <span class="menu" id="menu_02" v-on:click="menuBtn">통계</span>
                         <ul class="main_nav main_nav02">
                             <li>
                                 <router-link :to="{ name: 'measurementData'}">측정값 조회</router-link>
@@ -61,7 +63,7 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_03"  v-on:click="menuBtn">대응</span>
+                        <span class="menu" id="menu_03" v-on:click="menuBtn">대응</span>
                         <ul class="main_nav main_nav03">
                             <li>
                                 <router-link :to="{ name: 'change'}">변경점 대응</router-link>
@@ -81,7 +83,7 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_04"  v-on:click="menuBtn">진단</span>
+                        <span class="menu" id="menu_04" v-on:click="menuBtn">진단</span>
                         <ul class="main_nav main_nav04">
                             <li>
                                 <router-link :to="{ name: 'maintenanceStatus'}">측정기 유지보수 계약 및 실행현황</router-link>
@@ -89,7 +91,7 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_05"   v-on:click="menuBtn">보고</span>
+                        <span class="menu" id="menu_05" v-on:click="menuBtn">보고</span>
                         <ul class="main_nav main_nav05">
                             <li>
                                 <router-link :to="{ name: 'daily'}">일일 관리일지</router-link>
@@ -103,7 +105,7 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_06"  v-on:click="menuBtn">설정</span>
+                        <span class="menu" id="menu_06" v-on:click="menuBtn">설정</span>
                         <ul class="main_nav main_nav06">
                             <li>
                                 <router-link :to="{ name: 'workplace'}">사업장 기준 정보</router-link>
@@ -152,18 +154,25 @@ export default {
             this.$emit("callbackLocation");
         },
         menuBtn : function(event){
-            let show = event.target.className;
-            // let mainMenu = event.target
+            let show = event.target.id;
+            
+            let menuStyle = document.getElementsByClassName('menu')
             let menu = new Array();
             menu = document.getElementsByClassName('main_nav');
             for(let i=0; i < menu.length; i++){
                 menu[i].style.display = "none"
+                menuStyle[i].style.fontSize = '22px'
+                menuStyle[i].style.textShadow = "none"
+                // menuStyle[i].style.background = "url('@/assets/icon/icon_0"+(i+1)+".png') 20px center no-repeat"
+                console.log(menuStyle[i].style.background)
             }
            
            
             if(show == "menu_01"){
                 if(this.count01 == "0"){
                     menu[0].style.display = "block";
+                    menuStyle[0].style.fontSize = "24px"
+                    menuStyle[0].style.textShadow = "1px 1px 3px rgb(251,255,0)"
                     this.count01 = "1"
 
                     this.count02 = "0"
@@ -180,6 +189,8 @@ export default {
             else if(show == "menu_02"){
                 if(this.count02 == "0"){
                     menu[1].style.display = "block";
+                    menuStyle[1].style.fontSize = "24px"
+                    menuStyle[1].style.textShadow = "1px 1px 3px rgb(251,255,0)"
                     this.count02 = "1"
 
                     this.count01 = "0"
@@ -196,6 +207,8 @@ export default {
             else if(show == "menu_03"){
                 if(this.count03 == "0"){
                     menu[2].style.display = "block";
+                    menuStyle[2].style.fontSize = "24px"
+                    menuStyle[2].style.textShadow = "1px 1px 3px rgb(251,255,0)"
                     this.count03 = "1"
 
                     this.count01 = "0"
@@ -212,6 +225,8 @@ export default {
             else if(show == "menu_04"){
                 if(this.count04 == "0"){
                     menu[3].style.display = "block";
+                    menuStyle[3].style.fontSize = "24px"
+                    menuStyle[3].style.textShadow = "1px 1px 3px rgb(251,255,0)"
                     this.count04 = "1"
 
                     this.count01 = "0"
@@ -228,6 +243,8 @@ export default {
             else if(show == "menu_05"){
                 if(this.count05 == "0"){
                     menu[4].style.display = "block";
+                    menuStyle[4].style.fontSize = "24px"
+                    menuStyle[4].style.textShadow = "1px 1px 3px rgb(251,255,0)"
                     this.count05 = "1"
 
                     this.count01 = "0"
@@ -244,6 +261,8 @@ export default {
             else{
                 if(this.count06 == "0"){
                     menu[5].style.display = "block";
+                    menuStyle[5].style.fontSize = "24px"
+                    menuStyle[5].style.textShadow = "1px 1px 3px rgb(251,255,0)"
                     this.count06 = "1"
 
                     this.count01 = "0"
@@ -1016,58 +1035,58 @@ only screen and (min-device-pixel-ratio: 1.5) {
     text-decoration: none;
 }
 
-#header .nav>ul>li>span.menu_01 {
+#header .nav>ul>li>#menu_01 {
     background: url(../assets/icon/icon_01.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_02 {
+#header .nav>ul>li>#menu_02 {
     background: url(../assets/icon/icon_02.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_03 {
+#header .nav>ul>li>#menu_03 {
     background: url(../assets//icon/icon_03.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_04 {
+#header .nav>ul>li>#menu_04 {
     background: url(../assets//icon/icon_04.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_05 {
+#header .nav>ul>li>#menu_05 {
     background: url(../assets//icon/icon_05.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_06 {
+#header .nav>ul>li>#menu_06 {
     background: url(../assets//icon/icon_06.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_01:hover {
+/*#header .nav>ul>li>#menu_01:hover {
     background: url(../assets/icon/icon_01_on.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_02:hover {
+#header .nav>ul>li>#menu_02:hover {
     background: url(../assets//icon/icon_02_on.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_03:hover {
+#header .nav>ul>li>#menu_03:hover {
     background: url(../assets//icon/icon_03_on.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_04:hover {
+#header .nav>ul>li>#menu_04:hover {
     background: url(../assets//icon/icon_04_on.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_05:hover {
+#header .nav>ul>li>#menu_05:hover {
     background: url(../assets//icon/icon_05_on.png) 20px center no-repeat;
 }
 
-#header .nav>ul>li>span.menu_06:hover {
+#header .nav>ul>li>#menu_06:hover {
     background: url(../assets//icon/icon_06_on.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span:hover {
     text-shadow: 1px 1px 3px rgb(251, 255, 0);
     font-size: 24px;
-}
+}*/
 
 #header .nav>ul>li>span:hover:before {
     opacity: 1;
@@ -1104,10 +1123,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
     box-sizing: border-box;
 }
 
-/*#header .nav>ul>li>ul>li a:hover {
-    font-size: 22px;
-    text-shadow: 0px 0px 10px rgb(251, 255, 0);
-}*/
 
 /* contents 공통 */
 .con {

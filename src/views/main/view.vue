@@ -996,10 +996,10 @@ export default {
             data: [],
             ctxDaily: null,
             ctxConfig: null,
-            // bgImg: store.state.bgImg,
+            bgImg: store.state.bgImg,
             pinList: [],
 
-            // imgBoxStyle:"backgroundImage:url(@/assets/rendering/pin03_1.png"
+            imgBoxStyle:""
         }
 
     },
@@ -1012,6 +1012,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res.data.data)
                             res.data.data.map((e) => {
                                 // // 실제 값이 있다면 바로 아래에 있는 if문은 지워야 합니다.
                                 // if (idx == 1 || idx == 2 || idx == 3) {   
@@ -1034,13 +1035,13 @@ export default {
                             })
                             this.pinList = res.data.data;
 
-                            // if (this.pinList.length > 15) {
-                            //     this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:"+ (450+((this.pinList.length-17)*20))+"px;"
-                            //     // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;height:"+ (450+((this.pinList.length-17)*20))+"px;"
-                            // }else{
-                            //     this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");"
-                            //     // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;"
-                            // }
+                            if (this.pinList.length > 15) {
+                                this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:"+ (450+((this.pinList.length-17)*20))+"px;"
+                                // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;height:"+ (450+((this.pinList.length-17)*20))+"px;"
+                            }else{
+                                this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");"
+                                // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;"
+                            }
                         }
                     }
                 })
@@ -1182,6 +1183,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res.data.data)
                             this.title = store.state.serverName
                             this.scrubber = res.data.data
                             setTimeout(() => {
@@ -1208,6 +1210,7 @@ export default {
                             res.data.data.map(e => {
                                 e.check = true
                             })
+                            console.log(res)
                             that.equipList = res.data.data;
                             that.equipList2 = res.data.data;
                             setTimeout(() => {
