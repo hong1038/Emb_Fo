@@ -12,10 +12,8 @@
             <div class="nav">
                 <ul>
                     <li>
-                        <span class="menu_01">
-                            <router-link :to="{ name: 'Main'}">Main</router-link>
-                        </span>
-                        <ul class="main_nav">
+                        <span class="menu_01" v-on:click="menuBtn">Main</span>
+                        <ul class="main_nav main_nav01">
                             <li>
                                 <router-link :to="{ name: 'Main'}">전체</router-link>
                             </li>
@@ -40,10 +38,8 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_02">
-                            <router-link :to="{ name: 'measurementData'}">통계</router-link>
-                        </span>
-                        <ul class="main_nav">
+                        <span class="menu_02"  v-on:click="menuBtn">통계</span>
+                        <ul class="main_nav main_nav02">
                             <li>
                                 <router-link :to="{ name: 'measurementData'}">측정값 조회</router-link>
                             </li>
@@ -65,10 +61,8 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_03">
-                            <router-link :to="{ name: 'change'}">대응</router-link>
-                        </span>
-                        <ul class="main_nav">
+                        <span class="menu_03"  v-on:click="menuBtn">대응</span>
+                        <ul class="main_nav main_nav03">
                             <li>
                                 <router-link :to="{ name: 'change'}">변경점 대응</router-link>
                             </li>
@@ -87,20 +81,16 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_04">
-                            <router-link :to="{ name: 'maintenanceStatus'}">진단</router-link>
-                        </span>
-                        <ul class="main_nav">
+                        <span class="menu_04"  v-on:click="menuBtn">진단</span>
+                        <ul class="main_nav main_nav04">
                             <li>
                                 <router-link :to="{ name: 'maintenanceStatus'}">측정기 유지보수 계약 및 실행현황</router-link>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_05">
-                            <router-link :to="{ name: 'daily'}">보고</router-link>
-                        </span>
-                        <ul class="main_nav">
+                        <span class="menu_05"   v-on:click="menuBtn">보고</span>
+                        <ul class="main_nav main_nav05">
                             <li>
                                 <router-link :to="{ name: 'daily'}">일일 관리일지</router-link>
                             </li>
@@ -113,10 +103,8 @@
                         </ul>
                     </li>
                     <li>
-                        <span class="menu_06">
-                            <router-link :to="{ name: 'workplace'}">설정</router-link>
-                        </span>
-                        <ul class="main_nav">
+                        <span class="menu_06"  v-on:click="menuBtn">설정</span>
+                        <ul class="main_nav main_nav06">
                             <li>
                                 <router-link :to="{ name: 'workplace'}">사업장 기준 정보</router-link>
                             </li>
@@ -147,11 +135,128 @@
 import 'ag-grid-enterprise';
 import store from '@/store/index';
 export default {
+    data(){
+        return{
+            count01 : "0",
+            count02 : "0",
+            count03 : "0",
+            count04 : "0",
+            count05 : "0",
+            count06 : "0",
+        }
+    },
     methods: {
         resetMain(areaCode) {
             store.state.areaCode = areaCode
             //console.log("header.store.state.areaCode = " + store.state.areaCode)
             this.$emit("callbackLocation");
+        },
+        menuBtn : function(event){
+            let show = event.target.className;
+            // let mainMenu = event.target
+            let menu = new Array();
+            menu = document.getElementsByClassName('main_nav');
+            for(let i=0; i < menu.length; i++){
+                menu[i].style.display = "none"
+            }
+           
+           
+            if(show == "menu_01"){
+                if(this.count01 == "0"){
+                    menu[0].style.display = "block";
+                    this.count01 = "1"
+
+                    this.count02 = "0"
+                    this.count03 = "0"
+                    this.count04 = "0"
+                    this.count05 = "0"
+                    this.count06 = "0"
+                }
+                else{
+                    menu[0].style.display = "none";
+                    this.count01 = "0"
+                }
+            }
+            else if(show == "menu_02"){
+                if(this.count02 == "0"){
+                    menu[1].style.display = "block";
+                    this.count02 = "1"
+
+                    this.count01 = "0"
+                    this.count03 = "0"
+                    this.count04 = "0"
+                    this.count05 = "0"
+                    this.count06 = "0"
+                }
+                else{
+                    menu[1].style.display = "none";
+                    this.count02 = "0"
+                }
+            }
+            else if(show == "menu_03"){
+                if(this.count03 == "0"){
+                    menu[2].style.display = "block";
+                    this.count03 = "1"
+
+                    this.count01 = "0"
+                    this.count02 = "0"
+                    this.count04 = "0"
+                    this.count05 = "0"
+                    this.count06 = "0"
+                }
+                else{
+                    menu[2].style.display = "none";
+                    this.count03 = "0"
+                }
+            }
+            else if(show == "menu_04"){
+                if(this.count04 == "0"){
+                    menu[3].style.display = "block";
+                    this.count04 = "1"
+
+                    this.count01 = "0"
+                    this.count02 = "0"
+                    this.count03 = "0"
+                    this.count05 = "0"
+                    this.count06 = "0"
+                }
+                else{
+                    menu[3].style.display = "none";
+                    this.count04 = "0"
+                }
+            }
+            else if(show == "menu_05"){
+                if(this.count05 == "0"){
+                    menu[4].style.display = "block";
+                    this.count05 = "1"
+
+                    this.count01 = "0"
+                    this.count02 = "0"
+                    this.count03 = "0"
+                    this.count04 = "0"
+                    this.count06 = "0"
+                }
+                else{
+                    menu[4].style.display = "none";
+                    this.count05 = "0"
+                }
+            }
+            else{
+                if(this.count06 == "0"){
+                    menu[5].style.display = "block";
+                    this.count06 = "1"
+
+                    this.count01 = "0"
+                    this.count02 = "0"
+                    this.count03 = "0"
+                    this.count04 = "0"
+                    this.count05 = "0"
+                }
+                else{
+                    menu[5].style.display = "none";
+                    this.count06 = "0"
+                }
+            }
         }
     }
 };
@@ -868,32 +973,36 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 #header .nav>ul>li {
     float: left;
-    width: 15%;
+    width: 10%;
+    margin-left:5%;
     height: 100%;
     box-sizing: border-box;
     text-align: center;
+}
+#header .nav>ul>li:nth-child(1){
+    margin-left:2%;
 }
 
 #header .nav>ul>li>span {
     position: relative;
     font-size: 22px;
-    line-height: 80px;
+    line-height: 78px;
     color: #fff;
     width: 100%;
     height: 100%;
     display: inline-block;
     transition: all 0.2s;
     text-decoration: none;
-    cursor: default;
+    cursor: pointer;
 }
 
 #header .nav>ul>li>span:before {
     content: "";
     position: absolute;
     top: 60px;
-    left: 40px;
+    left: 17px;
     background: white;
-    width: 100px;
+    width: 87px;
     height: 2px;
     opacity: 0;
     transition: all 0.3s;
@@ -908,51 +1017,51 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 #header .nav>ul>li>span.menu_01 {
-    background: url(../assets/icon/icon_01.png) 45px center no-repeat;
-}
-
-#header .nav>ul>li>span.menu_01:hover {
-    background: url(../assets/icon/icon_01_on.png) 45px center no-repeat;
+    background: url(../assets/icon/icon_01.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span.menu_02 {
-    background: url(../assets/icon/icon_02.png) 45px center no-repeat;
-}
-
-#header .nav>ul>li>span.menu_02:hover {
-    background: url(../assets//icon/icon_02_on.png) 45px center no-repeat;
+    background: url(../assets/icon/icon_02.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span.menu_03 {
-    background: url(../assets//icon/icon_03.png) 45px center no-repeat;
-}
-
-#header .nav>ul>li>span.menu_03:hover {
-    background: url(../assets//icon/icon_03_on.png) 45px center no-repeat;
+    background: url(../assets//icon/icon_03.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span.menu_04 {
-    background: url(../assets//icon/icon_04.png) 45px center no-repeat;
-}
-
-#header .nav>ul>li>span.menu_04:hover {
-    background: url(../assets//icon/icon_04_on.png) 45px center no-repeat;
+    background: url(../assets//icon/icon_04.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span.menu_05 {
-    background: url(../assets//icon/icon_05.png) 45px center no-repeat;
-}
-
-#header .nav>ul>li>span.menu_05:hover {
-    background: url(../assets//icon/icon_05_on.png) 45px center no-repeat;
+    background: url(../assets//icon/icon_05.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span.menu_06 {
-    background: url(../assets//icon/icon_06.png) 45px center no-repeat;
+    background: url(../assets//icon/icon_06.png) 20px center no-repeat;
+}
+
+#header .nav>ul>li>span.menu_01:hover {
+    background: url(../assets/icon/icon_01_on.png) 20px center no-repeat;
+}
+
+#header .nav>ul>li>span.menu_02:hover {
+    background: url(../assets//icon/icon_02_on.png) 20px center no-repeat;
+}
+
+#header .nav>ul>li>span.menu_03:hover {
+    background: url(../assets//icon/icon_03_on.png) 20px center no-repeat;
+}
+
+#header .nav>ul>li>span.menu_04:hover {
+    background: url(../assets//icon/icon_04_on.png) 20px center no-repeat;
+}
+
+#header .nav>ul>li>span.menu_05:hover {
+    background: url(../assets//icon/icon_05_on.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span.menu_06:hover {
-    background: url(../assets//icon/icon_06_on.png) 45px center no-repeat;
+    background: url(../assets//icon/icon_06_on.png) 20px center no-repeat;
 }
 
 #header .nav>ul>li>span:hover {
@@ -972,19 +1081,15 @@ only screen and (min-device-pixel-ratio: 1.5) {
     background: #363843;
     position: absolute;
     top: 80px;
-    left: 0;
-    display: none;
+    left: 0; 
     z-index: 1000;
+    display:none;
 }
 
 #header .nav>ul>li>ul>li {
     float: left;
     margin-right: 45px;
     text-align: center;
-}
-
-#header .nav>ul>li:hover>ul {
-    display: block;
 }
 
 #header .nav>ul>li>ul>li:first-child {
@@ -999,10 +1104,10 @@ only screen and (min-device-pixel-ratio: 1.5) {
     box-sizing: border-box;
 }
 
-#header .nav>ul>li>ul>li a:hover {
+/*#header .nav>ul>li>ul>li a:hover {
     font-size: 22px;
     text-shadow: 0px 0px 10px rgb(251, 255, 0);
-}
+}*/
 
 /* contents 공통 */
 .con {
