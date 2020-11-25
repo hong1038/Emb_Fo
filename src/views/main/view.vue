@@ -997,6 +997,7 @@ export default {
             ctxDaily: null,
             ctxConfig: null,
             bgImg: store.state.bgImg,
+            bgImg2d: store.state.bgImg2d,
             pinList: [],
 
             imgBoxStyle:""
@@ -1035,13 +1036,9 @@ export default {
                             })
                             this.pinList = res.data.data;
 
-                            if (this.pinList.length > 15) {
-                                this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:"+ (450+((this.pinList.length-17)*20))+"px;"
+                            this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
                                 // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;height:"+ (450+((this.pinList.length-17)*20))+"px;"
-                            }else{
-                                this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");"
-                                // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;"
-                            }
+                            
                         }
                     }
                 })
@@ -1281,6 +1278,14 @@ export default {
         infoClose(item){
             this.show = false;
             console.log(item)
+        },
+        twoDBtn(){
+            console.log("111111")
+            this.imgBoxStyle = "backgroundImage:url("+this.bgImg2d+");height:466px;"
+        },
+        threeDBtn(){
+            console.log("222222")
+            this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
         }
     }
 
