@@ -1328,6 +1328,8 @@ export default {
     text-align: center;
     line-height:35px;
     background:#cccccc;
+    color:rgb(131, 131, 131);
+    transition:all 0.2s;
     cursor:pointer;
 }
 
@@ -1339,6 +1341,12 @@ export default {
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
     border-left:none;
+}
+
+.titleBox .tabBox>div:hover{
+    background:#949494;
+    font-weight:bold;
+    color:black;
 }
 
 .viewInner>div {
