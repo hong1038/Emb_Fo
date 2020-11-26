@@ -478,9 +478,9 @@ export default {
                             that.category_cd = res.data.data.category_cd
                             that.equipment_inner_nm = res.data.data.equipment_inner_nm
                             that.equipment_key = res.data.equipment_key
-
+                            that.odor_number = res.data.data.odor_number
+                            that.internal_number = res.data.data.internal_number
                             that.internal_name = res.data.data.internal_name
-                            that.internal_numger = res.data.data.internal_numger
                             that.legal_standard = res.data.data.legal_standard
                             that.manage_standard = res.data.data.manage_standard
                             that.location = res.data.data.location
@@ -566,9 +566,10 @@ export default {
                     facility: this.facility,
                     public_name : this.public_name,
                     internal_name: this.internal_name,
-                    internal_numger: this.internal_numger,
+                    internal_number: this.internal_number,
                     legal_standard: this.legal_standard,
                     manage_standard: this.manage_standard,
+                    odor_number:this.odor_number,
                     ordr_no: this.odor_no,
                     unit: this.unit,
                     usedSensors: this.usedSensors,
