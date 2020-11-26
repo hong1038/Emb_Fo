@@ -17,7 +17,7 @@
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
                         <!--<div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"><p style="display:flex;align-items:center;padding:0 5px"><span :style="'margin-right:5px;position:absoulte;left:35%;top:20px;border:1px solid #9bb5c7v;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p></div>-->
-                        <div class="view_pin01"></div>
+                        <!--<div class="view_pin01"></div>
                         <div class="view_pin02"></div>
                         <div class="view_pin03"></div>
                         <div class="view_pin04"></div>
@@ -29,7 +29,7 @@
                         <div class="view_pin10"></div>
                         <div class="view_pin11"></div>
                         <div class="view_pin12"></div>
-                        <!--<div class="view_pin13">13</div>
+                        <div class="view_pin13">13</div>
                         <div class="view_pin14">14</div>
                         <div class="view_pin15">15</div>
                         <div class="view_pin16">16</div>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="pinBoxWrap" style="width:100%;">
-                        <!--<div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
+                        <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
                             <div class="pinTitle">{{item.equipment_inner_nm}}</div>
                             <div class="scrollbox"  style="overflow-y:scroll;height:70%">
                                 <div v-for="(e,idx) in testdata" :key="index+idx">
@@ -51,9 +51,16 @@
                                             <b-col cols="4">{{e.outlet_standard_value}}</b-col>
                                         </b-row>
                                     </div>
+                                    <!--<div  class="container" v-if="e.equipment_inner_nm == item.equipment_inner_nm">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{e.equipment_name}}</b-col>
+                                            <b-col cols="4">{{e.outlet_avg_value}}</b-col>
+                                            <b-col cols="4">{{e.outlet_standard_value}}</b-col>
+                                        </b-row>
+                                    </div>-->
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
 
 
                         <!--공주 pin01-->
@@ -165,20 +172,20 @@
                         </div>-->
 
                         <!--부산 - pin04-->
-                        <div class="pinBox pinBoxBig02 pinBox01">
+                        <!--<div class="pinBox pinBoxBig02 pinBox01">
                             <div class="pinTitle">원료동B 방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -186,16 +193,16 @@
                             <div class="pinTitle">원료동A 방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -203,16 +210,16 @@
                             <div class="pinTitle">식초 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -220,16 +227,16 @@
                             <div class="pinTitle">전분건조C 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -237,16 +244,16 @@
                             <div class="pinTitle">다시다C 방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -254,16 +261,16 @@
                             <div class="pinTitle">다시다A 방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -271,16 +278,16 @@
                             <div class="pinTitle">다시다B 방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -288,16 +295,16 @@
                             <div class="pinTitle">HMR 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -305,9 +312,16 @@
                             <div class="pinTitle">신관</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -315,9 +329,16 @@
                             <div class="pinTitle">정문 옥상</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
@@ -325,155 +346,190 @@
                             <div class="pinTitle">후문</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>-->
 
                         <!--성남 - pin05-->
-                        <!--<div class="pinBox pinBoxBig pinBox01">
+                        <!--<div class="pinBox pinBox01">
                             <div class="pinTitle">폐수처리장 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>-->
 
                         <!--안산 - pin07-->
-                        <!--<div class="pinBox  pinBox01">
+                        <!--<div class="pinBox pinBox01">
                             <div class="pinTitle">20톤 보일러 배출구 TMS</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox  pinBox02">
+                        <div class="pinBox pinBox02">
                             <div class="pinTitle">30톤 보일러 배출구 TMS</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox  pinBox03">
+                        <div class="pinBox pinBox03">
                             <div class="pinTitle">35톤 보일러 배출구 TMS</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox  pinBox04">
+                        <div class="pinBox pinBox04">
                             <div class="pinTitle">폐수처리장 방류수</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
+                                </b-row>
+                            </div>
+                            <div class="container">
+                                <b-row class="pinBody">
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox pinBoxBig02 pinBox05">
+                        <div class="pinBox pinBox05">
                             <div class="pinTitle">전분건조C 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox pinBoxBig02 pinBox06">
+                        <div class="pinBox pinBox06">
                             <div class="pinTitle">재생로 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">후단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox pinBoxBig02 pinBox07">
+                        <div class="pinBox pinBox07">
                             <div class="pinTitle">폐수처리장 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">전단</b-col>
-                                    <b-col cols="4">500</b-col>
-                                    <b-col cols="4">3,820</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">3,820</b-col>
-                                    <b-col cols="4">20</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox pinBoxBig02 pinBox08">
+                        <div class="pinBox pinBox08">
                             <div class="pinTitle">전분 350CMM 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">3,820</b-col>
-                                    <b-col cols="4">20</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">3,820</b-col>
-                                    <b-col cols="4">20</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>
-                        <div class="pinBox pinBoxBig02 pinBox09">
+                        <div class="pinBox pinBox09">
                             <div class="pinTitle">전분 450CMM 악취방지시설</div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">3,820</b-col>
-                                    <b-col cols="4">20</b-col>
+                                    <b-col cols="4">기준<span>(배)</span></b-col>
+                                    <b-col cols="4">흡입<span>(배)</span></b-col>
+                                    <b-col cols="4">배출<span>(배)</span></b-col>
                                 </b-row>
                             </div>
                             <div class="container">
                                 <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">3,820</b-col>
-                                    <b-col cols="4">20</b-col>
+                                    <b-col cols="4">5,000</b-col>
+                                    <b-col cols="4">4,000</b-col>
+                                    <b-col cols="4">1,000</b-col>
                                 </b-row>
                             </div>
                         </div>-->
@@ -1897,7 +1953,7 @@ export default {
 }*/
 
 /*---------------------------부산 pin04*/
-.view_pin01 {
+/*.view_pin01 {
     top:25px;
     right:550px;
 }
@@ -1913,7 +1969,7 @@ export default {
 }
 
 .view_pin04 {
-    top:320px;
+    top:330px;
     right:815px;
 }
 
@@ -1938,7 +1994,7 @@ export default {
 }
 
 .view_pin09 {
-    top:220px;
+    top:230px;
     right:315px;
 }
 
@@ -1964,23 +2020,23 @@ export default {
     left:35px;
 }
 .imgBox .pinBox04{
-    top:340px;
+    top:350px;
     left:35px;
 }
 .imgBox .pinBox05{
-    top:340px;
+    top:350px;
     left:270px;
 }
 .imgBox .pinBox06{
-    top:340px;
+    top:350px;
     left:508px;
 }
 .imgBox .pinBox07{
-    top:340px;
+    top:350px;
     left:745px;
 }
 .imgBox .pinBox08{
-    top:340px;
+    top:350px;
     left:980px;
 }
 .imgBox .pinBox09{
@@ -1997,14 +2053,11 @@ export default {
 }*/
 
 /*--------------------------씨푸드 성남 - pin05*/
-/*핀 */
 /*.view_pin01 {
-    top: 180px;
+    top: 185px;
     right: 893px;
-}*/
-
-/*박스 */
-/*.imgBox .pinBox01{
+}
+.imgBox .pinBox01{
     top:38px;
     left:10px;
 }*/
@@ -2012,66 +2065,64 @@ export default {
 /*--------------------------이천 - pin06*/
 
 /*--------------------------안산 - pin07*/
-/*pin*/
 /*.view_pin01 {
-    top:150px;
+    top:152px;
     right:703px;
 }
 
 .view_pin02 {
-    top:172px;
+    top:175px;
     right:703px;
 }
 
 .view_pin03 {
-    top:196px;
+    top:203px;
     right:703px;
 }
 
 .view_pin04 {
-    top:317px;
+    top:327px;
     right:315px;
 }
 
 .view_pin05 {
-    top:400px;
+    top:413px;
     right:795px;
 }
 
 .view_pin06 {
-    top:120px;
+    top:125px;
     right:587px;
 }
 
 .view_pin07 {
-    top:170px;
+    top:175px;
     right:323px;
 }
 
 .view_pin08 {
-    top:197px;
+    top:203px;
     right:825px;
 }
 
 .view_pin09 {
-    top:225px;
+    top:230px;
     right:825px;
-}*/
-/*box */
-/*.imgBox .pinBox01{
+}
+.imgBox .pinBox01{
+    top:10px;
+    left:250px;
+}
+.imgBox .pinBox02{
     top:10px;
     left:35px;
 }
-.imgBox .pinBox02{
-    top:95px;
-    left:35px;
-}
 .imgBox .pinBox03{
-    top:170px;
+    top:120px;
     left:35px;
 }
 .imgBox .pinBox04{
-    top:255px;
+    top:230px;
     left:35px;
 }
 .imgBox .pinBox05{
