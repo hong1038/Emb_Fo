@@ -42,12 +42,16 @@
                     <div class="pinBoxWrap" style="width:100%;">
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="item in boxList" :key="item.box_code" :style="item.style">
                             <div class="pinTitle">{{item.equipment_inner_nm}}</div>
-                            <div class="container">
-                                <b-row class="pinBody">
-                                    <b-col cols="4">복합악취</b-col>
-                                    <b-col cols="4">3,820</b-col>
-                                    <b-col cols="4">20</b-col>
-                                </b-row>
+                            <div  style="overflow-y:scroll;height:70%">
+                                <div v-for="e in testdata" :key="e.equipment_inner_nm+e.mno">
+                                    <div  class="container" v-if="e.equipment_inner_nm == item.equipment_inner_nm">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{e.equipment_name}}</b-col>
+                                            <b-col cols="4">{{e.outlet_avg_value}}</b-col>
+                                            <b-col cols="4">{{e.outlet_standard_value}}</b-col>
+                                        </b-row>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -1003,6 +1007,7 @@ export default {
     created() {
         this.getEquips();
         this.test()
+        this.test2()
         this.test3()
     },
     data() {
@@ -1026,6 +1031,7 @@ export default {
 
             imgBoxStyle:"",
             boxList:[],
+            testdata:[],
         }
 
     },
@@ -1045,6 +1051,22 @@ export default {
                 console.log(this.boxList)
             }).catch(err =>{
                 alert(err)
+            })
+        },
+        test2(){
+            this.$Axios.post("/api/daedan/cj/ems/main/MonitoringListPerHourSensor2", {
+                serverKey: store.state.serverKey,
+                date: store.state.szCurDt
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        this.testdata = res.data.data;
+                    }
+                }
+            })
+            .catch(err => {
+                alert("가동률데이터목록 추출 실패 \n" + err);
             })
         },
         test(){
@@ -1492,7 +1514,7 @@ export default {
 }
 
 .imgBox .pinBoxSmall03{
-    width:150px;
+    width:160px;
     height:80px;
 }
 
@@ -1505,7 +1527,7 @@ export default {
 }
 
 .imgBox .pinBoxBig03{
-    width:150px;
+    width:160px;
     height:100px;
 }
 
