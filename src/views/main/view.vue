@@ -42,7 +42,7 @@
                     <div class="pinBoxWrap" style="width:100%;">
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="item in boxList" :key="item.box_code" :style="item.style">
                             <div class="pinTitle">{{item.equipment_inner_nm}}</div>
-                            <div  style="overflow-y:scroll;height:70%">
+                            <div class="scrollbox"  style="overflow-y:scroll;height:70%">
                                 <div v-for="e in testdata" :key="e.equipment_inner_nm+e.mno">
                                     <div  class="container" v-if="e.equipment_inner_nm == item.equipment_inner_nm">
                                         <b-row class="pinBody">
@@ -2399,6 +2399,22 @@ export default {
 }
 
 .viewRightBox::-webkit-scrollbar-track {
+    width: 5px;
+    background: #ccc;
+    border-radius: 5px;
+}
+
+.scrollbox::-webkit-scrollbar {
+    width: 5px;
+}
+
+.scrollbox::-webkit-scrollbar-thumb {
+    width: 5px;
+    background: rgb(121, 121, 255);
+    border-radius: 5px;
+}
+
+.scrollbox::-webkit-scrollbar-track {
     width: 5px;
     background: #ccc;
     border-radius: 5px;
