@@ -43,22 +43,22 @@
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
                             <div class="pinTitle">{{item.equipment_inner_nm}}</div>
                             <div class="scrollbox"  style="overflow-y:scroll;height:70%">
-                                <div v-for="(e,idx) in testdata" :key="index+idx">
-                                    <div  class="container" v-if="e.equipment_inner_nm == item.equipment_inner_nm">
+                                <div  class="container" >
                                         <b-row class="pinBody">
-                                            <b-col cols="4">{{e.equipment_name}}</b-col>
-                                            <b-col cols="4">{{e.outlet_avg_value}}</b-col>
-                                            <b-col cols="4">{{e.outlet_standard_value}}</b-col>
+                                            <b-col cols="4">기준<span style="font-size:8px">(배)</span></b-col>
+                                            <b-col cols="4">흡입<span style="font-size:8px">(배)</span></b-col>
+                                            <b-col cols="4">배출<span style="font-size:8px">(배)</span></b-col>
                                         </b-row>
                                     </div>
-                                    <!--<div  class="container" v-if="e.equipment_inner_nm == item.equipment_inner_nm">
+                                    <div  class="container">
                                         <b-row class="pinBody">
-                                            <b-col cols="4">{{e.equipment_name}}</b-col>
-                                            <b-col cols="4">{{e.outlet_avg_value}}</b-col>
-                                            <b-col cols="4">{{e.outlet_standard_value}}</b-col>
+                                            <b-col cols="4">1000</b-col>
+                                            <b-col cols="4" >{{boxlistvalin[index]}}</b-col>
+                                            <b-col cols="4" >{{boxlistvalout[index]}}</b-col>
                                         </b-row>
-                                    </div>-->
-                                </div>
+                                    </div>
+                                <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                <!-- </div> -->
                             </div>
                         </div>
 
@@ -1310,6 +1310,8 @@ export default {
             imgBoxStyle:"",
             boxList:[],
             testdata:[],
+            boxlistvalin:[],
+            boxlistvalout:[],
         }
 
     },
@@ -1340,6 +1342,35 @@ export default {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
                         this.testdata = res.data.data;
+                        this.boxlistvalin = []
+                        this.boxlistvalout = []
+                        this.boxList.map(e => {
+                            let inval = []
+                            let outval = []
+                            this.testdata.map(el => {
+                                if (e.equipment_inner_nm == el.equipment_inner_nm) {
+                                    inval.push(el.inlet_avg_value)
+                                    outval.push(el.outlet_avg_value)   
+                                }
+                            })
+                            // inval = [1,8,50,8,5,3]
+                            // outval = [1,8,50,8,5,3]
+                            if (inval.length === 0) {                                
+                                this.boxlistvalin.push("값이없음")
+                            }else{
+                                this.boxlistvalin.push(inval.reduce((sum, current) => sum + current, 0) / inval.length)
+                            }
+                            if (outval.length === 0) {
+                                this.boxlistvalout.push("값이없음")
+                            }else{
+                                this.boxlistvalout.push(outval.reduce((sum, current) => sum + current, 0) / outval.length)    
+                            }
+                        })
+
+                        this.boxlistvalin
+                        this.boxlistvalout
+                        console.log(this.boxlistvalin)
+                        console.log(this.boxlistvalout)
                     }
                 }
             })
