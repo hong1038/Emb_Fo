@@ -83,7 +83,8 @@
                                                 <li :class="item.idx + '_percent_10 percent '"></li>
                                             </ul>
                                         </b-col>
-                                        <b-col cols="4">{{item.inlet_avg}}/{{item.inlet_mean}}</b-col>
+                                        <b-col cols="4" v-if="item.place === 512" >{{item.outlet_avg}}/500</b-col>
+                                        <b-col cols="4" v-if="item.place === 510" >{{item.inlet_avg}}/10000</b-col>
                                     </b-row>
                                 </div>
                             </div>
@@ -586,25 +587,49 @@ export default {
                     //     return false
                     // }
                     console.log(e.inlet_avg, e.inlet_mean)
-                    for (let index = 1; index <= 10; index++) {
-                        if (index === 11) {
-                            break;
+                    if (e.place === 510) {
+                        for (let index = 1; index <= 10; index++) {
+                            if (index === 11) {
+                                break;
+                            }
+                            if (index < Math.floor(e.inlet_avg) / 1000) {
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(81, 81, 255)"
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(81, 81, 255)"
+                            } else {
+                                if (e.inlet_avg > 10000) {
+                                    console.log("red")
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(255, 76, 76)"
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(255, 76, 76)"
+                                }else{
+                                    console.log('blue')
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(223, 223, 223)"
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(223, 223, 223)"
+                                }
+                            }
                         }
-                        if (index < (Math.floor(e.inlet_avg) / (e.inlet_mean === 0 ? 1 : Math.floor(e.inlet_mean)) * 10) + 1) {
-                            document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(81, 81, 255)"
-                            document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(81, 81, 255)"
-                        } else {
-                            if (e.inlet_avg > e.inlet_mean) {
-                                console.log("red")
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(255, 76, 76)"
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(255, 76, 76)"
-                            }else{
-                                console.log('blue')
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(223, 223, 223)"
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(223, 223, 223)"
+                    }else if (e.place === 512) {
+                        for (let index = 1; index <= 10; index++) {
+                            if (index === 11) {
+                                break;
+                            }
+                            if (index < (Math.floor(e.outlet_avg) / 500)) {
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(81, 81, 255)"
+                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(81, 81, 255)"
+                            } else {
+                                if (e.outlet_avg > 500) {
+                                    console.log("red")
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(255, 76, 76)"
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(255, 76, 76)"
+                                }else{
+                                    console.log('blue')
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(223, 223, 223)"
+                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(223, 223, 223)"
+                                }
                             }
                         }
                     }
+                    
+
                 })
             }, 100);
         },
