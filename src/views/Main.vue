@@ -70,7 +70,7 @@
                                     <b-row class="monitor" v-for="(item,idx) in moniList" :key="idx">
                                         <b-col cols="4">{{item.equipment_name}}</b-col>
                                         <b-col cols="4">
-                                            <ul>
+                                            <!-- <ul>
                                                 <li :class="item.idx + '_percent_1 percent '"></li>
                                                 <li :class="item.idx + '_percent_2 percent '"></li>
                                                 <li :class="item.idx + '_percent_3 percent '"></li>
@@ -81,9 +81,15 @@
                                                 <li :class="item.idx + '_percent_8 percent '"></li>
                                                 <li :class="item.idx + '_percent_9 percent '"></li>
                                                 <li :class="item.idx + '_percent_10 percent '"></li>
+                                            </ul> -->
+                                            <ul >
+                                                <li class="percent_line"></li>
+                                                <li :class="item.idx + '_percent_up percent_up'"></li>
+                                                <li class="percent_down"></li>
                                             </ul>
                                         </b-col>
                                         <b-col cols="4" v-if="item.place === 512" >{{item.outlet_avg}}/500</b-col>
+                                        <b-col cols="4" v-if="item.place === 511" >{{item.midlet_avg_value}}/15</b-col>
                                         <b-col cols="4" v-if="item.place === 510" >{{item.inlet_avg}}/10000</b-col>
                                     </b-row>
                                 </div>
@@ -455,7 +461,7 @@ export default {
 
                                 this.moniList = res.data.data.moni
 
-                                console.log(this.moniList)
+                                console.log(res.data.data)
 
                                 res.data.data.area[9].pinImg = pin01Img
                                 res.data.data.area[12].pinImg = pin02Img
@@ -583,49 +589,29 @@ export default {
             setTimeout(() => {
 
                 this.moniList.map((e) => {
-                    // if (e.inlet_avg === 0) {
-                    //     return false
-                    // }
-                    console.log(e.inlet_avg, e.inlet_mean)
                     if (e.place === 510) {
-                        for (let index = 1; index <= 10; index++) {
-                            if (index === 11) {
-                                break;
-                            }
-                            if (index < Math.floor(e.inlet_avg) / 1000) {
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(81, 81, 255)"
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(81, 81, 255)"
-                            } else {
-                                if (e.inlet_avg > 10000) {
-                                    console.log("red")
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(255, 76, 76)"
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(255, 76, 76)"
-                                }else{
-                                    console.log('blue')
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(223, 223, 223)"
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(223, 223, 223)"
-                                }
-                            }
-                        }
+                        if (e.inlet_avg > 10000) {
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
+                        }else{
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.inlet_avg * 100 / 10000)+"%"
+                        }          
                     }else if (e.place === 512) {
-                        for (let index = 1; index <= 10; index++) {
-                            if (index === 11) {
-                                break;
-                            }
-                            if (index < (Math.floor(e.outlet_avg) / 500)) {
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(81, 81, 255)"
-                                document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(81, 81, 255)"
-                            } else {
-                                if (e.outlet_avg > 500) {
-                                    console.log("red")
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(255, 76, 76)"
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(255, 76, 76)"
-                                }else{
-                                    console.log('blue')
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.backgroundColor = "rgb(223, 223, 223)"
-                                    document.getElementsByClassName(e.idx + "_percent_" + index)[0].style.borderColor = "rgb(223, 223, 223)"
-                                }
-                            }
+                        if (e.outlet_avg > 500) {
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
+                        }else{
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.outlet_avg * 100 / 500)+"%"
+                        }
+                    }else if (e.place === 511) {
+                        if (e.midlet_avg_value > 15) {
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
+                        }else{
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.midlet_avg_value * 100 / 15)+"%"
                         }
                     }
                     
@@ -1334,18 +1320,38 @@ export default {
     width: 100%;
     height: 10px;
     margin-top: 15px;
+    position: absolute;
 }
 
 .con_left03>.monitorWrap>.monitor>div>ul>li {
-    width: 9%;
     height: 10px;
     float: left;
     box-sizing: border-box;
-    border: 2px solid rgb(223, 223, 223);
-    background: rgb(228, 228, 228);
     margin-left: 1px;
 }
 
+.percent_line{
+    position: absolute;
+    z-index: 10;
+    top:0;
+    width: 33%;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    left: 33%;
+}
+.percent_up{
+    width: 0%;
+    background: rgb(81, 81, 255);
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.percent_down{
+    border: 2px solid rgb(223, 223, 223);
+    background: rgb(228, 228, 228);
+    width: 100%;
+}
 .pinWrap {
     position: relative;
     margin-top: 20px;

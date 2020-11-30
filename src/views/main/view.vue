@@ -42,9 +42,9 @@
                             <div class="scrollbox">
                                 <div  class="container" >
                                         <b-row class="pinBody">
-                                            <b-col cols="4">기준<span style="font-size:8px">(배)</span></b-col>
-                                            <b-col cols="4">흡입<span style="font-size:8px">(배)</span></b-col>
-                                            <b-col cols="4">배출<span style="font-size:8px">(배)</span></b-col>
+                                            <b-col cols="4">기준<span style="font-size:8px">()</span></b-col>
+                                            <b-col cols="4">흡입<span style="font-size:8px">()</span></b-col>
+                                            <b-col cols="4">배출<span style="font-size:8px">()</span></b-col>
                                         </b-row>
                                     </div>
                                     <div  class="container">
@@ -62,10 +62,12 @@
                 </div>
                     <!-- <b-overlay class="overlay" v-if="show" v-on:click="infoClose()"> -->
                 <div class="bottomBox">
-                    <div class="bottom_subMenuBox bottom_subMenuBox01" :style="'height:'+40*Math.ceil(boxList.length/8)" v-if="boxList.length <= 8">
+                    <div class="bottom_subMenuBox bottom_subMenuBox01" :style="'height:'+40*Math.ceil(boxList.length/8)+'px'" v-if="boxList.length <= 8">
+                        <div @click="selectEq('All')" class="eqKey eqKey_0">전체</div>
                         <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_inner_nm.length > 10  && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div>
                     </div>
                     <div class="bottom_subMenuBox bottom_subMenuBox02" :style="'height:'+40*Math.ceil(boxList.length/8)+'px'"  v-else>
+                        <div @click="selectEq('All')" class="eqKey eqKey_0">전체</div>
                         <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_inner_nm.length > 10 && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div>
                     </div>
                     <div class="bottom_letBox" v-if="scrubber.length <= 0">
@@ -157,8 +159,8 @@ export default {
         Header,
     },
     created() {
-        this.getEquips();
         this.test3()
+        this.getEquips();
         this.test()
         this.test2()
     },
@@ -283,7 +285,7 @@ export default {
                                 e.color = '#' + Math.round(Math.random() * 0xffffff).toString(16)
                             })
                             this.pinList = res.data.data;
-
+                            console.log(this.pinList)
                             this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
                                 // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;height:"+ (450+((this.pinList.length-17)*20))+"px;"
                             
@@ -297,7 +299,7 @@ export default {
         monitoringListPerHour(eqbKey) {
             this.$Axios.post("/api/daedan/cj/ems/main/MonitoringListPerHourSensor", {
                     serverKey: store.state.serverKey,
-                    equipmentKey: eqbKey,
+                    equipmentInnerNm: eqbKey,
                     date: store.state.szCurDt
                 }, this.config)
                 .then(res => {
@@ -324,11 +326,8 @@ export default {
                 let graphDataOut = []
 
                 this.data.reverse()
-                console.log(this.data)
                 this.data.splice(10,this.data.length)
-                console.log(this.data)
                 this.data.reverse()
-                console.log(this.data)
                 this.data.map(item => {
                     if (e.mno === item.mno) {
                         graphLabel.push(item.prevention_date)
@@ -341,7 +340,6 @@ export default {
 
                 this.ctxDaily.height = "100%";
                 this.ctxDaily.width = "100%";
-                // this.ctxDaily.font = "5rem";
                 let ctxFontSize = 14
                 if (this.winWidth === 3840) {
                     ctxFontSize = 26
@@ -415,26 +413,28 @@ export default {
             })
         },
         selectEq(item) {
-            let eqbkey = []
-
-            this.boxList.map(e => {
-                this.equipList.map(el =>{ 
-                    if (e.equipment_inner_nm == el.equipment_inner_nm) {
-                        eqbkey.push(el.equipment_key)
-                    }
+            console.log(item)
+            let eqbkey = ""
+            if (item === "All") {
+                eqbkey = null;
+            }else[
+                this.boxList.map(e => {
+                    eqbkey = e.equipment_inner_nm
                 })
-            })
-            if (eqbkey.length === 0) {
-                eqbkey.push(0)
-            }
-            console.log(item,"아이템")
+            ]
+            console.log(eqbkey)
             for (let index = 0; index < this.boxList.length; index++) {
                 document.getElementsByClassName("eqKey")[index].style.color = 'black'
             }
-            document.getElementsByClassName("eqKey" + item.box_code)[0].style.color = 'red'
+            if (item === "All") {
+                console.log(document.getElementsByClassName("eqKey_0")[0])
+                document.getElementsByClassName("eqKey_0")[0].style.color = 'red'
+            }else{
+                document.getElementsByClassName("eqKey" + item.box_code)[0].style.color = 'red'
+            }
             this.$Axios.post("/api/daedan/cj/ems/main/EquipmentMonitoringList", {
                     serverKey: store.state.serverKey,
-                    equipmentKey: eqbkey,
+                    equipmentInnerNm: eqbkey,
                     procDt: store.state.szCurDt
                 }, this.config)
                 .then(res => {
@@ -469,9 +469,8 @@ export default {
                             })
                             console.log(res)
                             that.equipList = res.data.data;
-                            that.equipList2 = res.data.data;
                             setTimeout(() => {
-                                this.selectEq(this.boxList[0])
+                                this.selectEq("All")
                             }, 100);
                         }
                     }
