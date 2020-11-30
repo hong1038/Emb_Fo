@@ -88,9 +88,9 @@
                                                 <li class="percent_down"></li>
                                             </ul>
                                         </b-col>
-                                        <b-col cols="4" v-if="item.place === 512" >{{item.outlet_avg}}/500</b-col>
-                                        <b-col cols="4" v-if="item.place === 511" >{{item.midlet_avg_value}}/15</b-col>
-                                        <b-col cols="4" v-if="item.place === 510" >{{item.inlet_avg}}/10000</b-col>
+                                        <b-col cols="4" v-if="item.place === 512" >{{item.outlet_avg}}/{{item.outlet_standard_value}}</b-col>
+                                        <b-col cols="4" v-if="item.place === 511" >{{item.midlet_avg_value}}/{{item.midlet_standard_value}}</b-col>
+                                        <b-col cols="4" v-if="item.place === 510" >{{item.inlet_avg}}/{{item.inlet_standard_value}}</b-col>
                                     </b-row>
                                 </div>
                             </div>
@@ -590,28 +590,28 @@ export default {
 
                 this.moniList.map((e) => {
                     if (e.place === 510) {
-                        if (e.inlet_avg > 10000) {
+                        if (e.inlet_avg > e.inlet_standard_value) {
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
                         }else{
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
-                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.inlet_avg * 100 / 10000)+"%"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.inlet_avg * 100 / e.inlet_standard_value)+"%"
                         }          
                     }else if (e.place === 512) {
-                        if (e.outlet_avg > 500) {
+                        if (e.outlet_avg > e.outlet_standard_value) {
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
                         }else{
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
-                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.outlet_avg * 100 / 500)+"%"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.outlet_avg * 100 / e.inlet_standard_value)+"%"
                         }
                     }else if (e.place === 511) {
-                        if (e.midlet_avg_value > 15) {
+                        if (e.midlet_avg_value > e.midlet_standard_value) {
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
                         }else{
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
-                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.midlet_avg_value * 100 / 15)+"%"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.midlet_avg_value * 100 / e.midlet_standard_value)+"%"
                         }
                     }
                     

@@ -16,7 +16,7 @@
                 <!-- <div class="imgBox" :style="{ backgroundImage: 'url(' + this.bgImg + ')' }"> -->
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
-                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"><p style="display:flex;align-items:center;padding:0 5px"><span :style="'margin-right:5px;position:absoulte;left:35%;top:20px;border:1px solid #9bb5c7v;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p></div>
+                        <!-- <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"></div> -->
                         <!--<div class="view_pin01"></div>
                         <div class="view_pin02"></div>
                         <div class="view_pin03"></div>
@@ -91,32 +91,18 @@
                                 <div class="infoBody_inlet">
                                     <div>흡입구</div>
                                     <div>
-                                        <div :class="'in in'+key+'_1'"></div>
-                                        <div :class="'in in'+key+'_2'"></div>
-                                        <div :class="'in in'+key+'_3'"></div>
-                                        <div :class="'in in'+key+'_4'"></div>
-                                        <div :class="'in in'+key+'_5'"></div>
-                                        <div :class="'in in'+key+'_6'"></div>
-                                        <div :class="'in in'+key+'_7'"></div>
-                                        <div :class="'in in'+key+'_8'"></div>
-                                        <div :class="'in in'+key+'_9'"></div>
-                                        <div :class="'in in'+key+'_10'"></div>
+                                        <div class="in_line line"></div>
+                                        <div :class="key + '_in_up in_up up'"></div>
+                                        <div class="in_down down"></div>
                                     </div>
-                                    <div>1</div>
+                                    <div>{{Math.floor(item.inlet_avg_value)}}/{{Math.floor(item.inlet_standard_value)}}</div>
                                 </div>
                                 <div class="infoBody_outlet">
                                     <div>배출구</div>
                                     <div>
-                                        <div :class="'out out'+key+'_1'"></div>
-                                        <div :class="'out out'+key+'_2'"></div>
-                                        <div :class="'out out'+key+'_3'"></div>
-                                        <div :class="'out out'+key+'_4'"></div>
-                                        <div :class="'out out'+key+'_5'"></div>
-                                        <div :class="'out out'+key+'_6'"></div>
-                                        <div :class="'out out'+key+'_7'"></div>
-                                        <div :class="'out out'+key+'_8'"></div>
-                                        <div :class="'out out'+key+'_9'"></div>
-                                        <div :class="'out out'+key+'_10'"></div>
+                                        <div class="out_line line"></div>
+                                        <div :class="key + '_out_up out_up _up'"></div>
+                                        <div class="out_down down"></div>
                                     </div>
                                     <div>{{Math.floor(item.outlet_avg_value)}}/{{Math.floor(item.outlet_standard_value)}}</div>
                                 </div>
@@ -202,7 +188,7 @@ export default {
                         e.box_code = "0"+String(e.box_code)
                     }
                     e.style = 'top:'+e.box_py+'px;left:'+e.box_px+'px'
-                    e.check = false;
+                    e.check = true;
                 })
                 this.boxList = res.data.data
                 console.log(this.boxList,"박스리스트")
@@ -219,7 +205,6 @@ export default {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
                         this.sensorData = res.data.data;
-                        console.log(this.sensorData)
                         this.boxlistvalin = []
                         this.boxlistvalout = []
                         this.boxList.map(e => {
@@ -244,6 +229,7 @@ export default {
                                 this.boxlistvalout.push(outval.reduce((sum, current) => sum + current, 0) / outval.length)    
                             }
                         })
+
 
                         this.boxlistvalin
                         this.boxlistvalout
@@ -422,16 +408,18 @@ export default {
                     eqbkey = e.equipment_inner_nm
                 })
             ]
-            console.log(eqbkey)
-            for (let index = 0; index < this.boxList.length; index++) {
+
+            for (let index = 0; index < this.boxList.length+1; index++) {
                 document.getElementsByClassName("eqKey")[index].style.color = 'black'
             }
+
             if (item === "All") {
                 console.log(document.getElementsByClassName("eqKey_0")[0])
                 document.getElementsByClassName("eqKey_0")[0].style.color = 'red'
             }else{
                 document.getElementsByClassName("eqKey" + item.box_code)[0].style.color = 'red'
             }
+
             this.$Axios.post("/api/daedan/cj/ems/main/EquipmentMonitoringList", {
                     serverKey: store.state.serverKey,
                     equipmentInnerNm: eqbkey,
@@ -443,6 +431,7 @@ export default {
                             console.log(res.data.data)
                             this.title = store.state.serverName
                             this.scrubber = res.data.data
+                            console.log(this.scrubber)
                             setTimeout(() => {
                                 this.barCheck()
                                 this.monitoringListPerHour(eqbkey)
@@ -485,39 +474,26 @@ export default {
                 return false
             }
 
-            for (let index = 0; index < 10; index++) {
-                document.getElementsByClassName("in")[index].style.background = '#ccc'
-                document.getElementsByClassName("out")[index].style.background = '#ccc'
-            }
-
             this.scrubber.map((e, idx) => {
-                // e.inlet_avg_value = 50,
-                // e.inlet_max_value = 100,
-                // e.outlet_avg_value = 3517,
-                // e.outlet_max_value = 8751,
-                this.number = Math.floor((Math.floor(e.inlet_avg_value) / Math.floor(e.inlet_max_value)) * 10)
-                this.number2 = Math.floor((Math.floor(e.outlet_avg_value) / Math.floor(e.outlet_max_value)) * 10)
-                if (e.inlet_avg_value > e.inlet_max_value) {   
-                    for (let index = 1; index <= this.number; index++) {
-                        document.getElementsByClassName('in' + idx + '_' + index)[0].style.background = "#ff3131"
-                    }
+                if (e.inlet_avg_value > e.inlet_standard_value ) {
+                    console.log(document.getElementsByClassName(idx + '_in_up')[0])
+                    document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
+                    document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
                 }else{
-                    for (let index = 1; index <= this.number; index++) {
-                        document.getElementsByClassName('in' + idx + '_' + index)[0].style.background = "#5151ff"
-                    }
+                    document.getElementsByClassName(idx + '_in_up')[0].style.background = "#5151ff"
+                    document.getElementsByClassName(idx + '_in_up')[0].style.width = (e.inlet_avg_value * 100 / e.inlet_standard_value)+"%"
                 }
 
-                if (e.outlet_avg_value > e.outlet_max_value) {
-                    for (let index = 1; index <= this.number2; index++) {
-                        document.getElementsByClassName('out' + idx + '_' + index)[0].style.background = "#ff3131"
-                    }
+                if (e.outlet_avg_value > e.outlet_standard_value ) {
+                    console.log(document.getElementsByClassName(idx + '_out_up')[0])
+                    document.getElementsByClassName(idx + '_out_up')[0].style.background = "#ff3131"
+                    document.getElementsByClassName(idx + '_out_up')[0].style.width = "100%"
                 }else{
-                    for (let index = 1; index <= this.number2; index++) {
-                        document.getElementsByClassName('out' + idx + '_' + index)[0].style.background = "#5151ff"
-                    }
+                    document.getElementsByClassName(idx + '_out_up')[0].style.background = "#5151ff"
+                    document.getElementsByClassName(idx + '_out_up')[0].style.width = (e.outlet_avg_value * 100 / e.outlet_standard_value)+"%"
                 }
 
-                if (e.inlet_avg_value > e.inlet_max_value || e.outlet_avg_value > e.outlet_max_value) {
+                if (e.inlet_avg_value > e.inlet_standard_value || e.outlet_avg_value > e.outlet_standard_value) {
                     document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
                 }else{
                     document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
@@ -926,16 +902,45 @@ export default {
 .infoBody_outlet>div:nth-child(3) {
     width: 20%;
 }
-
+.infoBody_inlet>div:nth-child(2),
+.infoBody_outlet>div:nth-child(2){
+    position: relative;
+    display: flex;
+}
 .infoBody_inlet>div>div,
 .infoBody_outlet>div>div {
     float: left;
-    width: 9%;
+    /* width: 9%; */
     height: 20px;
-    background: #ccc;
+    /* background: #ccc; */
     margin-left: 1%;
     margin-top: 5px;
 }
+
+
+
+.line{
+    position: absolute;
+    z-index: 10;
+    top:0;
+    width: 33%;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    left: 33%;
+}
+.up{
+    width: 0%;
+    background: rgb(81, 81, 255);
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.down{
+    background: rgb(228, 228, 228);
+    width: 100%;
+}
+
 
 .viewRightBox {
     padding: 20px;
@@ -1011,6 +1016,10 @@ export default {
     height: 10px;
     background: #ccc;
 }
+
+
+
+
 
 /*---------------------------공주 pin01*/
 /*.view_pin01 {
