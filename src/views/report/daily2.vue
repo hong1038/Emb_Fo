@@ -27,6 +27,11 @@
                                         </v-date-picker>
                                     </v-menu> -->
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    
+                                </div>
+                                <div>~</div>
+                                <div class="dateSelect dateSelectTo">
+                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
                                 </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
@@ -153,6 +158,7 @@ export default {
             comboServers: null,
             selectWorkplace: "",
             dateFr: '',
+            dateTo: '',
 
             findTp: '',
             findSz: '',
