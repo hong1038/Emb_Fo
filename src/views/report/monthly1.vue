@@ -58,7 +58,7 @@
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table02">
+                        <!--<div class="con_table" id="con_table02">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
@@ -77,7 +77,7 @@
                         <div class="con_table" id="con_table06">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                     </div>
                     </b-overlay>
                 </div>
@@ -227,20 +227,20 @@ export default {
         //     console.log(align);
         //     tab[0].style.display = "block"
         // },
-        summaryBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[0].style.display = "block"
-            tabBtn[0].style.fontWeight = "bold";
-            tabBtn[0].style.backgroundColor = "white";
-        },
+        // summaryBtn(){
+        //     let tab = new Array();
+        //     let tabBtn = new Array();
+        //     tab = document.getElementsByClassName('con_table');
+        //     tabBtn = document.getElementsByClassName('tabbtn');
+        //     for(let i=0; i<tab.length; i++){
+        //         tab[i].style.display = 'none';
+        //         tabBtn[i].style.fontWeight = "400";
+        //         tabBtn[i].style.backgroundColor = "transparent";
+        //     }
+        //     tab[0].style.display = "block"
+        //     tabBtn[0].style.fontWeight = "bold";
+        //     tabBtn[0].style.backgroundColor = "white";
+        // },
 
         getList() {
             if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
@@ -490,11 +490,6 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
-}
-
-#con_table01{
-    display:block;
 }
 
 .ag-header-group-text{

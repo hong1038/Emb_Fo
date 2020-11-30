@@ -30,7 +30,7 @@
                                 </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
-                                <input type="button" class="d_btn01" value="조회" v-on:click="getList">
+                                <input type="button" class="d_btn01" value="조회" v-on:click="getList2">
                             </b-col>
                         </b-row>
                     </div>
@@ -581,11 +581,6 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
-}
-
-#con_table01{
-    display:block;
 }
 
 .ag-header-group-text{

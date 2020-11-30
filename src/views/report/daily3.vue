@@ -30,7 +30,7 @@
                                 </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
-                                <input type="button" class="d_btn01" value="조회" v-on:click="getList">
+                                <input type="button" class="d_btn01" value="조회" v-on:click="getList3">
                             </b-col>
                         </b-row>
                     </div>
@@ -50,26 +50,26 @@
                         </div>
                     </div>
                     <div class="con_tableWrap container-fluid">
-                        <div class="con_table" id="con_table01">
+                        <!--<div class="con_table" id="con_table01">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <div class="con_table" id="con_table02">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                         <div class="con_table" id="con_table03">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table04">
+                        <!--<div class="con_table" id="con_table04">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <div class="con_table" id="con_table05">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                     </div>
                     <!--<div class="con_tableWrap container-fluid" v-show="show02">
                         <div class="con_table con_table02" v-b-visible="handleVisibility">
@@ -306,21 +306,21 @@ export default {
             this.isVisible = isVisible
         },
         
-        outletBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table03').style.display = "block";
-            tabBtn[2].style.fontWeight = "bold";
-            tabBtn[2].style.backgroundColor = "white";
+        // outletBtn(){
+        //     let tab = new Array();
+        //     let tabBtn = new Array();
+        //     tab = document.getElementsByClassName('con_table');
+        //     tabBtn = document.getElementsByClassName('tabbtn');
+        //     for(let i=0; i<tab.length; i++){
+        //         tab[i].style.display = 'none';
+        //         tabBtn[i].style.fontWeight = "400";
+        //         tabBtn[i].style.backgroundColor = "transparent";
+        //     }
+        //     document.getElementById('con_table03').style.display = "block";
+        //     tabBtn[2].style.fontWeight = "bold";
+        //     tabBtn[2].style.backgroundColor = "white";
 
-        },
+        // },
         getList3() {
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
@@ -590,11 +590,6 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
-}
-
-#con_table01{
-    display:block;
 }
 
 .ag-header-group-text{

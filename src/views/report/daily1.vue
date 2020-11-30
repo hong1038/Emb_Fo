@@ -30,7 +30,7 @@
                                 </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
-                                <input type="button" class="d_btn01" value="조회" v-on:click="getList">
+                                <input type="button" class="d_btn01" value="조회" v-on:click="getList1">
                             </b-col>
                         </b-row>
                     </div>
@@ -54,7 +54,7 @@
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table02">
+                        <!--<div class="con_table" id="con_table02">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
@@ -69,29 +69,8 @@
                         <div class="con_table" id="con_table05">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                     </div>
-                    <!--<div class="con_tableWrap container-fluid" v-show="show02">
-                        <div class="con_table con_table02" v-b-visible="handleVisibility">
-                            1
-                        </div>
-                    </div>
-                    <div class="con_tableWrap container-fluid" v-show="show03">
-                        <div class="con_table con_table01" v-b-visible="handleVisibility">
-                            1
-                        </div>
-                    </div>
-                    <div class="con_tableWrap container-fluid" v-show="show04">
-                        <div class="con_table con_table01" v-b-visible="handleVisibility">
-                            1
-                        </div>
-                    </div>
-                    <div class="con_tableWrap container-fluid" v-show="show05">
-                        <div class="con_table con_table01" v-b-visible="handleVisibility">
-                            1
-                        </div>
-                    </div>-->
-                    
                     </b-overlay>
                 </div>
             </div>
@@ -641,11 +620,6 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
-}
-
-#con_table01{
-    display:block;
 }
 
 .ag-header-group-text{

@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="con_tableWrap">
-                        <div class="con_table" id="con_table01">
+                        <!--<div class="con_table" id="con_table01">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
@@ -69,15 +69,15 @@
                         <div class="con_table" id="con_table04">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                         <div class="con_table" id="con_table05">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table06">
+                        <!--<div class="con_table" id="con_table06">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                     </div>
                     </b-overlay>
                 </div>
@@ -244,20 +244,20 @@ export default {
         //     tab[0].style.display = "block"
         // },
         
-        errorBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[4].style.display = "block"
-            tabBtn[4].style.fontWeight = "bold";
-            tabBtn[4].style.backgroundColor = "white";
-        },
+        // errorBtn(){
+        //     let tab = new Array();
+        //     let tabBtn = new Array();
+        //     tab = document.getElementsByClassName('con_table');
+        //     tabBtn = document.getElementsByClassName('tabbtn');
+        //     for(let i=0; i<tab.length; i++){
+        //         tab[i].style.display = 'none';
+        //         tabBtn[i].style.fontWeight = "400";
+        //         tabBtn[i].style.backgroundColor = "transparent";
+        //     }
+        //     tab[4].style.display = "block"
+        //     tabBtn[4].style.fontWeight = "bold";
+        //     tabBtn[4].style.backgroundColor = "white";
+        // },
 
         getList() {
             if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
@@ -507,13 +507,7 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
 }
-
-#con_table01{
-    display:block;
-}
-
 .ag-header-group-text{
     display:block;
     margin:0 auto;
