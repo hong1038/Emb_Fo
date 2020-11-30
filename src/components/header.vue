@@ -94,10 +94,10 @@
                         <span class="menu" id="menu_05" v-on:click="menuBtn">보고</span>
                         <ul class="main_nav main_nav05">
                             <li>
-                                <router-link :to="{ name: 'daily'}">일일 관리일지</router-link>
+                                <router-link :to="{ name: 'daily1'}">일일 관리일지</router-link>
                             </li>
                             <li>
-                                <router-link :to="{ name: 'monthly'}">월말 보고</router-link>
+                                <router-link :to="{ name: 'monthly1'}">월말 보고</router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'headMonthly1'}">본부 월말 보고 통계</router-link>

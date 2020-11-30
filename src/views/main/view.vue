@@ -16,7 +16,7 @@
                 <!-- <div class="imgBox" :style="{ backgroundImage: 'url(' + this.bgImg + ')' }"> -->
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
-                        <!--<div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"><p style="display:flex;align-items:center;padding:0 5px"><span :style="'margin-right:5px;position:absoulte;left:35%;top:20px;border:1px solid #9bb5c7v;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p></div>-->
+                        <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"><p style="display:flex;align-items:center;padding:0 5px"><span :style="'margin-right:5px;position:absoulte;left:35%;top:20px;border:1px solid #9bb5c7v;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p></div>
                         <!--<div class="view_pin01"></div>
                         <div class="view_pin02"></div>
                         <div class="view_pin03"></div>
@@ -35,9 +35,6 @@
                         <div class="view_pin16">16</div>
                         <div class="view_pin17">17</div>
                         <div class="view_pin18">18</div>-->
-                        <div style="position:absolute;top:5px;left:10px;font-size:14px;display:none;">
-                            <p v-for="item in pinList" :key="item.pin_code" style="margin-bottom:3px;display:flex;align-items:center;" ><span :style="'border:1px solid black;display:block;width:15px;height:15px;border-radius:100%;background:'+item.color"></span>{{item.pin_name}}</p>
-                        </div>
                     </div>
                     <div class="pinBoxWrap" style="width:100%;">
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">

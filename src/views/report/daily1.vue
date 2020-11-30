@@ -37,16 +37,16 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="dailyTableSelectBox container-fluid">
                         <div>
-                            <div><span class="tabbtn" v-on:click="monitorBtn">1. 일일 모니터링 통계</span></div>
-                            <!--<div><span @click="show01 = !show01">1. 일일 모니터링 통계</span></div>-->
-                            <div><span class="tabbtn" v-on:click="inletBtn">2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</span></div>
-                            <!--<div><span @click="show02 = !show02">2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</span></div>-->
-                            <div><span class="tabbtn" v-on:click="outletBtn">3. 배출구 초과이력 관리</span></div>
-                            <!--<div><span @click="show03 = !show03">3. 배출구 초과이력 관리</span></div>-->
-                            <div><span class="tabbtn" v-on:click="errorBtn">4. 설비적/기계적 문제 발생 및 대응 현황</span></div>
-                            <!--<div><span @click="show04 = !show04">4. 설비적/기계적 문제 발생 및 대응 현황</span></div>-->
-                            <div><span class="tabbtn" v-on:click="etcBtn">5. 운영 특이사항</span></div>
-                            <!--<div><span @click="show05 = !show05">5. 운영 특이사항</span></div>-->
+                            <!-- <div class="clickBtnWrap"><span class="tabbtn clickBtn" v-on:click="monitorBtn">1. 일일 모니터링 통계</span></div> -->
+                            <div class="clickBtnWrap"><router-link class="tabbtn clickBtn" :to="{name: 'daily1'}">1. 일일 모니터링 통계</router-link> </div>
+                            <!-- <div><span class="tabbtn" v-on:click="inletBtn">2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</span></div> -->
+                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily2'}">2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</router-link> </div>
+                            <!-- <div><span class="tabbtn" v-on:click="outletBtn">3. 배출구 초과이력 관리</span></div> -->
+                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily3'}">3. 배출구 초과이력 관리</router-link> </div>
+                            <!-- <div><span class="tabbtn" v-on:click="errorBtn">4. 설비적/기계적 문제 발생 및 대응 현황</span></div> -->
+                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily4'}">4. 설비적/기계적 문제 발생 및 대응 현황</router-link> </div>
+                            <!-- <div><span class="tabbtn" v-on:click="etcBtn">5. 운영 특이사항</span></div> -->
+                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily5'}">5. 운영 특이사항</router-link> </div>
                         </div>
                     </div>
                     <div class="con_tableWrap container-fluid">
@@ -965,6 +965,11 @@ export default {
     cursor: pointer;
 }
 
+.dailyTableSelectBox>div>.clickBtnWrap>a{
+    background:white;
+    font-weight:bold;
+}
+
 .dailyTableSelectBox>div>div:nth-child(2) {
     width: 480px;
 }
@@ -981,7 +986,7 @@ export default {
     width: 170px;
 }
 
-.dailyTableSelectBox>div>div>span {
+/*.dailyTableSelectBox>div>div>span {
     display: block;
     width: 170px;
     height: 30px;
@@ -995,7 +1000,6 @@ export default {
     box-sizing: border-box;
     text-align: center;
 }
-
 .dailyTableSelectBox>div>div:nth-child(2)>span {
     width: 470px;
 }
@@ -1010,7 +1014,41 @@ export default {
 
 .dailyTableSelectBox>div>div:nth-child(5)>span {
     width: 150px;
+}*/
+
+.dailyTableSelectBox>div>div>a {
+    display: block;
+    width: 170px;
+    height: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: inherit;
+    font-size: 14px;
+    margin: 5px 0px 0px 5px;
+    line-height: 30px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    color:black;
 }
+.dailyTableSelectBox>div>div:nth-child(2)>a {
+    width: 470px;
+}
+
+.dailyTableSelectBox>div>div:nth-child(3)>a {
+    width: 180px;
+}
+
+.dailyTableSelectBox>div>div:nth-child(4)>a {
+    width: 280px;
+}
+
+.dailyTableSelectBox>div>div:nth-child(5)>a {
+    width: 150px;
+}
+
+
 
 /* Contents */
 

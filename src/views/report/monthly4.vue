@@ -37,18 +37,19 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="monthlyTableSelectBox container-fluid">
                         <div>
-                            <div><button type="button" class="tabbtn" v-on:click="summaryBtn">1. 월말 보고 Summary</button></div>
+                            <!-- <div><button type="button" class="tabbtn" v-on:click="summaryBtn">1. 월말 보고 Summary</button></div>
                             <div><button type="button" class="tabbtn" v-on:click="operBtn">2. 운전 현황(월간 통계)</button></div>
                             <div><button type="button" class="tabbtn" v-on:click="preventBtn">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</button></div>
                             <div><button type="button" class="tabbtn" v-on:click="outletBtn">4. 배출구 초과이력 관리</button></div>
                             <div><button type="button" class="tabbtn" v-on:click="errorBtn">5. 설비적/기계적 문제 발생 및 대응 현황</button></div>
-                            <div><button type="button" class="tabbtn" v-on:click="etcBtn">6. 운영 특이사항</button></div>
-                            <!-- <div><button class="tabbtn" value="1" type="button" v-on:click="tabSelectBtn">1. 월말 보고 Summary</button></div>
-                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">2. 운전 현황(월간 통계)</button></div>
-                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</button></div>
-                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">4. 배출구 초과이력 관리</button></div>
-                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">5. 설비적/기계적 문제 발생 및 대응 현황</button></div>
-                            <div><button class="tabbtn" type="button" v-on:click="tabSelectBtn">6. 운영 특이사항</button></div> -->
+                            <div><button type="button" class="tabbtn" v-on:click="etcBtn">6. 운영 특이사항</button></div> -->
+                            
+                            <div><router-link :to="{name:'monthly1'}">1. 월말 보고 Summary</router-link></div>
+                            <div><router-link :to="{name:'monthly2'}">2. 운전 현황(월간 통계)</router-link></div>
+                            <div><router-link :to="{name:'monthly3'}">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</router-link></div>
+                            <div class="clickBtnWrap"><router-link :to="{name:'monthly4'}">4. 배출구 초과이력 관리</router-link></div>
+                            <div><router-link :to="{name:'monthly5'}">5. 설비적/기계적 문제 발생 및 대응 현황</router-link></div>
+                            <div><router-link :to="{name:'monthly6'}">6. 운영 특이사항</router-link></div>
                         </div>
                     </div>
 
@@ -722,7 +723,7 @@ export default {
     width: 170px;
 }
 
-.monthlyTableSelectBox>div>div>button {
+/*.monthlyTableSelectBox>div>div>button {
     display: block;
     width: 170px;
     height: 30px;
@@ -752,8 +753,40 @@ export default {
 .monthlyTableSelectBox>div>div>button:focus{
     outline:none;
     border:none;
+}*/
+
+.monthlyTableSelectBox>div>div>a {
+    display: block;
+    width: 170px;
+    height: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: inherit;
+    font-size: 14px;
+    margin: 5px 0px 0px 5px;
+    line-height: 30px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    color:black;
+}
+.monthlyTableSelectBox>div>div:nth-child(3)>a {
+    width: 430px;
 }
 
+.monthlyTableSelectBox>div>div:nth-child(5)>a {
+    width: 250px;
+}
+
+.monthlyTableSelectBox>div>div:nth-child(6)>a {
+    width: 150px;
+}
+
+.monthlyTableSelectBox>div>.clickBtnWrap>a{
+    background:white;
+    font-weight:bold;
+}
 /* Contents */
 
 .con_tableWrap {

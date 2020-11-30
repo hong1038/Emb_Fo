@@ -148,17 +148,71 @@ const routes = [{
 
     // 보고 - 일일 관리일지
     {
-        path: '/report/daily',
-        name: 'daily',
+        path: '/report/daily1',
+        name: 'daily1',
         component: () =>
-            import ("@/views/report/daily.vue")
+            import ("@/views/report/daily1.vue")
+    },
+    {
+        path: '/report/daily2',
+        name: 'daily2',
+        component: () =>
+            import ("@/views/report/daily2.vue")
+    },
+    {
+        path: '/report/daily3',
+        name: 'daily3',
+        component: () =>
+            import ("@/views/report/daily3.vue")
+    },
+    {
+        path: '/report/daily4',
+        name: 'daily4',
+        component: () =>
+            import ("@/views/report/daily4.vue")
+    },
+    {
+        path: '/report/daily5',
+        name: 'daily5',
+        component: () =>
+            import ("@/views/report/daily5.vue")
     },
     // 보고 - 월말 보고
     {
-        path: '/report/monthly',
-        name: 'monthly',
+        path: '/report/monthly1',
+        name: 'monthly1',
         component: () =>
-            import ("@/views/report/monthly.vue")
+            import ("@/views/report/monthly1.vue")
+    },
+    {
+        path: '/report/monthly2',
+        name: 'monthly2',
+        component: () =>
+            import ("@/views/report/monthly2.vue")
+    },
+    {
+        path: '/report/monthly3',
+        name: 'monthly3',
+        component: () =>
+            import ("@/views/report/monthly3.vue")
+    },
+    {
+        path: '/report/monthly4',
+        name: 'monthly4',
+        component: () =>
+            import ("@/views/report/monthly4.vue")
+    },
+    {
+        path: '/report/monthly5',
+        name: 'monthly5',
+        component: () =>
+            import ("@/views/report/monthly5.vue")
+    },
+    {
+        path: '/report/monthly6',
+        name: 'monthly6',
+        component: () =>
+            import ("@/views/report/monthly6.vue")
     },
     // 보고 - 본부 월말 보고 통계 - 전체 통계
     {
