@@ -193,9 +193,9 @@ export default {
             perPage: 10,
             fields: [
                 {
-                    field: 'data_time',
+                    field: 'prevention_date',
                     headerName: '일자',
-                    width: '70px'
+                    width: '100px'
                 },
                 {
                     field: 'server_name',
@@ -392,7 +392,7 @@ export default {
 
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {
+            this.$Axios.post("/api/daedan/cj/ems/response/rExcessList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
@@ -466,7 +466,6 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
-                            that.listCount = res.data.totalCount
                         }
                     }
                 })

@@ -49,7 +49,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="chInfo.category" :options="comboCategories" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="chInfo.category_cd" :options="comboCategories" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
@@ -57,16 +57,16 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_max_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_max_value" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_avg_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_avg_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">흡입구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_min_value"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_min_value" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
@@ -202,7 +202,7 @@ export default {
                     width: '100px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '80px'
                 },

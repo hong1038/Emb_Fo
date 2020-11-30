@@ -296,9 +296,9 @@ export default {
                     ]
                 },
                 {
-                    field: '',
+                    field: 'cause',
                     headerName: '변경점/이상점 확인결과 원인',
-                    width: '220px'
+                    width: '230px'
                 },
                 {
                     field: 'action',
@@ -613,7 +613,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/inletList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
@@ -711,7 +711,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/systemDataList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
@@ -760,7 +760,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/manageDataList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,

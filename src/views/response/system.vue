@@ -450,7 +450,7 @@ export default {
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
                     pageNo: this.pageNo,
-                    pageSz: this.perPage,
+                    pageSz: store.state.paginationPageSize,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
