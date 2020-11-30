@@ -161,9 +161,9 @@ export default {
     },
     created() {
         this.getEquips();
+        this.test3()
         this.test()
         this.test2()
-        this.test3()
     },
     data() {
         return {
@@ -186,7 +186,7 @@ export default {
 
             imgBoxStyle:"",
             boxList:[],
-            testdata:[],
+            sensorData:[],
             boxlistvalin:[],
             boxlistvalout:[],
         }
@@ -206,7 +206,7 @@ export default {
                     e.check = false;
                 })
                 this.boxList = res.data.data
-                console.log(this.boxList)
+                console.log(this.boxList,"박스리스트")
             }).catch(err =>{
                 alert(err)
             })
@@ -219,13 +219,14 @@ export default {
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
-                        this.testdata = res.data.data;
+                        this.sensorData = res.data.data;
+                        console.log(this.sensorData)
                         this.boxlistvalin = []
                         this.boxlistvalout = []
                         this.boxList.map(e => {
                             let inval = []
                             let outval = []
-                            this.testdata.map(el => {
+                            this.sensorData.map(el => {
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
                                     inval.push(el.inlet_avg_value)
                                     outval.push(el.outlet_avg_value)   
@@ -429,7 +430,7 @@ export default {
             if (eqbkey.length === 0) {
                 eqbkey.push(0)
             }
-            console.log(item)
+            console.log(item,"아이템")
             for (let index = 0; index < this.boxList.length; index++) {
                 document.getElementsByClassName("eqKey")[index].style.color = 'black'
             }
@@ -679,7 +680,7 @@ export default {
     width:190px;
     height:100px;
     box-sizing: border-box;
-    padding:6px;
+    /* padding:6px; */
     background:white;
     outline:1px solid black;
     word-break: keep-all;
