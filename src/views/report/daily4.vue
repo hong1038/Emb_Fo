@@ -28,9 +28,13 @@
                                     </v-menu> -->
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
+                                <div>~</div>
+                                <div class="dateSelect dateSelectTo">
+                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
+                                </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
-                                <input type="button" class="d_btn01" value="조회" v-on:click="getList">
+                                <input type="button" class="d_btn01" value="조회" v-on:click="getList4">
                             </b-col>
                         </b-row>
                     </div>
@@ -50,7 +54,7 @@
                         </div>
                     </div>
                     <div class="con_tableWrap container-fluid">
-                        <div class="con_table" id="con_table01">
+                        <!--<div class="con_table" id="con_table01">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
@@ -61,15 +65,15 @@
                         <div class="con_table" id="con_table03">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                         <div class="con_table" id="con_table04">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table05">
+                        <!--<div class="con_table" id="con_table05">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                     </div>
                     <!--<div class="con_tableWrap container-fluid" v-show="show02">
                         <div class="con_table con_table02" v-b-visible="handleVisibility">
@@ -162,235 +166,7 @@ export default {
             perPage: 10,
             
             pageSz:10,
-
-            monitorListCount:0,
-            monitorList:[],
-            monitorFields: [
-                // {
-                //     field: 'server_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipment_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensor_key',
-                //     hidden: true
-                // },
-                {
-                    field: 'category_nm',
-                    headerName: '분야',
-                    width: '140px'
-                },
-                {
-                    field: 'equipment_name',
-                    headerName: '측정위치',
-                    width: '300px'
-                },
-                {
-                    field: '',
-                    headerName: '흡입구',
-                    children: [{
-                            field: 'inlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_max_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_standard_value',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '100px'
-                        },
-                    ]
-                },
-                {
-                    field: '',
-                    headerName: '배출구',
-                    children: [{
-                            field: 'outlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_standard_value',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '100px'
-                        },
-                    ]
-                },
-                {
-                    field: '',
-                    headerName: '방지시설 효율(%)',
-                    width:'260'
-                },
-            ],
-
-            inletListCount:0,
-            inletList: [],
-            inletFields: [
-                {
-                    field: 'category_nm',
-                    headerName: '분야',
-                    width: '140px'
-                },
-                {
-                    field: 'equipment_name',
-                    headerName: '측정위치',
-                    width: '200px'
-                },
-                {
-                    field: '',
-                    headerName: '흡입구',
-                    children: [{
-                            field: 'inlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: '',
-                            headerName: '이상점 발생 횟수',
-                            type: 'number',
-                            width: '160px'
-                        },
-                    ]
-                },
-                {
-                    field: 'cause',
-                    headerName: '변경점/이상점 확인결과 원인',
-                    width: '230px'
-                },
-                {
-                    field: 'action',
-                    headerName: '조치사항',
-                    width: '170px'
-                },
-                {
-                    field: 'action_type',
-                    headerName: '조치 여부',
-                     width: '110px'
-                },
-                {
-                    field: 'action_date',
-                    headerName: '조치 완료일자',
-                    width:'200'
-                },
-            ],
-            
-            outletListCount:0,
-            outletList:[],
-            outletFields: [
-                {
-                    field: 'category_nm',
-                    headerName: '분야',
-                    width: '80px'
-                },
-                {
-                    field: 'equipment_name',
-                    headerName: '측정위치',
-                    width: '160px'
-                },
-                {
-                    field: '',
-                    headerName: '흡입구',
-                    children: [{
-                            field: 'inlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '80px'
-                        },
-                        {
-                            field: 'inlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '80px'
-                        },
-                        {
-                            field: 'inlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '80px'
-                        },
-                        {
-                            field: '',
-                            headerName: '이상점 발생 횟수',
-                            type: 'number',
-                            width: '160px'
-                        },
-                    ]
-                },
-                {
-                    field: '',
-                    headerName: '방지시설 처리효율(%)',
-                    width: '190px'
-                },
-                {
-                    field: 'action_type',
-                    headerName: '유형',
-                    width: '80px'
-                },
-                {
-                    field: 'action',
-                    headerName: '조치사항ㆍ원인',
-                     width: '220px'
-                },
-                {
-                    field: 'action',
-                    headerName: '조치사항',
-                    width:'120'
-                },
-                {
-                    field: 'action_type',
-                    headerName: '조치여부',
-                    width:'110'
-                },
-                {
-                    field: 'prevention_date',
-                    headerName: '조치 완료일자',
-                    width:'140'
-                },
-            ],
-
+           
             errorListCount:0,
             errorList:[],
             errorFields: [
@@ -444,25 +220,6 @@ export default {
                 },
             ],
 
-            etcListCount:0,
-            etcList:[],
-            etcFields: [
-                {
-                    field: 'category_nm',
-                    headerName: '분야',
-                    width: '200px'
-                },
-                {
-                    field: 'equipment_name',
-                    headerName: '측정위치',
-                    width: '200px'
-                },
-                {
-                    field: '',
-                    headerName: '특이사항',
-                    width: '1100px'
-                },
-            ],
         }
     },
     beforeDestroy() {
@@ -533,170 +290,21 @@ export default {
             this.isVisible = isVisible
         },
         
-        
-        monitorBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table01').style.display = "block";
-            tabBtn[0].style.fontWeight = "bold";
-            tabBtn[0].style.backgroundColor = "white";
-            this.getList1()
-        },
-        getList1() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
+        // errorBtn(){
+        //     let tab = new Array();
+        //     let tabBtn = new Array();
+        //     tab = document.getElementsByClassName('con_table');
+        //     tabBtn = document.getElementsByClassName('tabbtn');
+        //     for(let i=0; i<tab.length; i++){
+        //         tab[i].style.display = 'none';
+        //         tabBtn[i].style.fontWeight = "400";
+        //         tabBtn[i].style.backgroundColor = "transparent";
+        //     }
+        //     document.getElementById('con_table04').style.display = "block";
+        //     tabBtn[3].style.fontWeight = "bold";
+        //     tabBtn[3].style.backgroundColor = "white";
 
-            this.onClick();
-
-            let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
-                    dateFr: this.dateFr,
-                    dateTo: this.dateTo,
-                    serverList: store.state.ckServer,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.monitorList = res.data.data
-                            that.monitorListCount = res.data.totalCount
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-        },
-        
-        inletBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table02').style.display = "block";
-            tabBtn[1].style.fontWeight = "bold";
-            tabBtn[1].style.backgroundColor = "white";
-            this.getList2()
-        },
-        getList2() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
-
-            this.onClick();
-
-            let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
-                    dateFr: this.dateFr,
-                    dateTo: this.dateTo,
-                    serverList: store.state.ckServer,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.inletList = res.data.data
-                            that.inletListCount = res.data.totalCount
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-        },
-        outletBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table03').style.display = "block";
-            tabBtn[2].style.fontWeight = "bold";
-            tabBtn[2].style.backgroundColor = "white";
-            this.getList3()
-        },
-        getList3() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
-
-            this.onClick();
-
-            let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
-                    dateFr: this.dateFr,
-                    dateTo: this.dateTo,
-                    serverList: store.state.ckServer,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.outletList = res.data.data
-                            that.outletListCount = res.data.totalCount
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-        },
-        errorBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table04').style.display = "block";
-            tabBtn[3].style.fontWeight = "bold";
-            tabBtn[3].style.backgroundColor = "white";
-            this.getList4()
-        },
+        // },
         getList4() {
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
@@ -731,71 +339,6 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
         },
-        etcBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table05').style.display = "block";
-            tabBtn[4].style.fontWeight = "bold";
-            tabBtn[4].style.backgroundColor = "white";
-            this.getList5()
-        },
-        getList5() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
-
-            this.onClick();
-
-            let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/manageDataList", {
-                    dateFr: this.dateFr,
-                    dateTo: this.dateTo,
-                    serverList: store.state.ckServer,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.etcList = res.data.data
-                            that.etcListCount = res.data.totalCount
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-        },
-        getList() {
-            // if (store.state.ckServer.length == 0) {
-            //     alert("사업장은 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
-
-            this.onClick();
-
-            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsByDayList", {
-                dateFr: this.dateFr,
-            })
-        }
     }
 }
 </script>
@@ -1031,11 +574,6 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
-}
-
-#con_table01{
-    display:block;
 }
 
 .ag-header-group-text{

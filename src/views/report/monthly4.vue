@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="con_tableWrap">
-                        <div class="con_table" id="con_table01">
+                        <!--<div class="con_table" id="con_table01">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
@@ -65,19 +65,19 @@
                         <div class="con_table" id="con_table03">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                         <div class="con_table" id="con_table04">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table05">
+                        <!--<div class="con_table" id="con_table05">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <div class="con_table" id="con_table06">
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
-                        </div>
+                        </div>-->
                     </div>
                     </b-overlay>
                 </div>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-// import store from "@/store/index";
+import store from "@/store/index";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
@@ -137,139 +137,8 @@ export default {
             pageNo: 1,
             perPage: 10,
 
-            summaryFields: [
-                // {
-                //     field: 'server_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipment_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensor_key',
-                //     hidden: true
-                // },
-                {
-                    field: '',
-                    headerName: '구분',
-                    width: '120px'
-                },
-                {
-                    field: '',
-                    headerName: '문제점/이슈사항',
-                    width: '600px'
-                },
-                {
-                    field: '',
-                    headerName: '대응방안',
-                    width: '600px'
-                },
-                {
-                    field: '',
-                    headerName: '개선일정',
-                    width: '180px'
-                },
-            ],
-            operFields: [
-                {
-                    field: '',
-                    headerName: '분야',
-                    width: '120px'
-                },
-                {
-                    field: '',
-                    headerName: '측정위치',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '항목',
-                    width: '250px'
-                },
-                {
-                    field: '',
-                    headerName: '단위',
-                    width: '100px'
-                },
-                {
-                    field: '',
-                    headerName: '후단',
-                    children: [{
-                            field: '',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '120px'
-                        },
-                        {
-                            field: '',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '120px'
-                        },
-                        {
-                            field: '',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '120px'
-                        },
-                        {
-                            field: '',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '120px'
-                        },
-                        {
-                            field: '',
-                            headerName: '초과횟수',
-                            type: 'number',
-                            width: '140px'
-                        },
-                    ]
-                },
-                {
-                    field: '',
-                    headerName: '방지시설 효율(%)',
-                    width: '220px'
-                },
-            ],
-            preventFields: [
-                {
-                    field: '',
-                    headerName: '구분',
-                    width: '80px'
-                },
-                {
-                    field: '',
-                    headerName: '발생일자',
-                    width: '120px'
-                },
-                {
-                    field: '',
-                    headerName: '공정명',
-                    width: '120px'
-                },
-                {
-                    field: '',
-                    headerName: '측정위치명',
-                    width: '150px'
-                },
-                {
-                    field: '',
-                    headerName: '변경점/이상점 확인 결과 원인',
-                    width : '415'
-                },
-                {
-                    field: '',
-                    headerName: '조치사항',
-                    width: '415px'
-                },
-                {
-                    field: '',
-                    headerName: '조치 완료일자',
-                    width: '200px'
-                },
-            ],
+            outletListCount:0,
+            outletList:[],
             outletFields: [
                 {
                     field: '',
@@ -340,78 +209,6 @@ export default {
                     width: '140px'
                 },
             ],
-            errorFields: [
-                {
-                    field: '',
-                    headerName: '일자',
-                    width: '80px'
-                },
-                {
-                    field: '',
-                    headerName: '측정위치',
-                    width: '120px'
-                },
-                {
-                    field: '',
-                    headerName: '유형',
-                    width: '100px'
-                },
-                {
-                    field: '',
-                    headerName: '발생일자',
-                    width: '110px'
-                },
-                {
-                    field: '',
-                    headerName: '문제점 개선 계획',
-                    children: [{
-                            field: '',
-                            headerName: '문제점/이슈사항',
-                            type: 'number',
-                            width: '380px'
-                        },
-                        {
-                            field: '',
-                            headerName: '대응 방안',
-                            type: 'number',
-                            width: '380px'
-                        },
-                        {
-                            field: '',
-                            headerName: '일정',
-                            type: 'number',
-                            width: '130px'
-                        },
-                    ]
-                },
-                {
-                    field: '',
-                    headerName: '완료상태',
-                    width : '200'
-                },
-            ],
-            etcFields: [
-                {
-                    field: '',
-                    headerName: '일자',
-                    width: '150px'
-                },
-                {
-                    field: '',
-                    headerName: '분야',
-                    width: '150px'
-                },
-                {
-                    field: '',
-                    headerName: '측정위치',
-                    width: '150px'
-                },
-                {
-                    field: '',
-                    headerName: '특이사항',
-                    width: '1050px'
-                },
-            ],
         }
     },
     beforeDestroy() {
@@ -466,105 +263,57 @@ export default {
         //     console.log(align);
         //     tab[0].style.display = "block"
         // },
-        summaryBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[0].style.display = "block"
-            tabBtn[0].style.fontWeight = "bold";
-            tabBtn[0].style.backgroundColor = "white";
-        },
-        operBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[1].style.display = "block"
-            tabBtn[1].style.fontWeight = "bold";
-            tabBtn[1].style.backgroundColor = "white";
-            
-        },
-        preventBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[2].style.display = "block"
-            tabBtn[2].style.fontWeight = "bold";
-            tabBtn[2].style.backgroundColor = "white";
-        },
-        outletBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[3].style.display = "block"
-            tabBtn[3].style.fontWeight = "bold";
-            tabBtn[3].style.backgroundColor = "white";
+        
+        // outletBtn(){
+        //     let tab = new Array();
+        //     let tabBtn = new Array();
+        //     tab = document.getElementsByClassName('con_table');
+        //     tabBtn = document.getElementsByClassName('tabbtn');
+        //     for(let i=0; i<tab.length; i++){
+        //         tab[i].style.display = 'none';
+        //         tabBtn[i].style.fontWeight = "400";
+        //         tabBtn[i].style.backgroundColor = "transparent";
+        //     }
+        //     tab[3].style.display = "block"
+        //     tabBtn[3].style.fontWeight = "bold";
+        //     tabBtn[3].style.backgroundColor = "white";
 
-        },
-        errorBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[4].style.display = "block"
-            tabBtn[4].style.fontWeight = "bold";
-            tabBtn[4].style.backgroundColor = "white";
-        },
-        etcBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            tab[5].style.display = "block"
-            tabBtn[5].style.fontWeight = "bold";
-            tabBtn[5].style.backgroundColor = "white";
-        },
+        // },
 
         getList() {
-            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
             }
 
             this.onClick();
 
-            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsByDayList", {
-                currentDate: this.currentDate,
-            })
-        }
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.inletList = res.data.data
+                            that.inletListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
 
     }
 }
@@ -801,11 +550,6 @@ export default {
     background: #f9fcff;
     box-sizing: border-box;
     border: 1px solid #d7dadd;
-    display:none;
-}
-
-#con_table01{
-    display:block;
 }
 
 .ag-header-group-text{
