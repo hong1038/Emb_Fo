@@ -245,10 +245,13 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/manageDataList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
+                    cateList: store.state.ckCate,
+                    equipList: store.state.ckEquip,
+                    sensorList: store.state.ckSensor,
                     pageNo: this.pageNo,
                     pageSz: this.pageSz,
                     userId: store.state.userInfo.userId
