@@ -91,27 +91,27 @@ export default {
             perCodeNo: 1,
             MailList: [],
             fields: [{
-                    field: 'serverKey',
+                    field: 'server_key',
                     hidden: true
                 },
+                // {
+                //     field: 'equipment_key',
+                //     hidden: true
+                // },
+                // {
+                //     field: 'sensor_key',
+                //     hidden: true
+                // },
                 {
-                    field: 'equipmentKey',
-                    hidden: true
-                },
-                {
-                    field: 'sensorKey',
-                    hidden: true
-                },
-                {
-                    field: 'servername',
+                    field: 'server_name',
                     label: '사업장'
                 },
                 {
-                    field: 'username',
+                    field: 'user_name',
                     label: '사용자명'
                 },
                 {
-                    field: 'usermail',
+                    field: 'user_mail',
                     label: '메일'
                 },
             ],

@@ -142,14 +142,14 @@ export default {
                     field: 'server_name',
                     headerName: '소속(사업장명)'
                 },
-                {
-                    field: 'tell',
-                    headerName: '전화번호'
-                },
-                {
-                    field: 'hp',
-                    headerName: '핸드폰번호'
-                },
+                // {
+                //     field: 'tell',
+                //     headerName: '전화번호'
+                // },
+                // {
+                //     field: 'hp',
+                //     headerName: '핸드폰번호'
+                // },
                 {
                     field: 'email',
                     headerName: '이메일'

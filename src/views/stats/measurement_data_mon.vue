@@ -135,8 +135,8 @@ export default {
                     width: '375px'
                 },
                 {
-                    field: 'measurement_tm',
-                    headerName: '측정시분',
+                    field: 'measurement_date',
+                    headerName: '측정날짜',
                     width: '170px'
                 },
                 {
