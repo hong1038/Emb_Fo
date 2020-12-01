@@ -17,43 +17,42 @@
                 <div class="imgBox" :style="imgBoxStyle">
                     <div class="viewPinWrap viewPinWrap01">
                         <!-- <div v-for="item in pinList" :key="item.pin_code" :style="item.style" :value="item.pin_name" class="view_pin01" v-on:click="infoBtn(item)"></div> -->
-                        <!--<div class="view_pin01"></div>
-                        <div class="view_pin02"></div>
-                        <div class="view_pin03"></div>
-                        <div class="view_pin04"></div>
-                        <div class="view_pin05"></div>
-                        <div class="view_pin06"></div>
-                        <div class="view_pin07"></div>
-                        <div class="view_pin08"></div>
-                        <div class="view_pin09"></div>
-                        <div class="view_pin10"></div>
-                        <div class="view_pin11"></div>
-                        <div class="view_pin12"></div>
-                        <div class="view_pin13">13</div>
-                        <div class="view_pin14">14</div>
-                        <div class="view_pin15">15</div>
-                        <div class="view_pin16">16</div>
-                        <div class="view_pin17">17</div>
-                        <div class="view_pin18">18</div>-->
                     </div>
                     <div class="pinBoxWrap" style="width:100%;">
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
-                            <div class="pinTitle">{{item.equipment_inner_nm}}</div>
-                            <div class="scrollbox">
+                            <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
+                            <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
+                            <div class="scrollbox" v-if="boxlistvalplace != 511">
                                 <div  class="container" >
-                                        <b-row class="pinBody">
-                                            <b-col cols="4">기준<span style="font-size:8px">()</span></b-col>
-                                            <b-col cols="4">흡입<span style="font-size:8px">()</span></b-col>
-                                            <b-col cols="4">배출<span style="font-size:8px">()</span></b-col>
-                                        </b-row>
-                                    </div>
-                                    <div  class="container">
-                                        <b-row class="pinBody">
-                                            <b-col cols="4">-</b-col>
-                                            <b-col cols="4" >{{boxlistvalin[index]}}</b-col>
-                                            <b-col cols="4" >{{boxlistvalout[index]}}</b-col>
-                                        </b-row>
-                                    </div>
+                                    <b-row class="pinBody">
+                                        <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        <b-col cols="4">흡입<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        <b-col cols="4">배출<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                    </b-row>
+                                </div>
+                                <div  class="container">
+                                    <b-row class="pinBody">
+                                        <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                        <b-col cols="4">{{boxlistvalin[index]}}</b-col>
+                                        <b-col cols="4">{{boxlistvalout[index]}}</b-col>
+                                    </b-row>
+                                </div>
+                                <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                <!-- </div> -->
+                            </div>
+                            <div class="scrollbox" v-else>
+                                <div  class="container" >
+                                    <b-row class="pinBody">
+                                        <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        <b-col cols="4">측정값<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                    </b-row>
+                                </div>
+                                <div  class="container">
+                                    <b-row class="pinBody">
+                                        <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                        <b-col cols="4">{{boxlistvalout[index]}}</b-col>
+                                    </b-row>
+                                </div>
                                 <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
                                 <!-- </div> -->
                             </div>
@@ -174,6 +173,9 @@ export default {
             sensorData:[],
             boxlistvalin:[],
             boxlistvalout:[],
+            boxlistvalstandard:[],
+            boxlistvalunit:[],
+            boxlistvalplace:[],
         }
 
     },
@@ -207,34 +209,57 @@ export default {
                         this.sensorData = res.data.data;
                         this.boxlistvalin = []
                         this.boxlistvalout = []
+                        this.boxlistvalstandard = []
+                        this.boxlistvalunit = [],
+                        this.boxlistvalplace = [],
                         this.boxList.map(e => {
                             let inval = []
                             let outval = []
+                            let standard = ""
+                            let unit = ""
+                            let place = ""
                             this.sensorData.map(el => {
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
+                                    console.log( el,el.outlet_standard_value,el.equipment_inner_nm)
                                     inval.push(el.inlet_avg_value)
                                     outval.push(el.outlet_avg_value)   
+                                    if (el.place === 512) {
+                                        standard = el.outlet_standard_value
+                                    }
+                                    if (el.place === 511) {
+                                        standard = el.midlet_standard_value
+                                    }
+                                    unit = el.unit
+                                    place = el.place
                                 }
                             })
                             // inval = [1,8,50,8,5,3]
                             // outval = [1,8,50,8,5,3]
+                                
                             if (inval.length === 0) {                                
                                 this.boxlistvalin.push("-")
                             }else{
-                                this.boxlistvalin.push(inval.reduce((sum, current) => sum + current, 0) / inval.length)
+                                this.boxlistvalin.push(Math.floor(inval.reduce((sum, current) => sum + current, 0) / inval.length))
                             }
                             if (outval.length === 0) {
                                 this.boxlistvalout.push("-")
                             }else{
-                                this.boxlistvalout.push(outval.reduce((sum, current) => sum + current, 0) / outval.length)    
+                                this.boxlistvalout.push(Math.floor(outval.reduce((sum, current) => sum + current, 0) / outval.length))    
                             }
+                            if (standard === "") {
+                                this.boxlistvalstandard.push("-")
+                            }else{
+                                this.boxlistvalstandard.push(standard)
+                            }
+
+                            this.boxlistvalunit.push(unit)
+                            this.boxlistvalplace.push(place)
                         })
 
 
                         this.boxlistvalin
                         this.boxlistvalout
-                        console.log(this.boxlistvalin)
-                        console.log(this.boxlistvalout)
+                        console.log(this.boxlistvalin,this.boxlistvalout,this.boxlistvalstandard)
                     }
                 }
             })
@@ -292,6 +317,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             this.data = res.data.data;
+                            console.log(this.data)
                             this.graph();
                         }
                     }
@@ -377,7 +403,7 @@ export default {
                                 label: '흡입구',
                                 borderColor: '#f2c84c',
                                 backgroundColor: 'transparent',
-                                pointRadius: 0,
+                                pointRadius: 1,
                                 data: graphDataIn,
                                 borderWidth:5,
                                 // data:dailyChartData
@@ -386,7 +412,7 @@ export default {
                                 label: '배출구',
                                 borderColor: '#2cd2f6',
                                 backgroundColor: 'transparent',
-                                pointRadius: 0,
+                                pointRadius: 1,
                                 data: graphDataOut,
                                 borderWidth:5
                                 // data:dailyChartData
@@ -654,8 +680,8 @@ export default {
     box-sizing: border-box;
     /* padding:6px; */
     background:white;
-    outline:1px solid black;
     word-break: keep-all;
+    border-radius: 7px;
 }
 
 .imgBox .pinBoxBig{
@@ -671,8 +697,9 @@ export default {
     word-break: keep-all;
     background:#459E1E;
     letter-spacing: -1px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
 }
-
 .imgBox .pinBoxWrap .pinBody{
     height:25px;
     line-height:25px;
