@@ -203,7 +203,7 @@ export default {
                 },
                 {
                     field: 'category_cd',
-                    headerName: '분야',
+                    headerName: '구분',
                     width: '80px'
                 },
                 {
