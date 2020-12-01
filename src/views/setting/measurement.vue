@@ -259,6 +259,7 @@ export default {
             { headerName: '시설분류'     ,field: 'facility_nm'   ,width: '5%' },
             { headerName: '위치분류'     ,field: 'place_nm'      ,width: '5%' },
             { headerName: '측정대상 시설 내부명칭'  ,field: 'equipment_inner_nm',width: '20%' },
+            { headerName: '센서명'  ,field: 'sensor_name',width: '20%' },
             { headerName: '측정기시설명'  ,field: 'equipment_name',width: '20%' },
             { headerName: '측정기내부명칭' ,field: 'internal_name' ,width: '20%' },
             { headerName: '법적기준'     ,field: 'legal_standard' ,width:  '10%',cellStyle:{textAlign:"right"} },
