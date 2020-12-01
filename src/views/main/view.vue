@@ -22,7 +22,7 @@
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
                             <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
                             <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
-                            <div class="scrollbox" v-if="boxlistvalplace != 511">
+                            <div class="scrollbox" v-if="boxlistvalplace[index] != 511">
                                 <div  class="container" >
                                     <b-row class="pinBody">
                                         <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
@@ -44,13 +44,13 @@
                                 <div  class="container" >
                                     <b-row class="pinBody">
                                         <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                        <b-col cols="4">측정값<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        <b-col cols="4">중간<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
                                     </b-row>
                                 </div>
                                 <div  class="container">
                                     <b-row class="pinBody">
                                         <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
-                                        <b-col cols="4">{{boxlistvalout[index]}}</b-col>
+                                        <b-col cols="4">{{boxlistvalmid[index]}}</b-col>
                                     </b-row>
                                 </div>
                                 <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
@@ -172,10 +172,12 @@ export default {
             boxList:[],
             sensorData:[],
             boxlistvalin:[],
+            boxlistvalmid:[],
             boxlistvalout:[],
             boxlistvalstandard:[],
             boxlistvalunit:[],
             boxlistvalplace:[],
+            boxlistvalinletstandard:[],
         }
 
     },
@@ -193,7 +195,7 @@ export default {
                     e.check = true;
                 })
                 this.boxList = res.data.data
-                console.log(this.boxList,"박스리스트")
+
             }).catch(err =>{
                 alert(err)
             })
@@ -208,25 +210,32 @@ export default {
                     if (res.data.statusCode === 200) {
                         this.sensorData = res.data.data;
                         this.boxlistvalin = []
+                        this.boxlistvalmid = []
                         this.boxlistvalout = []
                         this.boxlistvalstandard = []
                         this.boxlistvalunit = [],
                         this.boxlistvalplace = [],
                         this.boxList.map(e => {
-                            let inval = []
-                            let outval = []
-                            let standard = ""
-                            let unit = ""
-                            let place = ""
+                            let inval = null
+                            let outval = null
+                            let midval = null
+                            let standard = null
+                            let unit = null
+                            let place = null
+                            let inletstandard = null
                             this.sensorData.map(el => {
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
                                     console.log( el,el.outlet_standard_value,el.equipment_inner_nm)
-                                    inval.push(el.inlet_avg_value)
-                                    outval.push(el.outlet_avg_value)   
+                                    if (el.place === 510) {
+                                        inval = el.inlet_avg_value    
+                                        inletstandard = el.inlet_standard_value
+                                    }
                                     if (el.place === 512) {
                                         standard = el.outlet_standard_value
+                                        outval = el.outlet_avg_value
                                     }
                                     if (el.place === 511) {
+                                        midval = el.midlet_avg_value
                                         standard = el.midlet_standard_value
                                     }
                                     unit = el.unit
@@ -235,31 +244,45 @@ export default {
                             })
                             // inval = [1,8,50,8,5,3]
                             // outval = [1,8,50,8,5,3]
-                                
-                            if (inval.length === 0) {                                
+                            // console.log(inval,outval)
+                            if (inval === null) {                                
                                 this.boxlistvalin.push("-")
                             }else{
-                                this.boxlistvalin.push(Math.floor(inval.reduce((sum, current) => sum + current, 0) / inval.length))
+                                this.boxlistvalin.push(inval)
                             }
-                            if (outval.length === 0) {
+
+                            if (inval === null) {                                
+                                this.boxlistvalmid.push("-")
+                            }else{
+                                this.boxlistvalmid.push(midval)
+                            }
+
+                            if (outval === null) {
                                 this.boxlistvalout.push("-")
                             }else{
-                                this.boxlistvalout.push(Math.floor(outval.reduce((sum, current) => sum + current, 0) / outval.length))    
+                                this.boxlistvalout.push(outval)    
                             }
-                            if (standard === "") {
+
+                            if (standard === null) {
                                 this.boxlistvalstandard.push("-")
                             }else{
                                 this.boxlistvalstandard.push(standard)
                             }
 
+                            if (inletstandard === null) {
+                                this.boxlistvalinletstandard.push("-")
+                            }else{
+                                this.boxlistvalinletstandard.push(inletstandard)
+                            }
+
                             this.boxlistvalunit.push(unit)
                             this.boxlistvalplace.push(place)
                         })
+                            // console.log(this.boxlistvalmid)
 
 
                         this.boxlistvalin
                         this.boxlistvalout
-                        console.log(this.boxlistvalin,this.boxlistvalout,this.boxlistvalstandard)
                     }
                 }
             })
@@ -274,7 +297,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            console.log(res.data.data)
+        
                             res.data.data.map((e) => {
                                 // // 실제 값이 있다면 바로 아래에 있는 if문은 지워야 합니다.
                                 // if (idx == 1 || idx == 2 || idx == 3) {   
@@ -296,7 +319,7 @@ export default {
                                 e.color = '#' + Math.round(Math.random() * 0xffffff).toString(16)
                             })
                             this.pinList = res.data.data;
-                            console.log(this.pinList)
+
                             this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
                                 // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;height:"+ (450+((this.pinList.length-17)*20))+"px;"
                             
@@ -317,7 +340,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             this.data = res.data.data;
-                            console.log(this.data)
+
                             this.graph();
                         }
                     }
@@ -331,7 +354,7 @@ export default {
                 
                 this.Chart.destroy();
             }
-            console.log(this.data)
+
             this.scrubber.map((e, idx) => {
                 let graphLabel = []
                 let graphDataIn = []
@@ -425,14 +448,12 @@ export default {
             })
         },
         selectEq(item) {
-            console.log(item)
+
             let eqbkey = ""
             if (item === "All") {
                 eqbkey = null;
             }else[
-                this.boxList.map(e => {
-                    eqbkey = e.equipment_inner_nm
-                })
+                eqbkey = item.equipment_inner_nm
             ]
 
             for (let index = 0; index < this.boxList.length+1; index++) {
@@ -440,7 +461,7 @@ export default {
             }
 
             if (item === "All") {
-                console.log(document.getElementsByClassName("eqKey_0")[0])
+
                 document.getElementsByClassName("eqKey_0")[0].style.color = 'red'
             }else{
                 document.getElementsByClassName("eqKey" + item.box_code)[0].style.color = 'red'
@@ -454,10 +475,10 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            console.log(res.data.data)
+
                             this.title = store.state.serverName
                             this.scrubber = res.data.data
-                            console.log(this.scrubber)
+
                             setTimeout(() => {
                                 this.barCheck()
                                 this.monitoringListPerHour(eqbkey)
@@ -482,7 +503,7 @@ export default {
                             res.data.data.map(e => {
                                 e.check = true
                             })
-                            console.log(res)
+
                             that.equipList = res.data.data;
                             setTimeout(() => {
                                 this.selectEq("All")
@@ -502,7 +523,7 @@ export default {
 
             this.scrubber.map((e, idx) => {
                 if (e.inlet_avg_value > e.inlet_standard_value ) {
-                    console.log(document.getElementsByClassName(idx + '_in_up')[0])
+
                     document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
                     document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
                 }else{
@@ -511,7 +532,7 @@ export default {
                 }
 
                 if (e.outlet_avg_value > e.outlet_standard_value ) {
-                    console.log(document.getElementsByClassName(idx + '_out_up')[0])
+
                     document.getElementsByClassName(idx + '_out_up')[0].style.background = "#ff3131"
                     document.getElementsByClassName(idx + '_out_up')[0].style.width = "100%"
                 }else{
@@ -532,20 +553,20 @@ export default {
             // this.show = true;            
             // this.item = item;
             item.show = true
-            console.log(item)
+
             // document.getElementsByClassName('overlayTitle').innetHTML = document.getElementsByClassName('view_pin01').getAttribute('value');
             
         },
-        infoClose(item){
+        infoClose(){
             this.show = false;
-            console.log(item)
+
         },
         twoDBtn(){
-            console.log("111111")
+
             this.imgBoxStyle = "backgroundImage:url("+this.bgImg2d+");height:466px;"
         },
         threeDBtn(){
-            console.log("222222")
+
             this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
         }
     }
