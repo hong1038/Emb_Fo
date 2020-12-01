@@ -5,7 +5,7 @@
         <img src="@/assets/login_logo.png" class="logo">
     </div>
     <div class='loginWrap'>
-        <h1>Welcome to CJ Olivenetworks</h1>
+        <h1>Welcome to CJ Cheiljedang</h1>
         <div class="loginForm">
             <div class="idWrap">
                 <div>
