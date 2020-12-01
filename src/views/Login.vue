@@ -189,8 +189,8 @@ input {
     position: absolute;
     top: 45%;
     left: 50%;
-    width: 520px;
-    height: 160px;
+    width: 550px;
+    height: 200px;
     transform: translate(-50%, -40%);
     opacity: 1;
 }
