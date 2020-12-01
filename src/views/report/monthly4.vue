@@ -88,7 +88,7 @@
 </template>
 
 <script>
-// import store from "@/store/index";
+import store from "@/store/index";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
@@ -281,17 +281,39 @@ export default {
         // },
 
         getList() {
-            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
             }
 
             this.onClick();
 
-            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsByDayList", {
-                currentDate: this.currentDate,
-            })
-        }
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.inletList = res.data.data
+                            that.inletListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
 
     }
 }

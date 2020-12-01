@@ -28,6 +28,10 @@
                                     </v-menu> -->
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
+                                <div>~</div>
+                                <div class="dateSelect dateSelectTo">
+                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
+                                </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
                                 <input type="button" class="d_btn01" value="조회" v-on:click="getList4">
