@@ -145,12 +145,12 @@ export default {
                 // },
                 {
                     field: 'server_name',
-                    headerName: '측정장소',
-                    width: '230px'
+                    headerName: '사업장',
+                    width: '140px'
                 },
                 {
                     field: 'category',
-                    headerName: '측정항목',
+                    headerName: '분야',
                     width: '200px'
                 },
                 {
@@ -159,8 +159,13 @@ export default {
                     width: '375px'
                 },
                 {
+                    field: 'sensor_name',
+                    headerName: '센서명',
+                    width: '100px'
+                },
+                {
                     field: 'measurement_tm',
-                    headerName: '측정시분',
+                    headerName: '측정시간',
                     width: '170px'
                 },
                 {
