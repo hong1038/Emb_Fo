@@ -84,9 +84,10 @@
                                 <span style="font-size:18px">비정상</span>
                             </div>
                         </div>
-                        <div class="infoBox" v-for="(item,key) in scrubber" v-bind:key="key">
-                            <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.internal_name}} 스크러버</span></div>
-                            <div class="infoBody">
+                        <div class="infoBox" v-for="(item,key) in boxList2" v-bind:key="key">
+                            <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.equipment_inner_nm}} 스크러버</span></div>
+
+                            <div class="infoBody"  v-if="boxlistvalplace[key] != 511">
                                 <div class="infoBody_inlet">
                                     <div>흡입구</div>
                                     <div>
@@ -94,16 +95,29 @@
                                         <div :class="key + '_in_up in_up up'"></div>
                                         <div class="in_down down"></div>
                                     </div>
-                                    <div>{{Math.floor(item.inlet_avg_value)}}/{{Math.floor(item.inlet_standard_value)}}</div>
+                                    
+                                    <div>{{boxlistvalin[key]}} / {{boxlistvalinletstandard[key]}}</div>
                                 </div>
                                 <div class="infoBody_outlet">
                                     <div>배출구</div>
                                     <div>
                                         <div class="out_line line"></div>
-                                        <div :class="key + '_out_up out_up _up'"></div>
+                                        <div :class="key + '_out_up out_up up'"></div>
                                         <div class="out_down down"></div>
                                     </div>
-                                    <div>{{Math.floor(item.outlet_avg_value)}}/{{Math.floor(item.outlet_standard_value)}}</div>
+                                    <div>{{boxlistvalout[key]}} / {{boxlistvalstandard[key]}}</div>
+                                </div>
+                            </div>
+
+                            <div class="infoBody"  v-else>
+                                <div class="infoBody_outlet">
+                                    <div>중간</div>
+                                    <div>
+                                        <div class="mid_line line"></div>
+                                        <div :class="key + '_mid_up mid_up up'"></div>
+                                        <div class="mid_down down"></div>
+                                    </div>
+                                    <div>{{boxlistvalmid[key]}} / {{boxlistvalstandard[key]}}</div>
                                 </div>
                             </div>
                         </div>
@@ -125,8 +139,8 @@
                         <span style="font-size:18px">배출</span>
                     </div>
                 </div>
-                <div class="canvasWrap" v-for="(item,idx) in scrubber" v-bind:key="idx">
-                    <div>{{item.internal_name}}</div>
+                <div class="canvasWrap" v-for="(item,idx) in boxList2" v-bind:key="idx">
+                    <div>{{item.equipment_inner_nm}}</div>
                     <canvas :id="'line-graph'+idx" width="560" height="200"></canvas>
                 </div>
             </div>
@@ -155,6 +169,7 @@ export default {
             timeout : null,
             show:false,
 
+            eqbKey:null,
             item:{},
             equipList: [],
             equipList2:[],
@@ -170,6 +185,7 @@ export default {
 
             imgBoxStyle:"",
             boxList:[],
+            boxList2:[],
             sensorData:[],
             boxlistvalin:[],
             boxlistvalmid:[],
@@ -195,7 +211,6 @@ export default {
                     e.check = true;
                 })
                 this.boxList = res.data.data
-
             }).catch(err =>{
                 alert(err)
             })
@@ -225,7 +240,7 @@ export default {
                             let inletstandard = null
                             this.sensorData.map(el => {
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
-                                    console.log( el,el.outlet_standard_value,el.equipment_inner_nm)
+                                    // console.log( el,el.outlet_standard_value,el.equipment_inner_nm)
                                     if (el.place === 510) {
                                         inval = el.inlet_avg_value    
                                         inletstandard = el.inlet_standard_value
@@ -242,37 +257,38 @@ export default {
                                     place = el.place
                                 }
                             })
-                            // inval = [1,8,50,8,5,3]
-                            // outval = [1,8,50,8,5,3]
+                            // inval = 10
+                            // outval = 500
                             // console.log(inval,outval)
                             if (inval === null) {                                
                                 this.boxlistvalin.push("-")
                             }else{
-                                this.boxlistvalin.push(inval)
+                                this.boxlistvalin.push(Math.ceil(inval))
+                                console.log(this.boxlistvalin)
                             }
 
                             if (inval === null) {                                
                                 this.boxlistvalmid.push("-")
                             }else{
-                                this.boxlistvalmid.push(midval)
+                                this.boxlistvalmid.push(Math.ceil(midval))
                             }
 
                             if (outval === null) {
                                 this.boxlistvalout.push("-")
                             }else{
-                                this.boxlistvalout.push(outval)    
+                                this.boxlistvalout.push(Math.ceil(outval))    
                             }
 
                             if (standard === null) {
                                 this.boxlistvalstandard.push("-")
                             }else{
-                                this.boxlistvalstandard.push(standard)
+                                this.boxlistvalstandard.push(Math.ceil(standard))
                             }
 
                             if (inletstandard === null) {
                                 this.boxlistvalinletstandard.push("-")
                             }else{
-                                this.boxlistvalinletstandard.push(inletstandard)
+                                this.boxlistvalinletstandard.push(Math.ceil(inletstandard))
                             }
 
                             this.boxlistvalunit.push(unit)
@@ -330,17 +346,17 @@ export default {
                     alert("가동률데이터목록 추출 실패 \n" + err);
                 })
         },  
-        monitoringListPerHour(eqbKey) {
+        monitoringListPerHour() {
             this.$Axios.post("/api/daedan/cj/ems/main/MonitoringListPerHourSensor", {
                     serverKey: store.state.serverKey,
-                    equipmentInnerNm: eqbKey,
+                    equipmentInnerNm: this.eqbKey,
                     date: store.state.szCurDt
                 }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             this.data = res.data.data;
-
+                            console.log(this.data)
                             this.graph();
                         }
                     }
@@ -355,7 +371,7 @@ export default {
                 this.Chart.destroy();
             }
 
-            this.scrubber.map((e, idx) => {
+            this.boxList2.map((e, idx) => {
                 let graphLabel = []
                 let graphDataIn = []
                 let graphDataOut = []
@@ -364,7 +380,7 @@ export default {
                 this.data.splice(10,this.data.length)
                 this.data.reverse()
                 this.data.map(item => {
-                    if (e.mno === item.mno) {
+                    if (e.equipment_inner_nm === item.equipment_inner_nm) {
                         graphLabel.push(item.prevention_date)
                         graphDataIn.push(item.inlet_avg_value)
                         graphDataOut.push(item.outlet_avg_value)
@@ -448,13 +464,19 @@ export default {
             })
         },
         selectEq(item) {
-
-            let eqbkey = ""
+            
+            this.boxList2 = []
             if (item === "All") {
-                eqbkey = null;
-            }else[
-                eqbkey = item.equipment_inner_nm
-            ]
+                this.eqbkey = null;
+                this.boxList2 = this.boxList
+            }else{
+                this.eqbkey = item.equipment_inner_nm
+                this.boxList.map(e => {                    
+                    if (e.equipment_inner_nm === item.equipment_inner_nm) {
+                        this.boxList2.push(e)
+                    }
+                });
+            }
 
             for (let index = 0; index < this.boxList.length+1; index++) {
                 document.getElementsByClassName("eqKey")[index].style.color = 'black'
@@ -469,7 +491,7 @@ export default {
 
             this.$Axios.post("/api/daedan/cj/ems/main/EquipmentMonitoringList", {
                     serverKey: store.state.serverKey,
-                    equipmentInnerNm: eqbkey,
+                    equipmentInnerNm: this.eqbkey,
                     procDt: store.state.szCurDt
                 }, this.config)
                 .then(res => {
@@ -481,7 +503,7 @@ export default {
 
                             setTimeout(() => {
                                 this.barCheck()
-                                this.monitoringListPerHour(eqbkey)
+                                this.monitoringListPerHour(this.eqbkey)
                             }, 100);
                         }
                     }
@@ -521,29 +543,44 @@ export default {
                 return false
             }
 
-            this.scrubber.map((e, idx) => {
-                if (e.inlet_avg_value > e.inlet_standard_value ) {
+            this.boxList2.map((e, idx) => {
+                // console.log(e,idx,this.boxlistvalinletstandard[idx])
+                if (this.boxlistvalplace[idx] != 511) {             
+                    if (this.boxlistvalin[idx] >= this.boxlistvalinletstandard[idx] && this.boxlistvalin[idx] != "-") {
+                        document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
+                        document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
+                    }else{
+                        document.getElementsByClassName(idx + '_in_up')[0].style.background = "#5151ff"
+                        document.getElementsByClassName(idx + '_in_up')[0].style.width = (this.boxlistvalin[idx] * 100 / this.boxlistvalinletstandard[idx])+"%"
+                    }
 
-                    document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
-                    document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
+                    if (this.boxlistvalout[idx] >= this.boxlistvalstandard[idx] && this.boxlistvalout[idx] != "-") {
+                        document.getElementsByClassName(idx + '_out_up')[0].style.background = "#ff3131"
+                        document.getElementsByClassName(idx + '_out_up')[0].style.width = "100%"
+                    }else{
+                        document.getElementsByClassName(idx + '_out_up')[0].style.background = "#5151ff"
+                        document.getElementsByClassName(idx + '_out_up')[0].style.width = (this.boxlistvalout[idx] * 100 / this.boxlistvalstandard[idx])+"%"
+                    }
+
+                    if (this.boxlistvalin[idx] >= this.boxlistvalinletstandard[idx] && this.boxlistvalin[idx] != "-" && this.boxlistvalout[idx] != "-" || this.boxlistvalout[idx] >= this.boxlistvalstandard[idx] && this.boxlistvalin[idx] != "-" && this.boxlistvalout[idx] != "-")  {
+                        document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
+                    }else{
+                        document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
+                    }
                 }else{
-                    document.getElementsByClassName(idx + '_in_up')[0].style.background = "#5151ff"
-                    document.getElementsByClassName(idx + '_in_up')[0].style.width = (e.inlet_avg_value * 100 / e.inlet_standard_value)+"%"
-                }
+                    if (this.boxlistvalmid[idx] >= this.boxlistvalstandard[idx] ) {
+                        document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#ff3131"
+                        document.getElementsByClassName(idx + '_mid_up')[0].style.width = "100%"
+                    }else{
+                        document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#5151ff"
+                        document.getElementsByClassName(idx + '_mid_up')[0].style.width = (this.boxlistvalmid[idx] * 100 / this.boxlistvalstandard[idx])+"%"
+                    }
 
-                if (e.outlet_avg_value > e.outlet_standard_value ) {
-
-                    document.getElementsByClassName(idx + '_out_up')[0].style.background = "#ff3131"
-                    document.getElementsByClassName(idx + '_out_up')[0].style.width = "100%"
-                }else{
-                    document.getElementsByClassName(idx + '_out_up')[0].style.background = "#5151ff"
-                    document.getElementsByClassName(idx + '_out_up')[0].style.width = (e.outlet_avg_value * 100 / e.outlet_standard_value)+"%"
-                }
-
-                if (e.inlet_avg_value > e.inlet_standard_value || e.outlet_avg_value > e.outlet_standard_value) {
-                    document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
-                }else{
-                    document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
+                    if (this.boxlistvalmid[idx] >= this.boxlistvalstandard[idx]) {
+                        document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
+                    }else{
+                        document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
+                    }
                 }
 
 

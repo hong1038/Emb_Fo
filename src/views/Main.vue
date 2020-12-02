@@ -70,18 +70,6 @@
                                     <b-row class="monitor" v-for="(item,idx) in moniList" :key="idx">
                                         <b-col cols="4">{{item.equipment_name}}</b-col>
                                         <b-col cols="4">
-                                            <!-- <ul>
-                                                <li :class="item.idx + '_percent_1 percent '"></li>
-                                                <li :class="item.idx + '_percent_2 percent '"></li>
-                                                <li :class="item.idx + '_percent_3 percent '"></li>
-                                                <li :class="item.idx + '_percent_4 percent '"></li>
-                                                <li :class="item.idx + '_percent_5 percent '"></li>
-                                                <li :class="item.idx + '_percent_6 percent '"></li>
-                                                <li :class="item.idx + '_percent_7 percent '"></li>
-                                                <li :class="item.idx + '_percent_8 percent '"></li>
-                                                <li :class="item.idx + '_percent_9 percent '"></li>
-                                                <li :class="item.idx + '_percent_10 percent '"></li>
-                                            </ul> -->
                                             <ul >
                                                 <li class="percent_line"></li>
                                                 <li :class="item.idx + '_percent_up percent_up'"></li>
@@ -522,8 +510,6 @@ export default {
 
                                 console.log(res.data.data.area,areaPin)
                                 try {
-                                    
-
                                     if (this.checkPin === false) {
                                         this.rowData = res.data.data.area    
                                     }else{
@@ -545,8 +531,7 @@ export default {
                                 } catch (error) {
                                     console.log(error)
                                 }
-
-
+                                this.getmoniList()
                         }
                     }
                 })
@@ -579,7 +564,9 @@ export default {
             this.changeMap()
 
         },
+        getmoniList(){
 
+        },
         testmoni() {
             this.moniList.map((e, idx) => {
                 e.idx = idx;
