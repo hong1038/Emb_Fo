@@ -76,9 +76,27 @@
                                                 <li class="percent_down"></li>
                                             </ul>
                                         </b-col>
-                                        <b-col cols="4" v-if="item.place === 512" >{{item.outlet_avg}}/{{item.outlet_standard_value}}</b-col>
-                                        <b-col cols="4" v-if="item.place === 511" >{{item.midlet_avg_value}}/{{item.midlet_standard_value}}</b-col>
-                                        <b-col cols="4" v-if="item.place === 510" >{{item.inlet_avg}}/{{item.inlet_standard_value}}</b-col>
+                                        <b-col cols="4" v-if="item.place === 512" >
+                                            <span v-if="item.outlet_avg != null">{{item.outlet_avg}}</span>
+                                            <span v-else>-</span>
+                                            /
+                                            <span v-if="item.outlet_standard_value != null">{{item.outlet_standard_value}}</span>
+                                            <span v-else>-</span>
+                                        </b-col>
+                                        <b-col cols="4" v-if="item.place === 511" >
+                                            <span v-if="item.midlet_avg_value != null">{{item.midlet_avg_value}}</span>
+                                            <span v-else>-</span>
+                                            /
+                                            <span v-if="item.midlet_standard_value != null">{{item.midlet_standard_value}}</span>
+                                            <span v-else>-</span>
+                                        </b-col>
+                                        <b-col cols="4" v-if="item.place === 510" >
+                                            <span v-if="item.inlet_avg != null">{{item.inlet_avg}}</span>
+                                            <span v-else>-</span>
+                                            /
+                                            <span v-if="item.inlet_standard_value != null">{{item.inlet_standard_value}}</span>
+                                            <span v-else>-</span>
+                                        </b-col>
                                     </b-row>
                                 </div>
                             </div>
@@ -449,7 +467,7 @@ export default {
 
                                 this.moniList = res.data.data.moni
 
-                                console.log(res.data.data)
+                                console.log(this.moniList)
 
                                 res.data.data.area[9].pinImg = pin01Img
                                 res.data.data.area[12].pinImg = pin02Img

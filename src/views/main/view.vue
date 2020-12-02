@@ -87,7 +87,7 @@
                         <div class="infoBox" v-for="(item,key) in boxList2" v-bind:key="key">
                             <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.equipment_inner_nm}} 스크러버</span></div>
 
-                            <div class="infoBody"  v-if="boxlistvalplace[key] != 511">
+                            <div class="infoBody"  v-if="boxlistvalplace[item.box_code - 1] != 511">
                                 <div class="infoBody_inlet">
                                     <div>흡입구</div>
                                     <div>
@@ -96,7 +96,7 @@
                                         <div class="in_down down"></div>
                                     </div>
                                     
-                                    <div>{{boxlistvalin[key]}} / {{boxlistvalinletstandard[key]}}</div>
+                                    <div>{{boxlistvalin[item.box_code - 1]}} / {{boxlistvalinletstandard[item.box_code - 1]}}</div>
                                 </div>
                                 <div class="infoBody_outlet">
                                     <div>배출구</div>
@@ -105,7 +105,7 @@
                                         <div :class="key + '_out_up out_up up'"></div>
                                         <div class="out_down down"></div>
                                     </div>
-                                    <div>{{boxlistvalout[key]}} / {{boxlistvalstandard[key]}}</div>
+                                    <div>{{boxlistvalout[item.box_code - 1]}} / {{boxlistvalstandard[item.box_code - 1]}}</div>
                                 </div>
                             </div>
 
@@ -117,7 +117,7 @@
                                         <div :class="key + '_mid_up mid_up up'"></div>
                                         <div class="mid_down down"></div>
                                     </div>
-                                    <div>{{boxlistvalmid[key]}} / {{boxlistvalstandard[key]}}</div>
+                                    <div>{{boxlistvalmid[item.box_code - 1]}} / {{boxlistvalstandard[item.box_code - 1]}}</div>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                 </div>
                 <div class="canvasWrap" v-for="(item,idx) in boxList2" v-bind:key="idx">
                     <div>{{item.equipment_inner_nm}}</div>
-                    <canvas :id="'line-graph'+idx" width="560" height="200"></canvas>
+                    <canvas :id="'line-graph'+idx" class="line-graph" width="560" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -231,6 +231,7 @@ export default {
                         this.boxlistvalunit = [],
                         this.boxlistvalplace = [],
                         this.boxList.map(e => {
+                            // console.log(e)
                             let inval = null
                             let outval = null
                             let midval = null
@@ -240,7 +241,7 @@ export default {
                             let inletstandard = null
                             this.sensorData.map(el => {
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
-                                    // console.log( el,el.outlet_standard_value,el.equipment_inner_nm)
+                                    console.log(el)
                                     if (el.place === 510) {
                                         inval = el.inlet_avg_value    
                                         inletstandard = el.inlet_standard_value
@@ -366,12 +367,15 @@ export default {
                 })
         },
         graph() {
-            if (this.Chart != undefined) {
-                
+            if (this.Chart != undefined) {   
                 this.Chart.destroy();
             }
 
+
             this.boxList2.map((e, idx) => {
+                if (document.getElementsByClassName('line-graph').length === 0) {
+                    return false;
+                }
                 let graphLabel = []
                 let graphDataIn = []
                 let graphDataOut = []
@@ -545,38 +549,38 @@ export default {
 
             this.boxList2.map((e, idx) => {
                 // console.log(e,idx,this.boxlistvalinletstandard[idx])
-                if (this.boxlistvalplace[idx] != 511) {             
-                    if (this.boxlistvalin[idx] >= this.boxlistvalinletstandard[idx] && this.boxlistvalin[idx] != "-") {
+                if (this.boxlistvalplace[e.box_code - 1] != 511) {             
+                    if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-") {
                         document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
                         document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
                     }else{
                         document.getElementsByClassName(idx + '_in_up')[0].style.background = "#5151ff"
-                        document.getElementsByClassName(idx + '_in_up')[0].style.width = (this.boxlistvalin[idx] * 100 / this.boxlistvalinletstandard[idx])+"%"
+                        document.getElementsByClassName(idx + '_in_up')[0].style.width = (this.boxlistvalin[e.box_code - 1] * 100 / this.boxlistvalinletstandard[e.box_code - 1])+"%"
                     }
 
-                    if (this.boxlistvalout[idx] >= this.boxlistvalstandard[idx] && this.boxlistvalout[idx] != "-") {
+                    if (this.boxlistvalout[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] && this.boxlistvalout[e.box_code - 1] != "-") {
                         document.getElementsByClassName(idx + '_out_up')[0].style.background = "#ff3131"
                         document.getElementsByClassName(idx + '_out_up')[0].style.width = "100%"
                     }else{
                         document.getElementsByClassName(idx + '_out_up')[0].style.background = "#5151ff"
-                        document.getElementsByClassName(idx + '_out_up')[0].style.width = (this.boxlistvalout[idx] * 100 / this.boxlistvalstandard[idx])+"%"
+                        document.getElementsByClassName(idx + '_out_up')[0].style.width = (this.boxlistvalout[e.box_code - 1] * 100 / this.boxlistvalstandard[e.box_code - 1])+"%"
                     }
 
-                    if (this.boxlistvalin[idx] >= this.boxlistvalinletstandard[idx] && this.boxlistvalin[idx] != "-" && this.boxlistvalout[idx] != "-" || this.boxlistvalout[idx] >= this.boxlistvalstandard[idx] && this.boxlistvalin[idx] != "-" && this.boxlistvalout[idx] != "-")  {
+                    if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-" && this.boxlistvalout[e.box_code - 1] != "-" || this.boxlistvalout[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-" && this.boxlistvalout[e.box_code - 1] != "-")  {
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
                     }else{
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
                     }
                 }else{
-                    if (this.boxlistvalmid[idx] >= this.boxlistvalstandard[idx] ) {
+                    if (this.boxlistvalmid[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] ) {
                         document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#ff3131"
                         document.getElementsByClassName(idx + '_mid_up')[0].style.width = "100%"
                     }else{
                         document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#5151ff"
-                        document.getElementsByClassName(idx + '_mid_up')[0].style.width = (this.boxlistvalmid[idx] * 100 / this.boxlistvalstandard[idx])+"%"
+                        document.getElementsByClassName(idx + '_mid_up')[0].style.width = (this.boxlistvalmid[e.box_code - 1] * 100 / this.boxlistvalstandard[e.box_code - 1])+"%"
                     }
 
-                    if (this.boxlistvalmid[idx] >= this.boxlistvalstandard[idx]) {
+                    if (this.boxlistvalmid[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1]) {
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
                     }else{
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
