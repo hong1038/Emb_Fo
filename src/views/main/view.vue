@@ -557,7 +557,7 @@ export default {
                         document.getElementsByClassName(idx + '_out_up')[0].style.width = (this.boxlistvalout[e.box_code - 1] * 100 / this.boxlistvalstandard[e.box_code - 1])+"%"
                     }
 
-                    if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-" && this.boxlistvalout[e.box_code - 1] != "-" || this.boxlistvalout[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-" && this.boxlistvalout[e.box_code - 1] != "-")  {
+                    if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-" || this.boxlistvalout[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] && this.boxlistvalout[e.box_code - 1] != "-")  {
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
                     }else{
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
