@@ -160,7 +160,8 @@ export default {
     created() {
         this.test3()
         this.test2()
-        this.getEquips();
+
+
         this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
     },
     data() {
@@ -225,7 +226,6 @@ export default {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
                         this.sensorData = res.data.data;
-                        console.log(this.sensorData)
                         this.boxlistvalin = []
                         this.boxlistvalmid = []
                         this.boxlistvalout = []
@@ -242,7 +242,6 @@ export default {
                             let place = null
                             let inletstandard = null
                             this.sensorData.map(el => {              
-                                this.data_equipment_inner_nm.push(el.equipment_inner_nm)                  
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
                                     if (el.place === 510) {
                                         inval = el.inlet_avg_value    
@@ -303,6 +302,7 @@ export default {
 
                         this.boxlistvalin
                         this.boxlistvalout
+                        this.getEquips();
                     }
                 }
             })
@@ -447,9 +447,24 @@ export default {
         },
         selectEq(item) {
             this.boxList2 = []
+            let filterKeywords = []
+            let filterKeywords2 = []
             if (item === "All") {
                 this.eqbkey = null;
                 this.boxList2 = this.boxList
+                this.boxList2.map(e => {
+                    filterKeywords.push(e.equipment_inner_nm)
+                })
+                this.sensorData.map(e => {
+                    filterKeywords2.push(e.equipment_inner_nm)
+                })
+                var filterKeywords3 = filterKeywords.filter((e) => !Array.from(new Set(filterKeywords2)).includes(e));
+                console.log(this.boxList2,filterKeywords3)
+                filterKeywords3.map(item => {
+                   this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
+                })
+
+                
             }else{
                 this.eqbkey = item.equipment_inner_nm
                 this.boxList.map(e => {                    
