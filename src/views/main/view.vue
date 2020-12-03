@@ -333,11 +333,12 @@ export default {
                 this.Chart.destroy();
             }
 
-
             this.boxList2.map((e, idx) => {
-                if (document.getElementsByClassName('line-graph').length === 0) {
+                console.log(document.getElementById('line-graph' + idx))
+                if (document.getElementsByClassName('line-graph').length === 0 ) {
                     return false;
                 }
+                document.getElementById("graph-canvas"+idx).style.display = 'block'
                 let midlet_place = false
                 let graphLabel = []
                 let graphDataIn = []
@@ -360,9 +361,7 @@ export default {
                     if (document.getElementById("graph-canvas"+idx)) {
                         
                         if (document.getElementById("graph-canvas"+idx).length != 0) {
-                            var parent  =  document.getElementById('viewRightBox')
-                            const child  = document.getElementById("graph-canvas"+idx)
-                            parent.removeChild(child)
+                            document.getElementById("graph-canvas"+idx).style.display = 'none'
                         }
                     }
                     return false
