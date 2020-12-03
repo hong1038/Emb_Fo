@@ -68,7 +68,7 @@
                                 <div>{{pinName}} 모니터링 내역</div>
                                 <div class="monitorWrap">
                                     <b-row class="monitor" v-for="(item,idx) in moniList" :key="idx">
-                                        <b-col cols="4">{{item.equipment_name}}</b-col>
+                                        <b-col cols="4">{{item.internal_name}}</b-col>
                                         <b-col cols="4">
                                             <ul >
                                                 <li class="percent_line"></li>
@@ -77,7 +77,7 @@
                                             </ul>
                                         </b-col>
                                         <b-col cols="4" v-if="item.place === 512" >
-                                            <span v-if="item.outlet_avg != null">{{item.outlet_avg}}</span>
+                                            <span v-if="item.outlet_avg_value != null">{{item.outlet_avg_value}}</span>
                                             <span v-else>-</span>
                                             /
                                             <span v-if="item.outlet_standard_value != null">{{item.outlet_standard_value}}</span>
@@ -91,7 +91,7 @@
                                             <span v-else>-</span>
                                         </b-col>
                                         <b-col cols="4" v-if="item.place === 510" >
-                                            <span v-if="item.inlet_avg != null">{{item.inlet_avg}}</span>
+                                            <span v-if="item.inlet_avg_value != null">{{item.inlet_avg_value}}</span>
                                             <span v-else>-</span>
                                             /
                                             <span v-if="item.inlet_standard_value != null">{{item.inlet_standard_value}}</span>
@@ -595,20 +595,20 @@ export default {
 
                 this.moniList.map((e) => {
                     if (e.place === 510) {
-                        if (e.inlet_avg > e.inlet_standard_value) {
+                        if (e.inlet_avg_value > e.inlet_standard_value) {
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
                         }else{
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
-                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.inlet_avg * 100 / e.inlet_standard_value)+"%"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.inlet_avg_value * 100 / e.inlet_standard_value)+"%"
                         }          
                     }else if (e.place === 512) {
-                        if (e.outlet_avg > e.outlet_standard_value) {
+                        if (e.outlet_avg_value > e.outlet_standard_value) {
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(255, 76, 76)"
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = '100%'
                         }else{
                             document.getElementsByClassName(e.idx + "_percent_up")[0].style.backgroundColor = "rgb(81, 81, 255)"
-                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.outlet_avg * 100 / e.inlet_standard_value)+"%"
+                            document.getElementsByClassName(e.idx + "_percent_up")[0].style.width = (e.outlet_avg_value * 100 / e.outlet_standard_value)+"%"
                         }
                     }else if (e.place === 511) {
                         if (e.midlet_avg_value > e.midlet_standard_value) {
@@ -1287,7 +1287,7 @@ export default {
 }
 
 .con_left03 .monitorWrap .monitor {
-    height: 40px;
+    height: 60px;
     box-sizing: border-box;
     padding: 0px;
     margin: 0;
@@ -1315,17 +1315,24 @@ export default {
 }
 
 .con_left03>.monitorWrap>.monitor>div {
-    height: 40px;
-    line-height: 40px;
+
+    height: 100%;
+    /* line-height: 40px; */
     text-align: center;
     border-bottom: 1px solid rgb(221, 221, 221);
+        display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .con_left03>.monitorWrap>.monitor>div>ul {
     width: 100%;
     height: 10px;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .con_left03>.monitorWrap>.monitor>div>ul>li {

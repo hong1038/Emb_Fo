@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <div class="infoBox" v-for="(item,key) in boxList2" v-bind:key="key">
-                            <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.equipment_inner_nm}} 스크러버</span></div>
+                            <div :class="'infoTitle infoTitle_'+key"> <span style="color:white"> {{item.equipment_inner_nm}}</span></div>
 
                             <div class="infoBody"  v-if="boxlistvalplace[item.box_code - 1] != 511">
                                 <div class="infoBody_inlet">
@@ -128,7 +128,7 @@
             <div class="viewBox viewRightBox" v-if="scrubber.length <= 0" >
                 <p style="font-size:18px">데이터가 없습니다.</p>
             </div>
-            <div v-else class="viewBox viewRightBox">
+            <div v-else id="viewRightBox" class="viewBox viewRightBox">
                 <div style="display:flex;justify-content:flex-end;margin-right:15px">
                     <div style="display:flex;align-items:center;justify-content: flex-end;">
                         <span style="margin-right:5px;display:block;width:12px;height:12px;border-radius:100%;background:#f2c84c"></span>
@@ -139,7 +139,7 @@
                         <span style="font-size:18px">배출</span>
                     </div>
                 </div>
-                <div class="canvasWrap" v-for="(item,idx) in boxList2" v-bind:key="idx">
+                <div class="canvasWrap" v-for="(item,idx) in boxList2" v-bind:key="idx" :id="'graph-canvas'+idx">
                     <div>{{item.equipment_inner_nm}}</div>
                     <canvas :id="'line-graph'+idx" class="line-graph" width="560" height="200"></canvas>
                 </div>
@@ -159,9 +159,9 @@ export default {
     },
     created() {
         this.test3()
-        this.getEquips();
-        this.test()
         this.test2()
+        this.getEquips();
+        this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
     },
     data() {
         return {
@@ -194,6 +194,7 @@ export default {
             boxlistvalunit:[],
             boxlistvalplace:[],
             boxlistvalinletstandard:[],
+            data_equipment_inner_nm:[],
         }
 
     },
@@ -224,6 +225,7 @@ export default {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
                         this.sensorData = res.data.data;
+                        console.log(this.sensorData)
                         this.boxlistvalin = []
                         this.boxlistvalmid = []
                         this.boxlistvalout = []
@@ -239,9 +241,9 @@ export default {
                             let unit = null
                             let place = null
                             let inletstandard = null
-                            this.sensorData.map(el => {
+                            this.sensorData.map(el => {              
+                                this.data_equipment_inner_nm.push(el.equipment_inner_nm)                  
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
-                                    console.log(el)
                                     if (el.place === 510) {
                                         inval = el.inlet_avg_value    
                                         inletstandard = el.inlet_standard_value
@@ -265,10 +267,9 @@ export default {
                                 this.boxlistvalin.push("-")
                             }else{
                                 this.boxlistvalin.push(Math.ceil(inval))
-                                console.log(this.boxlistvalin)
                             }
 
-                            if (inval === null) {                                
+                            if (midval === null) {                                
                                 this.boxlistvalmid.push("-")
                             }else{
                                 this.boxlistvalmid.push(Math.ceil(midval))
@@ -295,7 +296,9 @@ export default {
                             this.boxlistvalunit.push(unit)
                             this.boxlistvalplace.push(place)
                         })
-                            // console.log(this.boxlistvalmid)
+                        // console.log(this.boxlistvalout)
+                        // console.log(this.boxlistvalin)
+                        // console.log(this.boxlistvalmid)
 
 
                         this.boxlistvalin
@@ -307,46 +310,6 @@ export default {
                 alert("가동률데이터목록 추출 실패 \n" + err);
             })
         },
-        test(){
-            this.$Axios.post("/api/daedan/cj/ems/main/FpList", {
-                    serverKey: store.state.serverKey,
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-        
-                            res.data.data.map((e) => {
-                                // // 실제 값이 있다면 바로 아래에 있는 if문은 지워야 합니다.
-                                // if (idx == 1 || idx == 2 || idx == 3) {   
-                                //     e.warnig = "X"
-                                // }else{
-                                //     e.warnig = "Y"
-
-                                // }
-                                // // /api/daedan/cj/ems/main/equipListByServer 이곳에  X 인지 Y 인지 확인을 하게 해주는 값이 들어와야 합니다
-                                // // 실제로 값이 들어 왔을때는 this.equipList[idx].warnig 이 X 인지 Y 인지 확인을 하여 색을 지정해 줍니다 
-                                // if (e.warnig == "X") {
-                                //     // e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;  background:red"                                    
-                                // }else{
-                                //     }
-                                e.style = "top:"+e.pin_py+"px;"+"right:"+e.pin_px+"px;"
-                            })
-                            res.data.data.map(e=>{
-                                e.show = false;
-                                e.color = '#' + Math.round(Math.random() * 0xffffff).toString(16)
-                            })
-                            this.pinList = res.data.data;
-
-                            this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");height:466px;"
-                                // this.imgBoxStyle = "backgroundImage:url("+this.bgImg+");backgroundPosition:center center;height:"+ (450+((this.pinList.length-17)*20))+"px;"
-                            
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("가동률데이터목록 추출 실패 \n" + err);
-                })
-        },  
         monitoringListPerHour() {
             this.$Axios.post("/api/daedan/cj/ems/main/MonitoringListPerHourSensor", {
                     serverKey: store.state.serverKey,
@@ -357,7 +320,6 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             this.data = res.data.data;
-                            console.log(this.data)
                             this.graph();
                         }
                     }
@@ -376,21 +338,37 @@ export default {
                 if (document.getElementsByClassName('line-graph').length === 0) {
                     return false;
                 }
+                let midlet_place = false
                 let graphLabel = []
                 let graphDataIn = []
                 let graphDataOut = []
-
-                this.data.reverse()
-                this.data.splice(10,this.data.length)
-                this.data.reverse()
                 this.data.map(item => {
                     if (e.equipment_inner_nm === item.equipment_inner_nm) {
+                        if (item.place == 511) {
+                            midlet_place = true;
+                        }
                         graphLabel.push(item.prevention_date)
-                        graphDataIn.push(item.inlet_avg_value)
-                        graphDataOut.push(item.outlet_avg_value)
+                        if (item.place == 512) {
+                            graphDataOut.push(item.outlet_avg_value)
+                        }
+                        if (item.place == 510) {
+                            graphDataIn.push(item.inlet_avg_value)                            
+                        }
                     }
                 })
-
+                if (midlet_place === true) {
+                    if (document.getElementById("graph-canvas"+idx)) {
+                        
+                        if (document.getElementById("graph-canvas"+idx).length != 0) {
+                            var parent  =  document.getElementById('viewRightBox')
+                            const child  = document.getElementById("graph-canvas"+idx)
+                            parent.removeChild(child)
+                        }
+                    }
+                    return false
+                }
+                graphLabel = Array.from(new Set(graphLabel))
+                                
                 this.ctxDaily = document.getElementById('line-graph' + idx).getContext('2d');
 
                 this.ctxDaily.height = "100%";
@@ -468,7 +446,6 @@ export default {
             })
         },
         selectEq(item) {
-            
             this.boxList2 = []
             if (item === "All") {
                 this.eqbkey = null;
