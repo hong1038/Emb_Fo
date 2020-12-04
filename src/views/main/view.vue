@@ -188,6 +188,7 @@ export default {
             boxList:[],
             boxList2:[],
             sensorData:[],
+            boxtitle:[],
             boxlistvalin:[],
             boxlistvalmid:[],
             boxlistvalout:[],
@@ -732,26 +733,23 @@ export default {
     height:100px;
     box-sizing: border-box;
     /* padding:6px; */
-    background:white;
+    background:rgb(255, 255, 255);
     word-break: keep-all;
     border-radius: 7px;
 }
 
-.imgBox .pinBoxBig{
-    height:150px;
-}
-
 .imgBox .pinBoxWrap .pinTitle{
     height:30px;
-    line-height:30px;
-    font-size:14px;
+    line-height:25px;
+    font-size:1.4rem;
     text-align: center;
     padding-bottom:0 !important;
     word-break: keep-all;
     background:#459E1E;
-    letter-spacing: -1px;
+    letter-spacing: -0.5px;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;
+    padding:3px;
 }
 .imgBox .pinBoxWrap .pinBody{
     height:25px;
@@ -773,31 +771,23 @@ export default {
 /* 박스 크기 변경 구간 */
 .imgBox .pinBoxSmall01{
     width:170px;
-    height:100px;
+    height:90px;
 }
 
-
-.imgBox .pinBoxBig02 .pinTitle{
-    height:30px;
+.imgBox .pinBoxSmall02{
+    width:170px;
+    height:110px;
 }
 
-.imgBox .pinBoxBig03 .pinTitle,
-.imgBox .pinBoxSmall03 .pinTitle{
-    height:25px;
-    line-height:25px;
-    font-size:12px;
+.imgBox .pinBoxBig01{
+    width:170px;
+    height:110px;
 }
 
-.imgBox .pinBoxSmall02 .pinBody{
-    height:30px;
-}
-.imgBox .pinBoxBig03 .pinBody,
-.imgBox .pinBoxSmall03 .pinBody{
-    font-size:13px;
-}
-
-.imgBox .pinBoxBig02 .pinBody{
-    height:30px;
+.imgBox .pinBoxBig01 .pinTitle{
+    height:50px;
+    line-height:20px;
+    word-break:keep-all;
 }
 
 .imgBox .pinBoxWrap .pinBody div{
