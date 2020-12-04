@@ -40,54 +40,58 @@
                                 <div>
                                     <b-row>
                                         <b-col class="regiName col-4">일자</b-col>
-                                        <b-form-input class="col" v-model="chInfo.prevention_date" size="sm" readonly></b-form-input>
+                                        <b-form-input class="col" v-model="prevention_date" size="sm" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="chInfo.server_name" :options="comboServers" size="sm"> 
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm" disabled> 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="chInfo.category_cd" :options="comboCategories" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="chInfo.equipment_name" :options="comboLocations" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_max_value" readonly></b-form-input>
+                                        <b-form-input class="col" type="number" size="sm" v-model="inlet_max_value" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_avg_value" readonly></b-form-input>
+                                        <b-form-input class="col" type="number" size="sm" v-model="inlet_avg_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">흡입구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_min_value" readonly></b-form-input>
+                                        <b-form-input class="col" type="number" size="sm" v-model="inlet_min_value" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
-                                        <b-col class="regiName col-4 lh-3">흡입구 이상점 발생횟수</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.inlet_value"></b-form-input>
+                                        <b-col class="regiName col-4 lh-3">흡입구 이상점 발생여부</b-col>
+                                        <b-form-select class="col" v-model="occur" :options="occurBox" size="sm" disabled>
+                                        </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-4">변경점 / 이상점 확인결과 원인</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.cause"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="cause"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치사항</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.action"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="action"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.action_type"></b-form-input>
+                                        <b-form-select class="col" v-model="action_type" size="sm">
+                                            <option value="진행">진행</option>
+                                            <option value="완료">완료</option>
+                                        </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치 완료일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="chInfo.action_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="action_date"></b-form-input>
                                     </b-row>
                                 </div>
                             </b-card>
@@ -127,6 +131,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import store from "@/store/index";
 import Vue from "vue";
 import Header from '@/components/header.vue'
@@ -162,6 +167,14 @@ export default {
             hide:false,
             busyPop: false,
 
+            comboServers: null, //사업장   
+            comboCategories: null, //측청분야     
+            comboEquipments: null, //측정위치
+            comboFacilities: null, //시설분류
+            comboLocations: null, //위치분류
+
+            equipment_key: null, //측정위치
+            measurementInfo: {},
             chInfo:{},
             config: {},
             mode: 'single', //날짜선택방법
@@ -235,34 +248,55 @@ export default {
                         },
                         {
                             field: '',
-                            headerName: '이상점 발생횟수',
+                            headerName: '이상점 발생여부',
                             type: 'number',
                             width: '150px'
                         },
                     ]
                 },
-                {
-                    field: 'cause',
-                    headerName: '변경점 / 이상점 확인결과 원인',
-                    width: '230px'
-                },
-                {
-                    field: 'action',
-                    headerName: '조치사항',
-                    width: '170px'
-                },
-                {
-                    field: 'acttion_type',
-                    headerName: '조치여부',
-                    width: '165px'
-                },
-                {
-                    field: 'action_date',
-                    headerName: '조치 완료일자',
-                    width: '170px'
-                },
+                // {
+                //     field: 'cause',
+                //     headerName: '변경점 / 이상점 확인결과 원인',
+                //     width: '230px'
+                // },
+                // {
+                //     field: 'action',
+                //     headerName: '조치사항',
+                //     width: '170px'
+                // },
+                // {
+                //     field: 'acttion_type',
+                //     headerName: '조치여부',
+                //     width: '165px'
+                // },
+                // {
+                //     field: 'action_date',
+                //     headerName: '조치 완료일자',
+                //     width: '170px'
+                // },
             ],
         }
+    },
+    watch: {
+        server_key() {
+            if (!this.server_key) return;
+            this.getEquips();
+        },
+        category_cd() {
+            if (!this.category_cd) return;
+            this.getFacPos();
+        },
+        equipment_key() {
+            if (!this.server_key) return;
+            if (!this.equipment_key) return;
+            this.getSensors();
+        },
+        //usedSensors(){
+        //    console.log("usedSensor = " + this.usedSensors)
+        //},
+    },
+    mounted() {
+        this.gridOptions.api.sizeColumnsToFit()
     },
     created() {
         this.config = {
@@ -270,6 +304,13 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
+        this.getConditionList();
+    },
+    beforeMount(){
+        store.state.ckServer = [];
+        store.state.ckCate = [];
+        store.state.ckEquip = [];
+        store.state.ckSensor = [];
     },
     beforeDestroy() {
       this.clearTimeout()
@@ -305,17 +346,17 @@ export default {
             this.busyPop = false
         },
         addOn(obj) {
-            this.chInfo.prevention_date = obj.data.prevention_date
-            this.chInfo.server_name = obj.data.server_name
-            this.chInfo.category = obj.data.category
-            this.chInfo.equipment_name = obj.data.equipment_name
-            this.chInfo.inlet_max_value = obj.data.inlet_max_value
-            this.chInfo.inlet_min_value = obj.data.inlet_max_value
-            this.chInfo.inlet_avg_value = obj.data.inlet_avg_value
-            this.chInfo.cause = obj.data.cause
-            this.chInfo.action = obj.data.action
-            this.chInfo.action_type = obj.data.action_type
-            this.chInfo.action_date = obj.data.action_date
+            this.prevention_date = obj.data.prevention_date
+            this.server_name = obj.data.server_name
+            this.category = obj.data.category
+            this.equipment_name = obj.data.equipment_name
+            this.inlet_max_value = obj.data.inlet_max_value
+            this.inlet_min_value = obj.data.inlet_max_value
+            this.inlet_avg_value = obj.data.inlet_avg_value
+            this.cause = obj.data.cause
+            this.action = obj.data.action
+            this.action_type = obj.data.action_type
+            this.action_date = obj.data.action_date
             // this.mno = null; //관리번호
             // //this.server_key = null; //사업장
             // this.equipment_key = null; //측정위치
@@ -340,9 +381,107 @@ export default {
             this.show = !this.show
             // this.resizing()
         },
-
+        resizing() {
+            setTimeout(() => {
+                this.gridOptions.api.sizeColumnsToFit()
+            }, 1);
+        },
         resetPageNo() {
             this.pageNo = 1;
+        },
+
+        async getConditionList() {
+            let that = this;
+            await axios.post("/api/daedan/cj/ems/setting/conditionList", {
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboServers = res.data.data.serverList; //사업장
+                            that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
+                    console.log(err)
+                })
+
+        },
+        async getEquips() {
+            console.log("getEquips.server_key = " + this.server_key)
+            let that = this;
+
+            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
+                    serverKey: this.server_key,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboEquipments = res.data.data.equipPos; //측정위치
+                            if (that.measurementInfo.equipment_key) {
+                                that.equipment_key = that.measurementInfo.equipment_key;
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정위치추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        async getFacPos() {
+            console.log("getFacPos.category_cd = " + this.category_cd)
+            let that = this;
+
+            await axios.post("/api/daedan/cj/ems/cmmn/comboFacPosList", {
+                    category: this.category_cd,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboFacilities = res.data.data.facilities; //서설분륳
+                            that.comboLocations = res.data.data.locations; //위치분류
+                            if (that.measurementInfo.facility) {
+                                that.facility = that.measurementInfo.facility; //시설분류 설정    
+                            }
+                            if (that.measurementInfo.location) {
+                                that.location = that.measurementInfo.location; //위치분류 설정    
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("시설및위치분류추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        async getSensors() {
+            //console.log("getSensors.server_key = " + this.server_key)
+            //console.log("getSensors.equipment_key = " + this.equipment_key)
+            let that = this;
+                 await axios.post("/api/daedan/cj/ems/cmmn/comboSensorList", {
+                    serverKey: this.server_key,
+                    equipmentKey: this.equipment_key,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.sensors = res.data.data.sensors; //센서목록
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정위치별센서추출 실패 \n" + err);
+                    console.log(err)
+                })
         },
         getList() { //구매품의중인 자재목록
             if (store.state.ckServer.length == 0) {
@@ -363,7 +502,7 @@ export default {
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
                     pageNo: this.pageNo,
-                    pageSz: 10000,
+                    pageSz: 10000, 
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

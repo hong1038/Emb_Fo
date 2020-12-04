@@ -37,21 +37,21 @@
                                     <input type="button" class="systemListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
                                 </b-row>
                                 <div>
-                                <b-row>	
+                                    <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-input class="col" v-model="server_key" size="sm"></b-form-input>
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
-                                    <b-row>	
+                                    <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-input class="col" v-model="category" size="sm"></b-form-input>
+                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" ></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="equipment_name"></b-form-input>
+                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정일시</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="prevention_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="prevention_date"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">특이사항</b-col>
@@ -153,6 +153,8 @@ export default {
             usedSensors: [], //선택된분석항목(센서)
 
             measurementInfo: {},
+            prevention_date:null,
+            action:null,
             mno: null, //관리번호
             server_key: null, //사업장
             equipment_key: null, //측정위치
@@ -236,12 +238,17 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
+        this.getConditionList();
     },
     beforeDestroy() {
       this.clearTimeout()
     },
 
-    beforeMount() {
+    beforeMount() {        
+        store.state.ckServer = [];
+        store.state.ckCate = [];
+        store.state.ckEquip = [];
+        store.state.ckSensor = [];
         this.gridOptions.api.sizeColumnsToFit()
     },
     methods: {
@@ -299,7 +306,7 @@ export default {
                 this.gridOptions.api.sizeColumnsToFit()
             }, 1);
         },
-        async getConditionList() {
+       async getConditionList() {
             let that = this;
             await axios.post("/api/daedan/cj/ems/setting/conditionList", {
                     userId: store.state.userInfo.userId
@@ -318,6 +325,80 @@ export default {
                 })
 
         },
+        async getEquips() {
+            console.log("getEquips.server_key = " + this.server_key)
+            let that = this;
+
+            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
+                    serverKey: this.server_key,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboEquipments = res.data.data.equipPos; //측정위치
+                            if (that.measurementInfo.equipment_key) {
+                                that.equipment_key = that.measurementInfo.equipment_key;
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정위치추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        async getFacPos() {
+            console.log("getFacPos.category_cd = " + this.category_cd)
+            let that = this;
+
+            await axios.post("/api/daedan/cj/ems/cmmn/comboFacPosList", {
+                    category: this.category_cd,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboFacilities = res.data.data.facilities; //서설분륳
+                            that.comboLocations = res.data.data.locations; //위치분류
+                            if (that.measurementInfo.facility) {
+                                that.facility = that.measurementInfo.facility; //시설분류 설정    
+                            }
+                            if (that.measurementInfo.location) {
+                                that.location = that.measurementInfo.location; //위치분류 설정    
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("시설및위치분류추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        async getSensors() {
+            //console.log("getSensors.server_key = " + this.server_key)
+            //console.log("getSensors.equipment_key = " + this.equipment_key)
+            let that = this;
+                 await axios.post("/api/daedan/cj/ems/cmmn/comboSensorList", {
+                    serverKey: this.server_key,
+                    equipmentKey: this.equipment_key,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.sensors = res.data.data.sensors; //센서목록
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정위치별센서추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
         getList() { //구매품의중인 자재목록
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
@@ -332,7 +413,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/response/changeList", {
+            this.$Axios.post("/api/daedan/cj/ems/response/manageDataList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,

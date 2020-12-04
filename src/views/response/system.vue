@@ -49,7 +49,6 @@
                                         <b-col class="regiName col-4">사업장</b-col>
                                         <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
-
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
                                         <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" > 
@@ -71,7 +70,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">발생일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.rs_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="erInfo.rs_date"></b-form-input>
                                     </b-row>
 
                                     <b-row>
@@ -85,7 +84,7 @@
 
                                     <b-row>
                                         <b-col class="regiName col-4">개선일정</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.action_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="erInfo.action_date"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료여부</b-col>
@@ -96,7 +95,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.complete_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="erInfo.complete_date"></b-form-input>
                                     </b-row>
                                 </div>
                             </b-card>

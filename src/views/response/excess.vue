@@ -57,34 +57,34 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_max"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_max" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_avg"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_avg" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_min"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_min" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
-                                        <b-col class="regiName col-4 lh-3">흡입구 이상점 발생횟수</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_"></b-form-input>
+                                        <b-col class="regiName col-4 lh-3">흡입구 이상점 발생여부</b-col>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_max"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_max" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_avg"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_avg" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_min"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_min" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
-                                        <b-col class="regiName col-4 lh-3">배출구 이상점 발생횟수</b-col>
+                                        <b-col class="regiName col-4 lh-3">배출구 이상점 발생여부</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="outlet_"></b-form-input>
                                     </b-row>
                                     <b-row>
@@ -236,7 +236,7 @@ export default {
                         },
                         {
                             field: '',
-                            headerName: '이상점 발생횟수',
+                            headerName: '이상점 발생여부',
                             type: 'number',
                             width: '120px'
                         },
@@ -266,32 +266,32 @@ export default {
                         },
                         {
                             field: '',
-                            headerName: '이상점 발생횟수',
+                            headerName: '이상점 발생여부',
                             type: 'number',
                             width: '120px'
                         },
                     ]
                 },
-                {
-                    field: 'cause',
-                    headerName: '방지시설 처리효율(%)',
-                    width: '150px'
-                },
-                {
-                    field: 'action',
-                    headerName: '조치사항ㆍ원인',
-                    width: '170px'
-                },
-                {
-                    field: 'action_type',
-                    headerName: '조치여부',
-                    width: '120px'
-                },
-                {
-                    field: 'action_date',
-                    headerName: '조치 완료일자',
-                    width: '120px'
-                },
+                // {
+                //     field: 'cause',
+                //     headerName: '방지시설 처리효율(%)',
+                //     width: '150px'
+                // },
+                // {
+                //     field: 'action',
+                //     headerName: '조치사항ㆍ원인',
+                //     width: '170px'
+                // },
+                // {
+                //     field: 'action_type',
+                //     headerName: '조치여부',
+                //     width: '120px'
+                // },
+                // {
+                //     field: 'action_date',
+                //     headerName: '조치 완료일자',
+                //     width: '120px'
+                // },
             ]
         }
     },

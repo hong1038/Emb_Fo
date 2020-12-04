@@ -47,13 +47,14 @@
                                     <input type="button" class="systemListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
                                 </b-row>
                                 <div>
-                                    <b-row>	
-                                     <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-input class="col" v-model="server_key" size="sm"></b-form-input>
+                                    <b-row>
+                                        <b-col class="regiName col-4">사업장</b-col>
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
-                                    <b-row>	
-                                        <b-col class="regiName col-4">구분</b-col>
-                                        <b-form-input class="col" v-model="category" size="sm"></b-form-input>
+                                    <b-row>
+                                        <b-col class="regiName col-4">분야</b-col>
+                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" > 
+                                        </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
@@ -65,11 +66,14 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">개선일정</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="prevention_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="prevention_date"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action_type"></b-form-input>
+                                        <b-form-select class="col" v-model="action_type" size="sm">
+                                            <option value="진행">진행</option>
+                                            <option value="완료">완료</option>
+                                        </b-form-select>
                                     </b-row>
                                     <!-- <b-row>
                                         <b-col class="regiName col-4">측정구분</b-col>
@@ -450,36 +454,23 @@ export default {
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
-        //     let that = this;
-        //     await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
-        //             mno: this.mno,
-        //             server_key: this.server_key,
-        //             equipment_key: this.equipment_key,
-        //             category: this.category_cd,
-        //             place: this.location,
-        //             facility: this.facility,
-        //             public_name : this.public_name,
-        //             internal_name: this.internal_name,
-        //             internal_numger: this.internal_numger,
-        //             legal_standard: this.legal_standard,
-        //             manage_standard: this.manage_standard,
-        //             ordr_no: this.odor_no,
-        //             unit: this.unit,
-        //             usedSensors: this.usedSensors,
-                    
-        //             userId: store.state.userInfo.userId
-        //         }, this.config)
-        //         .then(res => {
-        //             if (res.status === 200) {
-        //                 if (res.data.statusCode === 200) {
-        //                     that.saveblock();
-        //                     that.getList();
-        //                 }
-        //             }
-        //         })
-        //         .catch(err => {
-        //             alert("측정기별기준정보저장 실패 \n" + err);
-        //         })
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
+                    serverKey: this.server_key,
+
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보저장 실패 \n" + err);
+                })
             this.busyPop = false;
 
         },
