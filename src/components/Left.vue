@@ -54,7 +54,7 @@
                     <div class="check_list scroll_box">
                         <ul class="equipPos">
                             <div v-for="(item, index) in equipPos" v-bind:item="item" v-bind:index="index" v-bind:key="item.id">
-                                <input type="checkbox" class="3_checkbox" name="equip" :id=item.id :value=item.id v-model="checkListVal3">
+                                <input type="checkbox" class="3_checkbox" name="equip" :id=item.id :value=item.id v-model="checkListVal3" @change="getSensors">
                                 <label>{{item.val}}</label>
                             </div>
                         </ul>
@@ -216,7 +216,10 @@ export default {
                     break;
                 case 3:
                     store.state.ckEquip = []
+                    store.state.ckSensor = []
                     this.checkListVal3 = []
+                    this.checkListVal4 = []
+                    this.sensors = []
                     // this.getSensors();
                     break;
                 default:
