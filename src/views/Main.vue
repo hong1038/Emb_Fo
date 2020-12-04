@@ -8,7 +8,7 @@
                 <div class="conWrap container-fluid">
                     <div class="mapImg" :style="'background:url('+backgroundImage+') 40%'"> </div>
                     <b-row>
-                        <b-col cols="3" class="con_leftWrap">
+                        <b-col cols="3" class="mainConWrap">
                             <div class="con_left01">
                                 <div>대한민국</div>
                                 <div class="weatherWrap">
@@ -18,24 +18,25 @@
                                                 <span>{{new Date().toLocaleDateString()}} {{week[new Date().getDay()]}}</span>
                                                 <span>{{weather.weather[0].main}}</span>
                                             </b-col>
-                                            <b-col cols="4" id="weatherImg"><img :src="imgURL" alt="imgURL"></b-col>
-                                            <b-col cols="4" class="col-4">{{Math.ceil(weather.main.temp - 273.15)}} ºC</b-col>
+                                            <b-col cols="4" id="weatherImg"><img :src="imgURL" alt="imgURL" style="display:block; margin-top:calc(50% - 105px)"></b-col>
+                                            <b-col cols="4">{{Math.ceil(weather.main.temp - 273.15)}} ºC</b-col>
                                         </b-row>
                                     </div>
                                 </div>
                                 <div class="container-fluid">
                                     <b-row>
-                                        <b-col cols="3">
-                                            <img src="../assets/icon/wind.png" style="height:35px;">
+                                        <b-col cols="2">
+                                            <img src="../assets/icon/wind.png" style="height:30px; margin-top:calc(50% - 25px)">
                                         </b-col>
-                                        <b-col cols="3">
-                                            <span>{{weather.wind.speed}}</span>
+                                        <b-col cols="2">
                                             <span>{{windDeg}}</span>
+                                            <span>{{weather.wind.speed}}</span>
                                         </b-col>
-                                        <b-col cols="3">
+                                        <!-- <b-col cols="3"></b-col> -->
+                                        <b-col cols="2">
                                             <img src="../assets/icon/water.png">
                                         </b-col>
-                                        <b-col cols="3">
+                                        <b-col cols="2">
                                             <span>습도</span>
                                             <span>{{weather.main.humidity}}</span>
                                         </b-col>
@@ -421,7 +422,7 @@ export default {
             this.timeout = setTimeout(() => {
             this.clearTimeout()
             callback()
-            }, 3000)
+            }, 100)
         },
         onHidden() {
             // Return focus to the button once hidden
@@ -858,7 +859,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 * {
     font-family: "Noto Sans KR";
 }
@@ -873,263 +874,567 @@ export default {
 .mainInner {
     width: 100%;
     height: 100%;
-}
 
-.conWrap {
-    width: 100%;
-    height: 100%;
+    .conWrap {
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+    }
+    .mapImg {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        height: 830px;
+        background: url(../assets/MAP.png) 40%;
+        background-size: 80% 100%;
+    }
+    .mainConWrap {
+        >div{
+            box-sizing: border-box;
+            border-radius: 5px;
+            padding: 20px;
+            background: #f3faff;
+            box-shadow: 0px 0px 3px rgb(0, 0, 0);
+        }
 
-    font-size: 14px;
-}
+        .row{
+            >div {
+                padding: 0;
+            }
+        }
 
-.conWrap>.mapImg {
-    position: absolute;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 830px;
-    background: url(../assets/MAP.png) 40%;
-    background-size: 80% 100%;
-}
+        .con_left01 {
+            height: 220px;
+            margin-top: 0px;
+            text-align: left;
 
-.con_leftWrap>div {
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 20px;
-    background: #f3faff;
-    box-shadow: 0px 0px 3px rgb(0, 0, 0);
-}
+            .weatherWrap {
+                >div{
+                    >div{
+                        box-sizing: border-box;
+                        padding-left: 10px;
+                        font-size:2rem;
 
-.con_left01 {
-    height: 220px;
-    margin-top: 0px;
-    text-align: left;
-}
+                        >div {
+                            font-size: 3.5rem;
+                            line-height: 60px;
+                            font-weight: "bold";
+                            font-family: "Arial";
+                            &:nth-child(3){
+                                padding-left:2rem;
+                            }
+                        }
+                    }
+                }        
+            }
 
-.weatherWrap>div>div {
-    box-sizing: border-box;
-    padding-left: 10px;
-}
+            >div {
+                /* 상단 - 대한민국 */
+                &:nth-child(1){
+                    height: 40px;
+                    font-size: 24px;
+                    line-height: 40px;
+                    box-sizing: border-box;
+                }
+                /* 중단 - 날짜, 날씨, 온도 */
+                &:nth-child(2) {
+                    height: 90px;
+                    margin-top: 10px;
+                    span {
+                        display: block;
+                        width: 100%;
+                        height: 40%;
+                        font-size:1.7rem;
+                    }
+                }
+                /* 하단 - 바람,습도,강수확률 */
+                &:nth-child(3) {
+                    height: 60px;
+                    font-size: 14px;
+                }
+                >div {
+                    height:100%;
+                    box-sizing: border-box;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    span{
+                        display: block;
+                        width: 100%;
+                        line-height: 25px;
+                        font-size: 1.5rem;
+                    }
+                    div{
+                        height:100%;
+                        position:relative;
+                    }
+                }
+            }
 
-/* 상단 - 대한민국 */
-.con_left01>div:nth-child(1) {
-    height: 40px;
-    font-size: 24px;
-    line-height: 40px;
-    box-sizing: border-box;
-}
+            img {
+                position:absolute;
+                left:50%;
+                width: 30px;
+                height: 40px;
+                justify-content: center;
+                transform:translate(-50%);
+                margin-top:calc(50% - 30px)
+                
+            }
 
-.con_leftWrap .row>div {
-    padding: 0;
-}
+            #weatherImg {
+                position: relative;
+                img {
+                    width: 100%;
+                    height: 150%;
+                    margin-right:0;
+                    position:absolute;
+                    left:50%;
 
-/* 중단 - 날짜, 날씨, 온도 */
-.con_left01>div:nth-child(2) {
-    height: 70px;
-    margin-top: 10px;
-}
+                }
+            }
+            .windIcon {
+                height: 40px;
+            }
+        }
+    }
+    .con_left02 {
+        margin-top: 5px;
+        
+        >div {
+            width: 100%;
+            text-align: left;
+            &:nth-child(1) {
+                font-size: 24px;
+            }
+        }
+        .chartWrap {
+            height: 150px;
+            position: relative;
+            
+            .chartSkills {
+                padding: 0;
+                list-style-type: none;
+                overflow: hidden;
+                position: relative;
+                width: 270px;
+                height: 135px;
+                margin-top: 20px;
+                
+                *{
+                    box-sizing: border-box;
+                }
+                &:before{
+                    box-sizing: border-box;
+                    position: absolute;
+                    content: '';
+                    width: inherit;
+                    height: inherit;
+                    border: 45px solid rgba(211, 211, 211, .3);
+                    border-bottom: none;
+                    border-top-left-radius: 135px;
+                    border-top-right-radius: 135px;
+                }
 
-/* 하단 - 바람,습도,강수확률 */
-.con_left01>div:nth-child(3) {
-    height: 80px;
-}
+                li {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    width: inherit;
+                    height: inherit;
+                    border: 45px solid;
+                    border-top: none;
+                    border-bottom-left-radius: 135px;
+                    border-bottom-right-radius: 135px;
+                    transform-origin: 50% 0;
+                    &:nth-child(1) {
+                        z-index: 10;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni1 2s linear 1 forwards;
+                    }
+                    &:nth-child(2) {
+                        z-index: 9;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni2 2s linear 1 forwards;
+                    }
+                    &:nth-child(3) {
+                        z-index: 8;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni3 2s linear 1 forwards;
+                    }
+                    &:nth-child(4) {
+                        z-index: 7;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni4 2s linear 1 forwards;
+                    }
+                    &:nth-child(5) {
+                        z-index: 6;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni5 2s linear 1 forwards;
+                    }
+                    &:nth-child(6) {
+                        z-index: 5;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni6 2s linear 1 forwards;
+                    }
+                    &:nth-child(7) {
+                        z-index: 4;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni7 2s linear 1 forwards;
+                    }
+                    &:nth-child(8) {
+                        z-index: 3;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni8 2s linear 1 forwards;
+                    }
+                    &:nth-child(9) {
+                        z-index: 2;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni9 2s linear 1 forwards;
+                    }
+                    &:nth-child(10) {
+                        z-index: 1;
+                        border-color: rgb(228, 228, 228);
+                        animation: chartAni10 2s linear 1 forwards;
+                    }
+                                            
+                    @keyframes chartAni1 {
+                        from {
+                            transform: rotateZ(0);
+                        }
+                        to {
+                            transform: rotateZ(18deg)
+                        }
+                    }
 
-.con_left01>div:nth-child(3)>div>div {
-    font-size: 14px;
-}
+                    @keyframes chartAni2 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left01 span {
-    display: block;
-    width: 100%;
-    height: 50%;
-}
+                        to {
+                            transform: rotateZ(36deg);
+                        }
+                    }
 
-.con_left01 img {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    opacity: 1;
-    width: 40px;
-    height: 50px;
-    margin-top: 5px;
-    margin-left: 7px;
-}
+                    @keyframes chartAni3 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left01 #weatherImg {
-    position: relative;
-}
+                        to {
+                            transform: rotateZ(54deg)
+                        }
+                    }
 
-.con_left01 #weatherImg img {
-    position: absolute;
-    top: -15px;
-    left: 0;
-    width: 70px;
-    height: 70px;
-}
+                    @keyframes chartAni4 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left01 .windIcon {
-    height: 40px;
-}
+                        to {
+                            transform: rotateZ(72deg)
+                        }
+                    }
 
-.con_left01>div>div {
-    box-sizing: border-box;
-    padding-left: 10px;
-    padding-right: 10px;
-}
+                    @keyframes chartAni5 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left01>div>div span,
-.weatherWrap>div>div>div {
-    line-height: 25px;
-    font-size: 16px;
-}
+                        to {
+                            transform: rotateZ(90deg)
+                        }
+                    }
 
-.weatherWrap>div>div>div {
-    font-size: 30px;
-    line-height: 40px;
-    font-weight: "bold";
-    font-family: "Arial";
-}
+                    @keyframes chartAni6 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left02 {
-    margin-top: 5px;
-}
+                        to {
+                            transform: rotateZ(108deg)
+                        }
+                    }
 
-.con_left02>div {
-    width: 100%;
-    text-align: left;
-}
+                    @keyframes chartAni7 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left02>div:nth-child(1) {
-    font-size: 24px;
-}
+                        to {
+                            transform: rotateZ(126deg)
+                        }
+                    }
 
-.con_left02>.chartWrap {
-    height: 150px;
-    position: relative;
-}
+                    @keyframes chartAni8 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.con_left02>.chartWrap>ul {
-    float: left;
-    width: 20%;
-}
+                        to {
+                            transform: rotateZ(144deg)
+                        }
+                    }
 
-.con_left02>.chartWrap>.chartSkills {
-    width: 80%;
-}
+                    @keyframes chartAni9 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.chartSkills {
-    padding: 0;
-    list-style-type: none;
-    overflow: hidden;
-    position: relative;
-    width: 270px !important;
-    height: 135px;
-    margin-top: 20px;
-}
+                        to {
+                            transform: rotateZ(162deg)
+                        }
+                    }
 
-.chartSkills *,
-.chartSkills::before {
-    box-sizing: border-box;
-}
+                    @keyframes chartAni10 {
+                        from {
+                            transform: rotateZ(0);
+                        }
 
-.chartSkills::before {
-    position: absolute;
-    content: '';
-    width: inherit;
-    height: inherit;
-    border: 45px solid rgba(211, 211, 211, .3);
-    border-bottom: none;
-    border-top-left-radius: 135px;
-    border-top-right-radius: 135px;
+                        to {
+                            transform: rotateZ(180deg)
+                        }
+                    }
+
+                }
+            }
+            .chartText {
+                height: 100%;
+                >li {
+                    width: 100%;
+                    height: 50px;
+                    line-height: 50px;
+                    position: relative;
+                }
+            }
+            .chartPer {
+                position: absolute;
+                top: 120px;
+                left: 105px;
+                font-size: 20px;
+                font-weight: bold;
+                font-family: 'Arial';
+                text-align: center;
+            }   
+        }
+    }
+    .con_left03 {
+        height: 330px;
+        margin-top: 5px;
+        >div {
+            width: 100%;
+            text-align: left;
+            &:nth-child(1) {
+                font-size: 24px;
+                height: 40px;
+            }
+        }
+        .monitorWrap {
+            height: 240px;
+            overflow-y: scroll;
+            .monitor {
+                height: 60px;
+                box-sizing: border-box;
+                padding: 0px;
+                margin: 0;
+                margin-top: 3px;
+                &:nth-child(1) {
+                    border-top: 1px solid rgb(221, 221, 221);
+                    margin-top: 0;
+                }
+                >div {
+                    height: 100%;
+                    /* line-height: 40px; */
+                    text-align: center;
+                    border-bottom: 1px solid rgb(221, 221, 221);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    >ul {
+                        width: 100%;
+                        height: 10px;
+                        /* margin-top: 15px; */
+                        position: absolute;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        >li {
+                            height: 10px;
+                            float: left;
+                            box-sizing: border-box;
+                            margin-left: 1px;
+                        }
+                    }
+                }
+            }
+            .percent_line{
+                position: absolute;
+                z-index: 10;
+                top:0;
+                width: 33%;
+                border-left: 1px solid white;
+                border-right: 1px solid white;
+                left: 33%;
+            }
+            .percent_up{
+                width: 0%;
+                background: rgb(81, 81, 255);
+                border: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .percent_down{
+                border: 2px solid rgb(223, 223, 223);
+                background: rgb(228, 228, 228);
+                width: 100%;
+            }
+
+        }
+    }
+    
+    .pinWrap {
+        position: relative;
+        margin-top: 20px;
+        height: 800px;
+        >div {
+            position: absolute;
+            width: 65px;
+            height: 25px;
+            font-size: 14px;
+            line-height: 25px;
+            text-align: center;
+            font-family: "Noto Sans KR";
+            cursor:pointer;
+            >p {
+                content: "";
+                position: absolute;
+                top: -15px;
+                left: 25px;
+                width: 17px;
+                height: 17px;
+                border: 4px solid black;
+                border-radius: 100%;
+                transition: all 0.2s;
+            }
+        }
+        /*지도 pin 위치*/
+        .pin01 {
+            /*공주*/
+            top: 400px;
+            left: 280px;
+        }
+
+        .pin02 {
+            /*남원*/
+            top: 580px;
+            left: 330px;
+        }
+
+        .pin03 {
+            /*논산*/
+            top: 420px;
+            left: 220px;
+        }
+
+        .pin04 {
+            /*부산*/
+            top: 640px;
+            left: 640px;
+        }
+
+        .pin05 {
+            /*씨푸드 성남*/
+            top: 260px;
+            left: 300px;
+        }
+
+        .pin06 {
+            /*씨푸드 이천*/
+            top: 220px;
+            left: 360px;
+        }
+
+        .pin07 {
+            /*안산*/
+            top: 210px;
+            left: 290px;
+        }
+
+        .pin08 {
+            /*양산*/
+            top: 610px;
+            left: 590px;
+        }
+
+        .pin09 {
+            /*영등포*/
+            top: 140px;
+            left: 260px;
+        }
+
+        .pin10 {
+            /*원지*/
+            top: 320px;
+            left: 190px;
+        }
+
+        .pin11 {
+            /*음성*/
+            top: 260px;
+            left: 410px;
+        }
+
+        .pin12 {
+            /*인천1*/
+            top: 80px;
+            left: 140px;
+        }
+
+        .pin13 {
+            /*인천2*/
+            top: 110px;
+            left: 180px;
+        }
+
+        .pin14 {
+            /*인천3*/
+            top: 150px;
+            left: 140px;
+        }
+
+        .pin15 {
+            /*인천냉동*/
+            top: 170px;
+            left: 200px;
+        }
+
+        .pin16 {
+            /*진안*/
+            top: 520px;
+            left: 350px;
+        }
+
+        .pin17 {
+            /*진천*/
+            top: 330px;
+            left: 360px;
+        }
+
+        .pin18 {
+            /*진천BC*/
+            top: 360px;
+            left: 400px;
+        }
+    }
+
 }
 
 .v-application ul,
 .v-application ol {
     padding-left: 0;
-}
-
-.chartSkills li {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    border: 45px solid;
-    border-top: none;
-    border-bottom-left-radius: 135px;
-    border-bottom-right-radius: 135px;
-    transform-origin: 50% 0;
-}
-
-.chartSkills li:nth-child(1) {
-    z-index: 10;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni1 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(2) {
-    z-index: 9;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni2 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(3) {
-    z-index: 8;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni3 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(4) {
-    z-index: 7;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni4 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(5) {
-    z-index: 6;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni5 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(6) {
-    z-index: 5;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni6 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(7) {
-    z-index: 4;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni7 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(8) {
-    z-index: 3;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni8 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(9) {
-    z-index: 2;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni9 2s linear 1 forwards;
-}
-
-.chartSkills li:nth-child(10) {
-    z-index: 1;
-    border-color: rgb(228, 228, 228);
-    animation: chartAni10 2s linear 1 forwards;
-}
-
-.chartText {
-    height: 100%;
-}
-
-.chartText>li {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    position: relative;
 }
 
 #test1::before {
@@ -1154,151 +1459,6 @@ export default {
     background: rgb(228, 228, 228);
 }
 
-.chartPer {
-    position: absolute;
-    top: 120px;
-    left: 105px;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Arial';
-    text-align: center;
-}
-
-@keyframes chartAni1 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(18deg)
-    }
-}
-
-@keyframes chartAni2 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(36deg);
-    }
-}
-
-@keyframes chartAni3 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(54deg)
-    }
-}
-
-@keyframes chartAni4 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(72deg)
-    }
-}
-
-@keyframes chartAni5 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(90deg)
-    }
-}
-
-@keyframes chartAni6 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(108deg)
-    }
-}
-
-@keyframes chartAni7 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(126deg)
-    }
-}
-
-@keyframes chartAni8 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(144deg)
-    }
-}
-
-@keyframes chartAni9 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(162deg)
-    }
-}
-
-@keyframes chartAni10 {
-    0% {
-        transform: rotateZ(0);
-    }
-
-    100% {
-        transform: rotateZ(180deg)
-    }
-}
-
-.con_left03 {
-    height: 330px;
-    margin-top: 5px;
-
-}
-
-.con_left03>div {
-    width: 100%;
-    text-align: left;
-}
-
-.con_left03>div:nth-child(1) {
-    font-size: 24px;
-    height: 40px;
-}
-
-.con_left03>.monitorWrap {
-    height: 240px;
-    overflow-y: scroll;
-
-}
-
-.con_left03 .monitorWrap .monitor {
-    height: 60px;
-    box-sizing: border-box;
-    padding: 0px;
-    margin: 0;
-    margin-top: 3px;
-}
-
-.con_left03 .monitorWrap .monitor:nth-child(1) {
-    border-top: 1px solid rgb(221, 221, 221);
-    margin-top: 0;
-}
-
 .monitorWrap::-webkit-scrollbar {
     width: 7px;
     border-radius: 5px;
@@ -1313,195 +1473,6 @@ export default {
     background: rgb(179, 179, 179);
     border-radius: 5px;
 }
-
-.con_left03>.monitorWrap>.monitor>div {
-
-    height: 100%;
-    /* line-height: 40px; */
-    text-align: center;
-    border-bottom: 1px solid rgb(221, 221, 221);
-        display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.con_left03>.monitorWrap>.monitor>div>ul {
-    width: 100%;
-    height: 10px;
-    /* margin-top: 15px; */
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.con_left03>.monitorWrap>.monitor>div>ul>li {
-    height: 10px;
-    float: left;
-    box-sizing: border-box;
-    margin-left: 1px;
-}
-
-.percent_line{
-    position: absolute;
-    z-index: 10;
-    top:0;
-    width: 33%;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    left: 33%;
-}
-.percent_up{
-    width: 0%;
-    background: rgb(81, 81, 255);
-    border: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-.percent_down{
-    border: 2px solid rgb(223, 223, 223);
-    background: rgb(228, 228, 228);
-    width: 100%;
-}
-.pinWrap {
-    position: relative;
-    margin-top: 20px;
-    height: 800px;
-}
-
-.pinWrap>div {
-    position: absolute;
-    width: 65px;
-    height: 25px;
-    font-size: 14px;
-    line-height: 25px;
-    text-align: center;
-    font-family: "Noto Sans KR";
-    cursor:pointer;
-}
-
-.pinWrap>div>p {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: 25px;
-    width: 17px;
-    height: 17px;
-    border: 4px solid black;
-    border-radius: 100%;
-    transition: all 0.2s;
-}
-
-/*지도 pin 위치*/
-.pin01 {
-    /*공주*/
-    top: 400px;
-    left: 280px;
-}
-
-.pin02 {
-    /*남원*/
-    top: 580px;
-    left: 330px;
-}
-
-.pin03 {
-    /*논산*/
-    top: 420px;
-    left: 220px;
-}
-
-.pin04 {
-    /*부산*/
-    top: 640px;
-    left: 640px;
-}
-
-.pin05 {
-    /*씨푸드 성남*/
-    top: 260px;
-    left: 300px;
-}
-
-.pin06 {
-    /*씨푸드 이천*/
-    top: 220px;
-    left: 360px;
-}
-
-.pin07 {
-    /*안산*/
-    top: 210px;
-    left: 290px;
-}
-
-.pin08 {
-    /*양산*/
-    top: 610px;
-    left: 590px;
-}
-
-.pin09 {
-    /*영등포*/
-    top: 140px;
-    left: 260px;
-}
-
-.pin10 {
-    /*원지*/
-    top: 320px;
-    left: 190px;
-}
-
-.pin11 {
-    /*음성*/
-    top: 260px;
-    left: 410px;
-}
-
-.pin12 {
-    /*인천1*/
-    top: 80px;
-    left: 140px;
-}
-
-.pin13 {
-    /*인천2*/
-    top: 110px;
-    left: 180px;
-}
-
-.pin14 {
-    /*인천3*/
-    top: 150px;
-    left: 140px;
-}
-
-.pin15 {
-    /*인천냉동*/
-    top: 170px;
-    left: 200px;
-}
-
-.pin16 {
-    /*진안*/
-    top: 520px;
-    left: 350px;
-}
-
-.pin17 {
-    /*진천*/
-    top: 330px;
-    left: 360px;
-}
-
-.pin18 {
-    /*진천BC*/
-    top: 360px;
-    left: 400px;
-}
-
 .v-card {
     padding: 10px;
     padding-top: 20px;
