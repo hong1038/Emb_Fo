@@ -60,8 +60,10 @@
                     </div>
                     </b-overlay>
                     <div class="small" style="z-index:10">
-                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
-                        <canvas style="background:white" id="daily-chart" width="1300" height="800"></canvas>
+                        <div>
+                            <button v-on:click="close()">&times;</button>
+                            <canvas style="background:white" id="daily-chart" width="950" height="550" ></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,6 +323,7 @@ export default {
                             this.graphDataMin = []
                             this.graphDataAvg = []
                             this.graphDataMax = []
+                            that.list.reverse()
                             that.list.map(e => {
                                 this.graphLabel.push(e.measurement_tm)
                                 this.graphDataMin.push(e.min_value)
@@ -337,6 +340,7 @@ export default {
                             })  
                             this.graphDataMin = graphDataMin2 
                             this.graphDataMax = graphDataMax2
+                            this.busy = false
                         }
                     }
                 })
@@ -387,6 +391,7 @@ export default {
             this.ctxConfig = {
                 type: 'line',
                 options: {
+                    position: 'bottom',
                     responsive: false,
                     scales: {
                         yAxes: [{
@@ -465,18 +470,34 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0,0,0,.3 );
     align-items: center;
     justify-content: center;
     display: none;
 }
 
-#daily-chart {
+.small > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: white;
-    /* width:60%; */
-    /* height: 80%; */
+    box-shadow:0px 0px 15px 0px rgb(165 165 165);
+    border-radius: 5px;
+    width: 1050px;
+    height: 650px;
 }
-
+.small > div > button{
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    font-size: 16px;
+    top: 160px;
+    background: rgb(81, 81, 255);
+    right: 426px;
+    color: white;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
 @font-face {
     font-family: "CJ Onlyone Medium";
     src: url(/fonts/CJOnlyoneMedium.ttf);

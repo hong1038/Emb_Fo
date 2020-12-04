@@ -44,8 +44,10 @@
                         </ag-grid-vue>
                     </div>
                     <div class="small" style="z-index:10">
-                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
-                        <canvas style="background:white" id="daily-chart" width="1300" height="800"></canvas>
+                        <div>
+                            <button v-on:click="close()">&times;</button>
+                            <canvas style="background:white" id="daily-chart" width="950" height="550" ></canvas>
+                        </div>
                     </div>
                     </b-overlay>
                 </div>
@@ -141,7 +143,7 @@ export default {
                 // },
                 {
                     field: 'prevention_date',
-                    headerName: '측정시각',
+                    headerName: '측정날짜',
                     width: '200px'
                 },
                 {
@@ -262,16 +264,26 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
-
+                            console.log(that.list)
                             
                             this.graphLabel = []
                             this.graphDataMin = []
                             this.graphDataAvg = []
                             this.graphDataMax = []
+
                             that.list.map(e => {
-                                this.graphLabel.push(e.measurement_tm)
+                                if (e.place == 512) {
+                                    e.min_value = e.outlet_min_value
+                                    e.avg_value = e.outlet_avg_value
+                                    e.max_value = e.outlet_max_value
+                                }else if (e.place == 510) {
+                                    e.min_value = e.inlet_min_value
+                                    e.avg_value = e.inlet_avg_value
+                                    e.max_value = e.inlet_max_value                   
+                                }
+                                this.graphLabel.push(e.prevention_date)
                                 this.graphDataMin.push(e.min_value)
-                                this.graphDataAvg.push(e.measurement_avg_value)
+                                this.graphDataAvg.push(e.avg_value)
                                 this.graphDataMax.push(e.max_value)
                             })          
                             const graphDataMin2 = []
@@ -284,6 +296,7 @@ export default {
                             })  
                             this.graphDataMin = graphDataMin2 
                             this.graphDataMax = graphDataMax2
+                            this.busy = false
                         }
                     }
                 })
@@ -372,21 +385,21 @@ export default {
 
                     labels: this.graphLabel,
                     datasets: [{
-                            label: '흡입최소',
+                            label: '최소',
                             borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
                             data: this.graphDataMin
                             // data:this.dailyChartData
                         },
                         {
-                            label: '흡입평균',
+                            label: '평균',
                             borderColor: '#42f13f',
                             backgroundColor: 'transparent',
                             data: this.graphDataAvg
                             // data:this.dailyChartData
                         },
                         {
-                            label: '흡입최대',
+                            label: '최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
                             data: this.graphDataMax
@@ -410,10 +423,32 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0,0,0,.3 );
     align-items: center;
     justify-content: center;
     display: none;
+}
+.small > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow:0px 0px 15px 0px rgb(165 165 165);
+    border-radius: 5px;
+    width: 1050px;
+    height: 650px;
+}
+.small > div > button{
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    font-size: 16px;
+    top: 160px;
+    background: rgb(81, 81, 255);
+    right: 426px;
+    color: white;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 @font-face {
     font-family: "CJ Onlyone Medium";

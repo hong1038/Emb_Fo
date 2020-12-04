@@ -44,11 +44,12 @@
                         </ag-grid-vue>
                     </div>
                     <div class="small" style="z-index:10">
-                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
-                        <div>
-
-                        <canvas style="background:white;margin-bottom:50px" id="daily-chart" width="1300" height="350"></canvas>
-                        <canvas style="background:white" id="daily-chart2" width="1300" height="350"></canvas>
+                        <div>                           
+                            <button v-on:click="close()">&times;</button>
+                            <div>
+                                <canvas style="margin-bottom:25px" id="daily-chart" width="950" height="550"></canvas>
+                                <!-- <canvas id="daily-chart2" width="950" height="255"></canvas> -->
+                            </div>
                         </div>
                     </div>
                     </b-overlay>
@@ -147,51 +148,47 @@ export default {
                     headerName: '측정일시',
                     width: '180px'
                 },
-                {
-                    headerName: '흡입구',
-                    children: [{
-                            field: 'inlet_avg_value',
+                        {
+                            field: 'avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '100px'
+                            width: '200px'
                         },
                         {
-                            field: 'inlet_max_value',
+                            field: 'max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '100px'
+                            width: '200px'
                         },
                         {
-                            field: 'inlet_min_value',
+                            field: 'min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '100px'
+                            width: '200px'
                         },
-                    ]
-                },
-                {
-                    field: 'inlet_min_value',
-                    headerName: '배출구',
-                    children: [{
-                            field: 'outlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '100px'
-                        },
-                    ]
-                },
+                // {
+                //     field: 'inlet_min_value',
+                //     headerName: '배출구',
+                //     children: [{
+                //             field: 'outlet_avg_value',
+                //             headerName: '평균',
+                //             type: 'number',
+                //             width: '100px'
+                //         },
+                //         {
+                //             field: 'outlet_max_value',
+                //             headerName: '최대',
+                //             type: 'number',
+                //             width: '100px'
+                //         },
+                //         {
+                //             field: 'outlet_min_value',
+                //             headerName: '최소',
+                //             type: 'number',
+                //             width: '100px'
+                //         },
+                //     ]
+                // },
                 {
                     field: 'proc_rate',
                     headerName: '처리효율',
@@ -244,7 +241,7 @@ export default {
         },
         onHidden() {
             // Return focus to the button once hidden
-            this.$refs.pin.focus()
+            this.$refs.pin.focus()`2`
         },
         onClick() {
             this.busy = true
@@ -289,17 +286,26 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
-
+                            
                             console.log(that.list)
                             this.inletgraphLabel = []
                             this.inletgraphDataMin = []
                             this.inletgraphDataAvg = []
                             this.inletgraphDataMax = []
                             that.list.map(e => {
+                                if (e.place == 512) {
+                                    e.min_value = e.outlet_min_value
+                                    e.avg_value = e.outlet_avg_value
+                                    e.max_value = e.outlet_max_value
+                                }else if (e.place == 510) {
+                                    e.min_value = e.inlet_min_value
+                                    e.avg_value = e.inlet_avg_value
+                                    e.max_value = e.inlet_max_value                   
+                                }
                                 this.inletgraphLabel.push(e.prevention_date)
-                                this.inletgraphDataMin.push(e.inlet_min_value)
-                                this.inletgraphDataAvg.push(e.inlet_avg_value)
-                                this.inletgraphDataMax.push(e.inlet_max_value)
+                                this.inletgraphDataMin.push(e.min_value)
+                                this.inletgraphDataAvg.push(e.avg_value)
+                                this.inletgraphDataMax.push(e.max_value)
                             })          
                             const inletgraphDataMin2 = []
                             const inletgraphDataMax2 = []
@@ -313,26 +319,27 @@ export default {
                             this.inletgraphDataMax = inletgraphDataMax2
 
 
-                            this.outletgraphLabel = []
-                            this.outletgraphDataMin = []
-                            this.outletgraphDataAvg = []
-                            this.outletgraphDataMax = []
-                            that.list.map(e => {
-                                this.outletgraphLabel.push(e.prevention_date)
-                                this.outletgraphDataMin.push(e.outlet_min_value)
-                                this.outletgraphDataAvg.push(e.outlet_avg_value)
-                                this.outletgraphDataMax.push(e.outlet_max_value)
-                            })          
-                            const outletgraphDataMin2 = []
-                            const outletgraphDataMax2 = []
-                            this.list.map(()=>{
-                                outletgraphDataMin2.push(Math.min.apply(null,this.outletgraphDataMin))
-                            })
-                            this.list.map(()=>{
-                                outletgraphDataMax2.push(Math.max.apply(null,this.outletgraphDataMax))
-                            })  
-                            this.outletgraphDataMin = outletgraphDataMin2 
-                            this.outletgraphDataMax = outletgraphDataMax2
+                            // this.outletgraphLabel = []
+                            // this.outletgraphDataMin = []
+                            // this.outletgraphDataAvg = []
+                            // this.outletgraphDataMax = []
+                            // that.list.map(e => {
+                            //     this.outletgraphLabel.push(e.prevention_date)
+                            //     this.outletgraphDataMin.push(e.outlet_min_value)
+                            //     this.outletgraphDataAvg.push(e.outlet_avg_value)
+                            //     this.outletgraphDataMax.push(e.outlet_max_value)
+                            // })          
+                            // const outletgraphDataMin2 = []
+                            // const outletgraphDataMax2 = []
+                            // this.list.map(()=>{
+                            //     outletgraphDataMin2.push(Math.min.apply(null,this.outletgraphDataMin))
+                            // })
+                            // this.list.map(()=>{
+                            //     outletgraphDataMax2.push(Math.max.apply(null,this.outletgraphDataMax))
+                            // })  
+                            // this.outletgraphDataMin = outletgraphDataMin2 
+                            // this.outletgraphDataMax = outletgraphDataMax2
+                            this.busy = false
                         }
                     }
                 })
@@ -370,9 +377,9 @@ export default {
             if (this.dailyChart) {
                 this.dailyChart.destroy();
             }
-            if (this.dailyChart2) {
-                this.dailyChart2.destroy();
-            }
+            // if (this.dailyChart2) {
+            //     this.dailyChart2.destroy();
+            // }
             this.ctxDaily = document.getElementById('daily-chart').getContext('2d');
 
             this.ctxDaily.height = "100%";
@@ -386,6 +393,7 @@ export default {
             this.ctxConfig = {
                 type: 'line',
                 options: {
+                    position: 'bottom',
                     responsive: false,
                     scales: {
                         yAxes: [{
@@ -425,21 +433,21 @@ export default {
 
                     labels: this.inletgraphLabel,
                     datasets: [{
-                            label: '흡입최소',
+                            label: '최소',
                             borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
                             data: this.inletgraphDataMin
                             // data:this.dailyChartData
                         },
                         {
-                            label: '흡입평균',
+                            label: '평균',
                             borderColor: '#42f13f',
                             backgroundColor: 'transparent',
                             data: this.inletgraphDataAvg
                             // data:this.dailyChartData
                         },
                         {
-                            label: '흡입최대',
+                            label: '최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
                             data: this.inletgraphDataMax
@@ -454,80 +462,81 @@ export default {
 
 
 
-            this.ctxDaily2 = document.getElementById('daily-chart2').getContext('2d');
+            // this.ctxDaily2 = document.getElementById('daily-chart2').getContext('2d');
 
-            this.ctxDaily2.height = "100%";
-            this.ctxDaily2.width = "100%";
-            // this.ctxDaily.font = "5rem";
-            // console.log(this.dailyChartLabel,this.dailyChartData)
+            // this.ctxDaily2.height = "100%";
+            // this.ctxDaily2.width = "100%";
+            // // this.ctxDaily.font = "5rem";
+            // // console.log(this.dailyChartLabel,this.dailyChartData)
 
-            this.ctxConfig2 = {
-                type: 'line',
-                options: {
-                    responsive: false,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: 0,
-                                beginAtZero: true,
-                                fontSize: ctxFontSize
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontSize: ctxFontSize
-                            }
-                        }]
-                    },
-                    plugins: {
-                        datalabels: {
-                            color: '#444',
-                            align: 'center',
-                            anchor: 'end',
-                            font: {
-                                family: 'Roboto',
-                                size: 14,
-                                weight: 700
-                            },
-                            // display: function(context) {
-                            //     return context.dataset.data[context.dataIndex] > 0;
-                            // },
+            // this.ctxConfig2 = {
+            //     type: 'line',
+            //     options: {
+            //         position: 'bottom',
+            //         responsive: false,
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     min: 0,
+            //                     beginAtZero: true,
+            //                     fontSize: ctxFontSize
+            //                 }
+            //             }],
+            //             xAxes: [{
+            //                 ticks: {
+            //                     fontSize: ctxFontSize
+            //                 }
+            //             }]
+            //         },
+            //         plugins: {
+            //             datalabels: {
+            //                 color: '#444',
+            //                 align: 'center',
+            //                 anchor: 'end',
+            //                 font: {
+            //                     family: 'Roboto',
+            //                     size: 14,
+            //                     weight: 700
+            //                 },
+            //                 // display: function(context) {
+            //                 //     return context.dataset.data[context.dataIndex] > 0;
+            //                 // },
 
-                            //backgroundColor: 'rgba(255.255.255,0.8)',
-                            borderRadius: 4
-                        }
-                    },
-                    maintainAspectRatio: false,
-                },
-                data: {
+            //                 //backgroundColor: 'rgba(255.255.255,0.8)',
+            //                 borderRadius: 4
+            //             }
+            //         },
+            //         maintainAspectRatio: false,
+            //     },
+            //     data: {
 
-                    labels: this.inletgraphLabel,
-                    datasets: [{
-                            label: '배출최소',
-                            borderColor: '#3f5df1',
-                            backgroundColor: 'transparent',
-                            data: this.outletgraphDataMin
-                            // data:this.dailyChartData
-                        },
-                        {
-                            label: '배출평균',
-                            borderColor: '#42f13f',
-                            backgroundColor: 'transparent',
-                            data: this.outletgraphDataAvg
-                            // data:this.dailyChartData
-                        },
-                        {
-                            label: '배출최대',
-                            borderColor: '#f13f3f',
-                            backgroundColor: 'transparent',
-                            data: this.outletgraphDataMax
-                            // data:this.dailyChartData
-                        },
-                    ]
-                },
-            }
-            this.dailyChart2 = new Chart(this.ctxDaily2, this.ctxConfig2);
-            this.dailyChart2.update()
+            //         labels: this.inletgraphLabel,
+            //         datasets: [{
+            //                 label: '배출최소',
+            //                 borderColor: '#3f5df1',
+            //                 backgroundColor: 'transparent',
+            //                 data: this.outletgraphDataMin
+            //                 // data:this.dailyChartData
+            //             },
+            //             {
+            //                 label: '배출평균',
+            //                 borderColor: '#42f13f',
+            //                 backgroundColor: 'transparent',
+            //                 data: this.outletgraphDataAvg
+            //                 // data:this.dailyChartData
+            //             },
+            //             {
+            //                 label: '배출최대',
+            //                 borderColor: '#f13f3f',
+            //                 backgroundColor: 'transparent',
+            //                 data: this.outletgraphDataMax
+            //                 // data:this.dailyChartData
+            //             },
+            //         ]
+            //     },
+            // }
+            // this.dailyChart2 = new Chart(this.ctxDaily2, this.ctxConfig2);
+            // this.dailyChart2.update()
         }
     },
 
@@ -542,10 +551,32 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0,0,0,.3 );
     align-items: center;
     justify-content: center;
     display: none;
+}
+.small > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow:0px 0px 15px 0px rgb(165 165 165);
+    border-radius: 5px;
+    width: 1050px;
+    height: 650px;
+}
+.small > div > button{
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    font-size: 16px;
+    top: 160px;
+    background: rgb(81, 81, 255);
+    right: 426px;
+    color: white;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 @font-face {
     font-family: "CJ Onlyone Medium";

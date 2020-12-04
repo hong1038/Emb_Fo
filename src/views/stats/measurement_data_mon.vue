@@ -45,8 +45,10 @@
                         </div>
                     </b-overlay>
                     <div class="small" style="z-index:10">
-                        <button style="width: 60px;height: 50px;position: absolute;top: 35px;background: red;left: 302px;" v-on:click="close()">X</button>
-                        <canvas style="background:white"  id="daily-chart" width="1300" height="800"></canvas>
+                        <div>
+                            <button v-on:click="close()">&times;</button>
+                            <canvas width="950" height="550" id="daily-chart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -252,13 +254,13 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
-                    
+                            console.log(res.data.data)
                             this.graphLabel = []
                             this.graphDataMin = []
                             this.graphDataAvg = []
                             this.graphDataMax = []
                             that.list.map(e => {
-                                this.graphLabel.push(e.measurement_tm)
+                                this.graphLabel.push(e.measurement_date)
                                 this.graphDataMin.push(e.min_value)
                                 this.graphDataAvg.push(e.measurement_avg_value)
                                 this.graphDataMax.push(e.max_value)
@@ -398,10 +400,32 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0,0,0,.3 );
     align-items: center;
     justify-content: center;
     display: none;
+}
+.small > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow:0px 0px 15px 0px rgb(165 165 165);
+    border-radius: 5px;
+    width: 1050px;
+    height: 650px;
+}
+.small > div > button{
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    font-size: 16px;
+    top: 160px;
+    background: rgb(81, 81, 255);
+    right: 426px;
+    color: white;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 @font-face {
     font-family: "CJ Onlyone Medium";
