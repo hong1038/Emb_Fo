@@ -104,11 +104,13 @@
                 <div class="bottomBox">
                     <div class="bottom_subMenuBox bottom_subMenuBox01" :style="'height:'+40*Math.ceil(boxList.length/8)+'px'" v-if="boxList.length <= 8">
                         <div @click="selectEq('All')" class="eqKey eqKey_0">전체</div>
-                        <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_inner_nm.length > 10  && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div>
+                        <!-- <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_inner_nm.length > 10  && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div> -->
+                        <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="moverEq(item)" @mouseleave="mleave(item)">{{item.equipment_inner_nm.length > 10  && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div>
                     </div>
                     <div class="bottom_subMenuBox bottom_subMenuBox02" :style="'height:'+40*Math.ceil(boxList.length/8)+'px'"  v-else>
                         <div @click="selectEq('All')" class="eqKey eqKey_0">전체</div>
-                        <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="item.check = false" @mouseleave="item.check = true">{{item.equipment_inner_nm.length > 10 && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div>
+                        <!-- <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="item.check = false; " @mouseleave="item.check = true">{{item.equipment_inner_nm.length > 10 && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div> -->
+                        <div @click="selectEq(item)" :class="'eqKey eqKey'+item.box_code" v-for="item in boxList" v-bind:key="item.box_code" @mouseover="moverEq(item) " @mouseleave="mleave(item)">{{item.equipment_inner_nm.length > 10 && item.check === true ? item.equipment_inner_nm.substr(0,10)+"..." :item.equipment_inner_nm}}</div>
                     </div>
                     <div class="bottom_letBox" v-if="scrubber.length <= 0">
                         <p style="font-size:18px">데이터가 없습니다.</p>
@@ -527,6 +529,7 @@ export default {
                 });
             }
 
+
             for (let index = 0; index < this.boxList.length+1; index++) {
                 document.getElementsByClassName("eqKey")[index].style.color = 'black'
             }
@@ -561,6 +564,26 @@ export default {
                     alert("가동률데이터목록 추출 실패 \n" + err);
                 })
 
+        },
+        moverEq(item){
+            // console.log(item.equipment_inner_nm, item.box_code)
+            let nameHeight = document.getElementsByClassName('eqKey'+item.box_code)
+            item.check = false;
+            console.log(item.equipment_inner_nm.length)
+            if(item.equipment_inner_nm.length > 14){
+                for(let i = 0; i < nameHeight.length; i++){
+                    nameHeight[i].style.lineHeight = '15px';
+                }
+            }
+        },
+        mleave(item){
+            item.check = true;
+            let nameHeight = document.getElementsByClassName('eqKey'+item.box_code)
+            for(let i = 0; i < nameHeight.length; i++){
+                nameHeight[i].style.lineHeight = '35px';
+            }
+
+            
         },
         getEquips() {
             let that = this;
@@ -937,12 +960,13 @@ export default {
     /* height: 80px; */
 }
 
-.bottomBox>.bottom_subMenuBox>div {
+.bottomBox>.bottom_subMenuBox>.eqKey {
     float: left;
     width: 12.5%;
     height: 40px;
     line-height: 35px;
-    font-size: 16px;
+    font-size: 1.4rem;
+    letter-spacing: -1px;
     font-family: "Noto Sans KR";
     box-sizing: border-box;
     text-align: center;
