@@ -422,7 +422,7 @@ export default {
             this.timeout = setTimeout(() => {
             this.clearTimeout()
             callback()
-            }, 100)
+            }, 3000)
         },
         onHidden() {
             // Return focus to the button once hidden
