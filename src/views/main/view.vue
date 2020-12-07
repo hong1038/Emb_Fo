@@ -20,42 +20,83 @@
                     </div>
                     <div class="pinBoxWrap" style="width:100%;">
                         <div :class="item.box_size+' pinBox pinBox'+item.box_code" v-for="(item,index) in boxList" :key="item.box_code" :style="item.style">
-                            <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
-                            <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
-                            <div class="scrollbox" v-if="boxlistvalplace[index] != 511">
-                                <div  class="container" >
-                                    <b-row class="pinBody">
-                                        <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                        <b-col cols="4">흡입<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                        <b-col cols="4">배출<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                    </b-row>
+                            <div v-if="item.equipment_inner_nm.length > 20">
+                                <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
+                                <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
+                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511">
+                                    <div  class="container" >
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">흡입<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">배출<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        </b-row>
+                                    </div>
+                                    <div  class="container">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalin[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalout[index]}}</b-col>
+                                        </b-row>
+                                    </div>
+                                    <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                    <!-- </div> -->
                                 </div>
-                                <div  class="container">
-                                    <b-row class="pinBody">
-                                        <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
-                                        <b-col cols="4">{{boxlistvalin[index]}}</b-col>
-                                        <b-col cols="4">{{boxlistvalout[index]}}</b-col>
-                                    </b-row>
+                                <div class="scrollbox" v-else>
+                                    <div  class="container" >
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">중간<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        </b-row>
+                                    </div>
+                                    <div  class="container">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalmid[index]}}</b-col>
+                                        </b-row>
+                                    </div>
+                                    <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                    <!-- </div> -->
                                 </div>
-                                <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
-                                <!-- </div> -->
                             </div>
-                            <div class="scrollbox" v-else>
-                                <div  class="container" >
-                                    <b-row class="pinBody">
-                                        <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                        <b-col cols="4">중간<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                    </b-row>
+                            <div v-else>
+                                <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
+                                <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
+                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511">
+                                    <div  class="container" >
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">흡입<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">배출<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        </b-row>
+                                    </div>
+                                    <div  class="container">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalin[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalout[index]}}</b-col>
+                                        </b-row>
+                                    </div>
+                                    <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                    <!-- </div> -->
                                 </div>
-                                <div  class="container">
-                                    <b-row class="pinBody">
-                                        <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
-                                        <b-col cols="4">{{boxlistvalmid[index]}}</b-col>
-                                    </b-row>
-                                </div>
-                                <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
-                                <!-- </div> -->
+                                <div class="scrollbox" v-else>
+                                    <div  class="container" >
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">중간<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        </b-row>
+                                    </div>
+                                    <div  class="container">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalmid[index]}}</b-col>
+                                        </b-row>
+                                    </div>
+                                    <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                    <!-- </div> -->
+                                </div>    
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -197,6 +238,8 @@ export default {
             boxlistvalplace:[],
             boxlistvalinletstandard:[],
             data_equipment_inner_nm:[],
+            boxHeight:[],
+            allKeywords:[],
         }
 
     },
@@ -214,6 +257,7 @@ export default {
                     e.check = true;
                 })
                 this.boxList = res.data.data
+                console.log(this.boxList)
             }).catch(err =>{
                 alert(err)
             })
@@ -459,11 +503,20 @@ export default {
                     filterKeywords2.push(e.equipment_inner_nm)
                 })
                 var filterKeywords3 = filterKeywords.filter((e) => !Array.from(new Set(filterKeywords2)).includes(e));
-                console.log(this.boxList2,filterKeywords3)
+                // console.log(this.boxList2,filterKeywords3)
+
+                filterKeywords3.map(e=>{
+                    this.allKeywords.push(e)
+                })
+                let filterHeight = filterKeywords3.filter(x => x.length > 15)
+                filterHeight.map(e => {
+                    this.boxHeight.push(e)
+                })
+                console.log(this.boxHeight, this.allKeywords)
+                
                 filterKeywords3.map(item => {
                    this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
                 })
-
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm
@@ -582,6 +635,12 @@ export default {
 
             })
         },
+        // boxHeight(item){
+        //     console.log(item)
+        //     const cart = item.filter(x => x.length > 15)
+        //     console.log(cart)
+            
+        // },
         infoBtn(item){
             // this.show = true;            
             // this.item = item;
