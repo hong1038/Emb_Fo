@@ -159,7 +159,7 @@ export default {
             // }
             this.onClick();
 
-            axios.post("/api/daedan/cj/ems/setting/managerList", {
+            axios.post("/api/daedan/cj/ems/setting/MailList", {
                     serverKey:this.comboServers[0].id,
                     pageNo:this.pageNo,
                     pageSz:this.pageSz,
@@ -191,7 +191,7 @@ export default {
         },
         async saveInfoProc() {
             let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
+            await this.$Axios.post("/api/daedan/cj/ems/setting/mailSave", {
                     name: this.name,
                     server_name:this.server_name,
                     tell:this.tell,
