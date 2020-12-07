@@ -127,7 +127,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
             findTp: '',
@@ -141,37 +140,37 @@ export default {
             preventList:[],
             preventFields: [
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '발생일자',
                     width: '120px'
                 },
                 {
-                    field: '',
+                    field: 'server_name',
                     headerName: '공정명',
                     width: '120px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '측정위치명',
                     width: '150px'
                 },
                 {
-                    field: '',
+                    field: 'cause',
                     headerName: '변경점/이상점 확인 결과 원인',
                     width : '415'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '조치사항',
                     width: '415px'
                 },
                 {
-                    field: '',
+                    field: 'action_date',
                     headerName: '조치 완료일자',
                     width: '200px'
                 },
@@ -260,7 +259,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/changeDataMonList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,

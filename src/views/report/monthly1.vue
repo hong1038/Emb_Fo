@@ -127,7 +127,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
             findTp: '',
@@ -153,22 +152,22 @@ export default {
                 //     hidden: true
                 // },
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '120px'
                 },
                 {
-                    field: '',
+                    field: 'problem',
                     headerName: '문제점/이슈사항',
                     width: '600px'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '대응방안',
                     width: '600px'
                 },
                 {
-                    field: '',
+                    field: 'action_date',
                     headerName: '개선일정',
                     width: '180px'
                 },
@@ -256,7 +255,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/reportDataMonList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,

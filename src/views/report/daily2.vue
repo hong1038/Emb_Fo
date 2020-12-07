@@ -29,10 +29,10 @@
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                     
                                 </div>
-                                <div>~</div>
+                                <!-- <div>~</div>
                                 <div class="dateSelect dateSelectTo">
                                     <datetime type="date" v-model="dateTo" class="datetime"></datetime>
-                                </div>
+                                </div> -->
                             </b-col>
                             <b-col cols="3" class="col-3">
                                 <input type="button" class="d_btn01" value="조회" v-on:click="getList2">
@@ -60,7 +60,7 @@
                             </ag-grid-vue>
                         </div> -->
                         <div class="con_table" id="con_table02">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :pageSz="pageSz" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <!-- <div class="con_table" id="con_table03">
@@ -167,7 +167,7 @@ export default {
             pageNo: 1,
             perPage: 10,
             
-            pageSz:10,
+            pageSz:store.state.paginationPageSize,
 
             inletListCount:0,
             inletList: [],
@@ -302,7 +302,10 @@ export default {
         handleVisibility(isVisible) {
             this.isVisible = isVisible
         },
-        
+        onPageChange(params) {
+            this.pageNo = params.currentPage;
+            this.getList();
+        },
         inletBtn(){
             let tab = new Array();
             let tabBtn = new Array();

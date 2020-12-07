@@ -48,7 +48,7 @@
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
-                                        <b-col class="regiName col-4">분야</b-col>
+                                        <b-col class="regiName col-4">구분</b-col>
                                         <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
@@ -225,7 +225,7 @@ export default {
                     width: '120px'
                 },
                 {
-                    field: 'measurement_date',
+                    field: '',
                     headerName: '흡입구',
                     children: [
                         {
@@ -247,7 +247,7 @@ export default {
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'procRate',
                             headerName: '이상점 발생여부',
                             type: 'number',
                             width: '150px'
@@ -265,7 +265,7 @@ export default {
                 //     width: '170px'
                 // },
                 // {
-                //     field: 'acttion_type',
+                //     field: 'action_type',
                 //     headerName: '조치여부',
                 //     width: '165px'
                 // },

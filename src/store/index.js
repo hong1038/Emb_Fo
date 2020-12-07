@@ -20,7 +20,7 @@ export default new Vuex.Store({
     ckCate: [],
     ckEquip: [],
     ckSensor: [],
-    paginationPageSize:1000,
+    paginationPageSize:10000,
     serverKey:0,
     serverName:null,
     baseAreaCode:100,

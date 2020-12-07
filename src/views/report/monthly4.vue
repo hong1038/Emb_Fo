@@ -127,7 +127,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
             findTp: '',
@@ -141,31 +140,31 @@ export default {
             outletList:[],
             outletFields: [
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '발생일자',
                     width: '110px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '방지시설명',
                     width: '130px'
                 },
                 {
                     field: '',
-                    headerName: '초과횟수',
+                    headerName: '배출구',
                     children: [{
-                            field: '',
+                            field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '80px'
@@ -184,27 +183,27 @@ export default {
                     width : '190'
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '유형',
                     width: '90px'
                 },
                 {
-                    field: '',
+                    field: 'cause',
                     headerName: '초과사항 확인결과 원인',
                     width: '250px'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '조치사항',
                     width: '130px'
                 },
                 {
-                    field: '',
+                    field: 'abnormal_type',
                     headerName: '조치 여부',
                     width: '110px'
                 },
                 {
-                    field: '',
+                    field: 'action_date',
                     headerName: '조치 완료일자',
                     width: '140px'
                 },
@@ -294,7 +293,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/excessDataMonList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,

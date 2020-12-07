@@ -149,9 +149,67 @@ export default {
                     alert("검색조건추출 실패 \n" + err);
                     console.log(err)
                 })
-
         }
+    },
+        getList() {
+            
+            // if (store.state.ckServer.length == 0) {
+            //     alert("사업장은 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            this.onClick();
 
+            axios.post("/api/daedan/cj/ems/setting/managerList", {
+                    serverKey:this.comboServers[0].id,
+                    pageNo:this.pageNo,
+                    pageSz:this.pageSz,
+                    userId: store.state.userInfo.userId
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            console.log(res.data.data)
+                            this.list = res.data.data;
+                            this.listCount = res.data.totalCount;
+                              }
+                    }
+                })
+                .catch(err => {
+                    alert("검색조건추출 실패 \n" + err);
+                    console.log(err)
+                })
+
+        },
+        saveInfo() {
+            if (!this.user_name) {
+                alert("성명은 필수 입력 항목 입니다.")
+                return;
+            }
+            this.busy = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+        async saveInfoProc() {
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
+                    name: this.name,
+                    server_name:this.server_name,
+                    tell:this.tell,
+                    hp:this.hp,
+                    email:this.email,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보저장 실패 \n" + err);
+                })
     },
 
 }

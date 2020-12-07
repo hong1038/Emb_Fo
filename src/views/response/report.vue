@@ -209,8 +209,8 @@ export default {
             list: [],
             listCount: 0,
             pageNo: 1,
-            perPage: 13,
-            pageSz:13,
+            // perPage: 13,
+            pageSz:store.state.paginationPageSize,
             fields: [
                 // {
                 //     field: 'serverKey',
@@ -371,7 +371,7 @@ export default {
                     findTp: this.findTp,
                     findSz: this.findSz,
                     pageNo: this.pageNo,
-                    pageSz: 10000,
+                    pageSz: this.pageSz,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

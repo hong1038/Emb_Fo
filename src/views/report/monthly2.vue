@@ -127,7 +127,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
             findTp: '',
@@ -141,22 +140,22 @@ export default {
             operList:[],
             operFields: [
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '120px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '190px'
                 },
                 {
-                    field: '',
+                    field: 'sensor_name',
                     headerName: '항목',
                     width: '250px'
                 },
                 {
-                    field: '',
+                    field: 'unit',
                     headerName: '단위',
                     width: '100px'
                 },
@@ -164,25 +163,25 @@ export default {
                     field: '',
                     headerName: '후단',
                     children: [{
-                            field: '',
+                            field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
                             width: '120px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
                             width: '120px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '120px'
                         },
                         {
-                            field: '',
+                            field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
                             width: '120px'
@@ -285,7 +284,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/excessDataMonList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,

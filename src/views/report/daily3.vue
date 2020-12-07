@@ -161,7 +161,7 @@ export default {
             pageNo: 1,
             perPage: 10,
             
-            pageSz:10,
+            pageSz:store.state.paginationPageSize,
             
             outletListCount:0,
             outletList:[],
@@ -178,28 +178,22 @@ export default {
                 },
                 {
                     field: '',
-                    headerName: '흡입구',
+                    headerName: '배출구',
                     children: [{
                             field: 'inlet_max_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'inlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '80px'
-                        },
-                        {
-                            field: 'inlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '80px'
-                        },
-                        {
                             field: '',
-                            headerName: '이상점 발생 횟수',
+                            headerName: '초과횟수',
                             type: 'number',
                             width: '160px'
                         },

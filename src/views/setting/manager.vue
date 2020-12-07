@@ -34,14 +34,14 @@
                                     <b-form-select class="col" v-model="emInfo.server_name" :options="comboServers" size="sm">
                                     </b-form-select>
                                 </b-row>
-                                <b-row>
+                                <!-- <b-row>
                                     <b-col class="regiName col-4">전화번호</b-col>
                                     <b-form-input class="col" v-model="emInfo.tell" size="sm"></b-form-input>
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">핸드폰번호</b-col>
                                     <b-form-input class="col" v-model="emInfo.hp" size="sm"></b-form-input>
-                                </b-row>
+                                </b-row> -->
                                 <b-row>
                                     <b-col class="regiName col-4">이메일</b-col>
                                     <b-form-input class="col" v-model="emInfo.email" size="sm"></b-form-input>
@@ -337,10 +337,10 @@ export default {
                 alert("소속은 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.emInfo.hp) {
-                alert("핸드폰번호는 필수 입력 항목 입니다.")
-                return;
-            }
+            // if (!this.emInfo.hp) {
+            //     alert("핸드폰번호는 필수 입력 항목 입니다.")
+            //     return;
+            // }
             if (!this.emInfo.email) {
                 alert("이메일은 필수 입력 항목 입니다.")
                 return;

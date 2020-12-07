@@ -41,7 +41,7 @@
                                 <div>
                                     <b-row>
                                         <b-col class="regiName col-4">일자</b-col>
-                                        <b-form-input class="col" v-model="date_time" size="sm" readonly></b-form-input>
+                                        <b-form-input class="col" v-model="prevention_date" size="sm" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
@@ -272,11 +272,11 @@ export default {
                         },
                     ]
                 },
-                // {
-                //     field: 'cause',
-                //     headerName: '방지시설 처리효율(%)',
-                //     width: '150px'
-                // },
+                {
+                    field: 'procRate',
+                    headerName: '방지시설 처리효율(%)',
+                    width: '150px'
+                },
                 // {
                 //     field: 'action',
                 //     headerName: '조치사항ㆍ원인',

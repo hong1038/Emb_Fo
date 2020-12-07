@@ -127,7 +127,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
             findTp: '',
@@ -141,22 +140,22 @@ export default {
             errorList:[],
             errorFields: [
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '일자',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '120px'
                 },
                 {
-                    field: '',
+                    field: 'abnormal_type',
                     headerName: '유형',
                     width: '100px'
                 },
                 {
-                    field: '',
+                    field: 'rs_date',
                     headerName: '발생일자',
                     width: '110px'
                 },
@@ -164,19 +163,19 @@ export default {
                     field: '',
                     headerName: '문제점 개선 계획',
                     children: [{
-                            field: '',
+                            field: 'cause',
                             headerName: '문제점/이슈사항',
                             type: 'number',
                             width: '380px'
                         },
                         {
-                            field: '',
+                            field: 'action',
                             headerName: '대응 방안',
                             type: 'number',
                             width: '380px'
                         },
                         {
-                            field: '',
+                            field: 'action_date',
                             headerName: '일정',
                             type: 'number',
                             width: '130px'
@@ -184,7 +183,7 @@ export default {
                     ]
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '완료상태',
                     width : '200'
                 },
@@ -273,7 +272,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            this.$Axios.post("/api/daedan/cj/ems/report/systemDataMonList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
