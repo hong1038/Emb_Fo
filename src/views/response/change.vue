@@ -53,20 +53,20 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
+                                        <b-form-select class="col" v-model="equipment_name" :options="comboEquipments" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
-                                        <b-form-input class="col" type="number" size="sm" v-model="inlet_max_value" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_max_value" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 평균</b-col>
-                                        <b-form-input class="col" type="number" size="sm" v-model="inlet_avg_value" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_avg_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">흡입구 최소</b-col>
-                                        <b-form-input class="col" type="number" size="sm" v-model="inlet_min_value" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_min_value" readonly></b-form-input>
                                     </b-row>
 
                                     <b-row>
@@ -346,10 +346,13 @@ export default {
             this.busyPop = false
         },
         addOn(obj) {
+            this.server_key = obj.data.server_key
+            this.equipment_key = obj.data.equipment_key
+            this.equipment_name = obj.data.equipment_name
             this.prevention_date = obj.data.prevention_date
             this.server_name = obj.data.server_name
             this.category = obj.data.category
-            this.equipment_name = obj.data.equipment_name
+            this.category_cd = obj.data.category_cd
             this.inlet_max_value = obj.data.inlet_max_value
             this.inlet_min_value = obj.data.inlet_max_value
             this.inlet_avg_value = obj.data.inlet_avg_value
