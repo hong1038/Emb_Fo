@@ -188,7 +188,7 @@ export default {
             comboEquipments: [], //측정위치
             comboFacilities: [], //시설분류
             comboLocations: [], //위치분류
-
+            server_key:[],
             list: [],
             listCount: 0,
             pageNo: 1,
@@ -273,6 +273,12 @@ export default {
         }
         this.getConditionList();
     },
+    watch:{
+        server_key(){
+            this.getEquips()
+        }
+    
+    },
     beforeDestroy() {
       this.clearTimeout()
     },
@@ -343,12 +349,13 @@ export default {
                     alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
-                this.getEquips()
+                // this.getEquips()
         },
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
             let that = this;
             this.serverKey = store.state.ckServer
+            console.log(this.server_key)
             await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
                     serverKey: this.server_key,
                     userId: store.state.userInfo.userId
