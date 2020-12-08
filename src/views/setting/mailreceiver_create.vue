@@ -4,28 +4,34 @@
     <div style="display:flex">
         <div class="inner mailInner">
             <div class="con">
-                <b-card class="right_list" v-if="show">
-                    <div class="con_box_right mailCreateConBox container-fluid float-left">
-                        <p>메일 수신자 등록</p>
-                        <router-link :to="{ name: 'mailreceiver'}" class="mailSave">저장</router-link>
-                        <router-link :to="{ name: 'mailreceiver'}" class="mailList">목록</router-link>
-                    </div>
-                    <div>
+                <div class="con_box_right mailCreateConBox">
+                    <p>메일 수신자 등록</p>
+                    <router-link :to="{ name: 'mailreceiver'}" class="mailSave">저장</router-link>
+                    <router-link :to="{ name: 'mailreceiver'}" class="mailList">목록</router-link>
+                </div>
+                <div class="mailCreateCon">
+                    <b-container fluid>
                         <b-row>
                             <b-col class="regiName col-4">사업장</b-col>
-                            <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm">
-                            </b-form-select>
+                            <b-col cols="8">
+                                <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
+                            </b-col>
                         </b-row>
                         <b-row>
                             <b-col class="regiName col-4">사용자명</b-col>
-                            <b-form-input class="col" type="text" size="sm" v-model="user_name"></b-form-input>
+                            <b-col cols="8">
+                                <b-form-input class="col" type="text" size="sm" v-model="user_name"></b-form-input>
+                            </b-col>
                         </b-row>
                         <b-row>
                             <b-col class="regiName col-4">사용자 메일</b-col>
-                            <b-form-input class="col" type="text" size="sm" v-model="user_mail"></b-form-input>
+                            <b-col cols="8">
+                                <b-form-input class="col" type="text" size="sm" v-model="user_mail"></b-form-input>
+                            </b-col>
                         </b-row>
-                    </div>
-                </b-card>
+                    </b-container>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -182,16 +188,20 @@ export default {
     padding: 0;
 }
 
-.mailInner,
-.mailConBox {
-    margin: 0 auto;
+.mailInner{
+    width:40%;
+    box-sizing: border-box;
+    border:1px solid #ccc;
+}
+
+.mailInner>div{
+    width:100%;
 }
 
 .mailCreateConBox {
-    width: 800px;
-    margin: 0 auto;
-    margin-left: 375px;
+    width: 100%;
 }
+
 
 .con_box_right {
     box-sizing: border-box;
@@ -200,7 +210,7 @@ export default {
 }
 
 .con_box_right>p {
-    width: 400px;
+    width: 80%;
     height: 50px;
     font-family: "CJ Onlyone Bold";
     font-size: 24px;
@@ -246,53 +256,22 @@ export default {
 }
 
 /* Contents */
-.mail_con {
-    height: 210px;
-    border: 1px solid #d7dadd;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background: #f9fcff;
+
+.mailCreateCon>.container-fluid{
+    padding-left:15px;
+    padding-right:15px;
 }
 
-.mail_con>div {
-    height: inherit;
-    line-height: 70px;
-    font-family: "CJ Onlyone Bold";
+.mailCreateCon .regiName{
+    font-size:1.8rem;
 }
 
-.mail_con>div>div {
-    font-size: 18px;
+.mailCreateCon select{
+    font-size:1.8rem;   
 }
 
-.mail_con>div {
-    width: 100%;
-    height: 70px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
-}
 
-.mail_con>div>div {
-    float: left;
-    width: 30%;
-    height: 100%;
-}
 
-.mail_con>div>div:nth-child(2) {
-    width: 70%;
-}
 
-.mail_con>div>div>input,
-.mail_con>div>div>select {
-    width: 70%;
-    height: 50px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding-left: 7px;
-    font-size: 14px;
-}
 
-.mail_con>div>div>select {
-    overflow-y: hidden;
-}
 </style>
