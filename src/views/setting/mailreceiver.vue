@@ -13,24 +13,9 @@
                             <b-col cols="3">시용자명</b-col>
                             <b-col cols="6">메일</b-col>
                         </b-row>
-                        <b-row>
-                            <b-col cols="3">{{mail.servername}}</b-col>
-                            <b-col cols="3">{{mail.username}}</b-col>
-                            <b-col cols="6">{{mail.usermail}}</b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="3">{{mail.servername}}</b-col>
-                            <b-col cols="3">{{mail.username}}</b-col>
-                            <b-col cols="6">{{mail.usermail}}</b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="3">{{mail.servername}}</b-col>
-                            <b-col cols="3">{{mail.username}}</b-col>
-                            <b-col cols="6">{{mail.usermail}}</b-col>
-                        </b-row>
                     </div>
                     <div>
-                        <!-- <vue-good-table class="elevation-5" mode="remote" :line-numbers="true" :columns="fields" :rows="list" :totalRows="listCount" :pagination-options="{
+                        <vue-good-table class="elevation-5" mode="remote" :line-numbers="true" :columns="fields" :rows="list" :totalRows="listCount" :pagination-options="{
                                     enabled: true,
                                     mode: 'records',
                                     perPage: perPage,
@@ -44,8 +29,7 @@
                                     ofLabel: 'of',
                                     pageLabel: 'page', // for 'pages' mode
                                     allLabel: 'All',
-
-                                }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" /> -->
+                                }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" />
                     </div>
                 </div>
             </div>
@@ -125,6 +109,7 @@ export default {
     },
     created() {
         this.getConditionList();
+        this.getList();
     },
 
     methods: {
@@ -149,7 +134,7 @@ export default {
                     alert("검색조건추출 실패 \n" + err);
                     console.log(err)
                 })
-        }
+        }    
     },
         getList() {
             
@@ -192,11 +177,9 @@ export default {
         async saveInfoProc() {
             let that = this;
             await this.$Axios.post("/api/daedan/cj/ems/setting/mailSave", {
-                    name: this.name,
-                    server_name:this.server_name,
-                    tell:this.tell,
-                    hp:this.hp,
-                    email:this.email,
+                    user_name: this.user_name,
+                    server_key:this.server_key,
+                    user_mail:this.user_mail,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

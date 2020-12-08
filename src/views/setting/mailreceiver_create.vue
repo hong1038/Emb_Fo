@@ -4,31 +4,28 @@
     <div style="display:flex">
         <div class="inner mailInner">
             <div class="con">
-                <div class="con_box_right mailCreateConBox container-fluid float-left">
-                    <p>메일 수신자 등록</p>
-                    <router-link :to="{ name: 'mailreceiver'}" class="mailSave">저장</router-link>
-                    <router-link :to="{ name: 'mailreceiver'}" class="mailList">목록</router-link>
-                    <div class="mt-4 text-center container-fluid mail_con">
-                        <div>
-                            <div>사업장</div>
-                            <div>
-                                <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm"></b-form-select>
-                            </div>
-                        </div>
-                        <div>
-                            <div>사용자명</div>
-                            <div>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div>
-                            <div>사용자 메일</div>
-                            <div>
-                                <input type="text">
-                            </div>
-                        </div>
+                <b-card class="right_list" v-if="show">
+                    <div class="con_box_right mailCreateConBox container-fluid float-left">
+                        <p>메일 수신자 등록</p>
+                        <router-link :to="{ name: 'mailreceiver'}" class="mailSave">저장</router-link>
+                        <router-link :to="{ name: 'mailreceiver'}" class="mailList">목록</router-link>
                     </div>
-                </div>
+                    <div>
+                        <b-row>
+                            <b-col class="regiName col-4">사업장</b-col>
+                            <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm">
+                            </b-form-select>
+                        </b-row>
+                        <b-row>
+                            <b-col class="regiName col-4">사용자명</b-col>
+                            <b-form-input class="col" type="text" size="sm" v-model="user_name"></b-form-input>
+                        </b-row>
+                        <b-row>
+                            <b-col class="regiName col-4">사용자 메일</b-col>
+                            <b-form-input class="col" type="text" size="sm" v-model="user_mail"></b-form-input>
+                        </b-row>
+                    </div>
+                </b-card>
             </div>
         </div>
     </div>
@@ -61,133 +58,11 @@ export default {
     },
     data() {
         return {
-            checkedNames: [],
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
-            checkList2: ["악취", "대기", "수질"],
-            checkList3: ["정문옥상", "기숙사 옥상", "수질보전장", "흡입구", "배출구", "굴뚝#1", "배출구", "흡입구", "new equipment", "인천1-1", "인천1-2", "발효대두박 전단", "발효대두박 후단", "추출 A 전단", "추출 A 후단", "추출 A 전단", "추출 A 후단", "대두박 전단", "대두박 후단", "흡입구", "부지경계선", "중간", "배출구", "설비제어", "중간", "배출구", "폐수처리장 흡입구", "폐수처리장 배출구", ],
-            checkList4: ["odor", "voc", "h2s", "nh3", "습도", "온도", "ch1", "정문옥상", "정문옥상 풍향", "정문옥상 풍속", "odor", "voc", "h2s", "nh3", "온도", "습도", "ch1", "기숙사 옥상", "기숙사옥상 풍향", "기숙사옥상 풍속", "odor", "voc", "h2s", "nh3", "습도", "온도", "ch1", "수질보전장", "수질보전장 풍향", "수질보전장 풍속", "TOC", "원수 TOC", "ODOR", "VOC", "H2S", "NH3", "온도", "배출구", "ODOR", "VOC", "H2S", "NH3", "온도", "흡입구", "ODOR", "VOC", "H2S", "NH3", "온도", "온도2", "습도", "배출구", "ODOR", "VOC", "H2S", "NH3", "온도", "온도2", "습도", "흡입구", "황화수소", "암모니아", "총휘발성유기화합물", "복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "추출A전단 복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "추출A후단 복합악취", "NH3 추출 A 전단", "H2S 추출A전단", "NH3 추출A전단", "TVOC 추출A전단", "OU 추출A전단", "H2S 추출A후단", "NH3 추출A후단", "TVOC 추출A후단", "OU 추출A후단", "H2S 대두박전단", "NH3 대두박전단", "TVOC 대두박전단", "OU 대두박전단", "H2S 대두박후단", "NH3 대두박후단", "TVOC 대두박후단", "OU 대두박후단", "흡1", "흡2", "흡3", "흡4", "흡입구", "흡입구", "부1", "부2", "부3", "부4", "부지경계선", "중1", "중2", "중3", "중4", "중11", "배1", "전류 풍향", "전류 풍속", "배2", "배3", "배4", "3", "4", "배출구 배수", "중1", "중2", "중3", "중4", "2H LAMP", "배1", "풍속", "풍향", "배2", "배3", "배4", "배출구", "S-CUBE 배출구", "S-CUBE배출구", "odor", "voc", "h2s", "nh4", "온도", "폐수처리장 흡입구", "odor", "voc", "h2s", "nh3", "온도", "폐수처리장 배출구", ],
-            checkListVal1: [],
-            checkListVal2: [],
-            checkListVal3: [],
-            checkListVal4: [],
 
             comboServers: null, //사업장   
             comboCategories: null, //측청분야     
 
             mode: 'single',
-            info: {},
-            List: [],
-            ListCount: 0,
-            ListFields: [{
-                    field: 'serverKey',
-                    label: '사업장번호',
-                    hidden: true
-                },
-                {
-                    field: 'serverName',
-                    label: '사업장'
-                },
-                {
-                    field: 'equipmentKey',
-                    label: '분야'
-                },
-                {
-                    field: 'equipmentName',
-                    label: '측정위치'
-                },
-                {
-                    field: 'sensorName',
-                    label: '측정항목'
-                },
-                {
-                    field: 'unit',
-                    label: '단위'
-                },
-                {
-                    field: 'measurementDate',
-                    label: '측정일시'
-                },
-                {
-                    field: 'measurementValue',
-                    label: '측정값'
-                }
-            ],
-
-            findTp: '',
-            findSz: '',
-            findTps: [{
-                    value: 'workplace01',
-                    text: '공주공장'
-                },
-                {
-                    value: 'workplace02',
-                    text: '남원공장'
-                },
-                {
-                    value: 'workplace03',
-                    text: '논산공장'
-                },
-                {
-                    value: 'workplace04',
-                    text: '부산공장'
-                },
-                {
-                    value: 'workplace05',
-                    text: '씨푸드 성남'
-                },
-                {
-                    value: 'workplace06',
-                    text: '씨푸드 음성'
-                },
-                {
-                    value: 'workplace07',
-                    text: '씨푸드 이천'
-                },
-                {
-                    value: 'workplace08',
-                    text: '안산공장'
-                },
-                {
-                    value: 'workplace09',
-                    text: '양산공장'
-                },
-                {
-                    value: 'workplace10',
-                    text: '영등포공장'
-                },
-                {
-                    value: 'workplace11',
-                    text: '원지'
-                },
-                {
-                    value: 'workplace12',
-                    text: '인천1공장'
-                },
-                {
-                    value: 'workplace13',
-                    text: '인천2공장'
-                },
-                {
-                    value: 'workplace14',
-                    text: '인천3공장'
-                },
-                {
-                    value: 'workplace15',
-                    text: '인천냉동식품공장'
-                },
-                {
-                    value: 'workplace16',
-                    text: '진안공장'
-                },
-                {
-                    value: 'workplace17',
-                    text: '진천BC'
-                },
-                {
-                    value: 'workplace18',
-                    text: '진천공장'
-                },
-            ],
             pageNo: 1,
             perPage: 10,
             perCodeNo: 1,
@@ -196,7 +71,7 @@ export default {
     computed: {},
 
     beforeMount() {
-
+        store.state.ckServer = [];
     },
     created() {
         this.config = {
@@ -227,7 +102,6 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.comboServers = res.data.data.serverList; //사업장
-                            that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                         }
                     }
                 })
@@ -237,6 +111,35 @@ export default {
                 })
 
         },
+        saveInfo() {
+            if (!this.user_name) {
+                alert("성명은 필수 입력 항목 입니다.")
+                return;
+            }
+            this.busy = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+        async saveInfoProc() {
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/setting/mailSave", {
+                    user_name: this.user_name,
+                    server_key:this.server_key,
+                    user_mail:this.user_mail,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보저장 실패 \n" + err);
+                })
+    },
         axLen3(e) { //최대 3자 이하로구성
             return String(e).substring(0, 3);
         },
