@@ -364,7 +364,7 @@ export default {
             this.$Axios.post("/api/daedan/cj/ems/response/reportDataList", {
                     dateFr: this.dateFr,
                     serverList: store.state.ckServer,
-                    // cateList: store.state.ckCate,
+                    cateList: store.state.ckCate,
                     // equipList: store.state.ckEquip,
                     // sensorList: store.state.ckSensor,
                     findTp: this.findTp,
@@ -378,6 +378,7 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
+                            this.busy = false;
                         }
                     }
                 })
@@ -392,6 +393,15 @@ export default {
         },
         onRowClick: function (obj) {
             console.log("onRowClck.obj = " + obj);
+        },
+        addOn(obj) {
+            this.server_key = obj.data.server_key
+            this.category_cd = obj.data.category_cd
+            this.problem = obj.data.problem
+            this.prevention_date = obj.data.prevention_date
+            this.abnormal_type = obj.data.abnormal_type
+            this.action = obj.data.action
+            this.showblock();
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
@@ -420,34 +430,30 @@ export default {
             this.showblock();
         },
         saveInfo(){
-            // if (!this.server_key) {
-            //     alert("사업자는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.category) {
-            //     alert("구분은 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.cause) {
-            //     alert("문제점/이슈사항은 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.action) {
-            //     alert("대응방안은 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.prevention_date) {
-            //     alert("개선일정은 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.action_type) {
-            //     alert("완료여부는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.usedSensors) {
-            //     alert("선택된 분석항목이 없습니다.")
-            //     return;
-            // }
+            if (!this.server_key) {
+                alert("사업자는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.category_cd) {
+                alert("구분은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.problem) {
+                alert("문제점/이슈사항은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.action) {
+                alert("대응방안은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.prevention_date) {
+                alert("개선일정은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.abnormal_type) {
+                alert("완료여부는 필수 선택 항목 입니다.")
+                return;
+            }
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"

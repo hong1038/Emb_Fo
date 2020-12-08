@@ -275,6 +275,7 @@ export default {
                             })  
                             this.graphDataMin = graphDataMin2 
                             this.graphDataMax = graphDataMax2
+                            this.busy = false;
                         }
                     }
                 })

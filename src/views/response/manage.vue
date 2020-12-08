@@ -57,11 +57,6 @@
                                         <b-col class="regiName col-4">특이사항</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="issue"></b-form-input>
                                     </b-row>
-                                    <!-- <b-row>
-                                        <b-col class="regiName col-4">측정구분</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboServers" size="sm">
-                                        </b-form-select>
-                                    </b-row>  -->
                                 </div>
                         </b-card>
                     </div>
