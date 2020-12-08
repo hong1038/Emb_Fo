@@ -239,12 +239,17 @@ export default {
             }
         }
         this.getConditionList();
-        this.getEquips()
+
     },
     beforeDestroy() {
       this.clearTimeout()
     },
-
+    watch:{
+        server_key(){
+            this.getEquips()
+        }
+    
+    },
     beforeMount() {        
         store.state.ckServer = [];
         store.state.ckCate = [];
