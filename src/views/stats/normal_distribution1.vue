@@ -46,25 +46,15 @@
                                     <router-link :to="{ name: 'normalDistribution2'}">월별 정규분포</router-link>
                                 </div>
                             </div>
-                            <div class="col-5">
-                                <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">월 선택</div>
+                            <div class="col-5" style="display:flex;align-items:center">
+                                <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">기간 선택</div>
                                 <!-- <input type="date" v-model="dateFr"> -->
-                                <div class="dateSelect float-left">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                <div class="dateSelect">
+                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                </div>
+                                <div>~</div>
+                                <div class="dateSelect dateSelectTo">
+                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
                                 </div>
 
                             </div>
@@ -74,40 +64,11 @@
                         </div>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="canvasWrap canvasLoc container-fluid mt-3">
-                        <b-row>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
+                    <div class="canvasWrap canvasLoc container-fluid mt-3" style="display:flex;flex-flow:wrap;">
+                        <b-col cols="4" v-for="(item , idx) in List" :key="idx">
+                            <p>{{item[0].internal_name}}</p>
+                            <canvas :id="'chart'+idx"></canvas>
+                        </b-col>
                     </div>
                     </b-overlay>
                 </div>
@@ -123,15 +84,16 @@ import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
 import 'vue-good-table/dist/vue-good-table.css'
-// import Vue from 'vue'
-// import Datetime from 'vue-datetime'
-// import 'vue-datetime/dist/vue-datetime.css'
+
+import Datetime from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
+import Vue from 'vue'
 // import DatePicker from "v-calendar/lib/components/date-picker.umd"
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-// Vue.use(Datetime)
+import Chart from 'chart.js'
+Vue.use(Datetime)
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -144,7 +106,7 @@ export default {
         return {
             busy:false,
             timeout : null,
-
+            inletgraphLabel: [],
             List: [],
             ListCount: 0,
             ListField: [{
@@ -165,7 +127,31 @@ export default {
             perPage: 10,
             paginationPageSize: store.state.paginationPageSize,
             perCodeNo: 1,
+            ctxFontSize:[],
+            ctxConfig:[],
 
+        }
+    },
+
+    watch:{
+        dateFr(){
+            this.dateTo = null
+        },
+        dateTo(){
+            // if (this.dateFr === null) {
+            //     this.dateTo = null;
+            //     alert("시작일을 먼저 선택하여 주십시오")
+            //     return;
+            // }
+            // console.log(new Date(this.dateFr).getTime(), new Date(this.dateTo).getTime())
+            // if (Number(this.dateTo.split("-")[1]) <= Number(this.dateFr.split("-")[1]) + 1 && Number(this.dateTo.split("-")[1]) >= Number(this.dateFr.split("-")[1]) - 1  ) {
+            //     return
+            // }else{
+            //     alert("기간은 시작일로 부터 1달이상 차이날수 없습니다.")
+            //     this.dateTo = null
+            // }
+            
+        
         }
     },
 
@@ -186,6 +172,8 @@ export default {
         }
         //this.getList(); 여기서 실행하면 최초 실행시 -1일식 차감해서 검색일자가 설정되는 오류 발생됨.
     },
+
+    
 
     methods: {
         clearTimeout() {
@@ -251,20 +239,173 @@ export default {
                     alert("기본코드목록 추출실패\n" + err.message);
                 })
         },
-        getList(){
-            console.log()
-        },
-        // 조회버튼 클릭
-        searchBtn() {
-            console.log()
-        },
-        // 엑셀저장버튼 클릭
-        excelBtn() {
-            console.log()
+        getList() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }else if(store.state.ckServer.length >= 2){
+                alert("사업장은 한곳만 선택할수 있습니다.")
+                return;
+            }
+            if (store.state.ckCate.length == 0) {
+                alert("분야는 필수 선택 항목 입니다.")
+                return;
+            }else if(store.state.ckCate.length >= 2){
+                alert("분야는 1가지만 선택할수 있습니다.")
+                return;
+            }
+            if  (store.state.ckEquip.length == 0){
+                alert("측정위치는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "" || this.dateTo === null || this.dateTo === "") {
+                console.log(this.dateFr)
+                console.log(this.dateTo)
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            this.$Axios.post("/api/daedan/cj/ems/stat/normalDistributionByEquip", {
+                    check:"Day",
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverKey: store.state.ckServer[0],
+                    cateList: store.state.ckCate,
+                    equipList: store.state.ckEquip,
+                    pageNo: this.pageNo,
+                    pageSz: 10000,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            this.List = []
+                            let test = []
+                            let equipment_names = []
+                            test = res.data.data.reduce((acc,v) => {
+                                console.log(Object.values(v))
+                                let key = Object.values(v).slice(1,2).join('')
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            res.data.data.map(e=>{
+                                equipment_names.push(e.equipment_name)
+                            })
+                            equipment_names = [...new Set(equipment_names)]
+                            equipment_names.map(e=>{    
+                                that.List.push(test[e])
+                            })
+                        
+                            that.listCount = res.data.totalCount
+                            console.log(this.List)
+                            
+                            setTimeout(() => {
+                                this.randarChart()
+                            }, 100);
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("월간통계데이터목록 추출 실패 \n" + err);
+                })
         },
         // 그래프버튼 클릭
         graphBtn() {
-            console.log()
+            this.randarChart()
+        },
+        randarChart() {
+            if (this.Chart != undefined) {   
+                this.Chart.destroy();
+            }
+            // if (this.dailyChart2) {
+            //     this.dailyChart2.destroy();
+            // }
+            this.List.map((e,idx) => {
+                const chartList = []
+                this.inletgraphLabel = []
+                e.map(item => {
+                    if (item.place === 512) {
+                        chartList.push(item.outlet_avg_value)
+                        this.inletgraphLabel.push(item.to_char)
+                    }
+                    if (item.place === 511) {
+                        chartList.push(item.midlet_avg_value)
+                        this.inletgraphLabel.push(item.to_char)
+                    }
+                    if (item.place === 510) {
+                        chartList.push(item.inlet_avg_value)
+                        this.inletgraphLabel.push(item.to_char)
+                    }
+                })
+
+                this.ctxDaily = document.getElementById('chart'+idx).getContext('2d');
+
+                this.ctxDaily.height = "100%";
+                this.ctxDaily.width = "100%";
+                // this.ctxDaily.font = "5rem";
+                // console.log(this.dailyChartLabel,this.dailyChartData)
+                let ctxFontSize = 14
+                this.ctxConfig = {
+                    type: 'line',
+                    options: {
+                        position: 'bottom',
+                        responsive: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                    beginAtZero: true,
+                                    fontSize: ctxFontSize
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontSize: ctxFontSize
+                                }
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#444',
+                                align: 'center',
+                                anchor: 'end',
+                                font: {
+                                    family: 'Roboto',
+                                    size: 14,
+                                    weight: 700
+                                },
+                                // display: function(context) {
+                                //     return context.dataset.data[context.dataIndex] > 0;
+                                // },
+
+                                //backgroundColor: 'rgba(255.255.255,0.8)',
+                                borderRadius: 4
+                            }
+                        },
+                        maintainAspectRatio: false,
+                    },
+                    data: {
+
+                        labels: this.inletgraphLabel,
+                        datasets: [
+                            {
+                                label: '측정값',
+                                borderColor: '#42f13f',
+                                backgroundColor: 'transparent',
+                                data: chartList
+                                // data:this.dailyChartData
+                            }
+    
+                        ]
+                    },
+                }
+                this.Chart = new Chart(this.ctxDaily, this.ctxConfig);
+                this.Chart.update()
+                this.busy = false
+            })
         }
 
     },
@@ -395,7 +536,7 @@ export default {
 
 .canvasWrap>div{
     width:100%;
-    height:50%;
+    height:57%;
 }
 
 .canvasWrap>div canvas{
