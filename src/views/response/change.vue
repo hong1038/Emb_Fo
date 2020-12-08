@@ -29,7 +29,7 @@
                         </div>
                         <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid changeTableWrap" style="display:flex">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" />
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" />
                             <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">변경점<br>대응 등록</b-col>
@@ -49,11 +49,11 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">구분</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-select>
+                                        <b-form-input class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
+                                        <b-form-input class="col" v-model="equipment_name" :options="comboEquipments" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>

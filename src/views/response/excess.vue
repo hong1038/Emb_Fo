@@ -45,15 +45,16 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm" disabled></b-form-select>
+                                        <b-form-input class="col" v-model="server_name" size="sm" disabled> 
+                                        </b-form-input>
                                     </b-row>
                                     <b-row>
-                                        <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-select>
+                                        <b-col class="regiName col-4">구분</b-col>
+                                        <b-form-input class="col" v-model="category_cd" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_name" :options="comboFacilities" size="sm" disabled></b-form-select>
+                                        <b-form-input class="col" v-model="equipment_name" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
@@ -111,7 +112,7 @@
             </div>
         </div>
     </div>
-    <b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
+    <b-overlay :show="busyPop" no-wrap @show="onShow" @hidden="onHidden">
         <template v-slot:overlay>
             <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
                 <b-icon icon="cloud-upload" font-scale="4"></b-icon>
@@ -195,17 +196,17 @@ export default {
                 {
                     field: 'prevention_date',
                     headerName: '일자',
-                    width: '100px'
+                    width: '118px'
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '80px'
+                    width: '120px'
                 },
                 {
                     field: 'category',
                     headerName: '분야',
-                    width: '70px'
+                    width: '120px'
                 },
                 {
                     field: 'equipment_name',
@@ -220,25 +221,25 @@ export default {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '60px'
+                            width: '100px'
                         },
                         {
                             field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '60px'
+                            width: '100px'
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '60px'
+                            width: '100px'
                         },
                         {
                             field: '',
                             headerName: '이상점 발생여부',
                             type: 'number',
-                            width: '120px'
+                            width: '140px'
                         },
                     ]
                 },
@@ -250,25 +251,25 @@ export default {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '60px'
+                            width: '100px'
                         },
                         {
                             field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '60px'
+                            width: '100px'
                         },
                         {
                             field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '60px'
+                            width: '100px'
                         },
                         {
                             field: '',
                             headerName: '이상점 발생여부',
                             type: 'number',
-                            width: '120px'
+                            width: '140px'
                         },
                     ]
                 },
@@ -347,6 +348,7 @@ export default {
             this.busyPop = false
         },
         addOn(obj) {
+            console.log(obj)
             this.prevention_date = obj.data.prevention_date
             // this.mno = obj.data.mno; //관리번호
             this.server_key = obj.data.server_key; //사업장
@@ -378,6 +380,7 @@ export default {
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
             this.showblock();
+
         },
         showblock() {
             this.show = !this.show
