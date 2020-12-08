@@ -1241,6 +1241,15 @@ only screen and (min-device-pixel-ratio: 1.5) {
     box-sizing: border-box;
     padding-left: 10px;
 }
+
+.v-date-picker-header{
+    background:rgb(123,165,255) !important;
+}
+
+.v-date-picker-header *{
+    font-size:16px !important;
+}
+
 .v-input__prepend-outer {
     display: none;
 }
