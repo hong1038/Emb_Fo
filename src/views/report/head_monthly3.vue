@@ -96,48 +96,59 @@ export default {
             fields: [
                 {
                     field: '',
-                    headerName: '대분류',
-                    width: '140px'
+                    headerName: '권역',
+                    width: '120px'
                 },
                 {
                     field: '',
-                    headerName: '소분류',
-                    width: '140px'
+                    headerName: '사업장',
+                    width: '150px'
                 },
                 {
                     field: '',
-                    headerName: '단위',
+                    headerName: '구분',
                     width: '80px'
                 },
                 {
                     field: '',
-                    headerName: '경인권',
-                    width: '190px'
+                    headerName: '측정위치',
+                    width: '150px'
                 },
                 {
                     field: '',
-                    headerName: '중부권',
-                    width : '190'
+                    headerName: '유형',
+                    width : '80'
                 },
                 {
                     field: '',
-                    headerName: '남부권',
-                    width: '190px'
+                    headerName: '발생 일자',
+                    width: '150px'
                 },
                 {
                     field: '',
-                    headerName: '영남권',
-                    width : '190'
+                    headerName: '문제점 개선 계획',
+                    children:[
+                        {
+                            field : '',
+                            headerName : '문제점 / 이슈사항',
+                            width: '450'
+                        },
+                        {
+                            field : '',
+                            headerName : '대응방안',
+                            width: '450'
+                        },
+                        {
+                            field : '',
+                            headerName : '일정',
+                            width: '80'
+                        }
+                    ]
                 },
                 {
                     field: '',
-                    headerName: '계열사',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '합계',
-                    width : '190'
+                    headerName: '완료 상태',
+                    width: '120px'
                 },
             ],
         }

@@ -96,47 +96,57 @@ export default {
             fields: [
                 {
                     field: '',
-                    headerName: '대분류',
-                    width: '140px'
-                },
-                {
-                    field: '',
-                    headerName: '소분류',
-                    width: '140px'
-                },
-                {
-                    field: '',
-                    headerName: '단위',
+                    headerName: '권역',
                     width: '80px'
                 },
                 {
                     field: '',
-                    headerName: '경인권',
+                    headerName: '사업장',
+                    width: '110px'
+                },
+                {
+                    field: '',
+                    headerName: '구분',
+                    width: '80px'
+                },
+                {
+                    field: '',
+                    headerName: '발생일자',
                     width: '190px'
                 },
                 {
                     field: '',
-                    headerName: '중부권',
+                    headerName: '공정명',
                     width : '190'
                 },
                 {
                     field: '',
-                    headerName: '남부권',
+                    headerName: '방지시설명',
                     width: '190px'
                 },
                 {
                     field: '',
-                    headerName: '영남권',
+                    headerName: '유형',
                     width : '190'
                 },
                 {
                     field: '',
-                    headerName: '계열사',
-                    width: '190px'
+                    headerName: '초과사항 확인결과 원인',
+                    width: '250px'
                 },
                 {
                     field: '',
-                    headerName: '합계',
+                    headerName: '조치사항',
+                    width : '190'
+                },
+                {
+                    field: '',
+                    headerName: '조치 여부',
+                    width : '190'
+                },
+                {
+                    field: '',
+                    headerName: '조치 완료 일자',
                     width : '190'
                 },
             ],
