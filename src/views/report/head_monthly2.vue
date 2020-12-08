@@ -97,12 +97,14 @@ export default {
                 {
                     field: '',
                     headerName: '권역',
-                    width: '140px'
+                    width: '140px',
+                    
                 },
                 {
-                    field: '',
+                    field: 'server_name',
                     headerName: '사업장',
-                    width: '140px'
+                    width: '140px',
+                    
                 },
                 {
                     field: '',
@@ -246,7 +248,7 @@ export default {
         date() {
             console.log(this.date)
         }
-    }
+    },
 }
 </script>
 
