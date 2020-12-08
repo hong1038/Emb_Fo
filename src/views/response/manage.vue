@@ -55,7 +55,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">특이사항</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="issue"></b-form-input>
                                     </b-row>
                                     <!-- <b-row>
                                         <b-col class="regiName col-4">측정구분</b-col>
@@ -207,12 +207,12 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '200px'
+                    width: '130px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
-                    width: '150px'
+                    width: '100px'
                 },
                 {
                     field: 'equipment_name',
@@ -222,12 +222,12 @@ export default {
                 {
                     field: 'prevention_date',
                     headerName: '측정일시',
-                    width: '300px'
+                    width: '150px'
                 },
                 {
-                    field: 'action',
+                    field: 'issue',
                     headerName: '특이사항',
-                    width: '600px'
+                    width: '880px'
                 },
             ],
         }
@@ -421,6 +421,7 @@ export default {
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/response/manageDataList", {
+                    serverKey:this.server_key,
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
@@ -484,11 +485,11 @@ export default {
                 alert("사업자는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.category) {
+            if (!this.category_cd) {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.equipment_name) {
+            if (!this.equipment_key) {
                 alert("측정위치는 필수 선택 항목 입니다.")
                 return;
             }
@@ -496,45 +497,36 @@ export default {
                 alert("측정일시는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.action) {
+            if (!this.issue) {
                 alert("특이사항은 필수 선택 항목 입니다.")
                 return;
             }
             this.busyPop = true;
-            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.altMsg = "처리중인 등록정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
-            // let that = this;
-            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
-            //         mno: this.mno,
-            //         server_key: this.server_key,
-            //         equipment_key: this.equipment_key,
-            //         category: this.category_cd,
-            //         place: this.location,
-            //         facility: this.facility,
-            //         public_name : this.public_name,
-            //         internal_name: this.internal_name,
-            //         internal_numger: this.internal_numger,
-            //         legal_standard: this.legal_standard,
-            //         manage_standard: this.manage_standard,
-            //         ordr_no: this.odor_no,
-            //         unit: this.unit,
-            //         usedSensors: this.usedSensors,
-                    
-            //         userId: store.state.userInfo.userId
-            //     }, this.config)
-            //     .then(res => {
-            //         if (res.status === 200) {
-            //             if (res.data.statusCode === 200) {
-            //                 that.saveblock();
-            //                 that.getList();
-            //             }
-            //         }
-            //     })
-            //     .catch(err => {
-            //         alert("측정기별기준정보저장 실패 \n" + err);
-            //     })
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/response/manageDataSave", {
+                    rm_key:this.rm_key,
+                    server_key: this.server_key,
+                    equipment_key: this.equipment_key,
+                    category: this.category_cd,
+                    prevention_date:this.prevention_date,
+                    issue:this.issue,                    
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("운영 특이사항 정보저장 실패 \n" + err);
+                })
             this.busyPop = false;
         },
         dropInfo() {
