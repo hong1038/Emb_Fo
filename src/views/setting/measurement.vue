@@ -71,8 +71,6 @@
                                     <b-col class="regiName col-4">공정명</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="public_name"></b-form-input>
                                 </b-row>
-
-
                                 <b-row>
                                     <b-col class="regiName col-4">법적기준</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="legal_standard"></b-form-input>
@@ -377,7 +375,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.comboFacilities = res.data.data.facilities; //서설분륳
+                            that.comboFacilities = res.data.data.facilities; //서설분류
                             that.comboLocations = res.data.data.locations; //위치분류
                             if (that.measurementInfo.facility) {
                                 that.facility = that.measurementInfo.facility; //시설분류 설정    
