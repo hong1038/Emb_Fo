@@ -2,41 +2,52 @@
 <b-container fluid>
     <Header></Header>
     <div style="display:flex">
-
         <div class="inner">
-            <div class="con">
-                <div class="con_box_right container-fluid float-left">
+            <div class="con headMonthlyCon">
+                <div class="con_box_right container-fluid">
                     <p>본부 월말 보고 통계</p>
                     <div class="hmtableSelectBox container-fluid">
                         <b-row>
-                            <b-col cols="3">
+                            <b-col cols="2">
                                 <router-link :to="{ name: 'headMonthly1'}" >전체 통계</router-link>
                             </b-col>
-                            <b-col cols="3">
+                            <b-col cols="2">
                                 <router-link :to="{ name: 'headMonthly2'}">유형별 통계</router-link>
                             </b-col>
-                            <b-col cols="3"  class="check03">
+                            <b-col cols="2"  class="check01">
                                 <router-link :to="{ name: 'headMonthly3'}">문제점 / 이슈사항</router-link>
                             </b-col>
-                            <b-col cols="3">
+                            <b-col cols="2">
                                 <router-link :to="{ name: 'headMonthly4'}">이상점 및 비정상 대응 확인</router-link>
                             </b-col>
-                        </b-row>
-                    </div>
-                    <div class="monthSelectWrap container-fluid">
-                        <b-row>
-                            <b-col cols="1"><button type="button">1월</button></b-col>
-                            <b-col cols="1"><button type="button">2월</button></b-col>
-                            <b-col cols="1"><button type="button">3월</button></b-col>
-                            <b-col cols="1"><button type="button">4월</button></b-col>
-                            <b-col cols="1"><button type="button">5월</button></b-col>
-                            <b-col cols="1"><button type="button">6월</button></b-col>
-                            <b-col cols="1"><button type="button">7월</button></b-col>
-                            <b-col cols="1"><button type="button">8월</button></b-col>
-                            <b-col cols="1"><button type="button">9월</button></b-col>
-                            <b-col cols="1"><button type="button">10월</button></b-col>
-                            <b-col cols="1"><button type="button">11월</button></b-col>
-                            <b-col cols="1"><button type="button">12월</button></b-col>
+                            <b-col cols="4">
+                                <b-row class="hmDateSelect">
+                                    <v-spacer></v-spacer>
+                                    <b-col cols="2">
+                                        <span style="position:absolute; top:5px; right:0;">월 선택</span>
+                                    </b-col>
+                                    <b-col cols="3">
+                                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="dateFr" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                    </b-col>
+                                    <b-col cols="4">
+                                        <v-btn>조회</v-btn>
+                                    </b-col>
+                                    
+                                </b-row>
+                            </b-col>
                         </b-row>
                     </div>
                     <div class="con_tableWrap">
@@ -67,6 +78,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
+
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -78,9 +90,8 @@ export default {
     },
     data() {
         return {
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
-            date: "",
+            dateFr: "",
 
             fields: [
                 {
@@ -160,8 +171,12 @@ export default {
     padding: 0;
 }
 
-/* title */
 
+.headMonthlyCon{
+    width:1900px;
+}
+
+/* title */
 .con_box_right {
     box-sizing: border-box;
     font-family: "CJ Onlyone Medium";
@@ -184,27 +199,32 @@ export default {
 /*Table Select */
 .hmtableSelectBox {
     width: 100%;
-    height: 35px;
+    height: 60px;
 }
 
 .hmtableSelectBox>div>div {
     float: left;
     width: 130px;
-    height: 35px;
+    height: 60px;
     box-sizing: border-box;
     background: #484848;
     cursor: pointer;
     border:1px solid rgb(97, 97, 97);
 }
 
-.hmtableSelectBox>div>.check03{
+
+.hmtableSelectBox>div>div:last-child{
+    background:white;
+    border:none;
+}
+
+.hmtableSelectBox>div>.check01{
     background:black;
     font-weight:bold;
 }
 
-.hmtableSelectBox>div>.check03>a{
-    font-size:16px;
-    line-height:20px;
+.hmtableSelectBox>div>.check01>a{
+    font-size:20px;
 }
 
 .hmtableSelectBox>.row{
@@ -212,17 +232,41 @@ export default {
     padding:0;
 }
 
-.hmtableSelectBox>.row>.col-3{
-    padding:0;
+
+.hmDateSelect{
+    font-size:16px;
+}
+
+.hmDateSelect .v-input{
+    position:absolute;
+    top:0;
+}
+
+.hmDateSelect .v-input input{
+    padding-left:5px;
+}
+
+.hmDateSelect button{
+    position:absolute;
+    top:0;
+    right:0;
+    width:150px;
+    height:30px;
+    background: rgb(187, 231, 248) !important;
+    box-shadow: 0px 0px 3px blue;
+}
+
+.hmDateSelect button span{
+    font-size:16px;
 }
 
 .hmtableSelectBox>div>div>a {
     display:block;
     width:90%;
-    margin:7px auto;
+    margin:5px auto;
     text-decoration: none;
     color:white;
-    font-size:14px;
+    font-size:20px;
     text-align: center;
 }
 /*monthSelect*/
@@ -265,5 +309,4 @@ export default {
     box-sizing: border-box;
     border: 1px solid #d7dadd;
 }
-
 </style>
