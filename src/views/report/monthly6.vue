@@ -127,7 +127,6 @@ export default {
             busy:false,
             timeout : null,
 
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
             selectWorkplace: "",
             dateFr: '',
             findTp: '',
@@ -141,22 +140,22 @@ export default {
             etcList:[],
             etcFields: [
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '일자',
                     width: '150px'
                 },
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '150px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '150px'
                 },
                 {
-                    field: '',
+                    field: 'issue',
                     headerName: '특이사항',
                     width: '1050px'
                 },
@@ -259,14 +258,15 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.inletList = res.data.data
-                            that.inletListCount = res.data.totalCount
+                            that.etcList = res.data.data
+                            that.etcListCount = res.data.totalCount
                         }
                     }
                 })
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+                this.busy = false;
         },
 
     }

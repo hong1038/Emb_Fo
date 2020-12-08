@@ -344,12 +344,14 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.monitorList = res.data.data
                             that.monitorListCount = res.data.totalCount
+                            
                         }
                     }
                 })
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+                this.busy = false;
         },
     
     }

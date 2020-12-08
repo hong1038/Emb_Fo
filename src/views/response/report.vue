@@ -378,6 +378,7 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
+                            this.busy = false;
                         }
                     }
                 })

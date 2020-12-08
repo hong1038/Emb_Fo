@@ -278,6 +278,7 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+                this.busy = false;
         },
 
     }
