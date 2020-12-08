@@ -239,6 +239,7 @@ export default {
             }
         }
         this.getConditionList();
+        this.getEquips()
     },
     beforeDestroy() {
       this.clearTimeout()
@@ -339,6 +340,7 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.comboEquipments = res.data.data.equipPos; //측정위치
                             if (that.measurementInfo.equipment_key) {
+                                console.log(res.data.data)
                                 that.equipment_key = that.measurementInfo.equipment_key;
                             }
                         }
