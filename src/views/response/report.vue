@@ -53,12 +53,11 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" > 
-                                        </b-form-select>
+                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" ></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
-                                        <b-form-input class="col" v-model="cause" size="sm"></b-form-input>
+                                        <b-form-input class="col" v-model="problem" size="sm"></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">대응방안</b-col>
@@ -70,7 +69,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료여부</b-col>
-                                        <b-form-select class="col" v-model="action_type" size="sm">
+                                        <b-form-select class="col" v-model="abnormal_type" size="sm">
                                             <option value="진행">진행</option>
                                             <option value="완료">완료</option>
                                         </b-form-select>
@@ -230,12 +229,12 @@ export default {
                     width: '250px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '250px'
                 },
                 {
-                    field: 'cause',
+                    field: 'problem',
                     headerName: '문제점/이슈사항',
                     width: '400px'
                 },
@@ -245,12 +244,12 @@ export default {
                     width: '300px'
                 },
                 {
-                    field: 'preventio_dDate',
+                    field: 'prevention_date',
                     headerName: '개선일정',
                     width: '150px'
                 },
                 {
-                    field: 'action_type',
+                    field: 'abnormal_type',
                     headerName: '완료여부',
                     width: '150px'
                 },
@@ -455,9 +454,14 @@ export default {
         },
         async saveInfoProc() {
             let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
-                    serverKey: this.server_key,
-
+            await this.$Axios.post("/api/daedan/cj/ems/response/reportDataSave", {
+                    server_key: this.server_key,
+                    equipment_key:this.equipment_key,
+                    category_cd:this.category_cd,
+                    problem:this.problem,
+                    action:this.action,
+                    prevention_date:this.prevention_date,
+                    abnormal_type:this.abnormal_type,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
