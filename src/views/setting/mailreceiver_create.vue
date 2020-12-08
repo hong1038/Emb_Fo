@@ -6,7 +6,7 @@
             <div class="con">
                 <div class="con_box_right mailCreateConBox">
                     <p>메일 수신자 등록</p>
-                    <router-link :to="{ name: 'mailreceiver'}" class="mailSave">저장</router-link>
+                    <input type="button" class="mailSave" v-on:click="saveInfo" value="저장">
                     <router-link :to="{ name: 'mailreceiver'}" class="mailList">목록</router-link>
                 </div>
                 <div class="mailCreateCon">
@@ -14,19 +14,19 @@
                         <b-row>
                             <b-col class="regiName col-4">사업장</b-col>
                             <b-col cols="8">
-                                <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
+                                <b-form-select class="col" v-model="server_key" :options="comboServers" ></b-form-select>
                             </b-col>
                         </b-row>
                         <b-row>
                             <b-col class="regiName col-4">사용자명</b-col>
                             <b-col cols="8">
-                                <b-form-input class="col" type="text" size="sm" v-model="user_name"></b-form-input>
+                                <b-form-input class="col" type="text" v-model="user_name"></b-form-input>
                             </b-col>
                         </b-row>
                         <b-row>
                             <b-col class="regiName col-4">사용자 메일</b-col>
                             <b-col cols="8">
-                                <b-form-input class="col" type="text" size="sm" v-model="user_mail"></b-form-input>
+                                <b-form-input class="col" type="text" v-model="user_mail"></b-form-input>
                             </b-col>
                         </b-row>
                     </b-container>
@@ -138,7 +138,6 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.saveblock();
-                            that.getList();
                         }
                     }
                 })

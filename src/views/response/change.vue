@@ -53,7 +53,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_name" :options="comboEquipments" size="sm" disabled></b-form-select>
+                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
@@ -571,17 +571,15 @@ export default {
                     server_key: this.server_key,
                     equipment_key: this.equipment_key,
                     category: this.category_cd,
-                    // place: this.location,
-                    // facility: this.facility,
-                    // internal_name: this.internal_name,
-                    // internal_numger: this.internal_numger,
-                    // legal_standard: this.legal_standard,
-                    // manage_standard: this.manage_standard,
-                    // public_name: this.public_name,
-                    // ordr_no: this.odor_no,
-                    // unit: this.unit,
-                    // usedSensors: this.usedSensors,
-                    
+                    prevention_date: this.prevention_date,
+                    inlet_max_value: this.inlet_max_value,
+                    inlet_avg_value: this.inlet_avg_value,
+                    inlet_min_value: this.inlet_min_value,
+                    occur:this.occur,
+                    cause:this.cause,
+                    action:this.action,
+                    action_type:this.action_type,
+                    action_date:this.action_date,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

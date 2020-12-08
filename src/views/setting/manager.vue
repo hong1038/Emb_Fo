@@ -27,11 +27,11 @@
                             <div>
                                 <b-row>
                                     <b-col class="regiName col-4">성명</b-col>
-                                    <b-form-input class="col" v-model="emInfo.name" size="sm"></b-form-input>
+                                    <b-form-input class="col" v-model="name" size="sm"></b-form-input>
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">소속(사업장명)</b-col>
-                                    <b-form-select class="col" v-model="emInfo.server_name" :options="comboServers" size="sm">
+                                    <b-form-select class="col" v-model="server_name" :options="comboServers" size="sm">
                                     </b-form-select>
                                 </b-row>
                                 <!-- <b-row>
@@ -44,7 +44,7 @@
                                 </b-row> -->
                                 <b-row>
                                     <b-col class="regiName col-4">이메일</b-col>
-                                    <b-form-input class="col" v-model="emInfo.email" size="sm"></b-form-input>
+                                    <b-form-input class="col" v-model="email" size="sm"></b-form-input>
                                 </b-row>
                             </div>
                         </b-card>
@@ -280,7 +280,7 @@ export default {
         // },
         async getInfo() {
             axios.post("/api/daedan/cj/ems/setting/managerList", {
-                        serverKey:this.comboServers[0].id,
+                        serverKey:this.server_key,
                         pageNo:this.pageNo,
                         pageSz:this.pageSz,
                         userId: store.state.userInfo.userId
@@ -308,7 +308,7 @@ export default {
             this.onClick();
 
             axios.post("/api/daedan/cj/ems/setting/managerList", {
-                    serverKey:this.comboServers[0].id,
+                    serverKey:this.server_key,
                     pageNo:this.pageNo,
                     pageSz:this.pageSz,
                     userId: store.state.userInfo.userId
@@ -354,8 +354,6 @@ export default {
             await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
                     name: this.name,
                     server_name:this.server_name,
-                    tell:this.tell,
-                    hp:this.hp,
                     email:this.email,
                     userId: store.state.userInfo.userId
                 }, this.config)

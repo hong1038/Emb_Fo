@@ -57,15 +57,15 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_max" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_max_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_avg" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_avg_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_min" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_min_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">흡입구 이상점 발생여부</b-col>
@@ -73,15 +73,15 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 최대</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_max" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_max_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 평균</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_avg" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_avg_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 최소</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_min" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_min_value" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">배출구 이상점 발생여부</b-col>
@@ -89,7 +89,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">방지시설 처리효율</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="cause"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="occur"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치사항 원인</b-col>
@@ -346,17 +346,32 @@ export default {
         onCancel() {
             this.busyPop = false
         },
-        addOn() {
-            // this.mno = null; //관리번호
-            // //this.server_key = null; //사업장
-            // this.equipment_key = null; //측정위치
-            // this.category = null; //측정분야명
-            // this.category_cd = null; //측정분야코드
-            // this.facility = null; //시설분류
-            // this.location = null; //위치분류
-            // this.legal_standard = null; //법적기준
-            // this.manage_standard = null; //관리기준
-            // this.unit = null; //단위
+        addOn(obj) {
+            this.prevention_date = obj.data.prevention_date
+            // this.mno = obj.data.mno; //관리번호
+            this.server_key = obj.data.server_key; //사업장
+            this.server_name = obj.data.server_name
+            this.equipment_name = obj.data.equipment_name; //측정위치
+            this.category = obj.data.category; //측정분야명
+            this.category_cd = obj.data.category_cd; //측정분야코드
+            this.cause = obj.data.cause
+            this.action_type = obj.data.action_type
+            this.action_date = obj.data.action_date
+            this.action = obj.data.action
+            this.abnormal_type = obj.data.abnormal_type
+            // this.facility = obj.data.facility; //시설분류
+            // this.location = obj.data.location; //위치분류
+            this.outlet_standard_value = obj.data.outlet_standard_value; //배출구 법적기준
+            this.inlet_standard_value = obj.data.inlet_standard_value; //흡입구 법적기준
+            this.inlet_min_value = obj.data.inlet_min_value
+            this.inlet_max_value = obj.data.inlet_max_value
+            this.inlet_avg_value = obj.data.inlet_avg_value
+            this.outlet_min_value = obj.data.outlet_min_value
+            this.outlet_max_value = obj.data.outlet_max_value
+            this.outlet_avg_value = obj.data.outlet_avg_value
+            this.re_key = obj.data.re_key
+
+            this.unit = obj.data.unit; //단위
             // this.internal_name = null; //내부관리명
             // this.internal_number = null; //내부관리번호
             // this.public_name = null; //공정명
@@ -387,7 +402,6 @@ export default {
                 alert("날짜를 선택해주세요.")
                 return;
             }
-
             this.onClick();
 
             let that = this;

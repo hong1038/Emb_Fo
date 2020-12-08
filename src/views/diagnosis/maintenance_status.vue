@@ -11,10 +11,20 @@
                         <div class="msDateCheck container-fluid mt-4">
                             <div class="row">
                                 <div class="col-7">
-                                    <div>일자 선택</div>
-                                    <div class="dateSelect">
-                                        <datetime type="date" v-model="dateFr" class="datetime"></datetime>
-                                    </div>
+                                    <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">월 선택</div>
+                                    <div class="dateSelect float-left">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                            <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
+                                        </v-date-picker>
+                                    </v-menu>               
+                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                </div>
                                 </div>
                                 <div class="col-5">
                                     <input type="button" class="ms_btn01" value="조회" v-on:click="getList">
@@ -69,30 +79,22 @@ export default {
         return {
             busy:false,
             timeout : null,
-            
-            checkedNames: [],
-            checkList1: ["cloudmain", "인천1", "성남", "부산", "인천2", "논산", "인천냉동", "진천", "진안", "인천3", "안산", "공주", "남원"],
-            checkList2: ["악취", "대기", "수질"],
-            checkList3: ["정문옥상", "기숙사 옥상", "수질보전장", "흡입구", "배출구", "굴뚝#1", "배출구", "흡입구", "new equipment", "인천1-1", "인천1-2", "발효대두박 전단", "발효대두박 후단", "추출 A 전단", "추출 A 후단", "추출 A 전단", "추출 A 후단", "대두박 전단", "대두박 후단", "흡입구", "부지경계선", "중간", "배출구", "설비제어", "중간", "배출구", "폐수처리장 흡입구", "폐수처리장 배출구", ],
-            checkList4: ["odor", "voc", "h2s", "nh3", "습도", "온도", "ch1", "정문옥상", "정문옥상 풍향", "정문옥상 풍속", "odor", "voc", "h2s", "nh3", "온도", "습도", "ch1", "기숙사 옥상", "기숙사옥상 풍향", "기숙사옥상 풍속", "odor", "voc", "h2s", "nh3", "습도", "온도", "ch1", "수질보전장", "수질보전장 풍향", "수질보전장 풍속", "TOC", "원수 TOC", "ODOR", "VOC", "H2S", "NH3", "온도", "배출구", "ODOR", "VOC", "H2S", "NH3", "온도", "흡입구", "ODOR", "VOC", "H2S", "NH3", "온도", "온도2", "습도", "배출구", "ODOR", "VOC", "H2S", "NH3", "온도", "온도2", "습도", "흡입구", "황화수소", "암모니아", "총휘발성유기화합물", "복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "추출A전단 복합악취", "황화수소", "암모니아", "총휘발성유기화합물", "추출A후단 복합악취", "NH3 추출 A 전단", "H2S 추출A전단", "NH3 추출A전단", "TVOC 추출A전단", "OU 추출A전단", "H2S 추출A후단", "NH3 추출A후단", "TVOC 추출A후단", "OU 추출A후단", "H2S 대두박전단", "NH3 대두박전단", "TVOC 대두박전단", "OU 대두박전단", "H2S 대두박후단", "NH3 대두박후단", "TVOC 대두박후단", "OU 대두박후단", "흡1", "흡2", "흡3", "흡4", "흡입구", "흡입구", "부1", "부2", "부3", "부4", "부지경계선", "중1", "중2", "중3", "중4", "중11", "배1", "전류 풍향", "전류 풍속", "배2", "배3", "배4", "3", "4", "배출구 배수", "중1", "중2", "중3", "중4", "2H LAMP", "배1", "풍속", "풍향", "배2", "배3", "배4", "배출구", "S-CUBE 배출구", "S-CUBE배출구", "odor", "voc", "h2s", "nh4", "온도", "폐수처리장 흡입구", "odor", "voc", "h2s", "nh3", "온도", "폐수처리장 배출구", ],
-            checkListVal1: [],
-            checkListVal2: [],
-            checkListVal3: [],
-            checkListVal4: [],
 
             gridOptions:{},
             config: {},
             mode: 'single', //날짜선택방법
-            findTps: [{
-                value: 'pnelNm',
-                text: '판넬명'
-            }],
-            // dateFr: store.state.szCurDt,
-            dateFr: "",
+            
+            dateFr: '',
+            dateTo: '',
+            
             findTp: '',
             findSz: '',
             list: [],
             listCount: 0,
+
+            dateSelect:'',
+            menu:false,
+
             pageNo: 1,
             perPage: 10,
             fields: [

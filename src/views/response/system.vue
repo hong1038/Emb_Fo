@@ -307,20 +307,10 @@ export default {
             this.busyPop = false
         },
         addOn() {
-            // this.mno = null; //관리번호
             // //this.server_key = null; //사업장
             // this.equipment_key = null; //측정위치
             // this.category = null; //측정분야명
             // this.category_cd = null; //측정분야코드
-            // this.facility = null; //시설분류
-            // this.location = null; //위치분류
-            // this.legal_standard = null; //법적기준
-            // this.manage_standard = null; //관리기준
-            // this.unit = null; //단위
-            // this.internal_name = null; //내부관리명
-            // this.internal_number = null; //내부관리번호
-            // this.public_name = null; //공정명
-            // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
             this.showblock();
         },
