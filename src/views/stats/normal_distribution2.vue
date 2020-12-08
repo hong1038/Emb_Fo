@@ -50,20 +50,16 @@
                                 <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">월 선택</div>
                                 <!-- <input type="date" v-model="dateFr"> -->
                                 <div class="dateSelect float-left">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
+                                        <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
                                             <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
+                                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                            <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
                                         </v-date-picker>
-                                    </v-menu>
+                                    </v-menu>               
                                     <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
                                 </div>
 
@@ -74,40 +70,10 @@
                         </div>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="canvasWrap canvasLoc container-fluid mt-3">
-                        <b-row>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
-                        <b-row>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                            <b-col cols="4">
-                                <canvas></canvas>
-                            </b-col>
-                        </b-row>
+                    <div class="canvasWrap canvasLoc container-fluid mt-3" style="display:flex;flex-flow:wrap;">
+                        <b-col cols="4" v-for="(item , idx) in List" :key="idx">
+                            <canvas :id="'chart'+idx"></canvas>
+                        </b-col>
                     </div>
                     </b-overlay>
                 </div>
@@ -123,15 +89,16 @@ import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
 import 'vue-good-table/dist/vue-good-table.css'
-// import Vue from 'vue'
-// import Datetime from 'vue-datetime'
-// import 'vue-datetime/dist/vue-datetime.css'
+
+import Datetime from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
+import Vue from 'vue'
 // import DatePicker from "v-calendar/lib/components/date-picker.umd"
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-// Vue.use(Datetime)
+import Chart from 'chart.js'
+Vue.use(Datetime)
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -142,9 +109,9 @@ export default {
     },
     data() {
         return {
-            busy:false,
+             busy:false,
             timeout : null,
-
+            inletgraphLabel: [],
             List: [],
             ListCount: 0,
             ListField: [{
@@ -157,6 +124,8 @@ export default {
                     label: 'name'
                 },
             ],
+            dateSelect:'',
+            menu:false,
             dateFr: '',
             dateTo: '',
             findTp: 'codeNm',
@@ -165,7 +134,8 @@ export default {
             perPage: 10,
             paginationPageSize: store.state.paginationPageSize,
             perCodeNo: 1,
-
+            ctxFontSize:[],
+            ctxConfig:[],
         }
     },
 
@@ -174,9 +144,11 @@ export default {
     beforeDestroy() {
       this.clearTimeout()
     },
-
-    beforeMount() {
-
+    watch: {
+        menu (val) {
+            console.log(val)
+            val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
+        }
     },
     created() {
         this.config = {
@@ -188,6 +160,16 @@ export default {
     },
 
     methods: {
+        saveYear(year) {
+            console.log(this.$refs.menu,year)
+            this.dateSelect = year
+            this.$refs.menu.save(year)
+            // Reset activePicker to type YEAR
+            this.$refs.picker.activePicker = 'YEAR'
+
+            // Close the menu/datepicker
+            this.menu = false
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -251,20 +233,145 @@ export default {
                     alert("기본코드목록 추출실패\n" + err.message);
                 })
         },
-        getList(){
-            console.log()
+        getList() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }else if(store.state.ckServer.length >= 2){
+                alert("사업장은 한곳만 선택할수 있습니다.")
+                return;
+            }
+          
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            this.$Axios.post("/api/daedan/cj/ems/stat/normalDistributionByEquip", {
+                    check:"Mon",
+                    dateFr: String(this.dateFr),
+                    serverKey: store.state.ckServer[0],
+                    cateList: store.state.ckCate,
+                    equipList: store.state.ckEquip,
+                    pageNo: this.pageNo,
+                    pageSz: 10000,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            this.List = []
+                            let test = []
+                            let yearlists = []
+                            console.log(res.data.data)
+                            test = res.data.data.reduce((acc,v) => {
+                                let key = Object.values(v).slice(1,2).join('')
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            res.data.data.map(e=>{
+                                yearlists.push(e.yearlist)
+                            })
+                            console.log(test)
+                            yearlists = [...new Set(yearlists)]
+                            yearlists.map(e=>{    
+                                that.List.push(test[e])
+                            })
+                        
+                            that.listCount = res.data.totalCount
+                            console.log(this.List)
+
+                            setTimeout(() => {
+                                this.randarChart()
+                            }, 100);
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("월간통계데이터목록 추출 실패 \n" + err);
+                })
         },
-        // 조회버튼 클릭
-        searchBtn() {
-            console.log()
-        },
-        // 엑셀저장버튼 클릭
-        excelBtn() {
-            console.log()
-        },
-        // 그래프버튼 클릭
-        graphBtn() {
-            console.log()
+        randarChart() {
+            if (this.Chart) {
+                this.Chart.destroy();
+            }
+            
+            this.List.map((e,idx) => {
+                const chartList = []
+                this.inletgraphLabel = []
+                e.map(item => {
+                    chartList.push(item.outlet_data_value)
+                    this.inletgraphLabel.push(item.to_char)
+                })
+
+                this.ctxDaily = document.getElementById('chart'+idx).getContext('2d');
+
+                this.ctxDaily.height = "100%";
+                this.ctxDaily.width = "100%";
+                // this.ctxDaily.font = "5rem";
+                // console.log(this.dailyChartLabel,this.dailyChartData)
+                let ctxFontSize = 14
+                this.ctxConfig = {
+                    type: 'line',
+                    options: {
+                        position: 'bottom',
+                        responsive: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                    beginAtZero: true,
+                                    fontSize: ctxFontSize
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontSize: ctxFontSize
+                                }
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#444',
+                                align: 'center',
+                                anchor: 'end',
+                                font: {
+                                    family: 'Roboto',
+                                    size: 14,
+                                    weight: 700
+                                },
+                                // display: function(context) {
+                                //     return context.dataset.data[context.dataIndex] > 0;
+                                // },
+
+                                //backgroundColor: 'rgba(255.255.255,0.8)',
+                                borderRadius: 4
+                            }
+                        },
+                        maintainAspectRatio: false,
+                    },
+                    data: {
+
+                        labels: this.inletgraphLabel,
+                        datasets: [
+                            {
+                                label: '측정값',
+                                borderColor: '#42f13f',
+                                backgroundColor: 'transparent',
+                                data: chartList
+                                // data:this.dailyChartData
+                            }
+    
+                        ]
+                    },
+                }
+                this.Chart = new Chart(this.ctxDaily, this.ctxConfig);
+                this.Chart.update()
+                this.busy = false
+            })
         }
 
     },
