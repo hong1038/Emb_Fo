@@ -53,7 +53,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" ></b-form-select>
+                                        <b-form-select class="col" v-model="category" :options="comboCategories" size="sm" ></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
@@ -337,6 +337,7 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.comboServers = res.data.data.serverList; //사업장
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
+                            console.log(that.comboCategories)
                         }
                     }
                 })
@@ -378,13 +379,13 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
-                            this.busy = false;
                         }
                     }
                 })
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+                this.Loadbusy = false;
         },
 
         onPageChange(params) {
@@ -395,7 +396,9 @@ export default {
             console.log("onRowClck.obj = " + obj);
         },
         addOn(obj) {
+            console.log(obj)
             this.server_key = obj.data.server_key
+            this.category = obj.data.category
             this.category_cd = obj.data.category_cd
             this.problem = obj.data.problem
             this.prevention_date = obj.data.prevention_date

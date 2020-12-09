@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-5">
                                     <input type="button" value="조회" class="s_btn01" v-on:click="getList">
-                                    <input type="button" value="등록" class="s_btn02" v-on:click="addOn">
+                                    <input type="button" value="등록" class="s_btn02" v-on:click="addOn2">
                                     <input type="button" value="엑셀 저장" class="s_btn03" v-on:click="excelBtn">
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" > 
+                                        <b-form-select class="col" v-model="erInfo.category_cd" :options="comboCategories" size="sm" > 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
@@ -189,6 +189,14 @@ export default {
             comboFacilities: [], //시설분류
             comboLocations: [], //위치분류
             server_key:[],
+            category_cd:null,
+            equipment_key:null,
+            abnormal_type:null,
+            rs_date:null,
+            cause:null,
+            action:null,
+            action_date:null,
+            action_type:null,
             list: [],
             listCount: 0,
             pageNo: 1,
@@ -275,6 +283,7 @@ export default {
     },
     watch:{
         server_key(){
+            this.erInfo.server_key = this.server_key
             this.getEquips()
         }
     
@@ -284,7 +293,11 @@ export default {
     },
 
     methods: {
+        addOn2(){
+            this.showblock();
+        },
         clearTimeout() {
+            
             if (this.timeout) {
             clearTimeout(this.timeout)
             this.timeout = null
@@ -312,11 +325,22 @@ export default {
         onCancel() {
             this.busyPop = false
         },
-        addOn() {
-            // //this.server_key = null; //사업장
+        addOn(obj) {
+            console.log(obj)
+            // this.server_key = null; //사업장
             // this.equipment_key = null; //측정위치
             // this.category = null; //측정분야명
             // this.category_cd = null; //측정분야코드
+
+            this.erInfo.server_key = obj.data.server_key
+            this.erInfo.category_cd = obj.data.category_cd
+            this.erInfo.equipment_key = obj.data.equipment_key
+            this.erInfo.abnormal_type = obj.data.abnormal_type
+            this.erInfo.rs_date = obj.data.rs_date
+            this.erInfo.cause = obj.data.cause
+            this.erInfo.action = obj.data.action
+            this.erInfo.action_date = obj.data.action_date
+            this.erInfo.action_type = obj.data.action_type
             // this.sensors = [];
             this.showblock();
         },
@@ -364,6 +388,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log("etttestsetstest")
                             that.comboEquipments = res.data.data.equipPos; //측정위치
                         }
                     }
@@ -432,11 +457,7 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
-            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
-            
+
             this.onClick();
 
             let that = this;
@@ -463,31 +484,18 @@ export default {
                 })
         },
         saveInfo() {
-            if (!this.server_key) {
+            if (!this.erInfo.server_key) {
                 alert("사업자는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.equipment_key) {
-                alert("설치장소는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.category_cd) {
-                alert("분야는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.facility) {
-                alert("시설분류는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.location) {
+            if (!this.erInfo.equipment_key) {
                 alert("측정위치는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.usedSensors) {
-                alert("선택된 분석항목이 없습니다.")
+            if (!this.erInfo.category_cd) {
+                alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
-
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {

@@ -20,11 +20,19 @@
                                         <datetime type="date" v-model="dateTo" class="datetime"></datetime>
                                     </div>
                                 </div>
+                                
                                 <div class="col-3">
-                                    <input type="button" class="c_btn01" value="조회" v-on:click="getList">
-                                    <input type="button" class="c_btn02" value="등록" v-on:click="addOn2">
+                                    <button class="c_btn00" v-on:click="search()">search</button>
+                                    <b-form-select v-model="select_type" class="c_btn01"> 
+                                        <option value="All">All</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </b-form-select>
+                                    <input type="button" class="c_btn02" value="조회" v-on:click="getList">
+                                    <!-- <input type="button" class="c_btn02" value="등록" v-on:click="addOn2"> -->
                                     <input type="button" class="c_btn03" value="엑셀 저장" v-on:click="excelBtn">
                                 </div>
+
                             </div>
                         </div>
                         <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
@@ -35,7 +43,7 @@
                                     <b-col class="popUpTitle">변경점<br>대응 등록</b-col>
                                     <input type="button" class="systemSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
                                     <input type="button" class="systemListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
-                                    <input type="button" class="systemListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
+                                    <!-- <input type="button" class="systemListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제"> -->
                                 </b-row>
                                 <div>
                                     <b-row>
@@ -71,8 +79,8 @@
 
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">흡입구 이상점 발생여부</b-col>
-                                        <b-form-select class="col" v-model="occur" :options="occurBox" size="sm" disabled>
-                                        </b-form-select>
+                                        <b-form-input class="col" v-model="occur" :options="occurBox" size="sm" disabled>
+                                        </b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-4">변경점 / 이상점 확인결과 원인</b-col>
@@ -167,6 +175,7 @@ export default {
             hide:false,
             busyPop: false,
 
+            select_type: null,
             comboServers: null, //사업장   
             comboCategories: null, //측청분야     
             comboEquipments: null, //측정위치
@@ -188,6 +197,7 @@ export default {
             dateTo: "",
             gridOptions:{}, 
             list: [],
+            list2: [],
             listCount: 0,
             pageNo: 1,
             perPage: 10,
@@ -247,7 +257,7 @@ export default {
                             width: '80px'
                         },
                         {
-                            field: 'procRate',
+                            field: 'occur',
                             headerName: '이상점 발생여부',
                             type: 'number',
                             width: '150px'
@@ -317,6 +327,20 @@ export default {
     },
 
     methods: {
+        search(){
+            if (this.list.length === 0) {
+                alert('조회된 리스트가 없습니다.')
+                return
+            }
+
+            if (this.select_type === null || this.select_type === "All" || this.select_type === "") {
+                this.list = this.list2
+                return
+            }
+            
+            this.list = this.list2.filter(e=> e.occur === this.select_type)
+            
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -352,6 +376,7 @@ export default {
             this.prevention_date = obj.data.prevention_date
             this.server_name = obj.data.server_name
             this.category = obj.data.category
+            this.occur = obj.data.occur
             this.category_cd = obj.data.category_cd
             this.inlet_max_value = obj.data.inlet_max_value
             this.inlet_min_value = obj.data.inlet_max_value
@@ -511,7 +536,12 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            res.data.data.map(e => {
+                                e.occur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
+                                console.log(e)
+                            })
                             that.list = res.data.data
+                            that.list2 = res.data.data
                             that.listCount = res.data.totalCount
                         }
                     }
@@ -696,7 +726,7 @@ export default {
     box-sizing: border-box;
     border-bottom: 1px solid rgb(170, 170, 170);
 }
-
+.c_btn00,
 .c_btn01,
 .c_btn02,
 .c_btn03 {
@@ -714,7 +744,9 @@ export default {
     box-shadow: 0px 0px 3px blue;
     font-size: 16px;
 }
-
+.c_btn00 {
+    right: 520px;
+}
 .c_btn01 {
     right: 360px;
 }

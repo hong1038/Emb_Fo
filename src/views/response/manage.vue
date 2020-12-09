@@ -43,7 +43,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm" ></b-form-select>
+                                        <b-form-select class="col" v-model="category" :options="comboCategories" size="sm" ></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
@@ -55,8 +55,8 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">특이사항</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="issue"></b-form-input>
                                     </b-row>
+                                        <b-form-textarea class="col" style="max-height:306px;min-height:306px" type="text" size="sm" v-model="issue"></b-form-textarea>
                                 </div>
                         </b-card>
                     </div>
@@ -457,12 +457,17 @@ export default {
         graphBtn() {
             console.log();
         },
-        addOn() {
+        addOn(obj) {
+            console.log(obj)
+            this.equipment_key = obj.data.equipment_key; //측정위치
+            this.category = obj.data.category; //측정분야명
+            this.category_cd = obj.data.category_cd; //측정분야코드
+            this.prevention_date = obj.data.prevention_date
+            this.issue = obj.data.issue
+            this.server_key = obj.data.server_key; //사업장
             // this.mno = null; //관리번호
             // //this.server_key = null; //사업장
-            // this.equipment_key = null; //측정위치
-            // this.category = null; //측정분야명
-            // this.category_cd = null; //측정분야코드
+
             // this.facility = null; //시설분류
             // this.location = null; //위치분류
             // this.legal_standard = null; //법적기준

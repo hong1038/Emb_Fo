@@ -21,8 +21,8 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <input class="md_btn01" type="button" v-on:click="getList" value="조회">
-                                <input class="md_btn02" type="button" v-on:click="addOn" value="등록">
+                                <input class="md_btn02" type="button" v-on:click="getList" value="조회">
+                                <!-- <input class="md_btn02" type="button" v-on:click="addOn" value="등록"> -->
                                 <input class="md_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                     <b-col class="popUpTitle">초과이력 대응 등록</b-col>
                                     <input type="button" class="mmSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
                                     <input type="button" class="mmListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
-                                    <input type="button" class="mmListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
+                                    <!-- <input type="button" class="mmListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제"> -->
                                 </b-row>
                                 <div>
                                     <b-row>
@@ -70,7 +70,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">흡입구 이상점 발생여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="inlet_" readonly></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="inoccur" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">배출구 최대</b-col>
@@ -86,7 +86,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">배출구 이상점 발생여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="outlet_"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="outoccur" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">방지시설 처리효율</b-col>
@@ -236,7 +236,7 @@ export default {
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'inoccur',
                             headerName: '이상점 발생여부',
                             type: 'number',
                             width: '140px'
@@ -266,7 +266,7 @@ export default {
                             width: '100px'
                         },
                         {
-                            field: '',
+                            field: 'outoccur',
                             headerName: '이상점 발생여부',
                             type: 'number',
                             width: '140px'
@@ -348,7 +348,6 @@ export default {
             this.busyPop = false
         },
         addOn(obj) {
-            console.log(obj)
             this.prevention_date = obj.data.prevention_date
             // this.mno = obj.data.mno; //관리번호
             this.server_key = obj.data.server_key; //사업장
@@ -372,6 +371,8 @@ export default {
             this.outlet_max_value = obj.data.outlet_max_value
             this.outlet_avg_value = obj.data.outlet_avg_value
             this.re_key = obj.data.re_key
+            this.inoccur = obj.data.inoccur
+            this.outoccur = obj.data.outoccur
 
             this.unit = obj.data.unit; //단위
             // this.internal_name = null; //내부관리명
@@ -425,6 +426,11 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            res.data.data.map(e => {
+                                e.inoccur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
+                                e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
+                                console.log(e)
+                            })
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
                         }
