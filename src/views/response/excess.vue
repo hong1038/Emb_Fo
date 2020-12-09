@@ -21,9 +21,9 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <input class="md_btn02" type="button" v-on:click="getList" value="조회">
+                                <input class="e_btn01" type="button" v-on:click="getList" value="조회">
                                 <!-- <input class="md_btn02" type="button" v-on:click="addOn" value="등록"> -->
-                                <input class="md_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
+                                <input class="e_btn02" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </div>
                         </div>
                     </div>
@@ -637,9 +637,8 @@ export default {
     border-bottom: 1px solid rgb(170, 170, 170);
 }
 
-.md_btn01,
-.md_btn02,
-.md_btn03 {
+.e_btn01,
+.e_btn02{
     position: absolute;
     top: 0;
     width: 150px;
@@ -655,14 +654,10 @@ export default {
     font-size: 16px;
 }
 
-.md_btn01 {
-    right: 360px;
-}
-
-.md_btn02 {
+.e_btn02 {
     right: 190px;
 }
-.md_btn03{
+.e_btn01{
     right: 20px;
 }
 

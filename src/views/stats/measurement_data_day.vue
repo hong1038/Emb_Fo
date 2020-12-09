@@ -548,7 +548,6 @@ export default {
 .measurementDayDateCheck>div>div>div:nth-child(1) {
     width: 80px;
     font-size: 16px;
-    line-height: 32px;
 }
 
 .measurementDayDateCheck>div>div>div:nth-child(2),
@@ -562,6 +561,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .measurementDayDateCheck>div>div>div>input {
