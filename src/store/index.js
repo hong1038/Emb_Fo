@@ -26,6 +26,9 @@ export default new Vuex.Store({
     baseAreaCode:100,
     areaCode:0,
     bgImg:null,
+    sInlet:510,
+    sMidlet:511,
+    sOutlet:512,
     gArea:1000,   // 경인권역
     mArea:1001,   // 중부권역
     yArea:1003,   // 영남권역

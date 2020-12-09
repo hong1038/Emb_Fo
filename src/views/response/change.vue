@@ -600,7 +600,8 @@ export default {
                     // mno: this.mno,
                     server_key: this.server_key,
                     equipment_key: this.equipment_key,
-                    category: this.category_cd,
+                    category_cd: this.category_cd,
+                    category:this.category,
                     prevention_date: this.prevention_date,
                     inlet_max_value: this.inlet_max_value,
                     inlet_avg_value: this.inlet_avg_value,
@@ -615,7 +616,6 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.saveblock();
                             that.getList();
                         }
                     }
@@ -623,6 +623,7 @@ export default {
                 .catch(err => {
                     alert("측정기별기준정보저장 실패 \n" + err);
                 })
+            this.showblock();
             this.busyPop = false;
 
         },
