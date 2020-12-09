@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-5">
                                 <input type="button" value="조회" class="m_btn01" v-on:click="getList">
-                                <input type="button" value="등록" class="m_btn02" v-on:click="addOn">
+                                <input type="button" value="등록" class="m_btn02" v-on:click="addOn2">
                                 <input type="button" value="엑셀 저장" class="m_btn03" v-on:click="excelBtn">
                             </div>
                         </div>
@@ -216,7 +216,7 @@ export default {
                 },
                 {
                     field: 'prevention_date',
-                    headerName: '측정일시',
+                    headerName: '날짜',
                     width: '150px'
                 },
                 {
@@ -459,25 +459,24 @@ export default {
         },
         addOn(obj) {
             console.log(obj)
+            this.rm_key = obj.data.rm_key;
             this.equipment_key = obj.data.equipment_key; //측정위치
             this.category = obj.data.category; //측정분야명
             this.category_cd = obj.data.category_cd; //측정분야코드
             this.prevention_date = obj.data.prevention_date
             this.issue = obj.data.issue
             this.server_key = obj.data.server_key; //사업장
-            // this.mno = null; //관리번호
-            // //this.server_key = null; //사업장
-
-            // this.facility = null; //시설분류
-            // this.location = null; //위치분류
-            // this.legal_standard = null; //법적기준
-            // this.manage_standard = null; //관리기준
-            // this.unit = null; //단위
-            // this.internal_name = null; //내부관리명
-            // this.internal_number = null; //내부관리번호
-            // this.public_name = null; //공정명
-            // this.odor_number = null; //악취방지시설고유일련번호
-            // this.sensors = [];
+            this.showblock();
+        },
+        // 등록버튼 클릭시
+        addOn2() {
+            this.rm_key = null;
+            this.equipment_key = null; //측정위치
+            this.category = null; //측정분야명
+            this.category_cd = null; //측정분야코드
+            this.prevention_date = null
+            this.issue = null
+            this.server_key = null; //사업장
             this.showblock();
         },
         saveInfo() {
@@ -485,7 +484,7 @@ export default {
                 alert("사업자는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.category_cd) {
+            if (!this.category) {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
@@ -511,7 +510,8 @@ export default {
                     rm_key:this.rm_key,
                     server_key: this.server_key,
                     equipment_key: this.equipment_key,
-                    category: this.category_cd,
+                    category_cd: this.category_cd,
+                    category: this.category,
                     prevention_date:this.prevention_date,
                     issue:this.issue,                    
                     userId: store.state.userInfo.userId
@@ -535,22 +535,22 @@ export default {
             this.workTp = "DROP_INFO"
         },
         async dropInfoProc() {
-            // let that = this;
-            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
-            //         mno: this.mno,
-            //         userId: store.state.userInfo.userId
-            //     }, this.config)
-            //     .then(res => {
-            //         if (res.status === 200) {
-            //             if (res.data.statusCode === 200) {
-            //                 that.saveblock();
-            //                 that.getList();
-            //             }
-            //         }
-            //     })
-            //     .catch(err => {
-            //         alert("측정기별기준정보삭제 실패 \n" + err);
-            //     })
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/response/manageDel", {
+                    rmKey: this.rm_key,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.saveblock();
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보삭제 실패 \n" + err);
+                })
             this.busyPop = false;
         },
     }

@@ -190,7 +190,7 @@ export default {
                 //     ]
                 // },
                 {
-                    field: 'proc_rate',
+                    field: 'proc_rt',
                     headerName: '처리효율',
                     type: 'number',
                     width: '146px'

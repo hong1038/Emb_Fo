@@ -226,12 +226,12 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '250px'
+                    width: '130px'
                 },
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '250px'
+                    width: '80px'
                 },
                 {
                     field: 'problem',
@@ -241,17 +241,17 @@ export default {
                 {
                     field: 'action',
                     headerName: '대응방안',
-                    width: '300px'
+                    width: '636px'
                 },
                 {
                     field: 'prevention_date',
-                    headerName: '개선일정',
-                    width: '150px'
+                    headerName: '개선 일정',
+                    width: '120px'
                 },
                 {
                     field: 'abnormal_type',
-                    headerName: '완료여부',
-                    width: '150px'
+                    headerName: '완료 여부',
+                    width: '140px'
                 },
             ],
         }
@@ -357,7 +357,6 @@ export default {
                 return;
             }
             
-
             this.onClick();
 
             let that = this;

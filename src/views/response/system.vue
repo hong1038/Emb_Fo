@@ -220,7 +220,7 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '160px'
                 },
@@ -235,7 +235,7 @@ export default {
                     width: '160px'
                 },
                 {
-                    field: 'response_date',
+                    field: 'rs_date',
                     headerName: '발생일자',
                     width: '140px'
                 },
@@ -344,10 +344,10 @@ export default {
             // this.sensors = [];
             this.showblock();
         },
-        // saveblock() {
-        //     this.show = !this.show
-        //     this.resizing()
-        // },
+        saveblock() {
+            this.show = !this.show
+            this.resizing()
+        },
         resizing() {
             setTimeout(() => {
                 this.gridOptions.api.sizeColumnsToFit()
@@ -496,6 +496,13 @@ export default {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
+            
+
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+        async saveInfoProc() {
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
@@ -512,12 +519,6 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
-
-            this.busyPop = true;
-            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
-            this.workTp = "SAVE_INFO"
-        },
-        async saveInfoProc() {
             // let that = this;
             // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
             //         mno: this.mno,
@@ -548,6 +549,8 @@ export default {
             //     .catch(err => {
             //         alert("측정기별기준정보저장 실패 \n" + err);
             //     })
+            this.saveblock();
+            this.getList();
             this.busyPop = false;
 
         },
