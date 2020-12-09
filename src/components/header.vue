@@ -1188,7 +1188,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .dateSelect {
     position: relative;
     width: 150px;
-    height: 30px;
+    height: 24px;
     cursor: pointer;
 }
 
@@ -1259,6 +1259,10 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .v-input__slot {
     margin-bottom: 0;
+}
+
+.v-text-field > .v-input__control > .v-input__slot:before{
+    border-style:none;
 }
 
 .v-text-field__details {

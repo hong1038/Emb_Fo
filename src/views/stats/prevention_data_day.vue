@@ -653,7 +653,6 @@ export default {
 .pddDateCheck>div {
     position: relative;
     height: 100%;
-    line-height: 30px;
     text-align: left;
 }
 
@@ -664,13 +663,13 @@ export default {
 .pddDateCheck>div>div>div:nth-child(1) {
     width: 80px;
     font-size: 16px;
-    line-height: 32px;
 }
 
 .pddDateCheck>div>div>div:nth-child(2) {
     width: 150px;
     font-size: 14px;
     font-family: 'Arial';
+    text-align: center;
 }
 
 .pddDateCheck>div>div:nth-child(2)>input {

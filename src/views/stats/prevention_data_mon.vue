@@ -519,13 +519,11 @@ export default {
 
 .pdmDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .pdmDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 32px;
 }
 
 .pdmDateCheck>div>div>div:nth-child(2),
@@ -539,6 +537,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .pdmDateCheck>div>div>div>input {
