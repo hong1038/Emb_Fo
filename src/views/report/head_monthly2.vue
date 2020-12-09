@@ -99,13 +99,18 @@ export default {
             fields: [
                 {
                     field: '',
-                    headerName: '대분류',
+                    headerName: '권역',
+                    width: '100px'
+                },
+                {
+                    field: 'server_name',
+                    headerName: '사업장',
                     width: '140px'
                 },
                 {
                     field: '',
-                    headerName: '소분류',
-                    width: '140px'
+                    headerName: '구분',
+                    width: '80px'
                 },
                 {
                     field: '',
@@ -114,33 +119,126 @@ export default {
                 },
                 {
                     field: '',
-                    headerName: '경인권',
-                    width: '190px'
+                    headerName: '환경모니터링',
+                    children:[
+                        {
+                            field : '',
+                            headerName : '측정기, 방지시설 문제/이슈대응(기계적 문제)',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '센서 이상',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '통신 이상',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '설비 이상',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        }
+                    ]
                 },
                 {
                     field: '',
-                    headerName: '중부권',
-                    width : '190'
-                },
-                {
-                    field: '',
-                    headerName: '남부권',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '영남권',
-                    width : '190'
-                },
-                {
-                    field: '',
-                    headerName: '계열사',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '합계',
-                    width : '190'
+                    headerName: '모니터링 이상 대응',
+                    children : [
+                        {
+                            field : '',
+                            headerName : '악취',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                        {
+                            field : '',
+                            headerName : '수질',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                        {
+                            field : '',
+                            headerName : '대기',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                        {
+                            field : '',
+                            headerName : '합계',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '110'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                    ]
+                        
                 },
             ],
         }
