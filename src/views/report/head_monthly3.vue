@@ -12,20 +12,22 @@
                                 <span style="position:absolute; padding-left:30px; line-height:10px;">월 선택</span>
                             </b-col>
                             <b-col cols="2">
-                                <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field v-model="dateFr" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="menu = false">
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                        OK
-                                    </v-btn>
-                                </v-date-picker>
-                            </v-menu>
+                                <div class="dateSelect">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="dateFr" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
+                                            <v-spacer></v-spacer>
+                                            <v-btn text color="primary" @click="menu = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
+                                                OK
+                                            </v-btn>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </div>
                             </b-col>
                             <v-spacer></v-spacer>
                             <b-col cols="1">
