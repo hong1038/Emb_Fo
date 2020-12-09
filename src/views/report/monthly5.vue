@@ -134,6 +134,7 @@ export default {
             list: [],
             listCount: 0,
             pageNo: 1,
+            pageSz:store.state.paginationPageSize,
             perPage: 10,
 
             errorListCount:0,
@@ -283,8 +284,8 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.inletList = res.data.data
-                            that.inletListCount = res.data.totalCount
+                            that.errorList = res.data.data
+                            that.errorListCount = res.data.totalCount
                         }
                     }
                 })

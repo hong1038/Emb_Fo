@@ -95,7 +95,8 @@ export default {
         return {
             selectWorkplace: "",
             dateFr: "",
-
+            list:[],
+            listCount:0,
             fields: [
                 {
                     field: '',

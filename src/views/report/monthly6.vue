@@ -134,6 +134,7 @@ export default {
             list: [],
             listCount: 0,
             pageNo: 1,
+            pageSz:store.state.paginationPageSize,
             perPage: 10,
 
             etcListCount:0,

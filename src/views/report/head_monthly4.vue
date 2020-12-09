@@ -95,7 +95,8 @@ export default {
         return {
             selectWorkplace: "",
             dateFr: "",
-
+            list:[],
+            listCount:0,
             fields: [
                 {
                     field: '',
@@ -135,7 +136,7 @@ export default {
                 {
                     field: '',
                     headerName: '초과사항 확인결과 원인',
-                    width: '300px'
+                    width: '315px'
                 },
                 {
                     field: '',

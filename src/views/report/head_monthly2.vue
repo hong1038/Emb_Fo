@@ -95,7 +95,8 @@ export default {
         return {
             selectWorkplace: "",
             dateFr: "",
-
+            list:[],
+            listCount:0,
             fields: [
                 {
                     field: '',
@@ -105,7 +106,7 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '140px'
+                    width: '130px'
                 },
                 {
                     field: '',
@@ -128,17 +129,17 @@ export default {
                                 {
                                     field : '',
                                     headerName : '센서 이상',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
                                     headerName : '통신 이상',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
                                     headerName : '설비 이상',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
@@ -160,12 +161,12 @@ export default {
                                 {
                                     field : '',
                                     headerName : '농도 상승',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
                                     headerName : '수치 오류',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
@@ -181,12 +182,12 @@ export default {
                                 {
                                     field : '',
                                     headerName : '농도 상승',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
                                     headerName : '수치 오류',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
@@ -202,12 +203,12 @@ export default {
                                 {
                                     field : '',
                                     headerName : '농도 상승',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
                                     headerName : '수치 오류',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
@@ -223,12 +224,12 @@ export default {
                                 {
                                     field : '',
                                     headerName : '농도 상승',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',
                                     headerName : '수치 오류',
-                                    width : '110'
+                                    width : '109'
                                 },
                                 {
                                     field : '',

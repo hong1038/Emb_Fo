@@ -95,7 +95,8 @@ export default {
         return {
             selectWorkplace: "",
             dateFr: "",
-
+            list:[],
+            listCount:0,
             fields: [
                 {
                     field: '',
@@ -134,12 +135,12 @@ export default {
                         {
                             field : '',
                             headerName : '문제점/이슈사항',
-                            width: '400'
+                            width: '418'
                         },
                         {
                             field : '',
                             headerName : '대응 방안',
-                            width: '400'
+                            width: '470'
                         },
                         {
                             field : '',
@@ -151,7 +152,7 @@ export default {
                 {
                     field: '',
                     headerName: '완료 상태',
-                    width: '190px'
+                    width: '110px'
                 },
             ],
         }

@@ -167,7 +167,7 @@ export default {
                     width: '600px'
                 },
                 {
-                    field: 'action_date',
+                    field: 'prevention_date',
                     headerName: '개선일정',
                     width: '180px'
                 },
@@ -266,8 +266,8 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.inletList = res.data.data
-                            that.inletListCount = res.data.totalCount
+                            that.summaryList = res.data.data
+                            that.summaryListCount = res.data.totalCount
                         }
                     }
                 })
