@@ -11,7 +11,7 @@
                         <div class="msDateCheck container-fluid mt-4">
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">월 선택</div>
+                                    <div class="float-left">월 선택</div>
                                     <div class="dateSelect float-left">
                                     <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
@@ -355,14 +355,11 @@ export default {
 
 .msDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .msDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
 .msDateCheck>div>div>div:nth-child(2),
@@ -376,6 +373,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .msDateCheck>div>div>div>input {

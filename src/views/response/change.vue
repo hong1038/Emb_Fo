@@ -23,7 +23,7 @@
                                 
                                 <div class="col-3">
                                     <button class="c_btn00" v-on:click="search()">search</button>
-                                    <b-form-select v-model="select_type" class="c_btn01"> 
+                                    <b-form-select v-model="select_type" class=" managerLocation"> 
                                         <option value="All">All</option>
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
@@ -669,6 +669,30 @@ export default {
     font-family: "CJ Onlyone Bold";
     src: url(/fonts/CJOnlyoneBold.ttf);
     font-weight: bold;
+}
+
+.managerLocation {
+    position: absolute;
+    top: 0px;
+    right: 360px;
+    width: 150px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 20px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding-left:8px;
+    box-shadow: 0px 0px 3px blue;
+    text-decoration: none;
+    color: black;
+}
+
+.managerLocation>option{
+    padding-left:5px;
 }
 
 .con_box_right {

@@ -12,20 +12,6 @@
                             <b-col cols="7">
                                 <div>날짜 선택 </div>
                                 <div class="dateSelect">
-                                    <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="date" transition="scale-transition" offset-y min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field :placeholder="currentDate" v-model="date" label="" prepend-icon=" mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu> -->
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
                             </b-col>
@@ -35,7 +21,7 @@
                             </b-col>
                         </b-row>
                     </div>
-                    <div class="maintenancetableWrap text-center container-fluid">
+                    <div class="mt-4 container-fluid">
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
                         </ag-grid-vue>
                     </div>
@@ -239,32 +225,6 @@ export default {
     text-align: left;
 }
 
-.mailRPlus {
-    position: absolute;
-    top: 20px;
-    right: 15px;
-    width: 150px;
-    height: 40px;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: rgb(187, 231, 248);
-    box-shadow: 0px 0px 3px blue;
-    font-size: 14px;
-    text-decoration: none;
-    line-height: 40px;
-    text-align: center;
-    color: black;
-}
-
-.mailRPlus:hover {
-    font-weight: bold;
-    background: rgb(81, 81, 255);
-    color: white;
-    text-decoration: none;
-}
-
 /* Top DateCheck , search and Excel Save*/
 .maintenanceDateCheck {
     width: 100%;
@@ -274,14 +234,12 @@ export default {
 
 .maintenanceDateCheck>div>div>div {
     float: left;
-    height: 100%;
+    
 }
 
 .maintenanceDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
 .maintenanceDateCheck>div>div>div:nth-child(2),
@@ -295,6 +253,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .maintenanceDateCheck>div>div>div>input {
@@ -342,28 +301,5 @@ export default {
 
 .v-input__prepend-outer {
     display: none;
-}
-
-/* Contents */
-.con_table {
-    height: 50px;
-    border: 1px solid #d7dadd;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background: #f9fcff;
-}
-
-.con_table>div {
-    height: inherit;
-    line-height: 50px;
-    font-family: "CJ Onlyone Bold";
-}
-
-.con_table>div>div {
-    font-size: 18px;
-}
-
-.maintenanceInner .v-application p {
-    margin-bottom: 0;
 }
 </style>
