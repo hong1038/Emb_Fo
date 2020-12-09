@@ -1166,6 +1166,9 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .ag-theme-alpine-dark .ag-ltr .ag-cell:last-child {
     border-right: transparent;
 }
+.ag-header-group-text{
+    margin:0 auto;
+}
 
 /*vdatetime-input*/
 .vdatetime {
