@@ -6,49 +6,52 @@
             <div class="con headMonthlyCon">
                 <div class="con_box_right container-fluid">
                     <p>본부 월말 보고 통계</p>
+                    <div class="container-fluid">
+                        <b-row class="hmDateSelect">
+                            <b-col cols="1">
+                                <span style="position:absolute; padding-left:30px; line-height:10px;">월 선택</span>
+                            </b-col>
+                            <b-col cols="2">
+                                <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field v-model="dateFr" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
+                                    <v-spacer></v-spacer>
+                                    <v-btn text color="primary" @click="menu = false">
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn text color="primary" @click="$refs.menu.save(date)">
+                                        OK
+                                    </v-btn>
+                                </v-date-picker>
+                            </v-menu>
+                            </b-col>
+                            <v-spacer></v-spacer>
+                            <b-col cols="1">
+                                <v-btn>조회</v-btn>
+                            </b-col>
+                            
+                        </b-row>
+                    </div>
                     <div class="hmtableSelectBox container-fluid">
                         <b-row>
-                            <b-col cols="2">
+                            <b-col cols="3">
                                 <router-link :to="{ name: 'headMonthly1'}" >전체 통계</router-link>
                             </b-col>
-                            <b-col cols="2">
+                            <b-col cols="3">
                                 <router-link :to="{ name: 'headMonthly2'}">유형별 통계</router-link>
                             </b-col>
-                            <b-col cols="2"  class="check01">
+                            <b-col cols="3" class="check01">
                                 <router-link :to="{ name: 'headMonthly3'}">문제점 / 이슈사항</router-link>
                             </b-col>
-                            <b-col cols="2">
+                            <b-col cols="3">
                                 <router-link :to="{ name: 'headMonthly4'}">이상점 및 비정상 대응 확인</router-link>
                             </b-col>
-                            <b-col cols="4">
-                                <b-row class="hmDateSelect">
-                                    <v-spacer></v-spacer>
-                                    <b-col cols="2">
-                                        <span style="position:absolute; top:5px; right:0;">월 선택</span>
-                                    </b-col>
-                                    <b-col cols="3">
-                                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="dateFr" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                    </b-col>
-                                    <b-col cols="4">
-                                        <v-btn>조회</v-btn>
-                                    </b-col>
-                                    
-                                </b-row>
-                            </b-col>
                         </b-row>
+                    </div>
+                    <div>
+                    
                     </div>
                     <div class="con_tableWrap">
                         <ag-grid-vue style="width: 100%; height: 630px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
@@ -92,17 +95,18 @@ export default {
         return {
             selectWorkplace: "",
             dateFr: "",
-
+            list:[],
+            listCount:0,
             fields: [
                 {
                     field: '',
                     headerName: '권역',
-                    width: '120px'
+                    width: '100px'
                 },
                 {
-                    field: '',
+                    field: 'server_name',
                     headerName: '사업장',
-                    width: '150px'
+                    width: '140px'
                 },
                 {
                     field: '',
@@ -112,7 +116,7 @@ export default {
                 {
                     field: '',
                     headerName: '측정위치',
-                    width: '150px'
+                    width: '190px'
                 },
                 {
                     field: '',
@@ -122,33 +126,33 @@ export default {
                 {
                     field: '',
                     headerName: '발생 일자',
-                    width: '150px'
+                    width: '190px'
                 },
                 {
                     field: '',
                     headerName: '문제점 개선 계획',
-                    children:[
+                    children : [
                         {
                             field : '',
-                            headerName : '문제점 / 이슈사항',
-                            width: '450'
+                            headerName : '문제점/이슈사항',
+                            width: '418'
                         },
                         {
                             field : '',
-                            headerName : '대응방안',
-                            width: '450'
+                            headerName : '대응 방안',
+                            width: '470'
                         },
                         {
                             field : '',
                             headerName : '일정',
                             width: '80'
-                        }
+                        },
                     ]
                 },
                 {
                     field: '',
                     headerName: '완료 상태',
-                    width: '120px'
+                    width: '110px'
                 },
             ],
         }
@@ -194,8 +198,9 @@ export default {
     position: relative;
 }
 
-.con_box_right>p {
-    width: 400px;
+
+.con_box_right p {
+    width:400px;
     height: 50px;
     font-family: "CJ Onlyone Bold";
     font-size: 24px;
@@ -204,6 +209,39 @@ export default {
     padding-left: 10px;
     text-align: left;
 }
+
+
+.hmDateSelect{
+    height:50px;
+    font-size:20px;
+}
+
+.hmDateSelect .v-input{
+    position:absolute;
+    top:0px;
+    left:-20px;
+    width:50%;
+}
+
+.hmDateSelect .v-input input{
+    padding-left:5px;
+    font-size:16px;
+}
+
+.hmDateSelect button{
+    position:absolute;
+    top:0px;
+    right:20px;
+    width:150px;
+    height:30px;
+    background: rgb(187, 231, 248) !important;
+    box-shadow: 0px 0px 3px blue;
+}
+
+.hmDateSelect button span{
+    font-size:16px;
+}
+
 
 /*  search and Excel Save*/
 
@@ -223,12 +261,6 @@ export default {
     border:1px solid rgb(97, 97, 97);
 }
 
-
-.hmtableSelectBox>div>div:last-child{
-    background:white;
-    border:none;
-}
-
 .hmtableSelectBox>div>.check01{
     background:black;
     font-weight:bold;
@@ -241,34 +273,6 @@ export default {
 .hmtableSelectBox>.row{
     margin:0;
     padding:0;
-}
-
-
-.hmDateSelect{
-    font-size:16px;
-}
-
-.hmDateSelect .v-input{
-    position:absolute;
-    top:0;
-}
-
-.hmDateSelect .v-input input{
-    padding-left:5px;
-}
-
-.hmDateSelect button{
-    position:absolute;
-    top:0;
-    right:0;
-    width:150px;
-    height:30px;
-    background: rgb(187, 231, 248) !important;
-    box-shadow: 0px 0px 3px blue;
-}
-
-.hmDateSelect button span{
-    font-size:16px;
 }
 
 .hmtableSelectBox>div>div>a {
