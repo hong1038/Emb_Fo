@@ -31,7 +31,7 @@
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">소속(사업장명)</b-col>
-                                    <b-form-select class="col" v-model="server_name" :options="comboServers" size="sm">
+                                    <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm">
                                     </b-form-select>
                                 </b-row>
                                 <!-- <b-row>
@@ -119,10 +119,11 @@ export default {
             selectWorkplace: "",
             date: "",
             show: false,
-            comboServers: [], //사업장   
+            comboServers: null, //사업장   
             busy: false,
-
-            emInfo:{},
+            email:null,
+            name:null,
+            server_key:null,
             list: [],
             listCount: 0,
             pageNo: 0,
@@ -254,30 +255,6 @@ export default {
                 })
 
         },
-        // async getConditionList() {
-        //     //this.config = { headers : { "authorization" : this.$Axios.defaults.headers.common["authorization"] }   }
-        //     // let that = this;
-        //     axios.post("/api/daedan/cj/ems/setting/WorkplaceList", {
-        //             userId: store.state.userInfo.userId
-        //         })
-        //         .then(res => {
-        //             if (res.status === 200) {
-        //                 if (res.data.statusCode === 200) {
-        //                     console.log(res.data.data)
-        //                     this.workplaceList = res.data.data;
-        //                     this.comboName2 = res.data.data.servers;
-        //                     // that.state.servers = res.data.data.servers; //사업장
-        //                     // that.state.typies = res.data.data.typies; //수집분야(악취,대기,수질)
-        //                     //that.state.equipPos = res.data.data.equipPos; //측정위치
-        //                 }
-        //             }
-        //         })
-        //         .catch(err => {
-        //             alert("검색조건추출 실패 \n" + err);
-        //             console.log(err)
-        //         })
-
-        // },
         async getInfo() {
             axios.post("/api/daedan/cj/ems/setting/managerList", {
                         serverKey:this.server_key,
@@ -301,10 +278,10 @@ export default {
                     this.showblock();
         },
         async getList() {
-            // if (store.state.ckServer.length == 0) {
-            //     alert("사업장은 필수 선택 항목 입니다.")
-            //     return;
-            // }
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
             this.onClick();
 
             axios.post("/api/daedan/cj/ems/setting/managerList", {
@@ -325,11 +302,12 @@ export default {
                 .catch(err => {
                     alert("검색조건추출 실패 \n" + err);
                     console.log(err)
+                    
                 })
-
+            this.Loadbusy = false;
         },
         saveInfo() {
-            if (!this.emInfo.name) {
+            if (!this.name) {
                 alert("성명은 필수 입력 항목 입니다.")
                 return;
             }
@@ -337,11 +315,7 @@ export default {
                 alert("소속은 필수 선택 항목 입니다.")
                 return;
             }
-            // if (!this.emInfo.hp) {
-            //     alert("핸드폰번호는 필수 입력 항목 입니다.")
-            //     return;
-            // }
-            if (!this.emInfo.email) {
+            if (!this.email) {
                 alert("이메일은 필수 입력 항목 입니다.")
                 return;
             }
@@ -353,7 +327,7 @@ export default {
             let that = this;
             await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
                     name: this.name,
-                    server_name:this.server_name,
+                    server_key:this.server_key,
                     email:this.email,
                     userId: store.state.userInfo.userId
                 }, this.config)
@@ -370,7 +344,31 @@ export default {
                 })
             this.busy = false;
 
-        }
+        },
+        dropInfo() {
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 샥제 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+        //     let that = this;
+        //     await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
+        //             mno: this.mno,
+        //             userId: store.state.userInfo.userId
+        //         }, this.config)
+        //         .then(res => {
+        //             if (res.status === 200) {
+        //                 if (res.data.statusCode === 200) {
+        //                     that.saveblock();
+        //                     that.getList();
+        //                 }
+        //             }
+        //         })
+        //         .catch(err => {
+        //             alert("측정기별기준정보삭제 실패 \n" + err);
+        //         })
+            this.busyPop = false;
+        },
         }
     }
 </script>
