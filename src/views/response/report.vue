@@ -559,6 +559,7 @@ export default {
 
 .reportDateCheck>div>div>div {
     float: left;
+    height:100%;
 }
 
 .reportDateCheck>div>div>div:nth-child(1) {

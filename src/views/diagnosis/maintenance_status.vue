@@ -13,16 +13,20 @@
                                 <div class="col-7">
                                     <div class="float-left">월 선택</div>
                                     <div class="dateSelect float-left">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
+                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
                                             <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                            <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
+                                            <v-btn text color="primary" @click="menu = false">
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
+                                                OK
+                                            </v-btn>
                                         </v-date-picker>
-                                    </v-menu>               
+                                    </v-menu>             
                                     <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
                                 </div>
                                 </div>

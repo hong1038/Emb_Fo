@@ -47,7 +47,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="erInfo.server_name" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
@@ -333,6 +333,7 @@ export default {
             // this.category_cd = null; //측정분야코드
 
             this.erInfo.server_key = obj.data.server_key
+            this.erInfo.server_name = obj.data.server_name
             this.erInfo.category_cd = obj.data.category_cd
             this.erInfo.equipment_key = obj.data.equipment_key
             this.erInfo.abnormal_type = obj.data.abnormal_type
@@ -571,6 +572,61 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+            // let that = this;
+            // console.log("store.state.ckServer = " + store.state.ckServer)
+            // this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
+            //         erInfo:this.erInfo,
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.erInfo = res.data.data
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("센서테이터목록 추출 실패 \n" + err);
+            //     })
+            // let that = this;
+            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
+            //         mno: this.mno,
+            //         server_key: this.server_key,
+            //         equipment_key: this.equipment_key,
+            //         category: this.category_cd,
+            //         place: this.location,
+            //         facility: this.facility,
+            //         public_name : this.public_name,
+            //         internal_name: this.internal_name,
+            //         internal_numger: this.internal_numger,
+            //         legal_standard: this.legal_standard,
+            //         manage_standard: this.manage_standard,
+            //         ordr_no: this.odor_no,
+            //         unit: this.unit,
+            //         usedSensors: this.usedSensors,
+                    
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.saveblock();
+            //                 that.getList();
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("측정기별기준정보저장 실패 \n" + err);
+            //     })
+            this.saveblock();
+            this.getList();
+            this.busyPop = false;
+
         },
         onPageChange(params) {
             this.pageNo = params.currentPage;
@@ -758,6 +814,7 @@ export default {
 .systemtableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+    font-size:14px;
 }
 
 .systemtableWrap .right_list .line1_box>input{
