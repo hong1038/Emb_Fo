@@ -36,7 +36,7 @@
                                 </b-row>
 
                                 <b-row>
-                                    <b-col class="regiName col-4 line03">사업장명(약식)</b-col>
+                                    <b-col class="regiName col-4">사업장명(약식)</b-col>
                                     <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
                                 </b-row>
                                 <b-row>
@@ -904,6 +904,7 @@ export default {
 
 .workplaceBox .right_list .regiName+input,
 .workplaceBox .right_list .regiName+select {
+    max-width: 210px;
     height: 30px;
     margin-top: 10px;
 }

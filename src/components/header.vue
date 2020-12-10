@@ -1240,7 +1240,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
     position: relative;
     z-index: 2;
     width: 100%;
-    height: 100%;
+    height: 24px;
     box-sizing: border-box;
     padding-left: 10px;
 }

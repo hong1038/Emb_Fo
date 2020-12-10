@@ -6,7 +6,7 @@
             <div class="con">
                 <div class="con_box_right mailConBox container-fluid">
                     <p>메일 수신자</p>
-                    <router-link :to="{ name: 'mailreceiverCreate'}" class="mailRPlus">수신자 등록</router-link>
+                    <input type="button" class="mailPlus" v-on:click="showblock" value="등록">
                     <div class="mailCon mt-4 text-center container-fluid" v-for="mail in MailList" :key="mail.id">
                         <b-row class="mailCon_title">
                             <b-col cols="3">사업장</b-col>
@@ -14,8 +14,8 @@
                             <b-col cols="6">메일</b-col>
                         </b-row>
                     </div>
-                    <div>
-                        <vue-good-table class="elevation-5" mode="remote" :line-numbers="true" :columns="fields" :rows="list" :totalRows="listCount" :pagination-options="{
+                    <div class="mailTableWrap" style="display:flex;">
+                        <!--<vue-good-table class="elevation-5" mode="remote" :line-numbers="true" :columns="fields" :rows="list" :totalRows="listCount" :pagination-options="{
                                     enabled: true,
                                     mode: 'records',
                                     perPage: perPage,
@@ -29,20 +29,78 @@
                                     ofLabel: 'of',
                                     pageLabel: 'page', // for 'pages' mode
                                     allLabel: 'All',
-                                }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" />
+                                }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" />-->
 
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" 
-                                    :columnDefs="fields" 
-                                    :rowData="list" 
-                                    :gridOptions="gridOptions" 
-                                    :pagination="true" 
-                                    :paginationPageSize="paginationPageSize">
-                            </ag-grid-vue>
+                        <ag-grid-vue style="width: 100%; height: 670px;" class="ag-theme-alpine-dark" 
+                                :columnDefs="fields" 
+                                :rowData="list" 
+                                :gridOptions="gridOptions" 
+                                :pagination="true" 
+                                :paginationPageSize="paginationPageSize">
+                        </ag-grid-vue>
+
+                    
+                        <b-card class="right_list" v-if="show">
+                            <b-row>
+                                <b-col class="popUpTitle">메일 수신자 등록</b-col>
+                                <input type="button" class="mailBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
+                                <input type="button" class="mailBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
+                                <input type="button" class="mailBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
+                            </b-row>
+                            <div>
+                                <b-row>
+                                    <b-col class="regiName col-4">소속(사업장명)</b-col>
+                                    <b-form-input class="col" v-model="server_key" size="sm"></b-form-input>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="regiName col-4">사용자명</b-col>
+                                    <b-form-input class="col" v-model="name" size="sm"></b-form-input>
+                                </b-row>
+                                <!-- <b-row>
+                                    <b-col class="regiName col-4">전화번호</b-col>
+                                    <b-form-input class="col" v-model="emInfo.tell" size="sm"></b-form-input>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="regiName col-4">핸드폰번호</b-col>
+                                    <b-form-input class="col" v-model="emInfo.hp" size="sm"></b-form-input>
+                                </b-row> -->
+                                <b-row>
+                                    <b-col class="regiName col-4">메일</b-col>
+                                    <b-form-input class="col" v-model="email" size="sm"></b-form-input>
+                                </b-row>
+                            </div>
+                        </b-card>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <b-overlay :show="busy" no-wrap @shown="onShown" @hidden="onHidden">
+        <template v-slot:overlay>
+            <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
+                <b-icon icon="cloud-upload" font-scale="4"></b-icon>
+                <div class="mb-3">Processing...</div>
+                <b-progress min="1" max="20" :value="counter" variant="success" height="3px" class="mx-n4 rounded-0"></b-progress>
+            </div>
+            <div v-else ref="dialog" tabindex="-1" role="dialog" aria-modal="false" aria-labelledby="form-confirm-label" class="text-center p-3 popUpMessage">
+                <p><strong id="form-confirm-label">{{altMsg}}</strong></p>
+                <div class="d-flex">
+                    <b-row>
+                        <b-col cols="6" align="center" v-if="workTp ==='SAVE_INFO'" class="popUpInfo">
+                            <b-button v-on:click="saveInfoProc" variant="success" size="sm">저장</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" class="popUpInfo">
+                            <b-button variant="primary" @click="onCancel" size="sm">취소</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
+                            <b-button v-on:click="dropInfoProc" variant="danger" size="sm">삭제</b-button>
+                        </b-col>
+                    </b-row>
+                </div>
+            </div>
+        </template>
+    </b-overlay>
 </b-container>
 </template>
 
@@ -50,9 +108,15 @@
 import Vue from 'vue'
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
-import VueGoodTablePlugin from 'vue-good-table';
-import 'vue-good-table/dist/vue-good-table.css'
+// import VueGoodTablePlugin from 'vue-good-table';
+// import 'vue-good-table/dist/vue-good-table.css'
 // import DatePicker from "v-calendar/lib/components/date-picker.umd"
+
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+import {
+    AgGridVue
+} from "ag-grid-vue"
 
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -61,12 +125,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios';
 import store from '@/store/index';
 
-Vue.use(VueGoodTablePlugin);
+// Vue.use(VueGoodTablePlugin);
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
+        Vue,
+        AgGridVue
         // DatePicker,
         // BootstrapVue,
     },
@@ -82,10 +148,18 @@ export default {
             findSz: '',
             perCodeNo: 1,
             MailList: [],
-            fields: [{
-                    field: 'server_key',
-                    hidden: true
-                },
+            paginationPageSize: store.state.paginationPageSize,
+            gridOptions:{},
+            Loadbusy:false,
+            busy:false,
+            show : false,
+
+
+            fields: [
+                // {
+                //     field: 'server_key',
+                //     hidden: true
+                // },
                 // {
                 //     field: 'equipment_key',
                 //     hidden: true
@@ -96,15 +170,18 @@ export default {
                 // },
                 {
                     field: 'server_name',
-                    label: '사업장'
+                    headerName: '사업장',
+                    width:'500'
                 },
                 {
                     field: 'user_name',
-                    label: '사용자명'
+                    headerName: '사용자명',
+                    width:'500'
                 },
                 {
                     field: 'user_mail',
-                    label: '메일'
+                    headerName: '메일',
+                    width:'500'
                 },
             ],
 
@@ -117,13 +194,60 @@ export default {
     },
     created() {
         this.getConditionList();
-        this.getList();
+        // this.getList();
     },
 
     methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },10000)
+            // 시간 변경
+        },
+        onLoadHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.Loadbusy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+                this.Loadbusy = false
+            })
+        },
+        onShown() {
+            this.$refs.dialog.focus()
+        },
+        onHidden() {},
+        onCancel() {
+            this.busy = false
+        },
+        saveblock() {
+            this.show = !this.show
+            this.resizing()
+        },
+        showblock() {
+            this.show = !this.show
+            this.resizing()
+        },
+        
+        resizing() {
+            setTimeout(() => {
+                this.gridOptions.api.sizeColumnsToFit()
+            }, 1);
+        },
         getConditionList() {
             //this.config = { headers : { "authorization" : this.$Axios.defaults.headers.common["authorization"] }   }
             // let that = this;
+            this.onClick();
             axios.post("/api/daedan/cj/ems/setting/MailList", {
                     userId: store.state.userInfo.userId
                 })
@@ -142,8 +266,7 @@ export default {
                     alert("검색조건추출 실패 \n" + err);
                     console.log(err)
                 })
-        }    
-    },
+        },
         getList() {
             
             // if (store.state.ckServer.length == 0) {
@@ -152,32 +275,32 @@ export default {
             // }
             this.onClick();
 
-            axios.post("/api/daedan/cj/ems/setting/MailList", {
-                    serverKey:this.comboServers[0].id,
-                    pageNo:this.pageNo,
-                    pageSz:this.pageSz,
-                    userId: store.state.userInfo.userId
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            console.log(res.data.data)
-                            this.list = res.data.data;
-                            this.listCount = res.data.totalCount;
-                              }
-                    }
-                })
-                .catch(err => {
-                    alert("검색조건추출 실패 \n" + err);
-                    console.log(err)
-                })
+            // axios.post("/api/daedan/cj/ems/setting/MailList", {
+            //         serverKey:this.comboServers[0].id,
+            //         pageNo:this.pageNo,
+            //         pageSz:this.pageSz,
+            //         userId: store.state.userInfo.userId
+            //     })
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 console.log(res.data.data)
+            //                 this.list = res.data.data;
+            //                 this.listCount = res.data.totalCount;
+            //                   }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("검색조건추출 실패 \n" + err);
+            //         console.log(err)
+            //     })
 
         },
         saveInfo() {
-            if (!this.user_name) {
-                alert("성명은 필수 입력 항목 입니다.")
-                return;
-            }
+            // if (!this.user_name) {
+            //     alert("성명은 필수 입력 항목 입니다.")
+            //     return;
+            // }
             this.busy = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
@@ -201,8 +324,34 @@ export default {
                 .catch(err => {
                     alert("측정기별기준정보저장 실패 \n" + err);
                 })
+            this.busy = false;
+        },
+        dropInfo() {
+            this.busy = true;
+            this.altMsg = "처리중인 기준정보를 삭제 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+            // let that = this;
+            //     await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
+            //             mno: this.mno,
+            //             userId: store.state.userInfo.userId
+            //         }, this.config)
+            //         .then(res => {
+            //             if (res.status === 200) {
+            //                 if (res.data.statusCode === 200) {
+            //                     that.saveblock();
+            //                     that.getList();
+            //                 }
+            //             }
+            //         })
+            //         .catch(err => {
+            //             alert("측정기별기준정보삭제 실패 \n" + err);
+            //         })
+            this.busy = false;
+        }
+    
     },
-
 }
 </script>
 
@@ -229,9 +378,6 @@ export default {
     margin: 0 auto;
 }
 
-.mailConBox {
-    width: 800px;
-}
 
 .con_box_right {
     box-sizing: border-box;
@@ -250,26 +396,28 @@ export default {
     text-align: left;
 }
 
-.mailRPlus {
+.mailPlus {
     position: absolute;
-    top: 20px;
-    right: 15px;
+    top: 30px;
+    right: 20px;
     width: 150px;
-    height: 40px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+    display: inline-block;
+    text-align: center;
     cursor: pointer;
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
     background: rgb(187, 231, 248);
     box-shadow: 0px 0px 3px blue;
-    font-size: 14px;
     text-decoration: none;
-    line-height: 40px;
-    text-align: center;
     color: black;
+    font-family:'Noto Sans KR';
 }
 
-.mailRPlus:hover {
+.mailPlus:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
@@ -299,5 +447,64 @@ export default {
 
 .mailCon>div:nth-child(1)>div {
     color: white;
+}
+
+.mailTableWrap .right_list {
+    position: relative;
+    left: 10px;
+    width: 500px;
+    height: 670px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-top: 0;
+    box-shadow: 0px 0px 10px 1px #ccc;
+}
+
+.mailTableWrap .right_list .popUpTitle {
+    font-size: 18px;
+}
+
+.mailTableWrap .right_list .btn {
+    margin-right: 7px;
+    font-size: 15px;
+}
+
+.mailTableWrap .card-body>div:nth-child(2)>div {
+    margin-top: 20px;
+}
+
+.mailBtn {
+    height: 30px;
+    margin-top: 10px;
+}
+
+.mailTableWrap .popUpTitle{
+    font-size:18px;
+}
+
+.mailTableWrap input{
+    max-width: 230px;
+    height: 30px;
+    margin-top: 10px;
+    font-size:14px;
+}
+
+.mailTableWrap .regiName {
+    font-size: 14px;
+    width: 100px;
+}
+
+
+.popUpMessage #form-confirm-label {
+    font-size: 28px;
+    font-family: 'Noto Sans KR';
+}
+
+.popUpMessage .popUpInfo>button {
+    width: 80px;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 7px;
 }
 </style>

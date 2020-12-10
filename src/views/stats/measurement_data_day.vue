@@ -542,7 +542,6 @@ export default {
 
 .measurementDayDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .measurementDayDateCheck>div>div>div:nth-child(1) {

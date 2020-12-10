@@ -60,7 +60,7 @@
                             </ag-grid-vue>
                         </div> -->
                         <div class="con_table" id="con_table02">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :pageSz="pageSz" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 100%;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :pageSz="pageSz" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <!-- <div class="con_table" id="con_table03">
@@ -229,7 +229,7 @@ export default {
                 {
                     field: 'action_date',
                     headerName: '조치 완료일자',
-                    width:'200'
+                    width:'195'
                 },
             ],
             
@@ -425,58 +425,24 @@ export default {
 /* Top dailyDateCheck , search and Excel Save*/
 .dailyDateCheck {
     width: 100%;
-    height: 30px;
+    height: 50px;
     font-family: "CJ Onlyone Medium";
-    margin-top: 10px;
-}
-
-.dailyDateCheck>div {
-    position: relative;
-    height: 100%;
-    line-height: 30px;
-    padding: 0;
-    text-align: left;
 }
 
 .dailyDateCheck>div>div>div {
     float: left;
-    margin-left: 10px;
 }
 
-.dailyDateCheck>div>div>div:nth-child(1),
-.dailyDateCheck>div>div>div:nth-child(3) {
-    display: block;
-    width: 70px;
-    float: left;
-    text-align: center;
-    font-size: 14px;
+.dailyDateCheck>div>div>div:nth-child(1){
+    width: 80px;
+    font-size: 16px;
 }
 
-.dailyDateCheck>div>div>div>select {
-    width: 120px;
-    height: 30px;
-    text-align: left;
-    float: left;
-    box-sizing: border-box;
-    border-bottom: 1px solid black;
-    padding-left: 7px;
-    font-size: 14px;
-    font-family: 'Noto Sans KR';
-    cursor: pointer;
-}
-
-.dailyDateCheck>div>div>div>input[type=text] {
-    font-family: 'Arial';
-    cursor: pointer;
-    font-size:14px;
-}
 
 .dailyDateCheck>div>div>.dateSelect {
     width: 150px;
-}
-
-.dailyDateCheck>div>div>.dateSelect input[type="text"]{
-    font-size:14px;
+    font-size: 14px;
+    font-family: 'Arial';
 }
 
 .v-input__prepend-outer {
@@ -511,7 +477,6 @@ export default {
 .dailyTableSelectBox {
     width: 100%;
     height: 35px;
-    margin-top: 50px;
 }
 
 .dailyTableSelectBox>div>div {
@@ -525,7 +490,7 @@ export default {
     cursor: pointer;
 }
 
-.dailyTableSelectBox>div>.clickBtnWrap>span{
+.dailyTableSelectBox>div>.clickBtnWrap>a{
     background:white;
     font-weight:bold;
 }
@@ -546,7 +511,7 @@ export default {
     width: 170px;
 }
 
-.dailyTableSelectBox>div>div>span {
+/*.dailyTableSelectBox>div>div>span {
     display: block;
     width: 170px;
     height: 30px;
@@ -560,7 +525,6 @@ export default {
     box-sizing: border-box;
     text-align: center;
 }
-
 .dailyTableSelectBox>div>div:nth-child(2)>span {
     width: 470px;
 }
@@ -575,7 +539,41 @@ export default {
 
 .dailyTableSelectBox>div>div:nth-child(5)>span {
     width: 150px;
+}*/
+
+.dailyTableSelectBox>div>div>a {
+    display: block;
+    width: 170px;
+    height: 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: inherit;
+    font-size: 14px;
+    margin: 5px 0px 0px 5px;
+    line-height: 30px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    color:black;
 }
+.dailyTableSelectBox>div>div:nth-child(2)>a {
+    width: 470px;
+}
+
+.dailyTableSelectBox>div>div:nth-child(3)>a {
+    width: 180px;
+}
+
+.dailyTableSelectBox>div>div:nth-child(4)>a {
+    width: 280px;
+}
+
+.dailyTableSelectBox>div>div:nth-child(5)>a {
+    width: 150px;
+}
+
+
 
 /* Contents */
 

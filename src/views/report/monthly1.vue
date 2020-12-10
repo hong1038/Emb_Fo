@@ -55,7 +55,7 @@
 
                     <div class="con_tableWrap">
                         <div class="con_table" id="con_table01">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 100%;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <!--<div class="con_table" id="con_table02">
@@ -322,58 +322,25 @@ export default {
 
 .monthlyDateCheck {
     width: 100%;
-    height: 30px;
+    height: 50px;
     font-family: "CJ Onlyone Medium";
-    margin-top: 10px;
-}
-
-.monthlyDateCheck>div {
-    position: relative;
-    height: 100%;
-    line-height: 30px;
-    padding: 0;
-    text-align: left;
 }
 
 .monthlyDateCheck>div>div>div {
     float: left;
-    margin-left: 10px;
 }
 
 .monthlyDateCheck>div>div>div:nth-child(1),
 .monthlyDateCheck>div>div>div:nth-child(3) {
-    display: block;
-    width: 70px;
+    width: 80px;
     float: left;
-    text-align: center;
-    font-size: 14px;
-}
-
-.monthlyDateCheck>div>div>div>select {
-    width: 120px;
-    height: 30px;
-    text-align: left;
-    float: left;
-    box-sizing: border-box;
-    border-bottom: 1px solid black;
-    padding-left: 7px;
-    font-size: 14px;
-    font-family: 'Noto Sans KR';
-    cursor: pointer;
-}
-
-.monthlyDateCheck>div>div>div>input[type=text] {
-    font-family: 'Arial';
-    cursor: pointer;
+    font-size: 16px;
 }
 
 .monthlyDateCheck>div>div>.dateSelect {
     width: 150px;
-}
-
-.monthlyDateCheck>div>div>.dateSelect input[type="text"]{
-    font-size:14px;
-    height:30px;
+    font-size: 14px;
+    font-family: 'Arial';
 }
 
 .v-input__prepend-outer {
@@ -408,12 +375,11 @@ export default {
 .monthlyTableSelectBox {
     width: 100%;
     height: 35px;
-    margin-top: 50px;
 }
 
 .monthlyTableSelectBox>div>div {
     float: left;
-    width: 190px;
+    width: 180px;
     height: 35px;
     box-sizing: border-box;
     border-top-left-radius: 10px;
@@ -433,38 +399,6 @@ export default {
 .monthlyTableSelectBox>div>div:nth-child(6) {
     width: 170px;
 }
-
-/*.monthlyTableSelectBox>div>div>button {
-    display: block;
-    width: 170px;
-    height: 30px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: inherit;
-    font-size: 14px;
-    margin: 5px 0px 0px 5px;
-    line-height: 30px;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(3)>button {
-    width: 430px;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(5)>button {
-    width: 250px;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(6)>button {
-    width: 150px;
-}
-
-.monthlyTableSelectBox>div>div>button:focus{
-    outline:none;
-    border:none;
-}*/
 
 .monthlyTableSelectBox>div>div>a {
     display: block;

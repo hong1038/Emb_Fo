@@ -236,7 +236,7 @@ export default {
             // Close the menu/datepicker
             this.menu = false
         },
-        
+
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)

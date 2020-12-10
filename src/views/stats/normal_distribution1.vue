@@ -52,7 +52,7 @@
                                 <div class="dateSelect">
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
-                                <div>~</div>
+                                <div style="text-align:center; width:20px;">~</div>
                                 <div class="dateSelect dateSelectTo">
                                     <datetime type="date" v-model="dateTo" class="datetime"></datetime>
                                 </div>
@@ -508,6 +508,7 @@ export default {
     box-sizing: border-box;
     padding-left: 10px;
 }
+
 
 /* Contents */
 

@@ -346,8 +346,8 @@ export default {
 
         },
         dropInfo() {
-            this.busyPop = true;
-            this.altMsg = "처리중인 기준정보를 샥제 하시겠습니까 ? ";
+            this.busy = true;
+            this.altMsg = "처리중인 기준정보를 삭제 하시겠습니까 ? ";
             this.workTp = "DROP_INFO"
         },
         async dropInfoProc() {
@@ -367,7 +367,7 @@ export default {
         //         .catch(err => {
         //             alert("측정기별기준정보삭제 실패 \n" + err);
         //         })
-            this.busyPop = false;
+            this.busy = false;
         },
         }
     }

@@ -11,7 +11,7 @@
                         <div class="systemDateCheck container-fluid mt-4">
                             <div class="row">
                                 <div class="col-7">
-                                    <div>기간 선택 : </div>
+                                    <div>기간 선택</div>
                                     <div class="dateSelect">
                                         <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                     </div>
@@ -47,7 +47,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="erInfo.server_name" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
@@ -73,11 +73,11 @@
                                         <b-form-input class="col" type="date" size="sm" v-model="erInfo.rs_date"></b-form-input>
                                     </b-row>
 
-                                    <b-row>
+                                    <b-row class="line1_box">
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="erInfo.cause"></b-form-input>
                                     </b-row>
-                                    <b-row class="line1_box">
+                                    <b-row>
                                         <b-col class="regiName col-4">대응방안</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="erInfo.action"></b-form-input>
                                     </b-row>
@@ -220,7 +220,7 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '160px'
                 },
@@ -235,7 +235,7 @@ export default {
                     width: '160px'
                 },
                 {
-                    field: 'response_date',
+                    field: 'rs_date',
                     headerName: '발생일자',
                     width: '140px'
                 },
@@ -333,6 +333,7 @@ export default {
             // this.category_cd = null; //측정분야코드
 
             this.erInfo.server_key = obj.data.server_key
+            this.erInfo.server_name = obj.data.server_name
             this.erInfo.category_cd = obj.data.category_cd
             this.erInfo.equipment_key = obj.data.equipment_key
             this.erInfo.abnormal_type = obj.data.abnormal_type
@@ -344,10 +345,10 @@ export default {
             // this.sensors = [];
             this.showblock();
         },
-        // saveblock() {
-        //     this.show = !this.show
-        //     this.resizing()
-        // },
+        saveblock() {
+            this.show = !this.show
+            this.resizing()
+        },
         resizing() {
             setTimeout(() => {
                 this.gridOptions.api.sizeColumnsToFit()
@@ -496,6 +497,13 @@ export default {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
+            
+
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+        async saveInfoProc() {
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
@@ -512,12 +520,6 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
-
-            this.busyPop = true;
-            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
-            this.workTp = "SAVE_INFO"
-        },
-        async saveInfoProc() {
             // let that = this;
             // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
             //         mno: this.mno,
@@ -548,6 +550,8 @@ export default {
             //     .catch(err => {
             //         alert("측정기별기준정보저장 실패 \n" + err);
             //     })
+            this.saveblock();
+            this.getList();
             this.busyPop = false;
 
         },
@@ -568,6 +572,61 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+            // let that = this;
+            // console.log("store.state.ckServer = " + store.state.ckServer)
+            // this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
+            //         erInfo:this.erInfo,
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.erInfo = res.data.data
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("센서테이터목록 추출 실패 \n" + err);
+            //     })
+            // let that = this;
+            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
+            //         mno: this.mno,
+            //         server_key: this.server_key,
+            //         equipment_key: this.equipment_key,
+            //         category: this.category_cd,
+            //         place: this.location,
+            //         facility: this.facility,
+            //         public_name : this.public_name,
+            //         internal_name: this.internal_name,
+            //         internal_numger: this.internal_numger,
+            //         legal_standard: this.legal_standard,
+            //         manage_standard: this.manage_standard,
+            //         ordr_no: this.odor_no,
+            //         unit: this.unit,
+            //         usedSensors: this.usedSensors,
+                    
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.saveblock();
+            //                 that.getList();
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("측정기별기준정보저장 실패 \n" + err);
+            //     })
+            this.saveblock();
+            this.getList();
+            this.busyPop = false;
+
         },
         onPageChange(params) {
             this.pageNo = params.currentPage;
@@ -639,14 +698,11 @@ export default {
 
 .systemDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .systemDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
 .systemDateCheck>div>div>div:nth-child(2),
@@ -660,6 +716,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align:center;
 }
 
 .systemDateCheck>div>div>div>input {
@@ -741,6 +798,7 @@ export default {
 .systemtableWrap .row:not(.line1_box)>input,
 .systemtableWrap .row>select {
     max-width: 210px;
+    font-size:14px;
 }
 
 .systemtableWrap .line1_box>input {
@@ -756,6 +814,11 @@ export default {
 .systemtableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+    font-size:14px;
+}
+
+.systemtableWrap .right_list .line1_box>input{
+    margin-top:20px;
 }
 
 .measurementBox .check_list {

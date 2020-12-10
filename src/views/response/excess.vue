@@ -455,31 +455,6 @@ export default {
 
         },
         saveInfo() {
-            if (!this.server_key) {
-                alert("사업자는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.equipment_key) {
-                alert("설치장소는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.category_cd) {
-                alert("분야는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.facility) {
-                alert("시설분류는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.location) {
-                alert("측정위치는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (!this.usedSensors) {
-                alert("선택된 분석항목이 없습니다.")
-                return;
-            }
-
             let that = this;
             this.$Axios.post("/api/daedan/cj/ems/response/excessSave", {
                     exInfo:this.exInfo,
@@ -608,7 +583,6 @@ export default {
 
 .measurementDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .measurementDateCheck>div>div>div:nth-child(1) {
@@ -668,7 +642,7 @@ export default {
 }
 
 .excessTable *{
-    font-size:12px;
+    font-size:14px;
 }
 
 .ag-header-group-text{
@@ -713,6 +687,7 @@ export default {
 .excessTable .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+    font-size:14px;
 }
 
 
