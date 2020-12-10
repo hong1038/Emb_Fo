@@ -11,7 +11,7 @@
                         <div class="systemDateCheck container-fluid mt-4">
                             <div class="row">
                                 <div class="col-7">
-                                    <div>기간 선택 : </div>
+                                    <div>기간 선택</div>
                                     <div class="dateSelect">
                                         <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                     </div>
@@ -642,14 +642,11 @@ export default {
 
 .systemDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .systemDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
 .systemDateCheck>div>div>div:nth-child(2),
@@ -663,6 +660,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align:center;
 }
 
 .systemDateCheck>div>div>div>input {

@@ -10,11 +10,11 @@
                     <div class="manageDateCheck container-fluid mt-4">
                         <div class="row">
                             <div class="col-7">
-                                <div>기간 선택 : </div>
+                                <div>기간 선택</div>
                                 <div class="dateSelect">
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
-                                <div>~</div>
+                                <div> ~ </div>
                                 <div class="dateSelect dateSelectTo">
                                     <datetime type="date" v-model="dateTo" class="datetime"></datetime>
                                 </div>
@@ -602,14 +602,11 @@ export default {
 
 .manageDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .manageDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
 .manageDateCheck>div>div>div:nth-child(2),
@@ -623,6 +620,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .manageDateCheck>div>div>div>input {
@@ -724,9 +722,8 @@ export default {
 }
 
 .reportDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 32px;
 }
 
 .reportDateCheck>div>div>div:nth-child(2),
@@ -740,6 +737,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align:center;
 }
 
 .reportDateCheck>div>div>div>input {

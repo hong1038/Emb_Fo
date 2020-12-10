@@ -11,7 +11,7 @@
                         <div class="changeDateCheck container-fluid mt-4">
                             <div class="row">
                                 <div class="col-9">
-                                    <div>기간 선택 : </div>
+                                    <div>기간 선택</div>
                                     <div class="dateSelect">
                                         <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                     </div>
@@ -22,7 +22,7 @@
                                 </div>
                                 
                                 <div class="col-3">
-                                    <button class="c_btn00" v-on:click="search()">search</button>
+                                    <button class="c_btn00" v-on:click="search()">검색</button>
                                     <b-form-select v-model="select_type" class=" managerLocation"> 
                                         <option value="All">All</option>
                                         <option value="Y">Y</option>
@@ -722,14 +722,11 @@ export default {
 
 .changeDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .changeDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 22px;
-    margin-right: 10px;
 }
 
 .changeDateCheck>div>div>div:nth-child(2),
@@ -743,6 +740,7 @@ export default {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 .changeDateCheck>div>div>div>input {
