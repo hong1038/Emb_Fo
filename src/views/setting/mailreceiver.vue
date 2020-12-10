@@ -31,7 +31,7 @@
                                     allLabel: 'All',
                                 }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" />-->
 
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" 
+                        <ag-grid-vue style="width: 100%; height: 670px;" class="ag-theme-alpine-dark" 
                                 :columnDefs="fields" 
                                 :rowData="list" 
                                 :gridOptions="gridOptions" 
