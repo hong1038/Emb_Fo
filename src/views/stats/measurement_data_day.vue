@@ -158,7 +158,7 @@ export default {
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '375px'
+                    width: '370px'
                 },
                 {
                     field: 'sensor_name',
@@ -173,7 +173,7 @@ export default {
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '110px'
+                    width: '105px'
                 },
                 {
                     field: 'min_value',

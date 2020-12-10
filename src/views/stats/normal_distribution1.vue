@@ -507,6 +507,7 @@ export default {
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
+    font-size:14px;
 }
 
 
@@ -529,10 +530,13 @@ export default {
 }
 
 .canvasWrap {
-    height:450px;
+    height:650px;
     box-sizing: border-box;
-    border-top: 2px solid #ccc;
+    border: 2px solid #ccc;
     padding: 0;
+    overflow-y:scroll;
+    background:rgb(243, 251, 255);
+    border-radius: 5px;
 }
 
 .canvasWrap>div{
@@ -540,10 +544,34 @@ export default {
     height:57%;
 }
 
+.canvasWrap>div p{
+    font-size:14px;
+}
+
 .canvasWrap>div canvas{
     width:100%;
-    height:200px;
+    height:250px;
     outline:1px solid;
+}
+
+.canvasWrap::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 5px;
+}
+
+.canvasWrap::-webkit-scrollbar-track {
+    background-color: #cacaca;
+    border-radius: 5px;
+}
+
+.canvasWrap::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #000000;
+}
+
+.canvasWrap::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
 }
 
 </style>

@@ -17,7 +17,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
+                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko" style="width:100%;">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu = false">
                                                 Cancel

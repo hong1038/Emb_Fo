@@ -1473,6 +1473,10 @@ export default {
     background: rgb(179, 179, 179);
     border-radius: 5px;
 }
+.row {
+    justify-content: space-around;
+    align-items: center;
+}
 .v-card {
     padding: 10px;
     padding-top: 20px;
