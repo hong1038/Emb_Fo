@@ -99,7 +99,7 @@
 
 <script>
 import Header from '@/components/header.vue'
-import Left from '@/components/Left3.vue'
+import Left from '@/components/Left2.vue'
 
 import Vue from 'vue'
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -904,7 +904,7 @@ export default {
 
 .workplaceBox .right_list .regiName+input,
 .workplaceBox .right_list .regiName+select {
-    max-width: 210px;
+    max-width: 260px;
     height: 30px;
     margin-top: 10px;
 }
