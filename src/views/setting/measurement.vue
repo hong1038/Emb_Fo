@@ -639,7 +639,7 @@ export default {
    justify-content: center;
 }
 .col {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .row {

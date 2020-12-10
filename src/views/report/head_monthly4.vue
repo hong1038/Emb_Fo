@@ -216,6 +216,9 @@ export default {
     height:50px;
     font-size:20px;
 }
+.hmDateSelect > div:last-child{
+    height:100%;
+}
 
 .hmDateSelect .v-input{
     position:absolute;

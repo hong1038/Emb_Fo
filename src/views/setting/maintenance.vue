@@ -204,10 +204,6 @@ export default {
     margin: 0 auto;
 }
 
-.con {
-    width: 1550px;
-}
-
 .con_box_right {
     box-sizing: border-box;
     font-family: "CJ Onlyone Medium";

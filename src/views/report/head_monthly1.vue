@@ -31,7 +31,7 @@
                             </b-col>
                             <v-spacer></v-spacer>
                             <b-col cols="1">
-                                <v-btn>조회</v-btn>
+                                <v-btn class="hmPlus">조회</v-btn>
                             </b-col>
                             
                         </b-row>
@@ -208,6 +208,10 @@ export default {
     font-size:20px;
 }
 
+.hmDateSelect > div:last-child{
+    height:100%;
+}
+
 .hmDateSelect .v-input{
     position:absolute;
     top:0px;
@@ -220,7 +224,7 @@ export default {
     font-size:16px;
 }
 
-.hmDateSelect button{
+.hmDateSelect .hmPlus{
     position:absolute;
     top:0px;
     right:20px;
