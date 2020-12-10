@@ -13,18 +13,18 @@
                                 <div class="col-7">
                                     <div class="float-left">월 선택</div>
                                     <div class="dateSelect float-left">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                            <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
-                                        </v-date-picker>
-                                    </v-menu>               
-                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
-                                </div>
+                                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
+                                                <v-spacer></v-spacer>
+                                                <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                                <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
+                                            </v-date-picker>
+                                        </v-menu>               
+                                        <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                    </div>
                                 </div>
                                 <div class="col-5">
                                     <input type="button" class="ms_btn01" value="조회" v-on:click="getList">
@@ -216,7 +216,27 @@ export default {
         this.getRootCodeList();
     },
 
+
+    watch: {
+        menu (val) {
+            console.log(val)
+            val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
+        }
+    },
+
     methods: {
+
+        saveYear(year) {
+            console.log(this.$refs.menu,year)
+            this.dateSelect = year
+            this.$refs.menu.save(year)
+            // Reset activePicker to type YEAR
+            this.$refs.picker.activePicker = 'YEAR'
+
+            // Close the menu/datepicker
+            this.menu = false
+        },
+        
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -289,6 +309,7 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+                this.busy = false;
         },
 
         onPageChange(params) {
