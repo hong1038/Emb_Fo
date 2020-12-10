@@ -55,11 +55,11 @@
                                         <b-col class="regiName col-4">분야</b-col>
                                         <b-form-select class="col" v-model="category" :options="comboCategories" size="sm" ></b-form-select>
                                     </b-row>
-                                    <b-row>
+                                    <b-row class="line1_box">
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
                                         <b-form-input class="col" v-model="problem" size="sm"></b-form-input>
                                     </b-row>
-                                    <b-row class="line1_box">
+                                    <b-row>
                                         <b-col class="regiName col-4">대응방안</b-col>
                                         <b-form-input class="col" v-model="action" size="sm"></b-form-input>
                                     </b-row>
@@ -559,13 +559,11 @@ export default {
 
 .reportDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .reportDateCheck>div>div>div:nth-child(1) {
-    width: 70px;
+    width: 80px;
     font-size: 16px;
-    line-height: 32px;
 }
 
 .reportDateCheck>div>div>div:nth-child(2),
@@ -634,44 +632,6 @@ export default {
     text-decoration: none;
 }
 
-.s_btn01,
-.s_btn02,
-.s_btn03 {
-    position: absolute;
-    top: -10px;
-    display: block;
-    width: 150px;
-    height: 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: rgb(187, 231, 248);
-    box-shadow: 0px 0px 3px blue;
-    font-size: 16px;
-}
-
-.s_btn01 {
-    right: 360px;
-}
-
-.s_btn02 {
-    right: 190px;
-}
-
-.s_btn03 {
-    right: 20px;
-}
-
-.s_btn01:hover,
-.s_btn02:hover,
-.s_btn03:hover {
-    font-weight: bold;
-    background: rgb(81, 81, 255);
-    color: white;
-}
-
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
@@ -714,8 +674,11 @@ export default {
 .systemtableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+    font-size:14px;
 }
-
+.systemtableWrap .right_list .line1_box>input{
+    margin-top:20px;
+}
 
 .popUpMessage #form-confirm-label {
     font-size: 28px;

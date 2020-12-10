@@ -6,7 +6,7 @@
         <div style="display:flex">
             <div class="inner">
                 <div class="con">
-                    <div class="con_box_right container-fluid float-left">
+                    <div class="con_box_right container-fluid">
                         <p>변경점 대응</p>
                         <div class="changeDateCheck container-fluid mt-4">
                             <div class="row">
@@ -23,7 +23,7 @@
                                 
                                 <div class="col-3">
                                     <button class="c_btn00" v-on:click="search()">검색</button>
-                                    <b-form-select v-model="select_type" class=" managerLocation"> 
+                                    <b-form-select v-model="select_type" class=" changeLocation"> 
                                         <option value="All">All</option>
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
@@ -379,7 +379,7 @@ export default {
             this.occur = obj.data.occur
             this.category_cd = obj.data.category_cd
             this.inlet_max_value = obj.data.inlet_max_value
-            this.inlet_min_value = obj.data.inlet_max_value
+            this.inlet_min_value = obj.data.inlet_min_value
             this.inlet_avg_value = obj.data.inlet_avg_value
             this.cause = obj.data.cause
             this.action = obj.data.action
@@ -671,7 +671,7 @@ export default {
     font-weight: bold;
 }
 
-.managerLocation {
+.changeLocation {
     position: absolute;
     top: 0px;
     right: 360px;
@@ -691,7 +691,7 @@ export default {
     color: black;
 }
 
-.managerLocation>option{
+.changeLocation>option{
     padding-left:5px;
 }
 
@@ -768,7 +768,7 @@ export default {
     font-size: 16px;
 }
 .c_btn00 {
-    right: 520px;
+    right: 530px;
 }
 .c_btn01 {
     right: 360px;
@@ -821,6 +821,7 @@ export default {
 .changeTableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+    font-size:14px;
 }
 
 .changeTableWrap .right_list .lh-2+input,

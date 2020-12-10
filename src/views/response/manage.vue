@@ -2,7 +2,7 @@
 <b-container fluid>
     <Header></Header>
     <div style="display:flex">
-        <Left></Left>>
+        <Left></Left>
         <div class="inner">
             <div class="con">
                 <div class="con_box_right container-fluid">
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
-                    <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
+                    <div class="manageTableWrap mt-4 container-fluid" style="display:flex">
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
                     <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -718,7 +718,6 @@ export default {
 
 .reportDateCheck>div>div>div {
     float: left;
-    height: 100%;
 }
 
 .reportDateCheck>div>div>div:nth-child(1) {
@@ -747,103 +746,23 @@ export default {
     border-bottom: 1px solid rgb(170, 170, 170);
 }
 
-.r_btn01,
-.r_btn02,
-.r_btn03 {
-    position: absolute;
-    top: 0;
-    width: 150px;
-    height: 30px;
-    display: inline-block;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: rgb(187, 231, 248);
-    box-shadow: 0px 0px 3px blue;
-    font-size: 16px;
-}
-
-.r_btn01 {
-    right: 360px;
-}
-
-.r_btn02 {
-    right: 190px;
-    text-decoration: none;
-    color: black;
-    line-height: 30px;
-}
-
 .v-application a {
     color: black;
-}
-
-.r_btn03 {
-    right: 20px;
-}
-
-.r_btn01:hover,
-.r_btn02:hover,
-.r_btn03:hover {
-    font-weight: bold;
-    background: rgb(81, 81, 255);
-    color: white;
-    text-decoration: none;
-}
-
-.s_btn01,
-.s_btn02,
-.s_btn03 {
-    position: absolute;
-    top: -10px;
-    display: block;
-    width: 150px;
-    height: 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: rgb(187, 231, 248);
-    box-shadow: 0px 0px 3px blue;
-    font-size: 16px;
-}
-
-.s_btn01 {
-    right: 360px;
-}
-
-.s_btn02 {
-    right: 190px;
-}
-
-.s_btn03 {
-    right: 20px;
-}
-
-.s_btn01:hover,
-.s_btn02:hover,
-.s_btn03:hover {
-    font-weight: bold;
-    background: rgb(81, 81, 255);
-    color: white;
 }
 
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
 }
-.systemtableWrap .row:not(.line1_box)>input,
-.systemtableWrap .row>select {
+.manageTableWrap .row:not(.line1_box)>input,
+.manageTableWrap .row>select {
     max-width: 210px;
 }
 
-.systemtableWrap .line1_box>input {
+.manageTableWrap .line1_box>input {
     max-width: 210px;
 }
-.systemtableWrap .right_list {
+.manageTableWrap .right_list {
     position: relative;
     left: 10px;
     width: 500px;
@@ -855,24 +774,29 @@ export default {
     overflow-y: scroll;
     box-shadow: 0px 0px 10px 1px #ccc;
 }
-.systemtableWrap .right_list .popUpTitle {
+.manageTableWrap .right_list .popUpTitle {
     font-size: 18px;
 }
-.systemtableWrap .right_list .btn {
+.manageTableWrap .right_list .btn {
     margin-right: 7px;
     font-size: 15px;
     height: 30px;
     margin-top: 20px;
 }
-.systemtableWrap .right_list .regiName {
+.manageTableWrap .right_list .regiName {
     font-size: 16px;
     word-break: keep-all;
 }
 
-.systemtableWrap .right_list .regiName+input,
-.systemtableWrap .right_list .regiName+select {
+.manageTableWrap .right_list .regiName+input,
+.manageTableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+    font-size:14px;
+}
+
+.manageTableWrap textarea{
+    font-size:16px;
 }
 
 .popUpMessage #form-confirm-label {

@@ -73,11 +73,11 @@
                                         <b-form-input class="col" type="date" size="sm" v-model="erInfo.rs_date"></b-form-input>
                                     </b-row>
 
-                                    <b-row>
+                                    <b-row class="line1_box">
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="erInfo.cause"></b-form-input>
                                     </b-row>
-                                    <b-row class="line1_box">
+                                    <b-row>
                                         <b-col class="regiName col-4">대응방안</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="erInfo.action"></b-form-input>
                                     </b-row>
@@ -742,6 +742,7 @@ export default {
 .systemtableWrap .row:not(.line1_box)>input,
 .systemtableWrap .row>select {
     max-width: 210px;
+    font-size:14px;
 }
 
 .systemtableWrap .line1_box>input {
@@ -757,6 +758,10 @@ export default {
 .systemtableWrap .right_list .regiName+select {
     height: 30px;
     margin-top: 10px;
+}
+
+.systemtableWrap .right_list .line1_box>input{
+    margin-top:20px;
 }
 
 .measurementBox .check_list {

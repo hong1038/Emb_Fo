@@ -9,7 +9,7 @@
                     <div class="container-fluid">
                         <b-row class="hmDateSelect">
                             <b-col cols="1">
-                                <span style="position:absolute; padding-left:30px; line-height:10px;">월 선택</span>
+                                <span style="padding-left:10px; line-height:10px;">월 선택</span>
                             </b-col>
                             <b-col cols="2">
                                 <div class="dateSelect">
@@ -201,7 +201,7 @@ export default {
 }
 
 
-.con_box_right p {
+.headMonthlyCon .con_box_right p {
     width:400px;
     height: 50px;
     font-family: "CJ Onlyone Bold";
