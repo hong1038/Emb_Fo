@@ -328,6 +328,7 @@ export default {
             let that = this;
             await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
                     name: this.name,
+                    area_code: this.area_code,
                     server_key:this.server_key,
                     email:this.email,
                     userId: store.state.userInfo.userId
