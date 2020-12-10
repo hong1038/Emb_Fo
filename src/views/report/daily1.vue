@@ -51,7 +51,7 @@
                     </div>
                     <div class="con_tableWrap container-fluid">
                         <div class="con_table" id="con_table01">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 100%;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
                         <!--<div class="con_table" id="con_table02">
@@ -423,58 +423,24 @@ export default {
 /* Top dailyDateCheck , search and Excel Save*/
 .dailyDateCheck {
     width: 100%;
-    height: 30px;
+    height: 50px;
     font-family: "CJ Onlyone Medium";
-    margin-top: 10px;
-}
-
-.dailyDateCheck>div {
-    position: relative;
-    height: 100%;
-    line-height: 30px;
-    padding: 0;
-    text-align: left;
 }
 
 .dailyDateCheck>div>div>div {
     float: left;
-    margin-left: 10px;
 }
 
-.dailyDateCheck>div>div>div:nth-child(1),
-.dailyDateCheck>div>div>div:nth-child(3) {
-    display: block;
-    width: 70px;
-    float: left;
-    text-align: center;
-    font-size: 14px;
+.dailyDateCheck>div>div>div:nth-child(1){
+    width: 80px;
+    font-size: 16px;
 }
 
-.dailyDateCheck>div>div>div>select {
-    width: 120px;
-    height: 30px;
-    text-align: left;
-    float: left;
-    box-sizing: border-box;
-    border-bottom: 1px solid black;
-    padding-left: 7px;
-    font-size: 14px;
-    font-family: 'Noto Sans KR';
-    cursor: pointer;
-}
-
-.dailyDateCheck>div>div>div>input[type=text] {
-    font-family: 'Arial';
-    cursor: pointer;
-    font-size:14px;
-}
 
 .dailyDateCheck>div>div>.dateSelect {
     width: 150px;
-}
-
-.dailyDateCheck>div>div>.dateSelect input[type="text"]{
-    font-size:14px;
+    font-size: 14px;
+    font-family: 'Arial';
 }
 
 .v-input__prepend-outer {
@@ -509,7 +475,6 @@ export default {
 .dailyTableSelectBox {
     width: 100%;
     height: 35px;
-    margin-top: 50px;
 }
 
 .dailyTableSelectBox>div>div {
