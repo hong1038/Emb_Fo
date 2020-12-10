@@ -158,7 +158,7 @@
                                 <p class="pin18Ball"></p>진천BC
                             </div>
                         </b-col>
-                        <b-col cols="3">
+                        <b-col cols="3" style="height:830px;">
                             <v-card max-width="400" class="mx-auto">
                                 <h1 style="margin-left:10px">{{areaNm}}</h1>
                                 <v-container class="card-list">
