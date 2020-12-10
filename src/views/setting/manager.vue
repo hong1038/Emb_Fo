@@ -278,7 +278,8 @@ export default {
                     this.showblock();
         },
         async getList() {
-            if (this.server_key.length == 0) {
+            console.log(this.server_key)
+            if (this.server_key === null) {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
