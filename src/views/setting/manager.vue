@@ -278,7 +278,7 @@ export default {
                     this.showblock();
         },
         async getList() {
-            if (store.state.ckServer.length == 0) {
+            if (this.server_key.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
