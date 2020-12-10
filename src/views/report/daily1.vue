@@ -436,7 +436,6 @@ export default {
     font-size: 16px;
 }
 
-
 .dailyDateCheck>div>div>.dateSelect {
     width: 150px;
     font-size: 14px;
@@ -508,36 +507,6 @@ export default {
 .dailyTableSelectBox>div>div:nth-child(5) {
     width: 170px;
 }
-
-/*.dailyTableSelectBox>div>div>span {
-    display: block;
-    width: 170px;
-    height: 30px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: inherit;
-    font-size: 14px;
-    margin: 5px 0px 0px 5px;
-    line-height: 30px;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    text-align: center;
-}
-.dailyTableSelectBox>div>div:nth-child(2)>span {
-    width: 470px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(3)>span {
-    width: 180px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(4)>span {
-    width: 280px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(5)>span {
-    width: 150px;
-}*/
 
 .dailyTableSelectBox>div>div>a {
     display: block;
