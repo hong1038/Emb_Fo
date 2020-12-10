@@ -47,11 +47,11 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="erInfo.server_name" :options="comboServers" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="erInfo.server_key" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="erInfo.category_cd" :options="comboCategories" size="sm" > 
+                                        <b-form-select class="col" v-model="erInfo.category" :options="comboCategories" size="sm" > 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
@@ -189,6 +189,7 @@ export default {
             comboFacilities: [], //시설분류
             comboLocations: [], //위치분류
             server_key:[],
+            category:null,
             category_cd:null,
             equipment_key:null,
             abnormal_type:null,
@@ -220,7 +221,7 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: 'category_cd',
+                    field: 'category',
                     headerName: '분야',
                     width: '160px'
                 },
@@ -333,7 +334,7 @@ export default {
             // this.category_cd = null; //측정분야코드
 
             this.erInfo.server_key = obj.data.server_key
-            this.erInfo.server_name = obj.data.server_name
+            this.erInfo.category = obj.data.category
             this.erInfo.category_cd = obj.data.category_cd
             this.erInfo.equipment_key = obj.data.equipment_key
             this.erInfo.abnormal_type = obj.data.abnormal_type
