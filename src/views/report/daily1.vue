@@ -443,7 +443,7 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
-        this.getConditionList()
+        this.getConditionList();
     },
     watch: {
         selectWorkplace() {
@@ -470,6 +470,8 @@ export default {
                 alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                 console.log(err)
             })
+            console.log(that.comboServers)
+
         },
         clearTimeout() {
             if (this.timeout) {
@@ -500,7 +502,7 @@ export default {
         handleVisibility(isVisible) {
             this.isVisible = isVisible
         },
-        
+
         getList1() {
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
@@ -512,7 +514,7 @@ export default {
             }
 
             this.onClick();
-
+            console.log(this);
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
@@ -528,8 +530,6 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.monitorList = res.data.data
                             that.monitorListCount = res.data.totalCount
-                            that.inletList = res.data.data
-                            that.inletListCount = res.data.totalCount
                         }
                     }
                 })
@@ -537,9 +537,9 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
                 this.busy = false;
-        },
-    
-    }
+
+        }
+    },
 }
 </script>
 

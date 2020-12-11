@@ -425,6 +425,7 @@ export default {
     beforeDestroy() {
       this.clearTimeout()
     },
+    
     watch: {
         selectWorkplace() {
             console.log(this.selectWorkplace)
@@ -459,34 +460,9 @@ export default {
             this.busy = false
             })
         },
-        // tabSelectBtn(){
-        //     let tab = new Array();
-        //     let tabBtn = new Array();
-        //     tab = document.getElementsByClassName('con_table');
-        //     tabBtn = document.getElementsByClassName('tabbtn');
-        //     for (let i = 0; i< tab.length; i++){
-        //         tab[i].style.display = 'none';
-        //         tabBtn[i].style.fontWeight = "400";
-        //         tabBtn[i].style.backgroundColor = "transparent";
-        //     }
-        //     let div1 = document.getElementById(this);
-        //     let align = div1.getAttribute("value");
-        //     console.log(align);
-        //     tab[0].style.display = "block"
-        // },
-        // summaryBtn(){
-        //     let tab = new Array();
-        //     let tabBtn = new Array();
-        //     tab = document.getElementsByClassName('con_table');
-        //     tabBtn = document.getElementsByClassName('tabbtn');
-        //     for(let i=0; i<tab.length; i++){
-        //         tab[i].style.display = 'none';
-        //         tabBtn[i].style.fontWeight = "400";
-        //         tabBtn[i].style.backgroundColor = "transparent";
-        //     }
-        //     tab[0].style.display = "block"
-        //     tabBtn[0].style.fontWeight = "bold";
-        //     tabBtn[0].style.backgroundColor = "white";
+
+        // handleVisibility(isVisible) {
+        //     this.isVisible = isVisible
         // },
 
         getList() {
@@ -502,29 +478,110 @@ export default {
             this.onClick();
 
             let that = this;
+
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/report/reportDataMonList", {
-                    dateFr: this.dateFr,
-                    dateTo: this.dateTo,
-                    serverList: store.state.ckServer,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.summaryList = res.data.data
-                            that.summaryListCount = res.data.totalCount
-                        }
+                dateFr: this.dateFr,
+                dateTo: this.dateTo,
+                serverList: store.state.ckServer,
+                pageNo: this.pageNo,
+                pageSz: this.pageSz,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.summaryList = res.data.data
+                        that.summaryListCount = res.data.totalCount
                     }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
-                this.busy = false;
-        },
+                }
+            })
+            .catch(err => {
+                alert("센서테이터목록 추출 실패 \n" + err);
+            })
 
+            // this.$Axios.post("/api/daedan/cj/ems/report/excessDataMonList", {
+            //     dateFr: this.dateFr,
+            //     dateTo: this.dateTo,
+            //     serverList: store.state.ckServer,
+            //     pageNo: this.pageNo,
+            //     pageSz: this.pageSz,
+            //     userId: store.state.userInfo.userId
+            // }, this.config)
+            // .then(res => {
+            //     if (res.status === 200) {
+            //         if (res.data.statusCode === 200) {
+            //             that.operList = res.data.data
+            //             that.operListCount = res.data.totalCount
+            //         }
+            //     }
+            // })
+            // .catch(err => {
+            //     alert("센서테이터목록 추출 실패 \n" + err);
+            // })
+
+            // this.$Axios.post("/api/daedan/cj/ems/report/changeDataMonList", {
+            //     dateFr: this.dateFr,
+            //     dateTo: this.dateTo,
+            //     serverList: store.state.ckServer,
+            //     pageNo: this.pageNo,
+            //     pageSz: this.pageSz,
+            //     userId: store.state.userInfo.userId
+            // }, this.config)
+            // .then(res => {
+            //     if (res.status === 200) {
+            //         if (res.data.statusCode === 200) {
+            //             that.preventList = res.data.data
+            //             that.preventListCount = res.data.totalCount
+            //         }
+            //     }
+            // })
+            // .catch(err => {
+            //     alert("센서테이터목록 추출 실패 \n" + err);
+            // })
+
+            // this.$Axios.post("/api/daedan/cj/ems/report/overOutletList", {
+            //     dateFr: this.dateFr,
+            //     dateTo: this.dateTo,
+            //     serverList: store.state.ckServer,
+            //     pageNo: this.pageNo,
+            //     pageSz: this.pageSz,
+            //     userId: store.state.userInfo.userId
+            // }, this.config)
+            // .then(res => {
+            //     if (res.status === 200) {
+            //         if (res.data.statusCode === 200) {
+            //             that.outletList = res.data.data
+            //             that.outletListCount = res.data.totalCount
+            //         }
+            //     }
+            // })
+            // .catch(err => {
+            //     alert("센서테이터목록 추출 실패 \n" + err);
+            // })
+
+
+            // this.$Axios.post("/api/daedan/cj/ems/report/systemDataMonList", {
+            //     dateFr: this.dateFr,
+            //     dateTo: this.dateTo,
+            //     serverList: store.state.ckServer,
+            //     pageNo: this.pageNo,
+            //     pageSz: this.pageSz,
+            //     userId: store.state.userInfo.userId
+            // }, this.config)
+            // .then(res => {
+            //     if (res.status === 200) {
+            //         if (res.data.statusCode === 200) {
+            //             that.errorList = res.data.data
+            //             that.errorListCount = res.data.totalCount
+            //         }
+            //     }
+            // })
+            // .catch(err => {
+            //     alert("센서테이터목록 추출 실패 \n" + err);
+            // })
+            this.busy = false;
+        },
     }
 }
 </script>
@@ -600,7 +657,7 @@ export default {
     color: white;
 }
 
-/*Table Select */
+
 .monthlyTableWrap{
     width:100%;
     height:700px;
