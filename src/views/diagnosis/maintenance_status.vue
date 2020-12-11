@@ -20,7 +20,7 @@
                                             <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
                                                 <v-spacer></v-spacer>
                                                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                                <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
+                                                <v-btn text color="primary" @click="saveYear">OK</v-btn>
                                             </v-date-picker>
                                         </v-menu>               
                                         <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->

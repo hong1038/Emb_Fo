@@ -85,6 +85,14 @@ const routes = [{
             import ("@/views/stats/normal_distribution2.vue")
     },
 
+    // 통계 - 현황 - 월
+    {
+        path: '/stats/status',
+        name: 'status',
+        component: () =>
+            import ("@/views/stats/status.vue")
+    },
+
 
     // 대응 - 변경점대응
     {

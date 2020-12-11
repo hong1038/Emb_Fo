@@ -60,6 +60,9 @@
                             <li>
                                 <router-link :to="{ name: 'normalDistribution1'}">정규분포</router-link>
                             </li>
+                            <li>
+                                <router-link :to="{ name: 'status'}">현황</router-link>
+                            </li>
                         </ul>
                     </li>
                     <li>
