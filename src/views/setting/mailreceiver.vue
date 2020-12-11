@@ -7,6 +7,7 @@
                 <div class="con_box_right mailConBox container-fluid">
                     <p>메일 수신자</p>
                     <input type="button" class="mailPlus" v-on:click="showblock" value="등록">
+                    <input type="button" class="mailList" v-on:click="getList" value="조회">
                     <div class="mailCon mt-4 text-center container-fluid" v-for="mail in MailList" :key="mail.id">
                         <b-row class="mailCon_title">
                             <b-col cols="3">사업장</b-col>
@@ -275,25 +276,25 @@ export default {
             // }
             this.onClick();
 
-            // axios.post("/api/daedan/cj/ems/setting/MailList", {
-            //         serverKey:this.comboServers[0].id,
-            //         pageNo:this.pageNo,
-            //         pageSz:this.pageSz,
-            //         userId: store.state.userInfo.userId
-            //     })
-            //     .then(res => {
-            //         if (res.status === 200) {
-            //             if (res.data.statusCode === 200) {
-            //                 console.log(res.data.data)
-            //                 this.list = res.data.data;
-            //                 this.listCount = res.data.totalCount;
-            //                   }
-            //         }
-            //     })
-            //     .catch(err => {
-            //         alert("검색조건추출 실패 \n" + err);
-            //         console.log(err)
-            //     })
+            axios.post("/api/daedan/cj/ems/setting/MailList", {
+                    serverKey:this.comboServers[0].id,
+                    pageNo:this.pageNo,
+                    pageSz:this.pageSz,
+                    userId: store.state.userInfo.userId
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            console.log(res.data.data)
+                            this.list = res.data.data;
+                            this.listCount = res.data.totalCount;
+                              }
+                    }
+                })
+                .catch(err => {
+                    alert("검색조건추출 실패 \n" + err);
+                    console.log(err)
+                })
 
         },
         saveInfo() {
@@ -383,7 +384,7 @@ export default {
     text-align: left;
 }
 
-.mailPlus {
+.mailPlus,.mailList {
     position: absolute;
     top: 30px;
     right: 20px;
@@ -403,7 +404,12 @@ export default {
     color: black;
 }
 
-.mailPlus:hover {
+.mailList{
+    right:190px;
+}
+
+.mailPlus:hover,
+.mailList:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
