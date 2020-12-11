@@ -275,8 +275,8 @@ export default {
         },
         clearTimeout() {
             if (this.timeout) {
-            clearTimeout(this.timeout)
-            this.timeout = null
+                clearTimeout(this.timeout)
+                this.timeout = null
             }
         },
         setTimeout(callback) {
@@ -305,21 +305,6 @@ export default {
         onPageChange(params) {
             this.pageNo = params.currentPage;
             this.getList();
-        },
-        inletBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table02').style.display = "block";
-            tabBtn[1].style.fontWeight = "bold";
-            tabBtn[1].style.backgroundColor = "white";
-
         },
         getList2() {
             if (store.state.ckServer.length == 0) {

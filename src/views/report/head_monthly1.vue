@@ -36,28 +36,26 @@
                             
                         </b-row>
                     </div>
-                    <div class="hmtableSelectBox container-fluid">
-                        <b-row>
-                            <b-col cols="3" class="check01">
-                                <router-link :to="{ name: 'headMonthly1'}" >전체 통계</router-link>
-                            </b-col>
-                            <b-col cols="3">
-                                <router-link :to="{ name: 'headMonthly2'}">유형별 통계</router-link>
-                            </b-col>
-                            <b-col cols="3">
-                                <router-link :to="{ name: 'headMonthly3'}">문제점 / 이슈사항</router-link>
-                            </b-col>
-                            <b-col cols="3">
-                                <router-link :to="{ name: 'headMonthly4'}">이상점 및 비정상 대응 확인</router-link>
-                            </b-col>
-                        </b-row>
-                    </div>
-                    <div>
-                    
-                    </div>
-                    <div class="con_tableWrap">
-                        <ag-grid-vue style="width: 100%; height: 630px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                    <div class="hmTableWrap">
+                        <div class="hmTable hmTable01">
+                            <p>1. 전체 통계</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="tsFields" :rowData="tsList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                        </div>
+                        <div class="hmTable hmTable02">
+                            <p>2. 유형별 통계</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                         </ag-grid-vue>
+                        </div>
+                        <div class="hmTable hmTable03">
+                            <p>3. 문제점 / 이슈사항</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="eiFields" :rowData="eiList" :pagination="true" v-b-visible="handleVisibility">
+                            </ag-grid-vue>
+                        </div>
+                        <div class="hmTable hmTable04">
+                            <p>4. 이상점 및 비정상 대응확인</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="erFields" :rowData="erList" :pagination="true" v-b-visible="handleVisibility">
+                            </ag-grid-vue>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,7 +97,9 @@ export default {
             dateFr: "",
             list:[],
             listCount:0,
-            fields: [
+
+            //1. 전체통계
+            tsFields: [
                 {
                     field: '',
                     headerName: '대분류',
@@ -146,6 +146,272 @@ export default {
                     width : '190'
                 },
             ],
+
+            //2. 유형별 통계
+            ttfields: [
+                {
+                    field: '',
+                    headerName: '권역',
+                    width: '100px'
+                },
+                {
+                    field: 'server_name',
+                    headerName: '사업장',
+                    width: '130px'
+                },
+                {
+                    field: '',
+                    headerName: '구분',
+                    width: '80px'
+                },
+                {
+                    field: '',
+                    headerName: '단위',
+                    width: '80px'
+                },
+                {
+                    field: '',
+                    headerName: '환경모니터링',
+                    children:[
+                        {
+                            field : '',
+                            headerName : '측정기, 방지시설 문제/이슈대응(기계적 문제)',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '센서 이상',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '통신 이상',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '설비 이상',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        }
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '모니터링 이상 대응',
+                    children : [
+                        {
+                            field : '',
+                            headerName : '악취',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                        {
+                            field : '',
+                            headerName : '수질',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                        {
+                            field : '',
+                            headerName : '대기',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                        {
+                            field : '',
+                            headerName : '합계',
+                            children : [
+                                {
+                                    field : '',
+                                    headerName : '농도 상승',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '수치 오류',
+                                    width : '109'
+                                },
+                                {
+                                    field : '',
+                                    headerName : '소계',
+                                    width : '80'
+                                },
+                            ]
+                        },
+                    ]
+                        
+                },
+            ],
+
+            //3. 문제점/이슈사항
+            eiFields: [
+                {
+                    field: '',
+                    headerName: '권역',
+                    width: '100px'
+                },
+                {
+                    field: 'server_name',
+                    headerName: '사업장',
+                    width: '140px'
+                },
+                {
+                    field: '',
+                    headerName: '구분',
+                    width: '80px'
+                },
+                {
+                    field: '',
+                    headerName: '측정위치',
+                    width: '190px'
+                },
+                {
+                    field: '',
+                    headerName: '유형',
+                    width : '80'
+                },
+                {
+                    field: '',
+                    headerName: '발생 일자',
+                    width: '190px'
+                },
+                {
+                    field: '',
+                    headerName: '문제점 개선 계획',
+                    children : [
+                        {
+                            field : '',
+                            headerName : '문제점/이슈사항',
+                            width: '418'
+                        },
+                        {
+                            field : '',
+                            headerName : '대응 방안',
+                            width: '470'
+                        },
+                        {
+                            field : '',
+                            headerName : '일정',
+                            width: '80'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '완료 상태',
+                    width: '110px'
+                },
+            ],
+
+            //4. 이상점 및 비정상 대응확인
+            erFields: [
+                {
+                    field: '',
+                    headerName: '권역',
+                    width: '100px'
+                },
+                {
+                    field: 'server_name',
+                    headerName: '사업장',
+                    width: '140px'
+                },
+                {
+                    field: '',
+                    headerName: '구분',
+                    width: '80px'
+                },
+                {
+                    field: '',
+                    headerName: '발생일자',
+                    width: '140px'
+                },
+                {
+                    field: '',
+                    headerName: '공정명',
+                    width : '200'
+                },
+                {
+                    field: '',
+                    headerName: '방지시설명',
+                    width: '200px'
+                },
+                {
+                    field: '',
+                    headerName: '유형',
+                    width : '110'
+                },
+                {
+                    field: '',
+                    headerName: '초과사항 확인결과 원인',
+                    width: '315px'
+                },
+                {
+                    field: '',
+                    headerName: '조치사항',
+                    width : '190'
+                },
+                {
+                    field: '',
+                    headerName: '조치여부',
+                    width : '190'
+                },
+                {
+                    field: '',
+                    headerName: '조치 완료 일자',
+                    width : '190'
+                },
+            ],
         }
     },
     watch: {
@@ -160,18 +426,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: "CJ Onlyone Medium";
-    src: url(/fonts/CJOnlyoneMedium.ttf);
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: "CJ Onlyone Bold";
-    src: url(/fonts/CJOnlyoneBold.ttf);
-    font-weight: bold;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -185,15 +439,14 @@ export default {
 /* title */
 .con_box_right {
     box-sizing: border-box;
-    font-family: "CJ Onlyone Medium";
     position: relative;
 }
 
 
-.headMonthlyCon .con_box_right p {
+.headMonthlyCon .con_box_right>p {
     width:400px;
     height: 50px;
-    font-family: "CJ Onlyone Bold";
+    font-family: CjFontTitleBold;
     font-size: 24px;
     box-sizing: border-box;
     border-bottom: 5px solid rgb(172, 172, 172);
@@ -201,7 +454,6 @@ export default {
     text-align: left;
     margin-bottom:10px;
 }
-
 
 .hmDateSelect{
     height:50px;
@@ -238,86 +490,21 @@ export default {
     font-size:16px;
 }
 
-
-/*  search and Excel Save*/
-
-/*Table Select */
-.hmtableSelectBox {
-    width: 100%;
-    height: 60px;
+.hmTableWrap{
+    width:100%;
+    border-radius: 7px;
 }
 
-.hmtableSelectBox>div>div {
-    float: left;
-    width: 130px;
-    height: 60px;
-    box-sizing: border-box;
-    background: #484848;
-    cursor: pointer;
-    border:1px solid rgb(97, 97, 97);
-}
-
-.hmtableSelectBox>div>.check01{
-    background:black;
-    font-weight:bold;
-}
-
-.hmtableSelectBox>div>.check01>a{
-    font-size:20px;
-}
-
-.hmtableSelectBox>.row{
-    margin:0;
-    padding:0;
-}
-
-.hmtableSelectBox>div>div>a {
-    display:block;
-    width:90%;
-    margin:5px auto;
-    text-decoration: none;
-    color:white;
-    font-size:20px;
-    text-align: center;
-}
-/*monthSelect*/
-.monthSelectWrap{
-    height:40px;
+.hmTableWrap .hmTable{
+    width:100%;
     margin-top:10px;
 }
 
-.monthSelectWrap>.row{
-    height:100%;
-    margin:0;
-}
-
-.monthSelectWrap>div>.col-1{
-    height:100%;
-    padding:0;
-    font-size:14px;
-    box-sizing:border-box;
-    border:1px solid rgb(126, 126, 126);
-}
-
-.monthSelectWrap>div>div>button{
-    display:block;
-    width:100%;
-    height:40px;
-    background:#343a40;
-    color:white;
-    margin:0 auto;
-}
-
-/* Contents */
-
-.con_tableWrap {
-    width: 100%;
-}
-
-.con_table {
-    height: 80px;
-    background: #f9fcff;
-    box-sizing: border-box;
-    border: 1px solid #d7dadd;
+.hmTableWrap .hmTable p{
+    height:50px;
+    line-height:50px;
+    font-size:20px;
+    font-family:CjFontTitleMedium;
+    margin-bottom:0;
 }
 </style>
