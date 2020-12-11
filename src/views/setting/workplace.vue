@@ -215,6 +215,7 @@ export default {
         store.state.ckSensor = [];
         this.fields = [
             { field: 'pid'      , headerName: '사업장번호'   , hide: true },
+            { field: 'area_name'    , headerName: '권역구분' },
             { field: 'name1'    , headerName: '사업장명' },
             { field: 'name2'    , headerName: '사업장명(약식)' },
             { field: 'area'     , headerName: '지역'         },
@@ -425,7 +426,7 @@ export default {
                     // equipList: store.state.ckEquip,
                     // sensorList: store.state.ckSensor,
                     pageNo: this.pageNo,
-                    pageSz: this.perPage,
+                    pageSz: this.paginationPageSize,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

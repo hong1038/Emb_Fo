@@ -57,11 +57,11 @@
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
-                                        <b-form-input class="col" v-model="problem" size="sm"></b-form-input>
+                                        <b-form-textarea class="col" style="max-height:120px;min-height:120px" v-model="problem" size="sm"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">대응방안</b-col>
-                                        <b-form-input class="col" v-model="action" size="sm"></b-form-input>
+                                        <b-form-textarea class="col" style="max-height:120px;min-height:120px" v-model="action" size="sm"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">개선일정</b-col>

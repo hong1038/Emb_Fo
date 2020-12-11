@@ -104,6 +104,11 @@ export default {
                 //     hidden: true
                 // },
                 {
+                    field: 'internal_number',
+                    headerName: '관리번호',
+                    width: '80px'
+                },
+                {
                     field: 'server_name',
                     headerName: '사업장',
                     width: '100px'
