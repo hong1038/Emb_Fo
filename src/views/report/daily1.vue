@@ -35,42 +35,33 @@
                         </b-row>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="dailyTableSelectBox container-fluid">
-                        <div>
-                            <!-- <div class="clickBtnWrap"><span class="tabbtn clickBtn" v-on:click="monitorBtn">1. 일일 모니터링 통계</span></div> -->
-                            <div class="clickBtnWrap"><router-link class="tabbtn clickBtn" :to="{name: 'daily1'}">1. 일일 모니터링 통계</router-link> </div>
-                            <!-- <div><span class="tabbtn" v-on:click="inletBtn">2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</span></div> -->
-                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily2'}">2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</router-link> </div>
-                            <!-- <div><span class="tabbtn" v-on:click="outletBtn">3. 배출구 초과이력 관리</span></div> -->
-                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily3'}">3. 배출구 초과이력 관리</router-link> </div>
-                            <!-- <div><span class="tabbtn" v-on:click="errorBtn">4. 설비적/기계적 문제 발생 및 대응 현황</span></div> -->
-                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily4'}">4. 설비적/기계적 문제 발생 및 대응 현황</router-link> </div>
-                            <!-- <div><span class="tabbtn" v-on:click="etcBtn">5. 운영 특이사항</span></div> -->
-                            <div><router-link class="tabbtn clickBtn" :to="{name: 'daily5'}">5. 운영 특이사항</router-link> </div>
+                    <div class="dailyTableWrap">
+                        <div class="dailyTable dailyTable01">
+                            <p>1. 일일 모니터링 통계</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
                         </div>
+                        <div class="dailyTable dailyTable02">
+                            <p>2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                        </div>
+                        <div class="dailyTable dailyTable03">
+                            <p>3. 배출구 초과이력 관리</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility">
+                            </ag-grid-vue>
+                        </div>
+                        <div class="dailyTable dailyTable04">
+                            <p>4. 설비적/기계적 문제 발생 및 대응 현황</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" v-b-visible="handleVisibility">
+                            </ag-grid-vue>
+                        </div>
+                        <div class="dailyTable dailyTable05">
+                            <p>5. 운영 특이사항</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility">
+                            </ag-grid-vue>
+                        </div>
+                        
                     </div>
-                    <div class="con_tableWrap container-fluid">
-                        <div class="con_table" id="con_table01">
-                            <ag-grid-vue style="width: 100%; height: 100%;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>
-                        <!--<div class="con_table" id="con_table02">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>
-                        <div class="con_table" id="con_table03">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>
-                        <div class="con_table" id="con_table04">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>
-                        <div class="con_table" id="con_table05">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>-->
-                    </div>
+                    
                     </b-overlay>
                 </div>
             </div>
@@ -142,6 +133,7 @@ export default {
             
             pageSz:10,
 
+            //1. 일일 모니터링 통계
             monitorListCount:0,
             monitorList:[],
             monitorFields: [
@@ -231,7 +223,215 @@ export default {
                     width:'260'
                 },
             ],
+
+            //2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항
+            inletListCount:0,
+            inletList: [],
+            inletFields: [
+                {
+                    field: 'category_nm',
+                    headerName: '분야',
+                    width: '140px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '200px'
+                },
+                {
+                    field: '',
+                    headerName: '흡입구',
+                    children: [{
+                            field: 'inlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'inlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'inlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: '',
+                            headerName: '이상점 발생 횟수',
+                            type: 'number',
+                            width: '160px'
+                        },
+                    ]
+                },
+                {
+                    field: 'cause',
+                    headerName: '변경점/이상점 확인결과 원인',
+                    width: '230px'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항',
+                    width: '170px'
+                },
+                {
+                    field: 'action_type',
+                    headerName: '조치 여부',
+                     width: '110px'
+                },
+                {
+                    field: 'action_date',
+                    headerName: '조치 완료일자',
+                    width:'195'
+                },
+            ],
+
+            //3. 배출구 초과이력 관리
+            outletListCount:0,
+            outletList:[],
+            outletFields: [
+                {
+                    field: 'category_nm',
+                    headerName: '분야',
+                    width: '80px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '160px'
+                },
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [{
+                            field: 'inlet_max_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '초과횟수',
+                            type: 'number',
+                            width: '160px'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '방지시설 처리효율(%)',
+                    width: '190px'
+                },
+                {
+                    field: 'action_type',
+                    headerName: '유형',
+                    width: '80px'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항ㆍ원인',
+                     width: '220px'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항',
+                    width:'120'
+                },
+                {
+                    field: 'action_type',
+                    headerName: '조치여부',
+                    width:'110'
+                },
+                {
+                    field: 'prevention_date',
+                    headerName: '조치 완료일자',
+                    width:'140'
+                },
+            ],
             
+            //4. 설비적/기계적 문제 발생 및 대응 현황
+            errorListCount:0,
+            errorList:[],
+            errorFields: [
+                {
+                    field: 'category_nm',
+                    headerName: '분야',
+                    width: '100px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '200px'
+                },
+                {
+                    field: '',
+                    headerName: '유형',
+                    width: '190px'
+                },
+                {
+                    field: 'action_date',
+                    headerName: '발생 일자',
+                    width: '190px'
+                },
+                {
+                    field: '',
+                    headerName: '문제점 개선 계획',
+                    children: [{
+                            field: '',
+                            headerName: '문제점/이슈사항',
+                            type: 'number',
+                            width: '300px'
+                        },
+                        {
+                            field: '',
+                            headerName: '대응 방안',
+                            type: 'number',
+                            width: '300px'
+                        },
+                        {
+                            field: '',
+                            headerName: '일정',
+                            type: 'number',
+                            width: '100px'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '완료 여부',
+                    width: '120px'
+                },
+            ],
+
+            //5. 운영 특이사항
+            etcListCount:0,
+            etcList:[],
+            etcFields: [
+                {
+                    field: 'category_nm',
+                    headerName: '분야',
+                    width: '200px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '200px'
+                },
+                {
+                    field: '',
+                    headerName: '특이사항',
+                    width: '1100px'
+                },
+            ],
         }
     },
     beforeDestroy() {
@@ -257,25 +457,24 @@ export default {
         getConditionList() {
             let that = this;
             axios.post("/api/daedan/cj/ems/setting/conditionList", {
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.comboServers = res.data.data.serverList; //사업장
-                        }
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        that.comboServers = res.data.data.serverList; //사업장
                     }
-                })
-                .catch(err => {
-                    alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
-                    console.log(err)
-                })
-
+                }
+            })
+            .catch(err => {
+                alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
+                console.log(err)
+            })
         },
         clearTimeout() {
             if (this.timeout) {
-            clearTimeout(this.timeout)
-            this.timeout = null
+                clearTimeout(this.timeout)
+                this.timeout = null
             }
         },
         setTimeout(callback) {
@@ -302,21 +501,6 @@ export default {
             this.isVisible = isVisible
         },
         
-        monitorBtn(){
-            let tab = new Array();
-            let tabBtn = new Array();
-            tab = document.getElementsByClassName('con_table');
-            tabBtn = document.getElementsByClassName('tabbtn');
-            for(let i=0; i<tab.length; i++){
-                tab[i].style.display = 'none';
-                tabBtn[i].style.fontWeight = "400";
-                tabBtn[i].style.backgroundColor = "transparent";
-            }
-            document.getElementById('con_table01').style.display = "block";
-            tabBtn[0].style.fontWeight = "bold";
-            tabBtn[0].style.backgroundColor = "white";
-            
-        },
         getList1() {
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
@@ -344,7 +528,8 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.monitorList = res.data.data
                             that.monitorListCount = res.data.totalCount
-                            
+                            that.inletList = res.data.data
+                            that.inletListCount = res.data.totalCount
                         }
                     }
                 })
@@ -359,18 +544,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: "CJ Onlyone Medium";
-    src: url(/fonts/CJOnlyoneMedium.ttf);
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: "CJ Onlyone Bold";
-    src: url(/fonts/CJOnlyoneBold.ttf);
-    font-weight: bold;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -405,14 +578,13 @@ export default {
 /* title */
 .con_box_right {
     box-sizing: border-box;
-    font-family: "CJ Onlyone Medium";
     position: relative;
 }
 
 .con_box_right>p {
     width: 400px;
     height: 50px;
-    font-family: "CJ Onlyone Bold";
+    font-family: CjFontTitleBold;
     font-size: 24px;
     box-sizing: border-box;
     border-bottom: 5px solid rgb(172, 172, 172);
@@ -424,7 +596,6 @@ export default {
 .dailyDateCheck {
     width: 100%;
     height: 50px;
-    font-family: "CJ Onlyone Medium";
 }
 
 .dailyDateCheck>div>div>div {
@@ -439,7 +610,6 @@ export default {
 .dailyDateCheck>div>div>.dateSelect {
     width: 150px;
     font-size: 14px;
-    font-family: 'Arial';
 }
 
 .v-input__prepend-outer {
@@ -471,91 +641,30 @@ export default {
 }
 
 /*Table Select */
-.dailyTableSelectBox {
-    width: 100%;
-    height: 35px;
+.dailyTableWrap{
+    width:100%;
+    height:700px;
+    border-radius: 7px;
 }
 
-.dailyTableSelectBox>div>div {
-    float: left;
-    width: 180px;
-    height: 35px;
-    box-sizing: border-box;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: #99C5F2;
-    cursor: pointer;
+.dailyTableWrap .dailyTable{
+    width:100%;
+    height:100%;
 }
 
-.dailyTableSelectBox>div>.clickBtnWrap>a{
-    background:white;
-    font-weight:bold;
+.dailyTableWrap .dailyTable p{
+    height:50px;
+    line-height:50px;
+    font-size:20px;
+    font-family:CjFontTitleMedium;
+    margin-bottom:0;
 }
-
-.dailyTableSelectBox>div>div:nth-child(2) {
-    width: 480px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(3) {
-    width: 190px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(4) {
-    width: 290px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(5) {
-    width: 170px;
-}
-
-.dailyTableSelectBox>div>div>a {
-    display: block;
-    width: 170px;
-    height: 30px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: inherit;
-    font-size: 14px;
-    margin: 5px 0px 0px 5px;
-    line-height: 30px;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    text-align: center;
-    text-decoration: none;
-    color:black;
-}
-.dailyTableSelectBox>div>div:nth-child(2)>a {
-    width: 470px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(3)>a {
-    width: 180px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(4)>a {
-    width: 280px;
-}
-
-.dailyTableSelectBox>div>div:nth-child(5)>a {
-    width: 150px;
-}
-
-
 
 /* Contents */
 
 .con_tableWrap {
     width: 100%;
     height:600px;
-}
-
-.con_table {
-    position:absolute;
-    width:100%;
-    height:100%;
-    background: #f9fcff;
-    box-sizing: border-box;
-    border: 1px solid #d7dadd;
 }
 
 .ag-header-group-text{

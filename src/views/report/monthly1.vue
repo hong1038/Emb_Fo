@@ -35,49 +35,35 @@
                         </b-row>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="monthlyTableSelectBox container-fluid">
-                        <div>
-                            <!-- <div><button type="button" class="tabbtn" v-on:click="summaryBtn">1. 월말 보고 Summary</button></div>
-                            <div><button type="button" class="tabbtn" v-on:click="operBtn">2. 운전 현황(월간 통계)</button></div>
-                            <div><button type="button" class="tabbtn" v-on:click="preventBtn">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</button></div>
-                            <div><button type="button" class="tabbtn" v-on:click="outletBtn">4. 배출구 초과이력 관리</button></div>
-                            <div><button type="button" class="tabbtn" v-on:click="errorBtn">5. 설비적/기계적 문제 발생 및 대응 현황</button></div>
-                            <div><button type="button" class="tabbtn" v-on:click="etcBtn">6. 운영 특이사항</button></div> -->
-                            
-                            <div class="clickBtnWrap"><router-link :to="{name:'monthly1'}">1. 월말 보고 Summary</router-link></div>
-                            <div><router-link :to="{name:'monthly2'}">2. 운전 현황(월간 통계)</router-link></div>
-                            <div><router-link :to="{name:'monthly3'}">3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</router-link></div>
-                            <div><router-link :to="{name:'monthly4'}">4. 배출구 초과이력 관리</router-link></div>
-                            <div><router-link :to="{name:'monthly5'}">5. 설비적/기계적 문제 발생 및 대응 현황</router-link></div>
-                            <div><router-link :to="{name:'monthly6'}">6. 운영 특이사항</router-link></div>
+                    <div class="monthlyTableWrap">
+                        <div class="monthlyTable monthlyTable01">
+                            <p>1. 월말 보고 Summary</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
                         </div>
-                    </div>
-
-                    <div class="con_tableWrap">
-                        <div class="con_table" id="con_table01">
-                            <ag-grid-vue style="width: 100%; height: 100%;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                        <div class="monthlyTable monthlyTable02">
+                            <p>2. 운전 현황(월간 통계)</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                        </div>
+                        <div class="monthlyTable monthlyTable03">
+                            <p>3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventList" :rowData="preventFields" :pagination="true" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <!--<div class="con_table" id="con_table02">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                        <div class="monthlyTable monthlyTable04">
+                            <p>4. 배출구 초과이력 관리</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table03">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                        <div class="monthlyTable monthlyTable05">
+                            <p>5. 설비적/기계적 문제 발생 및 대응 현황</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table04">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                        <div class="monthlyTable monthlyTable06">
+                            <p>6. 운영 특이사항</p>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        <div class="con_table" id="con_table05">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>
-                        <div class="con_table" id="con_table06">
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
-                        </div>-->
                     </div>
                     </b-overlay>
                 </div>
@@ -136,6 +122,7 @@ export default {
             pageNo: 1,
             perPage: 10,
 
+            //1. 월말 보고 Summary
             summaryListCount: 0,
             summaryList: [],
             summaryFields: [
@@ -172,6 +159,267 @@ export default {
                     width: '180px'
                 },
             ],
+
+            //2. 운전현황(월간통계)
+            operListCount:0,
+            operList:[],
+            operFields: [
+                {
+                    field: 'category_cd',
+                    headerName: '분야',
+                    width: '120px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '190px'
+                },
+                {
+                    field: 'sensor_name',
+                    headerName: '항목',
+                    width: '250px'
+                },
+                {
+                    field: 'unit',
+                    headerName: '단위',
+                    width: '100px'
+                },
+                {
+                    field: '',
+                    headerName: '후단',
+                    children: [{
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '120px'
+                        },
+                        {
+                            field: 'outlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '120px'
+                        },
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '120px'
+                        },
+                        {
+                            field: 'outlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '120px'
+                        },
+                        {
+                            field: '',
+                            headerName: '초과횟수',
+                            type: 'number',
+                            width: '140px'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '방지시설 효율(%)',
+                    width: '220px'
+                },
+            ],
+
+            //3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항
+            preventListCount:0,
+            preventList:[],
+            preventFields: [
+                {
+                    field: 'category_cd',
+                    headerName: '구분',
+                    width: '80px'
+                },
+                {
+                    field: 'prevention_date',
+                    headerName: '발생일자',
+                    width: '120px'
+                },
+                {
+                    field: 'server_name',
+                    headerName: '공정명',
+                    width: '120px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치명',
+                    width: '150px'
+                },
+                {
+                    field: 'cause',
+                    headerName: '변경점/이상점 확인 결과 원인',
+                    width : '415'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항',
+                    width: '415px'
+                },
+                {
+                    field: 'action_date',
+                    headerName: '조치 완료일자',
+                    width: '200px'
+                },
+            ],
+
+            //4. 배출구 초과이력 관리
+            outletListCount:0,
+            outletList:[],
+            outletFields: [
+                {
+                    field: 'category_cd',
+                    headerName: '구분',
+                    width: '80px'
+                },
+                {
+                    field: 'prevention_date',
+                    headerName: '발생일자',
+                    width: '110px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '방지시설명',
+                    width: '130px'
+                },
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [{
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '80px'
+                        },
+                        {
+                            field: '',
+                            headerName: '초과횟수',
+                            type: 'number',
+                            width: '110px'
+                        },
+                    ]
+                },
+                {
+                    field: '',
+                    headerName: '방지시설 처리효율(%)',
+                    width : '190'
+                },
+                {
+                    field: 'action_type',
+                    headerName: '유형',
+                    width: '90px'
+                },
+                {
+                    field: 'cause',
+                    headerName: '초과사항 확인결과 원인',
+                    width: '250px'
+                },
+                {
+                    field: 'action',
+                    headerName: '조치사항',
+                    width: '130px'
+                },
+                {
+                    field: 'abnormal_type',
+                    headerName: '조치 여부',
+                    width: '110px'
+                },
+                {
+                    field: 'action_date',
+                    headerName: '조치 완료일자',
+                    width: '140px'
+                },
+            ],
+
+            //5. 설비적/기계적 문제 발생 및 대응 현황
+            errorListCount:0,
+            errorList:[],
+            errorFields: [
+                {
+                    field: 'prevention_date',
+                    headerName: '일자',
+                    width: '80px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '120px'
+                },
+                {
+                    field: 'abnormal_type',
+                    headerName: '유형',
+                    width: '100px'
+                },
+                {
+                    field: 'rs_date',
+                    headerName: '발생일자',
+                    width: '110px'
+                },
+                {
+                    field: '',
+                    headerName: '문제점 개선 계획',
+                    children: [{
+                            field: 'cause',
+                            headerName: '문제점/이슈사항',
+                            type: 'number',
+                            width: '380px'
+                        },
+                        {
+                            field: 'action',
+                            headerName: '대응 방안',
+                            type: 'number',
+                            width: '380px'
+                        },
+                        {
+                            field: 'action_date',
+                            headerName: '일정',
+                            type: 'number',
+                            width: '130px'
+                        },
+                    ]
+                },
+                {
+                    field: 'action_type',
+                    headerName: '완료상태',
+                    width : '200'
+                },
+            ],
+
+            //6.운영 특이사항
+            etcListCount:0,
+            etcList:[],
+            etcFields: [
+                {
+                    field: 'prevention_date',
+                    headerName: '일자',
+                    width: '150px'
+                },
+                {
+                    field: 'category_cd',
+                    headerName: '분야',
+                    width: '150px'
+                },
+                {
+                    field: 'equipment_name',
+                    headerName: '측정위치',
+                    width: '150px'
+                },
+                {
+                    field: 'issue',
+                    headerName: '특이사항',
+                    width: '1050px'
+                },
+            ]
         }
     },
     beforeDestroy() {
@@ -282,35 +530,21 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: "CJ Onlyone Medium";
-    src: url(/fonts/CJOnlyoneMedium.ttf);
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: "CJ Onlyone Bold";
-    src: url(/fonts/CJOnlyoneBold.ttf);
-    font-weight: bold;
-}
-
 * {
     margin: 0;
     padding: 0;
 }
 
-/* title */
 
 .con_box_right {
     box-sizing: border-box;
-    font-family: "CJ Onlyone Medium";
     position: relative;
 }
 
 .con_box_right>p {
     width: 400px;
     height: 50px;
-    font-family: "CJ Onlyone Bold";
+    font-family: CjFontTitleBold;
     font-size: 24px;
     box-sizing: border-box;
     border-bottom: 5px solid rgb(172, 172, 172);
@@ -318,29 +552,24 @@ export default {
     text-align: left;
 }
 
-/* Top DateCheck , search and Excel Save*/
-
+/* Top dailyDateCheck , search and Excel Save*/
 .monthlyDateCheck {
     width: 100%;
     height: 50px;
-    font-family: "CJ Onlyone Medium";
 }
 
 .monthlyDateCheck>div>div>div {
     float: left;
 }
 
-.monthlyDateCheck>div>div>div:nth-child(1),
-.monthlyDateCheck>div>div>div:nth-child(3) {
+.monthlyDateCheck>div>div>div:nth-child(1){
     width: 80px;
-    float: left;
     font-size: 16px;
 }
 
 .monthlyDateCheck>div>div>.dateSelect {
     width: 150px;
     font-size: 14px;
-    font-family: 'Arial';
 }
 
 .v-input__prepend-outer {
@@ -353,7 +582,6 @@ export default {
     right: 20px;
     width: 150px;
     height: 30px;
-    font-size: 16px;
     padding-left: 0;
     display: inline-block;
     text-align: center;
@@ -363,6 +591,7 @@ export default {
     border-radius: 10px;
     background: rgb(187, 231, 248);
     box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
 }
 
 .m_btn01:hover {
@@ -372,89 +601,31 @@ export default {
 }
 
 /*Table Select */
-.monthlyTableSelectBox {
-    width: 100%;
-    height: 35px;
+.monthlyTableWrap{
+    width:100%;
+    height:700px;
+    border-radius: 7px;
 }
 
-.monthlyTableSelectBox>div>div {
-    float: left;
-    width: 180px;
-    height: 35px;
-    box-sizing: border-box;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: #99C5F2;
-    cursor: pointer;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(3) {
-    width: 450px;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(5) {
-    width: 270px;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(6) {
-    width: 170px;
-}
-
-.monthlyTableSelectBox>div>div>a {
-    display: block;
-    width: 170px;
-    height: 30px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: inherit;
-    font-size: 14px;
-    margin: 5px 0px 0px 5px;
-    line-height: 30px;
-    transition: all 0.3s;
-    box-sizing: border-box;
-    text-align: center;
-    text-decoration: none;
-    color:black;
-}
-.monthlyTableSelectBox>div>div:nth-child(3)>a {
-    width: 430px;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(5)>a {
-    width: 250px;
-}
-
-.monthlyTableSelectBox>div>div:nth-child(6)>a {
-    width: 150px;
-}
-
-.monthlyTableSelectBox>div>.clickBtnWrap>a{
-    background:white;
-    font-weight:bold;
-}
-/* Contents */
-
-.con_tableWrap {
-    width: 100%;
-    height:600px;
-}
-
-.con_table {
-    position:absolute;
+.monthlyTableWrap .monthlyTable{
     width:100%;
     height:100%;
-    background: #f9fcff;
-    box-sizing: border-box;
-    border: 1px solid #d7dadd;
 }
+
+.monthlyTableWrap .monthlyTable p{
+    height:50px;
+    line-height:50px;
+    font-size:20px;
+    font-family:CjFontTitleMedium;
+    margin-bottom:0;
+}
+
+/* Contents */
 
 .ag-header-group-text{
     display:block;
     margin:0 auto;
     font-size:16px;
-}
-.v-text-field__slot:after{
-    width:0;
 }
 
 </style>

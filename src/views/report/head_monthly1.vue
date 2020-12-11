@@ -160,18 +160,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: "CJ Onlyone Medium";
-    src: url(/fonts/CJOnlyoneMedium.ttf);
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: "CJ Onlyone Bold";
-    src: url(/fonts/CJOnlyoneBold.ttf);
-    font-weight: bold;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -185,7 +173,6 @@ export default {
 /* title */
 .con_box_right {
     box-sizing: border-box;
-    font-family: "CJ Onlyone Medium";
     position: relative;
 }
 
@@ -193,7 +180,7 @@ export default {
 .headMonthlyCon .con_box_right p {
     width:400px;
     height: 50px;
-    font-family: "CJ Onlyone Bold";
+    font-family: CjFontTitleBold;
     font-size: 24px;
     box-sizing: border-box;
     border-bottom: 5px solid rgb(172, 172, 172);
