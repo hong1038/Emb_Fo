@@ -105,24 +105,24 @@
                             <div v-on:click="pinClick(10041,'pin05','씨푸드 성남')" class="locationPin pin05">
                                 <p class="pin05Ball"></p>씨푸드 성남
                             </div>
-                            <div v-on:click="pinClick(10040,'pin06','씨푸드 이천')" class="locationPin pin06">
-                                <p class="pin06Ball"></p>씨푸드 이천
-                            </div>
+                            <!-- <div v-on:click="pinClick(10040,'pin06','씨푸드 이천')" class="locationPin pin06"> -->
+                                <!-- <p class="pin06Ball"></p>씨푸드 이천 -->
+                            <!-- </div> -->
                             <div v-on:click="pinClick(10051,'pin07','안산')" class="locationPin pin07">
                                 <p class="pin07Ball"></p>안산
                             </div>
-                            <div v-on:click="pinClick(10030,'pin08','양산')" class="locationPin pin08">
-                                <p class="pin08Ball"></p>양산
-                            </div>
-                            <div v-on:click="pinClick(10004,'pin09','영등포')" class="locationPin pin09">
-                                <p class="pin09Ball"></p>영등포
-                            </div>
-                            <div v-on:click="pinClick(10010,'pin10','원지')" class="locationPin pin10">
+                            <!-- <div v-on:click="pinClick(10030,'pin08','양산')" class="locationPin pin08"> -->
+                                <!-- <p class="pin08Ball"></p>양산 -->
+                            <!-- </div> -->
+                            <!-- <div v-on:click="pinClick(10004,'pin09','영등포')" class="locationPin pin09"> -->
+                                <!-- <p class="pin09Ball"></p>영등포 -->
+                            <!-- </div> -->
+                            <!-- <div v-on:click="pinClick(10010,'pin10','원지')" class="locationPin pin10">
                                 <p class="pin10Ball"></p>원지
-                            </div>
-                            <div v-on:click="pinClick(10011,'pin11','음성')" class="locationPin pin11">
-                                <p class="pin11Ball"></p>음성
-                            </div>
+                            </div> -->
+                            <!-- <div v-on:click="pinClick(10011,'pin11','음성')" class="locationPin pin11"> -->
+                                <!-- <p class="pin11Ball"></p>음성 -->
+                            <!-- </div> -->
                             <div v-on:click="pinClick(10001,'pin12','인천1')" class="locationPin pin12">
                                 <p class="pin12Ball"></p>인천1
                             </div>
@@ -135,15 +135,15 @@
                             <div v-on:click="pinClick(10000,'pin15','인천냉동')" class="locationPin pin15">
                                 <p class="pin15Ball"></p>인천냉동
                             </div>
-                            <div v-on:click="pinClick(10020,'pin16','진안')" class="locationPin pin16">
-                                <p class="pin16Ball"></p>진안
-                            </div>
+                            <!-- <div v-on:click="pinClick(10020,'pin16','진안')" class="locationPin pin16"> -->
+                                <!-- <p class="pin16Ball"></p>진안 -->
+                            <!-- </div> -->
                             <div v-on:click="pinClick(10012,'pin17','진천')" class="locationPin pin17">
                                 <p class="pin17Ball"></p>진천
                             </div>
-                            <div v-on:click="pinClick(10013,'pin18','진천BC')" class="locationPin pin18">
-                                <p class="pin18Ball"></p>진천BC
-                            </div>
+                            <!-- <div v-on:click="pinClick(10013,'pin18','진천BC')" class="locationPin pin18"> -->
+                                <!-- <p class="pin18Ball"></p>진천BC -->
+                            <!-- </div> -->
                         </b-col>
                         <b-col cols="3" style="height:830px;">
                             <v-card max-width="400" class="mx-auto">
@@ -419,7 +419,7 @@ export default {
             this.busy = true
             // Simulate an async request
             this.setTimeout(() => {
-            this.busy = false
+            // this.busy = false
             })
         },
 
@@ -438,7 +438,7 @@ export default {
                 name: 'View'
             })
         },
-        pinSelect(areaPin, pin, name) {
+        pinSelect(areaPin, pin, name,type) {
             this.onClick();
             this.areaPin = areaPin
             this.pinName = name
@@ -515,27 +515,33 @@ export default {
                                 res.data.data.area[8].pinImg2d = pin18Img2D
 
                                 console.log(res.data.data.area,areaPin)
-                                try {
-                                    if (this.checkPin === false) {
-                                        this.rowData = res.data.data.area    
-                                    }else{
+                                if (type === true) {
+                                    try {
                                         this.rowData = res.data.data.area.filter((e) => Number(String(e.area_code).split("")[3]) === Number(String(this.areaPin).split("")[3]))
-                                        this.areaNm = res.data.data.area.filter((e) => e.area_code == areaPin)
-                                        console.log(this.areaNm)
-                                        this.areaNm = this.areaNm[0].area
+                                        this.rowData = this.rowData.filter(e => e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
+                                        this.areaNm = this.rowData[0].area
+                                    } catch (error) {
+                                        console.log(error)
                                     }
 
-                                    this.opRate = res.data.data.oper.opRate.toFixed(2)
+                                }else{
+                                    try {
+                                        if (this.checkPin === false) {
+                                            this.rowData = res.data.data.area.filter(e => e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
+                                        }else{
+                                            console.log(res.data.data.area)
+                                            
+                                            
+                                            this.rowData = res.data.data.area.filter((e) => e.area_code == areaPin)
+                                            console.log(this.areaNm)
+                                            this.areaNm = this.rowData[0].name
+                                        }
 
-                                    for (let index = 0; index < 10; index++) {
-                                        document.getElementsByClassName("overChart")[index].style.borderColor = "rgb(223, 223, 223)"
-                                    }
-                                    this.opRate = this.opRate > 100 ? 100 : this.opRate
-                                    for (let index = 1; index <= Math.floor(this.opRate / 10); index++) {
-                                        document.getElementsByClassName("overChart" + index)[0].style.borderColor = "rgb(81, 81, 255)"
-                                    }
-                                } catch (error) {
-                                    console.log(error)
+                                        this.opRate = res.data.data.oper.opRate.toFixed(2)
+                                        document.getElementsByClassName("chartIn")[0].style.width = this.opRate+"%"
+                                    } catch (error) {
+                                        console.log(error)
+                                    }      
                                 }
                                 this.getmoniList()
                         }
@@ -564,11 +570,12 @@ export default {
                 document.getElementsByClassName(pin + "Ball")[0].style.left = "21px"
                 document.getElementsByClassName(pin + "Ball")[0].style.top = "-26px"
                 document.getElementsByClassName(pin)[0].style.fontWeight = "900"
+                this.busy = false
             }, 1000);
             this.pin = pin;
             // this.testmoni()
             this.changeMap()
-
+            
         },
         getmoniList(){
 
@@ -824,17 +831,17 @@ export default {
             pin14 = 인천3
             */
             if (store.state.areaCode === 10000) {
-                this.pinSelect(store.state.areaCode, 'pin15', '인천냉동')
-            } else if (store.state.areaCode === 10013) {
-                this.pinSelect(store.state.areaCode, 'pin10', '공주')
+                this.pinSelect(store.state.areaCode, 'pin15', '인천냉동',true)
+            } else if (store.state.areaCode === 10015) {
+                this.pinSelect(store.state.areaCode, 'pin03', '논산',true)
             } else if (store.state.areaCode === 10021) {
-                this.pinSelect(store.state.areaCode, 'pin02', '남원')
+                this.pinSelect(store.state.areaCode, 'pin02', '남원',true)
             } else if (store.state.areaCode === 10031) {
-                this.pinSelect(store.state.areaCode, 'pin04', '부산')
+                this.pinSelect(store.state.areaCode, 'pin04', '부산',true)
             } else if (store.state.areaCode === 10041) {
-                this.pinSelect(store.state.areaCode, 'pin05', '싸푸드성남')
+                this.pinSelect(store.state.areaCode, 'pin05', '싸푸드성남',true)
             } else if (store.state.areaCode === 10051) {
-                this.pinSelect(store.state.areaCode, 'pin07', '안산')
+                this.pinSelect(store.state.areaCode, 'pin07', '안산',true)
             }
             //console.log("area = " + area);
             //this.pinSelect(store.state.areaCode,area,areaNm)
@@ -1001,8 +1008,10 @@ export default {
                 height:30px;
                 background:#ccc;
                 border-radius: 7px;
+                overflow: hidden;
                 .chartIn{
-                    background:blue;
+                    width: 0%;
+                    background:#5151ff;
                     height:100%;
                     border-radius: 7px;
                 }
