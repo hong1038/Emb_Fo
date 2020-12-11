@@ -324,11 +324,11 @@ export default {
                     alert("측정기별기준정보목록 추출 실패 \n" + err);
                 })
         },
-        async getInfo() {
+        async getInfo(obj) {
             let that = this;
             //console.log("workplace.getInfo.pid = " +   event.data.pid)
             await this.$Axios.post("/api/daedan/cj/ems/setting/WorkplaceInfo", {
-                    pid: this.pid,
+                    pid: obj.data.pid,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
