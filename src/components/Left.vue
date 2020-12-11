@@ -248,19 +248,22 @@ export default {
                 return;
             }
             let that = this;
-            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipInnerPosList", {
+            console.log(this.checkListVal1,store.state.userInfo.userId)
+            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
                     userId: store.state.userInfo.userId,
                     serverList: this.checkListVal1
                 })
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.equipPos = res.data.data.equipInnerPos; //서벼별측정위치
+                            console.log(res.data.data)
+                            that.equipPos = res.data.data.equipPos; //서벼별측정위치
                             that.sensors = res.data.data.sensors; //서버별센서목록
                         }
                     }
                 })
                 .catch(err => {
+                    console.log("ASDASDSAAD")
                     alert("측정위치및센서검색조건추출 실패 \n" + err);
                 })
 
@@ -281,6 +284,7 @@ export default {
                     }
                 })
                 .catch(err => {
+                                        console.log("ASDASDSAAD")
                     alert("측정위치및센서검색조건추출 실패 \n" + err);
                 })
 
