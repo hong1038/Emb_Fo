@@ -192,7 +192,7 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
         this.fields = [
-            { field: 'server_key'      , headerName: '사업장번호'    },
+            { field: 'server_key'      , headerName: '사업장번호', hide:true   },
             { field: 'area'    , headerName: '권역구분', width:'120px'},
             { field: 'name1'    , headerName: '사업장명', width:'200px' },
             { field: 'name2'    , headerName: '사업장명(약식)', width:'120px' },
