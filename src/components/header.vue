@@ -536,21 +536,21 @@ html {
 @font-face {
     font-family: CjFontBodyRegular;
         font-style: normal;
-    font-weight: 100;
+    font-weight: 400;
     src: url('../../src/assets/fonts/CJ ONLYONE NEW body Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: CjFontTitleBold;
         font-style: normal;
-    font-weight: 100;
+    font-weight: 900;
     src: url('../../src/assets/fonts/CJ ONLYONE NEW title Bold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: CjFontTitleMedium;
         font-style: normal;
-    font-weight: 100;
+    font-weight: 400;
     src: url('../../src/assets/fonts/CJ ONLYONE NEW title Medium.ttf') format('truetype');
 }
 
