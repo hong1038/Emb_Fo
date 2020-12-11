@@ -47,6 +47,11 @@
                                     <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm" ></b-form-select>
                                 </b-row>
 
+                                <b-row v-if="hide">
+                                    <b-col class="regiName col-4">일반대기</b-col>
+                                    <b-form-input class="col" type="text" size="sm" v-model="general_air" disabled></b-form-input>
+                                </b-row>
+
                                 <b-row>
                                     <b-col class="regiName col-4">위치분류</b-col>
                                     <b-form-select class="col" v-model="location" :options="comboLocations" size="sm" ></b-form-select>
@@ -231,6 +236,15 @@ export default {
             if (!this.equipment_key) return;
             this.getSensors();
         },
+        facility(){
+            if (this.facility === 201) {
+                this.general_air = "부지경계"
+                this.hide = true
+            }else{
+                this.general_air = null
+                this.hide = false
+            }
+        }  
         //usedSensors(){
         //    console.log("usedSensor = " + this.usedSensors)
         //},
