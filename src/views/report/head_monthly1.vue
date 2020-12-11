@@ -97,6 +97,8 @@ export default {
             dateFr: "",
             list:[],
             listCount:0,
+
+            //1. 전체통계
             tsFields: [
                 {
                     field: '',
@@ -145,6 +147,7 @@ export default {
                 },
             ],
 
+            //2. 유형별 통계
             ttfields: [
                 {
                     field: '',
@@ -291,6 +294,7 @@ export default {
                 },
             ],
 
+            //3. 문제점/이슈사항
             eiFields: [
                 {
                     field: '',
@@ -350,6 +354,7 @@ export default {
                 },
             ],
 
+            //4. 이상점 및 비정상 대응확인
             erFields: [
                 {
                     field: '',
