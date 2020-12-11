@@ -855,7 +855,7 @@ export default {
 
 <style lang="scss">
 * {
-    font-family: "Noto Sans KR";
+    font-family: 'CjFontBodyLight';    
 }
 
 .home {

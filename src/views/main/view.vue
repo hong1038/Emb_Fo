@@ -704,6 +704,7 @@ export default {
     box-sizing: border-box;
     padding-left: 15px;
     font-weight: bold;
+    font-family: CjFontTitleBold;
     font-size: 24px;
 }
 
@@ -798,7 +799,6 @@ export default {
     text-align: center;
     line-height: 35px;
     font-weight: bold;
-    font-family: 'Arial';
     font-size: 12px;
     box-sizing: border-box;
     cursor:pointer;
@@ -967,7 +967,6 @@ export default {
     line-height: 35px;
     font-size: 1.4rem;
     letter-spacing: -1px;
-    font-family: "Noto Sans KR";
     box-sizing: border-box;
     text-align: center;
     cursor: pointer;
