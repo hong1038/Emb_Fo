@@ -46,22 +46,9 @@
                             <div class="con_left02">
                                 <div>{{pinName}} {{title}}가동률</div>
                                 <div class="chartWrap mt-4">
-                                    <ul class="chartSkills">
-                                        <li class="overChart overChart1"></li>
-                                        <li class="overChart overChart2"></li>
-                                        <li class="overChart overChart3"></li>
-                                        <li class="overChart overChart4"></li>
-                                        <li class="overChart overChart5"></li>
-                                        <li class="overChart overChart6"></li>
-                                        <li class="overChart overChart7"></li>
-                                        <li class="overChart overChart8"></li>
-                                        <li class="overChart overChart9"></li>
-                                        <li class="overChart overChart10"></li>
-                                    </ul>
-                                    <ul class="chartText">
-                                        <!-- <li :id="id1" v-on:click="changeChartType(1)">정상내역</li> -->
-                                        <!-- <li :id="id2" v-on:click="changeChartType(2)">초과내역</li> -->
-                                    </ul>
+                                    <div class="chartOut">
+                                        <div class="chartIn"></div>
+                                    </div>
                                     <span class="chartPer">{{opRate}}%</span>
                                 </div>
                             </div>
@@ -422,7 +409,7 @@ export default {
             this.timeout = setTimeout(() => {
             this.clearTimeout()
             callback()
-            }, 3000)
+            }, 100)
         },
         onHidden() {
             // Return focus to the button once hidden
@@ -905,7 +892,7 @@ export default {
         }
 
         .con_left01 {
-            height: 220px;
+            height: 180px;
             margin-top: 0px;
             text-align: left;
 
@@ -918,7 +905,7 @@ export default {
 
                         >div {
                             font-size: 3.5rem;
-                            line-height: 60px;
+                            line-height: 40px;
                             font-weight: "bold";
                             font-family: "Arial";
                             &:nth-child(3){
@@ -932,15 +919,16 @@ export default {
             >div {
                 /* 상단 - 대한민국 */
                 &:nth-child(1){
-                    height: 40px;
+                    height: 20px;
                     font-size: 24px;
-                    line-height: 40px;
+                    line-height: 10px;
                     box-sizing: border-box;
                 }
                 /* 중단 - 날짜, 날씨, 온도 */
                 &:nth-child(2) {
-                    height: 90px;
+                    height: 60px;
                     margin-top: 10px;
+
                     span {
                         display: block;
                         width: 100%;
@@ -979,18 +967,15 @@ export default {
                 justify-content: center;
                 transform:translate(-50%);
                 margin-top:calc(50% - 30px)
-                
             }
 
             #weatherImg {
                 position: relative;
                 img {
-                    width: 100%;
-                    height: 150%;
-                    margin-right:0;
                     position:absolute;
-                    left:50%;
-
+                    top:50%;
+                    width: 60%;
+                    height: 110%;
                 }
             }
             .windIcon {
@@ -1009,209 +994,24 @@ export default {
             }
         }
         .chartWrap {
-            height: 150px;
+            height: 40px;
             position: relative;
+            .chartOut{
+                width:75%;
+                height:30px;
+                background:#ccc;
+                border-radius: 7px;
+                .chartIn{
+                    background:blue;
+                    height:100%;
+                    border-radius: 7px;
+                }
+            }
             
-            .chartSkills {
-                padding: 0;
-                list-style-type: none;
-                overflow: hidden;
-                position: relative;
-                width: 270px;
-                height: 135px;
-                margin-top: 20px;
-                
-                *{
-                    box-sizing: border-box;
-                }
-                &:before{
-                    box-sizing: border-box;
-                    position: absolute;
-                    content: '';
-                    width: inherit;
-                    height: inherit;
-                    border: 45px solid rgba(211, 211, 211, .3);
-                    border-bottom: none;
-                    border-top-left-radius: 135px;
-                    border-top-right-radius: 135px;
-                }
-
-                li {
-                    position: absolute;
-                    top: 100%;
-                    left: 0;
-                    width: inherit;
-                    height: inherit;
-                    border: 45px solid;
-                    border-top: none;
-                    border-bottom-left-radius: 135px;
-                    border-bottom-right-radius: 135px;
-                    transform-origin: 50% 0;
-                    &:nth-child(1) {
-                        z-index: 10;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni1 2s linear 1 forwards;
-                    }
-                    &:nth-child(2) {
-                        z-index: 9;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni2 2s linear 1 forwards;
-                    }
-                    &:nth-child(3) {
-                        z-index: 8;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni3 2s linear 1 forwards;
-                    }
-                    &:nth-child(4) {
-                        z-index: 7;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni4 2s linear 1 forwards;
-                    }
-                    &:nth-child(5) {
-                        z-index: 6;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni5 2s linear 1 forwards;
-                    }
-                    &:nth-child(6) {
-                        z-index: 5;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni6 2s linear 1 forwards;
-                    }
-                    &:nth-child(7) {
-                        z-index: 4;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni7 2s linear 1 forwards;
-                    }
-                    &:nth-child(8) {
-                        z-index: 3;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni8 2s linear 1 forwards;
-                    }
-                    &:nth-child(9) {
-                        z-index: 2;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni9 2s linear 1 forwards;
-                    }
-                    &:nth-child(10) {
-                        z-index: 1;
-                        border-color: rgb(228, 228, 228);
-                        animation: chartAni10 2s linear 1 forwards;
-                    }
-                                            
-                    @keyframes chartAni1 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-                        to {
-                            transform: rotateZ(18deg)
-                        }
-                    }
-
-                    @keyframes chartAni2 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(36deg);
-                        }
-                    }
-
-                    @keyframes chartAni3 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(54deg)
-                        }
-                    }
-
-                    @keyframes chartAni4 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(72deg)
-                        }
-                    }
-
-                    @keyframes chartAni5 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(90deg)
-                        }
-                    }
-
-                    @keyframes chartAni6 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(108deg)
-                        }
-                    }
-
-                    @keyframes chartAni7 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(126deg)
-                        }
-                    }
-
-                    @keyframes chartAni8 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(144deg)
-                        }
-                    }
-
-                    @keyframes chartAni9 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(162deg)
-                        }
-                    }
-
-                    @keyframes chartAni10 {
-                        from {
-                            transform: rotateZ(0);
-                        }
-
-                        to {
-                            transform: rotateZ(180deg)
-                        }
-                    }
-
-                }
-            }
-            .chartText {
-                height: 100%;
-                >li {
-                    width: 100%;
-                    height: 50px;
-                    line-height: 50px;
-                    position: relative;
-                }
-            }
             .chartPer {
                 position: absolute;
-                top: 120px;
-                left: 105px;
+                top:0;
+                right:0;
                 font-size: 20px;
                 font-weight: bold;
                 font-family: 'Arial';
@@ -1220,7 +1020,7 @@ export default {
         }
     }
     .con_left03 {
-        height: 330px;
+        height: 480px;
         margin-top: 5px;
         >div {
             width: 100%;
@@ -1231,7 +1031,7 @@ export default {
             }
         }
         .monitorWrap {
-            height: 240px;
+            height: 92%;
             overflow-y: scroll;
             .monitor {
                 height: 60px;
