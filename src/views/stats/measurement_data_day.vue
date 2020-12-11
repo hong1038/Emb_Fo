@@ -117,7 +117,7 @@ export default {
         return {
             busy:false,
             timeout : null,
-
+            
             paginationPageSize:store.state.paginationPageSize,
             gridOptions : {},
             ctxConfig: null,

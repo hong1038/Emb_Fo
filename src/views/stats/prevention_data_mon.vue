@@ -45,6 +45,7 @@
                     </div>
                     <div class="small" style="z-index:10">
                         <div>
+                            <button v-on:click="chartImage()">IMG</button>
                             <button v-on:click="close()">&times;</button>
                             <canvas style="background:white" id="daily-chart" width="950" height="550" ></canvas>
                         </div>
@@ -329,16 +330,6 @@ export default {
                                 this.graphDataAvg.push(e.avg_value)
                                 this.graphDataMax.push(e.max_value)
                             })          
-                            const graphDataMin2 = []
-                            const graphDataMax2 = []
-                            this.list.map(()=>{
-                                graphDataMin2.push(Math.min.apply(null,this.graphDataMin))
-                            })
-                            this.list.map(()=>{
-                                graphDataMax2.push(Math.max.apply(null,this.graphDataMax))
-                            })  
-                            this.graphDataMin = graphDataMin2 
-                            this.graphDataMax = graphDataMax2
                             this.busy = false
                         }
                     }
@@ -427,14 +418,15 @@ export default {
                 data: {
 
                     labels: this.graphLabel,
-                    datasets: [{
-                            label: '최소',
-                            borderColor: '#3f5df1',
+                    datasets: [
+                                                {
+                            label: '최대',
+                            borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
-                            data: this.graphDataMin
+                            data: this.graphDataMax
                             // data:this.dailyChartData
                         },
-                        {
+                                                {
                             label: '평균',
                             borderColor: '#42f13f',
                             backgroundColor: 'transparent',
@@ -442,17 +434,33 @@ export default {
                             // data:this.dailyChartData
                         },
                         {
-                            label: '최대',
-                            borderColor: '#f13f3f',
+                            label: '최소',
+                            borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
-                            data: this.graphDataMax
+                            data: this.graphDataMin
                             // data:this.dailyChartData
                         },
+
+
                     ]
                 },
             }
             this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
             this.dailyChart.update()
+        },
+        chartImage(){
+            this.dailyChart.update({
+                duration: 0
+            });
+            var link = document.createElement('a');
+            link.href = this.dailyChart.toBase64Image();
+            link.download = 'chart'+this.dateFr+'.png';
+            this.dailyChart.options.tooltips.backgroundColor = 'white'
+            link.click();
+            this.dailyChart.options.title.text = 'ChartTitle';
+            this.dailyChart.update({
+                duration: 0
+            });
         }
     }
 }
@@ -480,18 +488,27 @@ export default {
     border-radius: 5px;
     width: 1050px;
     height: 650px;
+    position: relative;
 }
 .small > div > button{
     width: 100px;
     height: 40px;
     position: absolute;
     font-size: 16px;
-    top: 160px;
     background: rgb(81, 81, 255);
-    right: 426px;
     color: white;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
+}
+.small > div > button:first-child{
+    top: 0px;
+    right: 110px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 5px;
+}
+.small > div > button:nth-child(2){
+    top: 0px;
+    right: 0px;
 }
 
 * {
