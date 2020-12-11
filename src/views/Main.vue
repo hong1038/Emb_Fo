@@ -64,21 +64,21 @@
                                                 <li class="percent_down"></li>
                                             </ul>
                                         </b-col>
-                                        <b-col cols="4" v-if="item.place === 512" >
+                                        <b-col cols="3" v-if="item.place === 512" >
                                             <span v-if="item.outlet_avg_value != null">{{item.outlet_avg_value}}</span>
                                             <span v-else>-</span>
                                             /
                                             <span v-if="item.outlet_standard_value != null">{{item.outlet_standard_value}}</span>
                                             <span v-else>-</span>
                                         </b-col>
-                                        <b-col cols="4" v-if="item.place === 511" >
+                                        <b-col cols="3" v-if="item.place === 511" >
                                             <span v-if="item.midlet_avg_value != null">{{item.midlet_avg_value}}</span>
                                             <span v-else>-</span>
                                             /
                                             <span v-if="item.midlet_standard_value != null">{{item.midlet_standard_value}}</span>
                                             <span v-else>-</span>
                                         </b-col>
-                                        <b-col cols="4" v-if="item.place === 510" >
+                                        <b-col cols="3" v-if="item.place === 510" >
                                             <span v-if="item.inlet_avg_value != null">{{item.inlet_avg_value}}</span>
                                             <span v-else>-</span>
                                             /
@@ -1051,6 +1051,7 @@ export default {
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    word-break: keep-all;
 
                     >ul {
                         width: 100%;
