@@ -244,6 +244,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res.data.data)
                             that.comboServers = res.data.data.serverList; //사업장
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                         }
@@ -325,25 +326,58 @@ export default {
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
-            let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
-                    name: this.name,
-                    area_code: this.area_code,
-                    server_key:this.server_key,
-                    email:this.email,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.saveblock();
-                            that.getList();
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("측정기별기준정보저장 실패 \n" + err);
-                })
+            // let that = this;
+            let area_code = null
+            switch (this.server_key) {
+                case 2:
+                    area_code = 10051
+                    break;
+                case 4:
+                    area_code = 10002
+                    break;
+                case 5:
+                    area_code = 10041
+                    break;
+                case 6:
+                    area_code = 10015
+                    break;
+                case 7:
+                    area_code = 10031
+                    break;
+                case 8:
+                    area_code = 10001
+                    break;
+                case 9:
+                    area_code = 10000
+                    break;
+                case 12:
+                    area_code = 10012
+                    break; 
+                default:
+                    alert("사업장은 필수 선택 항목 입니다.")
+                    break;
+            }
+    console.log(area_code)
+
+
+            // await this.$Axios.post("/api/daedan/cj/ems/setting/managerSave", {
+            //         name: this.name,
+            //         area_code: area_code,
+            //         server_key:this.server_key,
+            //         email:this.email,
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.saveblock();
+            //                 that.getList();
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("측정기별기준정보저장 실패 \n" + err);
+            //     })
             this.busy = false;
 
         },

@@ -23,7 +23,7 @@
                                 <a v-on:click="resetMain(10000)">경인권</a>
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10013)">중부권</a>
+                                <a v-on:click="resetMain(10015)">중부권</a>
                             </li>
                             <li>
                                 <a v-on:click="resetMain(10021)">남부권</a>
