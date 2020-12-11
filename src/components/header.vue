@@ -527,6 +527,36 @@ html {
 @import url(https://cdn.jsdelivr.net/npm/noto-sans-kr@0.1.1/styles.css);
 
 @font-face {
+    font-family: CjFontBodyLight;
+        font-style: normal;
+    font-weight: 100;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW body Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: CjFontBodyRegular;
+        font-style: normal;
+    font-weight: 100;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW body Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: CjFontTitleBold;
+        font-style: normal;
+    font-weight: 100;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW title Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: CjFontTitleMedium;
+        font-style: normal;
+    font-weight: 100;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW title Medium.ttf') format('truetype');
+}
+
+
+
+@font-face {
     font-family: AppleSDGothicNeo;
     font-style: normal;
     font-weight: 100;
@@ -577,7 +607,9 @@ html {
 /* input 기본 스타일 초기화 */
 
 /* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
-
+*{
+ font-family: 'CjFontBodyRegular';    
+}
 input::-ms-clear {
     display: none;
 }

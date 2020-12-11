@@ -248,14 +248,14 @@ export default {
                 return;
             }
             let that = this;
-            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
+            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipInnerPosList", {
                     userId: store.state.userInfo.userId,
                     serverList: this.checkListVal1
                 })
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.equipPos = res.data.data.equipPos; //서벼별측정위치
+                            that.equipPos = res.data.data.equipInnerPos; //서벼별측정위치
                             that.sensors = res.data.data.sensors; //서버별센서목록
                         }
                     }

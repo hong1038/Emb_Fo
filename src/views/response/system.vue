@@ -75,11 +75,11 @@
 
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.cause"></b-form-input>
+                                        <b-form-textarea class="col" type="text" style="max-height:120px;min-height:120px" size="sm" v-model="erInfo.cause"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">대응방안</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.action"></b-form-input>
+                                        <b-form-textarea class="col" type="text" size="sm" style="max-height:120px;min-height:120px" v-model="erInfo.action"></b-form-textarea>
                                     </b-row>
 
                                     <b-row>
@@ -343,6 +343,7 @@ export default {
             this.erInfo.action = obj.data.action
             this.erInfo.action_date = obj.data.action_date
             this.erInfo.action_type = obj.data.action_type
+            this.erInfo.complete_date = obj.data.complete_date
             // this.sensors = [];
             this.showblock();
         },
