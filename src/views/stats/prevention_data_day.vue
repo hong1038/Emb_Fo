@@ -45,6 +45,7 @@
                     </div>
                     <div class="small" style="z-index:10">
                         <div>                           
+                            <button v-on:click="chartImage()">IMG</button>
                             <button v-on:click="close()">&times;</button>
                             <div>
                                 <canvas style="margin-bottom:25px" id="daily-chart" width="950" height="550"></canvas>
@@ -177,21 +178,21 @@ export default {
                 ]},
                 {
                     field: '',
-                    headerName: '배출구',
+                    headerName: '흡입구',
                     children: [{
-                            field: 'outlet_avg_value',
+                            field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: 'outlet_max_value',
+                            field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
                             width: '100px'
                         },
                         {
-                            field: 'outlet_min_value',
+                            field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
                             width: '100px'
@@ -316,16 +317,7 @@ export default {
                                 this.inletgraphDataAvg.push(e.avg_value)
                                 this.inletgraphDataMax.push(e.max_value)
                             })          
-                            const inletgraphDataMin2 = []
-                            const inletgraphDataMax2 = []
-                            this.list.map(()=>{
-                                inletgraphDataMin2.push(Math.min.apply(null,this.inletgraphDataMin))
-                            })
-                            this.list.map(()=>{
-                                inletgraphDataMax2.push(Math.max.apply(null,this.inletgraphDataMax))
-                            })  
-                            this.inletgraphDataMin = inletgraphDataMin2 
-                            this.inletgraphDataMax = inletgraphDataMax2
+
 
 
                             // this.outletgraphLabel = []
@@ -441,11 +433,12 @@ export default {
                 data: {
 
                     labels: this.inletgraphLabel,
-                    datasets: [{
-                            label: '최소',
-                            borderColor: '#3f5df1',
+                    datasets: [
+                        {
+                            label: '최대',
+                            borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
-                            data: this.inletgraphDataMin
+                            data: this.inletgraphDataMax
                             // data:this.dailyChartData
                         },
                         {
@@ -455,11 +448,12 @@ export default {
                             data: this.inletgraphDataAvg
                             // data:this.dailyChartData
                         },
+
                         {
-                            label: '최대',
-                            borderColor: '#f13f3f',
+                            label: '최소',
+                            borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
-                            data: this.inletgraphDataMax
+                            data: this.inletgraphDataMin
                             // data:this.dailyChartData
                         },
                     ]
@@ -468,86 +462,23 @@ export default {
             this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
             this.dailyChart.update()
 
-
-
-
-            // this.ctxDaily2 = document.getElementById('daily-chart2').getContext('2d');
-
-            // this.ctxDaily2.height = "100%";
-            // this.ctxDaily2.width = "100%";
-            // // this.ctxDaily.font = "5rem";
-            // // console.log(this.dailyChartLabel,this.dailyChartData)
-
-            // this.ctxConfig2 = {
-            //     type: 'line',
-            //     options: {
-            //         position: 'bottom',
-            //         responsive: false,
-            //         scales: {
-            //             yAxes: [{
-            //                 ticks: {
-            //                     min: 0,
-            //                     beginAtZero: true,
-            //                     fontSize: ctxFontSize
-            //                 }
-            //             }],
-            //             xAxes: [{
-            //                 ticks: {
-            //                     fontSize: ctxFontSize
-            //                 }
-            //             }]
-            //         },
-            //         plugins: {
-            //             datalabels: {
-            //                 color: '#444',
-            //                 align: 'center',
-            //                 anchor: 'end',
-            //                 font: {
-            //                     family: 'Roboto',
-            //                     size: 14,
-            //                     weight: 700
-            //                 },
-            //                 // display: function(context) {
-            //                 //     return context.dataset.data[context.dataIndex] > 0;
-            //                 // },
-
-            //                 //backgroundColor: 'rgba(255.255.255,0.8)',
-            //                 borderRadius: 4
-            //             }
-            //         },
-            //         maintainAspectRatio: false,
-            //     },
-            //     data: {
-
-            //         labels: this.inletgraphLabel,
-            //         datasets: [{
-            //                 label: '배출최소',
-            //                 borderColor: '#3f5df1',
-            //                 backgroundColor: 'transparent',
-            //                 data: this.outletgraphDataMin
-            //                 // data:this.dailyChartData
-            //             },
-            //             {
-            //                 label: '배출평균',
-            //                 borderColor: '#42f13f',
-            //                 backgroundColor: 'transparent',
-            //                 data: this.outletgraphDataAvg
-            //                 // data:this.dailyChartData
-            //             },
-            //             {
-            //                 label: '배출최대',
-            //                 borderColor: '#f13f3f',
-            //                 backgroundColor: 'transparent',
-            //                 data: this.outletgraphDataMax
-            //                 // data:this.dailyChartData
-            //             },
-            //         ]
-            //     },
-            // }
-            // this.dailyChart2 = new Chart(this.ctxDaily2, this.ctxConfig2);
-            // this.dailyChart2.update()
+        },
+        chartImage(){
+            this.dailyChart.update({
+                duration: 0
+            });
+            var link = document.createElement('a');
+            link.href = this.dailyChart.toBase64Image();
+            link.download = 'chart'+this.dateFr+'.png';
+            this.dailyChart.options.tooltips.backgroundColor = 'white'
+            link.click();
+            this.dailyChart.options.title.text = 'ChartTitle';
+            this.dailyChart.update({
+                duration: 0
+            });
         }
     },
+    
 
 }
 </script>
@@ -574,20 +505,28 @@ export default {
     border-radius: 5px;
     width: 1050px;
     height: 650px;
+    position: relative;
 }
 .small > div > button{
     width: 100px;
     height: 40px;
     position: absolute;
     font-size: 16px;
-    top: 160px;
     background: rgb(81, 81, 255);
-    right: 426px;
     color: white;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-
+.small > div > button:first-child{
+    top: 0px;
+    right: 110px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 5px;
+}
+.small > div > button:nth-child(2){
+    top: 0px;
+    right: 0px;
+}
 * {
     margin: 0;
     padding: 0;
