@@ -150,12 +150,12 @@ export default {
                 //     hidden: true
                 // },
                 {
-                    field: 'category_nm',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '140px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '300px'
                 },
