@@ -131,64 +131,73 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '200px'
+                    width: '120px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
-                    width: '180px'
+                    width: '80px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '200px'
+                    width: '300px'
+                },
+                {
+                    field: 'unit',
+                    headerName: '단위',
+                    width: '80px'
                 },
                 {
                     field: 'prevention_date',
                     headerName: '측정일시',
                     width: '180px'
                 },
-                        {
-                            field: 'avg_value',
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [{ 
+                            field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '200px'
+                            width: '100px'
                         },
                         {
-                            field: 'max_value',
+                            field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '200px'
+                            width: '100px'
                         },
                         {
-                            field: 'min_value',
+                            field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '200px'
+                            width: '100px'
                         },
-                // {
-                //     field: 'inlet_min_value',
-                //     headerName: '배출구',
-                //     children: [{
-                //             field: 'outlet_avg_value',
-                //             headerName: '평균',
-                //             type: 'number',
-                //             width: '100px'
-                //         },
-                //         {
-                //             field: 'outlet_max_value',
-                //             headerName: '최대',
-                //             type: 'number',
-                //             width: '100px'
-                //         },
-                //         {
-                //             field: 'outlet_min_value',
-                //             headerName: '최소',
-                //             type: 'number',
-                //             width: '100px'
-                //         },
-                //     ]
-                // },
+                ]},
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [{
+                            field: 'outlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'outlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '100px'
+                        },
+                    ]
+                },
                 {
                     field: 'proc_rt',
                     headerName: '처리효율',

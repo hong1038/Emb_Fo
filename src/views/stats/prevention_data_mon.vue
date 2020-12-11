@@ -134,7 +134,7 @@ export default {
                     width: '230px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '230px'
                 },
