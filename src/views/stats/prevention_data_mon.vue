@@ -125,21 +125,23 @@ export default {
                 // },
                 {
                     field: 'server_name',
-                    headerName: '측정장소',
-                    width: '230px'
+                    headerName: '사업장',
+                    width: '120px'
                 },
                 {
                     field: 'category',
-                    headerName: '측정구분',
-                    width: '230px'
+                    headerName: '분야',
+                    width: '80px'
                 },
                 {
                     field: 'equipment_inner_nm',
-                    headerName: '측정위치',
-                    width: '230px'
+                    headerName: '방지시설',
+                    width: '285px'
                 },
                 // {
-                //     //측정항목
+                //     field: 'internal_name',
+                //     headerName: '측정항목',
+                //     width: '150px'
                 // },
                 {
                     field: 'prevention_date',
@@ -147,27 +149,68 @@ export default {
                     width: '200px'
                 },
                 {
-                    field: 'measurement_min_value',
-                    headerName: '최소',
-                    width: '200px'
+                    field: 'unit',
+                    headerName: '단위',
+                    width: '80px'
                 },
                 {
-                    field: 'measurement_avg_value',
-                    headerName: '평균',
-                    width: '200px'
+                    field: '',
+                    headerName: '흡입구',
+                    children: [{ 
+                            field: 'inlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '85px'
+                        },
+                        {
+                            field: 'inlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '85px'
+                        },
+                        {
+                            field: 'inlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '85px'
+                        },
+                ]},
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [
+                        {
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '85px'
+                        },
+                        {
+                            field: 'outlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '85px'
+                        },
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '85px'
+                        },
+                        {
+                            field: 'outlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '85px'
+                        },
+                    ]
                 },
                 {
-                    field: 'measurement_max_value',
-                    headerName: '최대',
-                    width: '200px'
+                    field: 'proc_rt',
+                    headerName: '처리효율',
+                    type: 'number',
+                    width: '146px'
                 },
-
-                // {
-                //     //배출구 - 최대, 평균, 최소
-                // },
-                // {
-                //     //처리효율
-                // },
             ],
             graphLabel: [],
             graphDataMin: [],

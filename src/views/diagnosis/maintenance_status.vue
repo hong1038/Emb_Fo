@@ -11,7 +11,7 @@
                         <div class="msDateCheck container-fluid mt-4">
                             <div class="row">
                                 <div class="col-7">
-                                    <div class="float-left">월 선택</div>
+                                    <div class="float-left">년도 선택</div>
                                     <div class="dateSelect float-left">
                                         <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
                                             <template v-slot:activator="{ on, attrs }">
@@ -91,6 +91,8 @@ export default {
             findSz: '',
             list: [],
             listCount: 0,
+
+            paginationPageSize: store.state.paginationPageSize,
 
             dateSelect:'',
             menu:false,
@@ -286,16 +288,11 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {
+            this.$Axios.post("/api/daedan/cj/ems/diagnosis/diagnosisList", {
                     dateFr: this.dateFr,
                     serverList: store.state.ckServer,
-                    cateList: store.state.ckCate,
-                    equipList: store.state.ckEquip,
-                    sensorList: store.state.ckSensor,
-                    findTp: this.findTp,
-                    findSz: this.findSz,
                     pageNo: this.pageNo,
-                    pageSz: 10000,
+                    pageSz: this.paginationPageSize,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

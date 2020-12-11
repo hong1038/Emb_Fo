@@ -61,7 +61,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-input class="col" v-model="equipment_name" :options="comboEquipments" size="sm" disabled></b-form-input>
+                                        <b-form-input class="col" v-model="equipment_inner_nm" :options="comboEquipments" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
@@ -230,7 +230,7 @@ export default {
                     width: '80px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '120px'
                 },
@@ -373,6 +373,7 @@ export default {
             this.server_key = obj.data.server_key
             this.equipment_key = obj.data.equipment_key
             this.equipment_name = obj.data.equipment_name
+            this.equipment_inner_nm = obj.data.equipment_inner_nm
             this.prevention_date = obj.data.prevention_date
             this.server_name = obj.data.server_name
             this.category = obj.data.category

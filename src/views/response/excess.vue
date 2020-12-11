@@ -54,7 +54,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-input class="col" v-model="equipment_name" size="sm" disabled></b-form-input>
+                                        <b-form-input class="col" v-model="equipment_inner_nm" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">흡입구 최대</b-col>
@@ -204,14 +204,14 @@ export default {
                     width: '120px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
-                    width: '120px'
+                    width: '80px'
                 },
                 {
-                    field: 'equipment_name',
-                    headerName: '측정위치',
-                    width: '120px'
+                    field: 'equipment_inner_nm',
+                    headerName: '방지시설명',
+                    width: '200px'
                 },
                 {
                     field: '',
@@ -235,18 +235,18 @@ export default {
                             type: 'number',
                             width: '100px'
                         },
-                        {
-                            field: 'inoccur',
-                            headerName: '이상점 발생여부',
-                            type: 'number',
-                            width: '140px'
-                        },
                     ]
                 },
                 {
                     field: '',
                     headerName: '배출구',
                     children: [
+                        {
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '100px'
+                        },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
@@ -353,6 +353,7 @@ export default {
             this.server_key = obj.data.server_key; //사업장
             this.server_name = obj.data.server_name
             this.equipment_name = obj.data.equipment_name; //측정위치
+            this.equipment_inner_nm = obj.data.equipment_inner_nm
             this.category = obj.data.category; //측정분야명
             this.category_cd = obj.data.category_cd; //측정분야코드
             this.cause = obj.data.cause

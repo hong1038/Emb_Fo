@@ -221,7 +221,7 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: 'category',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '160px'
                 },
