@@ -106,7 +106,7 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
-            dateFr: '',
+            dateFr: store.state.szCurMmTo,
             findTp: '',
             findSz: '',
             list: [],

@@ -104,7 +104,8 @@ export default {
                 text: '판넬명'
             }],
             gridOptions:{},
-            dateFr: '',
+            dateFr: store.state.curMmFr,
+            date : store.state.curMmFr,
             findTp: '',
             findSz: '',
             list: [],

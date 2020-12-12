@@ -127,7 +127,7 @@ export default {
             datacollection: null,
             config: {},
             mode: 'single', //날짜선택방법
-            dateFr: '',
+            dateFr: store.state.szCurMmTo,
             findTp: '',
             findSz: '',
             list: [],

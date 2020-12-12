@@ -119,8 +119,8 @@ export default {
                     label: 'name'
                 },
             ],
-            dateFr: '',
-            dateTo: '',
+            dateFr: store.state.szCurMmFr,
+            dateTo: store.state.szCurMmTo,
             findTp: 'codeNm',
             findSz: '',
             pageNo: 1,
@@ -134,25 +134,25 @@ export default {
     },
 
     watch:{
-        dateFr(){
-            this.dateTo = null
-        },
-        dateTo(){
-            // if (this.dateFr === null) {
-            //     this.dateTo = null;
-            //     alert("시작일을 먼저 선택하여 주십시오")
-            //     return;
-            // }
-            // console.log(new Date(this.dateFr).getTime(), new Date(this.dateTo).getTime())
-            // if (Number(this.dateTo.split("-")[1]) <= Number(this.dateFr.split("-")[1]) + 1 && Number(this.dateTo.split("-")[1]) >= Number(this.dateFr.split("-")[1]) - 1  ) {
-            //     return
-            // }else{
-            //     alert("기간은 시작일로 부터 1달이상 차이날수 없습니다.")
-            //     this.dateTo = null
-            // }
+        // dateFr(){
+        //     this.dateTo = null
+        // },
+        // dateTo(){
+        //     // if (this.dateFr === null) {
+        //     //     this.dateTo = null;
+        //     //     alert("시작일을 먼저 선택하여 주십시오")
+        //     //     return;
+        //     // }
+        //     // console.log(new Date(this.dateFr).getTime(), new Date(this.dateTo).getTime())
+        //     // if (Number(this.dateTo.split("-")[1]) <= Number(this.dateFr.split("-")[1]) + 1 && Number(this.dateTo.split("-")[1]) >= Number(this.dateFr.split("-")[1]) - 1  ) {
+        //     //     return
+        //     // }else{
+        //     //     alert("기간은 시작일로 부터 1달이상 차이날수 없습니다.")
+        //     //     this.dateTo = null
+        //     // }
             
         
-        }
+        // }
     },
 
     computed: {},
@@ -527,7 +527,7 @@ export default {
 
 .canvasWrap>div{
     width:100%;
-    height:57%;
+    height:60%;
 }
 
 .canvasWrap>div p{

@@ -11,7 +11,6 @@
                         <div class="row">
                             <div class="col-7">
                                 <div>기간 선택</div>
-                                <v-date-picker value="range" is-range />
                                 <div class="dateSelect">
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
@@ -80,10 +79,10 @@ export default {
             }],
             paginationPageSize: store.state.paginationPageSize,
             gridOptions: {},
-            // dateFr: store.state.szCurMmFr,
-            dateFr: "",
-            // dateTo: store.state.szCurMmTo,
-            dateTo: "",
+            dateFr: store.state.szCurMmFr,
+            // dateFr: "",
+            dateTo: store.state.szCurMmTo,
+            // dateTo: "",
             findTp: '',
             findSz: '',
             list: [],

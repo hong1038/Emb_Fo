@@ -47,14 +47,14 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">월 선택</div>
+                                <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">연도 선택</div>
                                 <!-- <input type="date" v-model="dateFr"> -->
                                 <div class="dateSelect float-left">
                                     <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker ref="picker" v-model="dateSelect" no-title scrollable @click:year="saveYear" locale="ko">
+                                        <v-date-picker ref="picker" v-model="date" no-title scrollable @click:year="saveYear" locale="ko">
                                             <v-spacer></v-spacer>
                                             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                                             <!-- <v-btn text color="primary" @click="saveYear">OK</v-btn> -->
@@ -124,10 +124,9 @@ export default {
                     label: 'name'
                 },
             ],
-            dateSelect:'',
             menu:false,
-            dateFr: '',
-            dateTo: '',
+            dateFr: store.state.curYFr,
+            dateSelect : store.state.curYFr,
             findTp: 'codeNm',
             findSz: '',
             pageNo: 1,
@@ -489,7 +488,7 @@ export default {
 
 .canvasWrap>div{
     width:100%;
-    height:50%;
+    height:60%;
 }
 
 .canvasWrap>div canvas{
