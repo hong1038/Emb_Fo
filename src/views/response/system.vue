@@ -173,10 +173,10 @@ export default {
             gridOptions:{},
             config: {},
             mode: 'single', //날짜선택방법
-            // dateFr: store.state.szCurMmFr,
-            dateFr: "",
-            // dateTo: store.state.szCurMmTo,
-            dateTo: "",
+            dateFr: store.state.szCurMmFr,
+            // dateFr: "",
+            dateTo: store.state.szCurMmTo,
+            // dateTo: "",
 
             show: false,
             hide: false,

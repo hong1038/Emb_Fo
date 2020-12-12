@@ -194,7 +194,6 @@ export default {
             odor_number: null, //악취방지시설고유일련번호
             sensorList: [], //분석항목리스트
 
-            date: "",
             show: false,
 
             gridOptions: {},
@@ -202,7 +201,8 @@ export default {
             paginationPageSize: store.state.paginationPageSize,
 
             mode: 'single', //날짜선택방법
-            dateFr: '',
+            dateFr: store.state.curMmFr ,
+            date: store.state.curMmFr ,
             findTp: '',
             findSz: '',
             list: [],

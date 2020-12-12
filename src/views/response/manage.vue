@@ -176,10 +176,10 @@ export default {
             paginationPageSize: store.state.paginationPageSize,
 
 
-            // dateFr: store.state.szCurMmFr,
-            dateFr: "",
-            // dateTo: store.state.szCurMmTo,
-            dateTo: "",
+            dateFr: store.state.szCurMmFr,
+            // dateFr: "",
+            dateTo: store.state.szCurMmTo,
+            // dateTo: "",
             findTp: '',
             findSz: '',
             list: [],
