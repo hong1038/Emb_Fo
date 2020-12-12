@@ -21,10 +21,12 @@
                             </b-col>
                         </b-row>
                     </div>
-                    <div class="mt-4 container-fluid">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
-                        </ag-grid-vue>
-                    </div>
+                    <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
+                        <div class="mt-4 container-fluid">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
+                            </ag-grid-vue>
+                        </div>
+                    </b-overlay>
                 </div>
             </div>
         </div>
@@ -65,8 +67,7 @@ export default {
         return {
             mode: 'single',
             info: {},
-            dateFr: '',
-            currentDate: store.state.szCurMmFr,
+            dateFr: store.state.szCurMmTo,
             findTp: '',
             findSz: '',
             gridOptions: {},
@@ -74,19 +75,10 @@ export default {
             listCount: 0,
             pageNo: 1,
             perPage: 10,
+
+            busy:false,
+
             fields: [
-                // {
-                //     field: 'serverKey',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipmentKey',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensorKey',
-                //     hidden: true
-                // },
                 {
                     field: 'serverName',
                     headerName: '측정장소'
@@ -127,18 +119,57 @@ export default {
 
     created() {
         this.getConditionList();
+        setTimeout(() => {
+            this.gridOptions.api.sizeColumnsToFit()
+        }, 1);
     },
 
     methods: {
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },300)
+            // 시간 변경
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            // this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+                this.busy = false
+            })
+        },
         resetPageNo() {
             this.pageNo = 1;
         },
         getList() { //구매품의중인 자재목록
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick()
+
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {
-                    // dateFr: this.dateFr,
-                    currentDate: this.currentDate,
+                    dateFr: this.dateFr,
                     serverList: store.state.ckServer,
                     cateList: store.state.ckCate,
                     equipList: store.state.ckEquip,

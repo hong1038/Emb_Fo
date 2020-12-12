@@ -114,7 +114,8 @@ export default {
             timeout : null,
 
             selectWorkplace: "",
-            dateFr: '',
+            dateFr: store.state.curMmFr,
+            date: store.state.curMmFr,
             findTp: '',
             findSz: '',
             list: [],
@@ -425,7 +426,9 @@ export default {
     beforeDestroy() {
       this.clearTimeout()
     },
-    
+    beforeMount(){
+        console.log(this.dateFr, this.date)
+    },
     watch: {
         selectWorkplace() {
             console.log(this.selectWorkplace)

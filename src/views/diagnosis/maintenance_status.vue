@@ -84,8 +84,8 @@ export default {
             config: {},
             mode: 'single', //날짜선택방법
             
-            dateFr: '',
-            dateTo: '',
+            dateFr: store.state.curYFr ,
+            dateSelect : store.state.curYFr ,
             
             findTp: '',
             findSz: '',
@@ -94,7 +94,6 @@ export default {
 
             paginationPageSize: store.state.paginationPageSize,
 
-            dateSelect:'',
             menu:false,
 
             pageNo: 1,

@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import store from "@/store/index";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
@@ -94,7 +95,8 @@ export default {
     data() {
         return {
             selectWorkplace: "",
-            dateFr: "",
+            dateFr: store.state.curMmFr,
+            date: store.state.curMmFr,
             list:[],
             listCount:0,
 
@@ -460,14 +462,16 @@ export default {
     font-size:20px;
 }
 
+.hmDateSelect > div:nth-child(2){
+    position: relative;
+    left:-20px;
+}
+
 .hmDateSelect > div:last-child{
     height:100%;
 }
 
 .hmDateSelect .v-input{
-    position:absolute;
-    top:0px;
-    left:-20px;
     width:60%;
 }
 

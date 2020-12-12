@@ -122,7 +122,7 @@ export default {
             serverList: null,
             comboServers: null,
             selectWorkplace: "",
-            dateFr: '',
+            dateFr: store.state.szCurMmTo,
 
             findTp: '',
             findSz: '',
