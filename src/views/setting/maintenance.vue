@@ -80,30 +80,34 @@ export default {
 
             fields: [
                 {
-                    field: 'serverName',
-                    headerName: '측정장소'
+                    field: 'server_name',
+                    headerName: '사업장'
                 },
                 {
-                    field: 'equipmentName',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치'
                 },
                 {
-                    field: 'category',
-                    headerName: '측정구분'
+                    field: 'category_cd',
+                    headerName: '구분'
                 },
                 {
-                    field: 'measurementDate',
-                    headerName: '측정일시'
+                    field: 'facility',
+                    headerName: '시설분류'
                 },
                 {
-                    field: 'sensorName',
-                    headerName: '센서명'
+                    field: 'place',
+                    headerName: '위치분류'
                 },
                 {
-                    field: 'measurementValue',
-                    headerName: '측정값',
+                    field: 'sensor_name',
+                    headerName: '분석항목',
                     width: '110px',
-                    type: 'member'
+                },
+                {
+                    field: 'contact_yn',
+                    headerName: '계약여부',
+                    width: '110px',
                 },
             ],
         }
