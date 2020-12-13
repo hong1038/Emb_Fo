@@ -90,9 +90,9 @@
                             </div>
                         </b-col>
                         <b-col cols="6" class="pinWrap">
-                            <div v-on:click="pinClick(10014,'pin01','공주')" class="locationPin pin01" ref="pin" :disabled="busy">
+                            <!-- <div v-on:click="pinClick(10014,'pin01','공주')" class="locationPin pin01" ref="pin" :disabled="busy">
                                 <p class="pin01Ball"></p>공주
-                            </div>
+                            </div> -->
                             <div v-on:click="pinClick(10021,'pin02','남원')" class="locationPin pin02">
                                 <p class="pin02Ball"></p>남원
                             </div>
@@ -518,7 +518,7 @@ export default {
                                 if (type === true) {
                                     try {
                                         this.rowData = res.data.data.area.filter((e) => Number(String(e.area_code).split("")[3]) === Number(String(this.areaPin).split("")[3]))
-                                        this.rowData = this.rowData.filter(e => e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
+                                        this.rowData = this.rowData.filter(e => e.area_code != 10014 && e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
                                         this.areaNm = this.rowData[0].area
                                     } catch (error) {
                                         console.log(error)
@@ -527,7 +527,7 @@ export default {
                                 }else{
                                     try {
                                         if (this.checkPin === false) {
-                                            this.rowData = res.data.data.area.filter(e => e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
+                                            this.rowData = res.data.data.area.filter(e => e.area_code != 10014 && e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
                                         }else{
                                             console.log(res.data.data.area)
                                             

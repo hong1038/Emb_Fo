@@ -22,12 +22,12 @@
                                 </div>
                                 
                                 <div class="col-3">
-                                    <button class="c_btn00" v-on:click="search()">검색</button>
+                                    <!-- <button class="c_btn00" v-on:click="search()">검색</button>
                                     <b-form-select v-model="select_type" class=" changeLocation"> 
                                         <option value="All">All</option>
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
-                                    </b-form-select>
+                                    </b-form-select> -->
                                     <input type="button" class="c_btn02" value="조회" v-on:click="getList">
                                     <!-- <input type="button" class="c_btn02" value="등록" v-on:click="addOn2"> -->
                                     <input type="button" class="c_btn03" value="엑셀 저장" v-on:click="excelBtn">
@@ -198,22 +198,12 @@ export default {
             gridOptions:{}, 
             list: [],
             list2: [],
+            list3: [],
             listCount: 0,
             pageNo: 1,
             perPage: 10,
             fields: [
-                // {
-                //     field: 'serverKey',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipmentKey',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensorKey',
-                //     hidden: true
-                // },
+
                 {
                     field: 'prevention_date',
                     headerName: '일자',
@@ -242,48 +232,60 @@ export default {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '80px'
+                            width: '100px'
                         },
                         {
                             field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '80px'
+                            width: '100px'
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '80px'
+                            width: '100px'
                         },
                         {
-                            field: 'occur',
+                            field: 'inoccur',
                             headerName: '이상점 발생여부',
                             type: 'number',
-                            width: '150px'
+                            width: '140px'
                         },
                     ]
                 },
-                // {
-                //     field: 'cause',
-                //     headerName: '변경점 / 이상점 확인결과 원인',
-                //     width: '230px'
-                // },
-                // {
-                //     field: 'action',
-                //     headerName: '조치사항',
-                //     width: '170px'
-                // },
-                // {
-                //     field: 'action_type',
-                //     headerName: '조치여부',
-                //     width: '165px'
-                // },
-                // {
-                //     field: 'action_date',
-                //     headerName: '조치 완료일자',
-                //     width: '170px'
-                // },
+                {
+                    field: '',
+                    headerName: '배출구',
+                    children: [
+                
+                        {
+                            field: 'outlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'outlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'outlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'outoccur',
+                            headerName: '이상점 발생여부',
+                            type: 'number',
+                            width: '140px'
+                        },
+                    ]
+                },
+             
             ],
         }
     },
@@ -327,20 +329,20 @@ export default {
     },
 
     methods: {
-        search(){
-            if (this.list.length === 0) {
-                alert('조회된 리스트가 없습니다.')
-                return
-            }
+        // search(){
+        //     if (this.list.length === 0) {
+        //         alert('조회된 리스트가 없습니다.')
+        //         return
+        //     }
 
-            if (this.select_type === null || this.select_type === "All" || this.select_type === "") {
-                this.list = this.list2
-                return
-            }
+        //     if (this.select_type === null || this.select_type === "All" || this.select_type === "") {
+        //         this.list = this.list2
+        //         return
+        //     }
             
-            this.list = this.list2.filter(e=> e.occur === this.select_type)
+        //     this.list = this.list2.filter(e=> e.occur === this.select_type)
             
-        },
+        // },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -402,6 +404,8 @@ export default {
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
             this.showblock();
+
+            
         },
         addOn2(){
             this.showblock();
@@ -538,11 +542,62 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             res.data.data.map(e => {
-                                e.occur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
+                                e.inoccur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
+                                e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
                                 console.log(e)
                             })
-                            that.list = res.data.data
-                            that.list2 = res.data.data
+
+                            let test = []
+                            let listStandart = []
+                            test = res.data.data.reduce((acc,v) => {
+                                console.log(Object.values(v).slice(0,25))
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12 || idx === 22).join('')
+                                listStandart.push(key)
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            console.log(test)
+
+                            listStandart = [...new Set(listStandart)]
+                            listStandart.map(e => {
+                                this.list3.push(test[e])
+                            })
+                            this.list3.map(e=>{
+                                if (e.length === 1) {
+                                    that.list.push(e[0])        
+                                }else if (e.length === 2) {
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur)
+                                        }else if (item.place === 512) {
+                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur)
+                                        }
+                                    })
+                                    let objectitem = {
+                                        'prevention_date':e[0].prevention_date,
+                                        'server_name':e[0].server_name,
+                                        'category_cd':e[0].category_cd,
+                                        'equipment_inner_nm':e[0].equipment_inner_nm,
+                                        'inlet_max_value':inval[0],
+                                        'inlet_avg_value':inval[1],
+                                        'inlet_min_value':inval[2],
+                                        'inoccur':inval[3],
+                                        'outlet_max_value':outval[0],
+                                        'outlet_avg_value':outval[1],
+                                        'outlet_min_value':outval[2],
+                                        'outoccur':outval[3],
+                                        'procRate':""
+                                    }
+                                    that.list.push(objectitem)   
+                                }
+
+                                
+                            })
+
+                            // that.list = res.data.data
+                            // that.list2 = res.data.data
                             that.listCount = res.data.totalCount
                         }
                     }
