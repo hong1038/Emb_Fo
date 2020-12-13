@@ -31,7 +31,7 @@
                             </b-col>
                             <v-spacer></v-spacer>
                             <b-col cols="1">
-                                <v-btn class="hmPlus">조회</v-btn>
+                                <v-btn class="hmPlus" v-on:click="getList01">조회</v-btn>
                             </b-col>
                             
                         </b-row>
@@ -162,12 +162,12 @@ export default {
                     width: '130px'
                 },
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'unit',
                     headerName: '단위',
                     width: '80px'
                 },
@@ -309,22 +309,22 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '190px'
                 },
                 {
-                    field: '',
+                    field: 'unit',
                     headerName: '유형',
                     width : '80'
                 },
                 {
-                    field: '',
+                    field: 'rs_date',
                     headerName: '발생 일자',
                     width: '190px'
                 },
@@ -333,24 +333,24 @@ export default {
                     headerName: '문제점 개선 계획',
                     children : [
                         {
-                            field : '',
+                            field : 'cause',
                             headerName : '문제점/이슈사항',
                             width: '418'
                         },
                         {
-                            field : '',
+                            field : 'action',
                             headerName : '대응 방안',
                             width: '470'
                         },
                         {
-                            field : '',
+                            field : 'action_date',
                             headerName : '일정',
                             width: '80'
                         },
                     ]
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '완료 상태',
                     width: '110px'
                 },
@@ -369,12 +369,12 @@ export default {
                     width: '140px'
                 },
                 {
-                    field: '',
+                    field: 'category_cd',
                     headerName: '구분',
                     width: '80px'
                 },
                 {
-                    field: '',
+                    field: 'prevention_date',
                     headerName: '발생일자',
                     width: '140px'
                 },
@@ -384,37 +384,40 @@ export default {
                     width : '200'
                 },
                 {
-                    field: '',
+                    field: 'equipment_name',
                     headerName: '방지시설명',
                     width: '200px'
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '유형',
                     width : '110'
                 },
                 {
-                    field: '',
+                    field: 'cause',
                     headerName: '초과사항 확인결과 원인',
                     width: '315px'
                 },
                 {
-                    field: '',
+                    field: 'action',
                     headerName: '조치사항',
                     width : '190'
                 },
                 {
-                    field: '',
+                    field: 'abnormal_type',
                     headerName: '조치여부',
                     width : '190'
                 },
                 {
-                    field: '',
+                    field: 'action_date',
                     headerName: '조치 완료 일자',
                     width : '190'
                 },
             ],
         }
+    },
+    beforeDestroy() {
+      this.clearTimeout()
     },
     watch: {
         selectWorkplace() {
@@ -423,6 +426,70 @@ export default {
         date() {
             console.log(this.date)
         }
+    },
+    methods:{
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },10000)
+            // 시간 변경
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            // this.$refs.pin.focus()
+        },
+        onClick() {
+            this.busy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+                this.busy = false
+            })
+        },
+
+        async getList01(){
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+            this.onClick();
+
+
+            this.busy = false;
+            this.getList02();
+        },
+
+        async getList02(){ 
+            this.onClick();
+
+
+            this.busy = false;
+            this.getList03();
+        },
+
+        async getList03(){
+            this.onClick();
+
+            this.busy = false;
+            this.getList04();
+        },
+
+        async getList04(){
+            this.onClick();
+
+
+            this.busy = false;
+
+        }
+
+
     }
 }
 </script>

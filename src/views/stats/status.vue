@@ -10,7 +10,7 @@
                     <div class="statusDateCheck container-fluid mt-4">
                         <div class="row">
                             <div class="col-7">
-                                <div>기간 선택</div>
+                                <div>연도 선택</div>
                                 <v-date-picker value="range" is-range />
                                 <div class="dateSelect">
                                     <!--<datetime type="year" v-model="dateFr" class="datetime"></datetime>-->
@@ -84,10 +84,9 @@ export default {
 
             paginationPageSize: store.state.paginationPageSize,
             gridOptions: {},
-//             // dateFr: store.state.szCurMmFr,
-            dateFr: "",
-            // dateTo: store.state.szCurMmTo,
-            dateTo: "",
+            dateFr: store.state.curYFr,
+            dateSelect: store.state.curYFr,
+            // dateFr: "",
             findTp: '',
             findSz: '',
             list: [],
@@ -95,21 +94,9 @@ export default {
             pageNo: 1,
             perPage: 10,
             fields: [
-                // {
-                //     field: 'server_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'equipment_key',
-                //     hidden: true
-                // },
-                // {
-                //     field: 'sensor_key',
-                //     hidden: true
-                // },
                 {
-                    field: 'internal_number',
-                    headerName: '관리번호',
+                    field: '',
+                    headerName: '권역',
                     width: '80px'
                 },
                 {
@@ -118,36 +105,90 @@ export default {
                     width: '100px'
                 },
                 {
-                    field: 'category',
-                    headerName: '분야',
-                    width: '80px'
+                    field: '',
+                    headerName: '악취 측정기',
+                    children : [
+                        {
+                            filed:'',
+                            headerName : '수량',
+                            width:'80'
+                        },
+                        {
+                            filed :'',
+                            headerName : '유지보수 계약 관리 수량',
+                            width : '190'
+                        },
+                        {
+                            filed : '',
+                            headerName : '계약율(%)',
+                            width:'110'
+                        }
+                    ]
                 },
                 {
-                    field: 'equipment_name',
-                    headerName: '측정위치',
-                    width: '160px'
+                    field: '',
+                    headerName: '수질 측정기',
+                    children : [
+                        {
+                            filed:'',
+                            headerName : '수량',
+                            width:'80'
+                        },
+                        {
+                            filed :'',
+                            headerName : '유지보수 계약 관리 수량',
+                            width : '190'
+                        },
+                        {
+                            filed : '',
+                            headerName : '계약율(%)',
+                            width:'110'
+                        }
+                    ]
                 },
                 {
-                    field: 'sensor_name',
-                    headerName: '센서목록',
-                    width: '130px'
+                    field: '',
+                    headerName: '대기 측정기',
+                    children : [
+                        {
+                            filed:'',
+                            headerName : '수량',
+                            width:'80'
+                        },
+                        {
+                            filed :'',
+                            headerName : '유지보수 계약 관리 수량',
+                            width : '190'
+                        },
+                        {
+                            filed : '',
+                            headerName : '계약율(%)',
+                            width:'110'
+                        }
+                    ]
                 },
                 {
-                    field: 'unit',
-                    headerName: '단위',
-                    width: '70px'
+                    field: '',
+                    headerName: '합계',
+                    children : [
+                        {
+                            filed:'',
+                            headerName : '수량',
+                            width:'80'
+                        },
+                        {
+                            filed :'',
+                            headerName : '유지보수 계약 관리 수량',
+                            width : '190'
+                        },
+                        {
+                            filed : '',
+                            headerName : '계약율(%)',
+                            width:'110'
+                        }
+                    ]
                 },
-                {
-                    field: 'date_time',
-                    headerName: '측정일시',
-                    width: '110px'
-                },
-                {
-                    field: 'sensor_data_value',
-                    headerName: '측정값',
-                    width: '80px',
-                    type: 'number'
-                },
+                
             ],
         }
     },

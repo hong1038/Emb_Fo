@@ -229,12 +229,12 @@ export default {
             inletList: [],
             inletFields: [
                 {
-                    field: 'category_nm',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '140px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '200px'
                 },
@@ -294,12 +294,12 @@ export default {
             outletList:[],
             outletFields: [
                 {
-                    field: 'category_nm',
+                    field: 'category_nd',
                     headerName: '분야',
                     width: '80px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '160px'
                 },
@@ -363,22 +363,22 @@ export default {
             errorList:[],
             errorFields: [
                 {
-                    field: 'category_nm',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '100px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '200px'
                 },
                 {
-                    field: '',
+                    field: 'abnormal_type',
                     headerName: '유형',
                     width: '190px'
                 },
                 {
-                    field: 'action_date',
+                    field: 'rs_date',
                     headerName: '발생 일자',
                     width: '190px'
                 },
@@ -386,19 +386,19 @@ export default {
                     field: '',
                     headerName: '문제점 개선 계획',
                     children: [{
-                            field: '',
+                            field: 'cause',
                             headerName: '문제점/이슈사항',
                             type: 'number',
                             width: '300px'
                         },
                         {
-                            field: '',
+                            field: 'action',
                             headerName: '대응 방안',
                             type: 'number',
                             width: '300px'
                         },
                         {
-                            field: '',
+                            field: 'action_date',
                             headerName: '일정',
                             type: 'number',
                             width: '100px'
@@ -406,7 +406,7 @@ export default {
                     ]
                 },
                 {
-                    field: '',
+                    field: 'action_type',
                     headerName: '완료 여부',
                     width: '120px'
                 },
@@ -417,17 +417,17 @@ export default {
             etcList:[],
             etcFields: [
                 {
-                    field: 'category_nm',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '200px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '200px'
                 },
                 {
-                    field: '',
+                    field: 'issue',
                     headerName: '특이사항',
                     width: '1100px'
                 },
@@ -502,8 +502,7 @@ export default {
         handleVisibility(isVisible) {
             this.isVisible = isVisible
         },
-
-        getList1() {
+        async getList1() {
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
@@ -517,7 +516,7 @@ export default {
             console.log(this);
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+            await this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
@@ -537,8 +536,151 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
                 this.busy = false;
+                this.getList2()
+        },
+        async getList2() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
-        }
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.inletList = res.data.data
+                            that.inletListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList3()
+        },
+        async getList3() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.outletList = res.data.data
+                            that.outletListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList4()
+        },
+        async getList4() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/systemDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.errorList = res.data.data
+                            that.errorListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList5()
+        },
+        async getList5() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/manageDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.etcList = res.data.data
+                            that.etcListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+        },
     },
 }
 </script>

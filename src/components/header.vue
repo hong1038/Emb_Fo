@@ -46,6 +46,9 @@
                                 <router-link :to="{ name: 'measurementData'}">측정값 조회</router-link>
                             </li>
                             <li>
+                                <router-link :to="{ name: 'status'}">현황</router-link>
+                            </li>
+                            <li>
                                 <router-link :to="{ name: 'measurementDataByDay'}">일간통계 및 그래프</router-link>
                             </li>
                             <li>
@@ -60,9 +63,7 @@
                             <li>
                                 <router-link :to="{ name: 'normalDistribution1'}">정규분포</router-link>
                             </li>
-                            <li>
-                                <router-link :to="{ name: 'status'}">현황</router-link>
-                            </li>
+                            
                         </ul>
                     </li>
                     <li>
