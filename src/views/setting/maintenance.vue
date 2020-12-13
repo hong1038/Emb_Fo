@@ -97,7 +97,7 @@ export default {
                     headerName: '시설분류'
                 },
                 {
-                    field: 'place',
+                    field: 'place_nm',
                     headerName: '위치분류'
                 },
                 {
