@@ -11,13 +11,14 @@
                         <b-row>
                             <b-col cols="7">
                                 <div>날짜 선택 </div>
-                                <div class="dateSelect">
+                                <div class="dateSelect"> 
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
                                 </div>
                             </b-col>
                             <b-col cols="5">
                                 <input class="mt_btn01" type="button" v-on:click="getList" value="조회">
-                                <input class="mt_btn02" type="button" v-on:click="excelBtn" value="엑셀 저장">
+                                <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록">
+                                <input class="mt_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </b-col>
                         </b-row>
                     </div>
@@ -157,6 +158,10 @@ export default {
         resetPageNo() {
             this.pageNo = 1;
         },
+        showblock() {
+            this.show = !this.show
+            this.resizing()
+        },
         getList() { //구매품의중인 자재목록
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
@@ -172,16 +177,13 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {
+            this.$Axios.post("/api/daedan/cj/ems/setting/contactList", {
                     dateFr: this.dateFr,
                     serverList: store.state.ckServer,
-                    cateList: store.state.ckCate,
-                    equipList: store.state.ckEquip,
-                    sensorList: store.state.ckSensor,
                     findTp: this.findTp,
                     findSz: this.findSz,
                     pageNo: this.pageNo,
-                    pageSz: 10000,
+                    pageSz: store.state.paginationPageSize,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
@@ -203,9 +205,17 @@ export default {
         onRowClick: function (obj) {
             console.log("onRowClck.obj = " + obj);
         },
-        // 조회버튼 클릭
-        searchBtn() {
-
+        // 등록버튼 클릭
+        addOn() {
+            this.server_name = null;
+            this.equipment_inner_nm = null; //측정위치
+            this.category = null; //측정분야명
+            this.category_cd = null; //측정분야코드
+            this.facility = null
+            this.place = null
+            this.sensor_name = null; //사업장
+            this.contact_yn = null;
+            this.showblock();
         },
         // 엑셀저장버튼 클릭
         excelBtn() {
@@ -280,7 +290,8 @@ export default {
 }
 
 .mt_btn01,
-.mt_btn02 {
+.mt_btn02,
+.mt_btn03 {
     position: absolute;
     top: -15px;
     width: 150px;
@@ -297,10 +308,14 @@ export default {
 }
 
 .mt_btn01 {
-    right: 190px;
+    right: 360px;
 }
 
 .mt_btn02 {
+    right: 190px;
+}
+
+.mt_btn03 {
     right: 20px;
 }
 
