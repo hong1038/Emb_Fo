@@ -23,15 +23,74 @@
                         </b-row>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                        <div class="mt-4 container-fluid">
+                        <div class="mt-4 container-fluid maintenanceTable" style="display:flex;">
                             <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
                             </ag-grid-vue>
+                            <b-card class="right_list" v-if="show">
+                                <b-row>
+                                    <b-col class="popUpTitle">측정기별 유지보수<br>계약 정보</b-col>
+                                    <input type="button" class="systemSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
+                                    <input type="button" class="systemListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
+                                    <!-- <input type="button" class="systemListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제"> -->
+                                </b-row>
+                                <div>
+                                    <b-row>
+                                        <b-col class="regiName col-4">사업장</b-col>
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">측정위치</b-col>
+                                        <b-form-select class="col" v-model="equipment_inner_nm" :options="comboEquipments" size="sm"></b-form-select>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">구분</b-col>
+                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm"></b-form-select>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">시설분류</b-col>
+                                        <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm"></b-form-select>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">위치분류</b-col>
+                                        <b-form-select class="col" v-model="location" :options="comboLocations" size="sm"></b-form-select>
+                                    </b-row>
+                                    <b-row class="line1_box">
+                                        <b-col class="regiName col-4">계약여부</b-col>
+                                        <b-form-input class="col" type="text" size="sm" v-model="contact_yn"></b-form-input>
+                                    </b-row>
+                                </div>
+                            </b-card>
                         </div>
                     </b-overlay>
                 </div>
             </div>
         </div>
     </div>
+    <b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
+        <template v-slot:overlay>
+            <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
+                <b-icon icon="cloud-upload" font-scale="4"></b-icon>
+                <div class="mb-3">Processing...</div>
+                <b-progress min="1" max="20" :value="counter" variant="success" height="3px" class="mx-n4 rounded-0"></b-progress>
+            </div>
+            <div v-else ref="dialog" tabindex="-1" role="dialog" aria-modal="false" aria-labelledby="form-confirm-label" class="text-center p-3 popUpMessage">
+                <p><strong id="form-confirm-label">{{altMsg}}</strong></p>
+                <div class="d-flex">
+                    <b-row>
+                        <b-col cols="6" align="center" v-if="workTp ==='SAVE_INFO'" class="popUpInfo">
+                            <b-button v-on:click="saveInfoProc" variant="success" size="sm">저장</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" class="popUpInfo">
+                            <b-button variant="primary" @click="onCancel" size="sm">취소</b-button>
+                        </b-col>
+                        <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
+                            <b-button v-on:click="dropInfoProc" variant="danger" size="sm">삭제</b-button>
+                        </b-col>
+                    </b-row>
+                </div>
+            </div>
+        </template>
+    </b-overlay>
 </b-container>
 </template>
 
@@ -44,6 +103,7 @@ import Left from '@/components/Left2.vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import axios from 'axios';
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 
@@ -77,7 +137,18 @@ export default {
             pageNo: 1,
             perPage: 10,
 
-            busy:false,
+            measurementInfo:{},
+            Loadbusy:false,
+            timeout : null,
+            show:false,
+            hide:false,
+            busyPop: false,
+
+            comboServers: null, //사업장   
+            comboCategories: null, //측청분야     
+            comboEquipments: null, //측정위치
+            comboFacilities: null, //시설분류
+            comboLocations: null, //위치분류
 
             fields: [
                 {
@@ -86,7 +157,8 @@ export default {
                 },
                 {
                     field: 'equipment_inner_nm',
-                    headerName: '측정위치'
+                    headerName: '측정위치',
+                    width:'400'
                 },
                 {
                     field: 'category_cd',
@@ -94,11 +166,13 @@ export default {
                 },
                 {
                     field: 'facility',
-                    headerName: '시설분류'
+                    headerName: '시설분류',
+                    width:'350'
                 },
                 {
                     field: 'place_nm',
-                    headerName: '위치분류'
+                    headerName: '위치분류',
+                    width:'240'
                 },
                 {
                     field: 'contact_yn',
@@ -107,6 +181,33 @@ export default {
                 },
             ],
         }
+    },
+    watch: {
+        server_key() {
+            if (!this.server_key) return;
+            this.getEquips();
+        },
+        category_cd() {
+            if (!this.category_cd) return;
+            this.getFacPos();
+        },
+        equipment_key() {
+            if (!this.server_key) return;
+            if (!this.equipment_key) return;
+            this.getSensors();
+        },
+        facility(){
+            if (this.facility === 201) {
+                this.general_air = "부지경계"
+                this.hide = true
+            }else{
+                this.general_air = null
+                this.hide = false
+            }
+        }  
+        //usedSensors(){
+        //    console.log("usedSensor = " + this.usedSensors)
+        //},
     },
     computed: {},
 
@@ -118,10 +219,12 @@ export default {
     },
 
     created() {
+        this.config = {
+            headers: {
+                "authorization": this.$Axios.defaults.headers.common["authorization"]
+            }
+        }
         this.getConditionList();
-        setTimeout(() => {
-            this.gridOptions.api.sizeColumnsToFit()
-        }, 1);
     },
 
     methods: {
@@ -150,12 +253,113 @@ export default {
                 this.busy = false
             })
         },
-        resetPageNo() {
-            this.pageNo = 1;
+        onCancel() {
+            this.busyPop = false
         },
         showblock() {
             this.show = !this.show
             this.resizing()
+        },
+        resizing() {
+            setTimeout(() => {
+                this.gridOptions.api.sizeColumnsToFit()
+            }, 1);
+        },
+       async getConditionList() {
+            let that = this;
+            await axios.post("/api/daedan/cj/ems/setting/conditionList", {
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboServers = res.data.data.serverList; //사업장
+                            that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
+                    console.log(err)
+                })
+
+        },
+        async getEquips() {
+            console.log("getEquips.server_key = " + this.server_key)
+            let that = this;
+
+            await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
+                    serverKey: this.server_key,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboEquipments = res.data.data.equipPos; //측정위치
+                            if (that.measurementInfo.equipment_key) {
+                                that.equipment_key = that.measurementInfo.equipment_key;
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정위치추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        async getFacPos() {
+            console.log("getFacPos.category_cd = " + this.category_cd)
+            let that = this;
+
+            await axios.post("/api/daedan/cj/ems/cmmn/comboFacPosList", {
+                    category: this.category_cd,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.comboFacilities = res.data.data.facilities; //서설분류
+                            that.comboLocations = res.data.data.locations; //위치분류
+                            if (that.measurementInfo.facility) {
+                                that.facility = that.measurementInfo.facility; //시설분류 설정    
+                            }
+                            if (that.measurementInfo.location) {
+                                that.location = that.measurementInfo.location; //위치분류 설정    
+                            }
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("시설및위치분류추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        async getSensors() {
+            //console.log("getSensors.server_key = " + this.server_key)
+            //console.log("getSensors.equipment_key = " + this.equipment_key)
+            let that = this;
+                 await axios.post("/api/daedan/cj/ems/cmmn/comboSensorList", {
+                    serverKey: this.server_key,
+                    equipmentKey: this.equipment_key,
+                    userId: store.state.userInfo.userId
+
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.sensors = res.data.data.sensors; //센서목록
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정위치별센서추출 실패 \n" + err);
+                    console.log(err)
+                })
+        },
+        resetPageNo() {
+            this.pageNo = 1;
         },
         getList() { //구매품의중인 자재목록
             if (store.state.ckServer.length == 0) {
@@ -215,6 +419,85 @@ export default {
         // 엑셀저장버튼 클릭
         excelBtn() {
             this.gridOptions.api.exportDataAsExcel({});
+        },
+        saveInfo() {
+            // if (!this.server_key) {
+            //     alert("측정장소는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.equipment_key) {
+            //     alert("설치장소는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.category_cd) {
+            //     alert("분야는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.facility) {
+            //     alert("시설분류는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.location) {
+            //     alert("측정위치는 필수 선택 항목 입니다.")
+            //     return;
+            // }
+            // if (!this.usedSensors) {
+            //     alert("선택된 분석항목이 없습니다.")
+            //     return;
+            // }
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
+            this.workTp = "SAVE_INFO"
+        },
+        async saveInfoProc() {
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/setting/contactSave", {
+                    mno: this.mno,
+                    server_key:this.server_key,
+                    equipment_key:this.equipment_key,
+                    category:this.category,
+                    facility:this.facility,
+                    location:this.location,
+                    contact_yn:this.contact_yn,   
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보저장 실패 \n" + err);
+                })
+            this.showblock();
+            this.busyPop = false;
+
+        },
+        dropInfo() {
+            this.busyPop = true;
+            this.altMsg = "처리중인 기준정보를 샥제 하시겠습니까 ? ";
+            this.workTp = "DROP_INFO"
+        },
+        async dropInfoProc() {
+            // let that = this;
+            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
+            //         mno: this.mno,
+            //         userId: store.state.userInfo.userId
+            //     }, this.config)
+            //     .then(res => {
+            //         if (res.status === 200) {
+            //             if (res.data.statusCode === 200) {
+            //                 that.saveblock();
+            //                 that.getList();
+            //             }
+            //         }
+            //     })
+            //     .catch(err => {
+            //         alert("측정기별기준정보삭제 실패 \n" + err);
+            //     })
+            this.busyPop = false;
         },
     },
 
@@ -323,6 +606,69 @@ export default {
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
+}
+
+
+
+.maintenanceTable .right_list {
+    position: relative;
+    left: 10px;
+    width: 500px;
+    height: 635px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-top: 0;
+    overflow-y: scroll;
+    box-shadow: 0px 0px 10px 1px #ccc;
+}
+
+.maintenanceTable .right_list .popUpTitle {
+    font-size: 18px;
+}
+
+.maintenanceTable .right_list .btn {
+    margin-right: 7px;
+    font-size: 15px;
+    height: 30px;
+    margin-top: 20px;
+}
+.maintenanceTable .right_list .regiName {
+    font-size: 16px;
+    word-break: keep-all;
+}
+
+.maintenanceTable .right_list .regiName+input,
+.maintenanceTable .right_list .regiName+select {
+    height: 30px;
+    margin-top: 10px;
+    font-size:14px;
+}
+
+.maintenanceTable .right_list .lh-2+input,
+.maintenanceTable .right_list .lh-2+select {
+    margin-top:20px;
+}
+
+.maintenanceTable .right_list .lh-3+input,
+.maintenanceTable .right_list .lh-3+select {
+    margin-top:35px;
+}
+.maintenanceTable .right_list .lh-4+input,
+.maintenanceTable .right_list .lh-4+select {
+    margin-top:50px;
+}
+
+.popUpMessage #form-confirm-label {
+    font-size: 28px;
+    font-family: 'Noto Sans KR';
+}
+
+.popUpMessage .popUpInfo>button {
+    width: 80px;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 7px;
 }
 
 .v-input__prepend-outer {
