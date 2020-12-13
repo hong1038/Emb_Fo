@@ -29,7 +29,7 @@
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid excessTable" style="display:flex;">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" >
                             </ag-grid-vue>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -112,6 +112,12 @@
             </div>
         </div>
     </div>
+    <!-- <div class="small" style="z-index:10">
+        <div> -->
+            <!-- <button v-on:click="chartImage()">IMG</button> -->
+            <canvas v-if="show" style="background:white" id="daily-chart" width="1550px" height="550" ></canvas>
+        <!-- </div>
+    </div> -->
     <b-overlay :show="busyPop" no-wrap @show="onShow" @hidden="onHidden">
         <template v-slot:overlay>
             <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
@@ -154,7 +160,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
-
+import Chart from 'chart.js'
 Vue.use(Datetime)
 
 //달력관련
@@ -183,12 +189,16 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
+            gridOptions : {},
+            ctxConfig: null,
+            dailyChart: null,
             dateFr: store.state.szCurMmFr,
             // dateFr: "",
             dateTo: store.state.szCurMmTo,
             // dateTo: "",
             gridOptions:{}, 
             list: [],
+            list2: [],
             listCount: 0,
             pageNo: 1,
             perPage: 10,
@@ -235,18 +245,24 @@ export default {
                             type: 'number',
                             width: '100px'
                         },
+                        {
+                            field: 'inoccur',
+                            headerName: '이상점 발생여부',
+                            type: 'number',
+                            width: '140px'
+                        },
                     ]
                 },
                 {
                     field: '',
                     headerName: '배출구',
                     children: [
-                        {
-                            field: 'outlet_standard_value',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '100px'
-                        },
+                        // {
+                        //     field: 'outlet_standard_value',
+                        //     headerName: '기준',
+                        //     type: 'number',
+                        //     width: '100px'
+                        // },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
@@ -382,7 +398,132 @@ export default {
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
             this.showblock();
+            this.excessInfo(obj)
+        },
+        excessInfo(obj){
+            console.log(obj)
+            this.$Axios.post("/api/daedan/cj/ems/response/excessInfo", {
+                serverKey:obj.data.server_key,
+                equipmentInnerNm:obj.data.equipment_inner_nm,
+                category:obj.data.category,
+                dateTime:obj.data.prevention_date
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        console.log(res.data.data)
 
+                        let data = []
+                        let listStandart = []
+                        data = res.data.data.reduce((acc,v) => {
+                            let key = Object.values(v).slice(13,14).join('')
+                            listStandart.push(key)
+                            acc[key] = acc[key] ? [...acc[key], v] : [v]
+                            return acc
+                        }, [])
+                        listStandart = [...new Set(listStandart)]
+                        let inval = []
+                        let outval = []
+                        console.log(data)
+                        listStandart.map((e,idx) => {
+                            console.log(idx)
+                            data[e].map(item => {
+                                if (item.place === 510) {
+                                    inval.push(item.inlet_avg_value)
+                                }else if (item.place === 512) {
+                                    outval.push(item.outlet_avg_value)
+                                }
+                            })
+                        })
+                        this.graph(inval,outval,listStandart)
+                        console.log(inval,outval)
+                    }
+                }
+            })
+            .catch(err => {
+                alert("센서테이터목록 추출 실패 \n" + err);
+            })
+        },
+        graph(inval,outval,listStandart){
+            if (this.show === false) {
+                return false
+            }
+            if (this.dailyChart) {
+                this.dailyChart.destroy();
+            }
+            this.ctxDaily = document.getElementById('daily-chart').getContext('2d');
+            this.ctxDaily.height = "100%";
+            this.ctxDaily.width = "100%";
+            // this.ctxDaily.font = "5rem";
+            // console.log(this.dailyChartLabel,this.dailyChartData)
+            let ctxFontSize = 14
+            if (this.winWidth === 3840) {
+                ctxFontSize = 26
+            }
+            console.log(listStandart)
+            this.ctxConfig = {
+                type: 'line',
+                options: {
+                    position: 'bottom',
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true,
+                                fontSize: ctxFontSize
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontSize: ctxFontSize
+                            }
+                        }]
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#444',
+                            align: 'center',
+                            anchor: 'end',
+                            font: {
+                                family: 'Roboto',
+                                size: 14,
+                                weight: 700
+                            },
+                            // display: function(context) {
+                            //     return context.dataset.data[context.dataIndex] > 0;
+                            // },
+
+                            backgroundColor: 'white',
+                            borderRadius: 4
+                        }
+                    },
+                    maintainAspectRatio: false,
+                },
+                data: {
+                    labels:listStandart,
+                    datasets: [
+                        {
+                            label: '흡입구',
+                            borderColor: '#f13f3f',
+                            backgroundColor: 'transparent',
+                            data: inval
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '배출구',
+                            borderColor: '#42f13f',
+                            backgroundColor: 'transparent',
+                            data: outval
+                            // data:this.dailyChartData
+                        },
+
+                    ]
+                },
+            }
+            this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
+            this.dailyChart.update()
         },
         showblock() {
             this.show = !this.show
@@ -430,9 +571,60 @@ export default {
                             res.data.data.map(e => {
                                 e.inoccur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
                                 e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
-                                console.log(e)
                             })
-                            that.list = res.data.data
+
+                            let test = []
+                            let listStandart = []
+                            test = res.data.data.reduce((acc,v) => {
+                                let key = Object.values(v).slice(0,17).filter((e,idx)=> idx === 0 || idx === 13 || idx === 16).join('')
+                                listStandart.push(key)
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+
+                            listStandart = [...new Set(listStandart)]
+                            listStandart.map(e => {
+                                this.list2.push(test[e])
+                            })
+                            this.list2.map(e=>{
+                                if (e.length === 1) {
+                                    that.list.push(e[0])        
+                                }else if (e.length === 2) {
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur)
+                                        }else if (item.place === 512) {
+                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                        }
+                                    })
+                                    console.log(outval,inval)
+                                    let objectitem = {
+                                        'category':e[0].category,
+                                        'server_key':e[0].server_key,
+                                        'prevention_date':e[0].prevention_date,
+                                        'server_name':e[0].server_name,
+                                        'category_cd':e[0].category_cd,
+                                        'equipment_inner_nm':e[0].equipment_inner_nm,
+                                        'inlet_max_value':inval[0],
+                                        'inlet_avg_value':inval[1],
+                                        'inlet_min_value':inval[2],
+                                        'inoccur':inval[3],
+                                        'outlet_max_value':outval[0],
+                                        'outlet_avg_value':outval[1],
+                                        'outlet_min_value':outval[2],
+                                        'outoccur':outval[3],
+                                        'procRate':"",
+                                        'outlet_standard_value':outval[4]
+                                    }
+                                    that.list.push(objectitem)   
+                                }
+
+                                
+                            })
+                            console.log(res.data.data)
+                            // that.list = res.data.data
                             that.listCount = res.data.totalCount
                         }
                     }
@@ -539,6 +731,9 @@ export default {
 </script>
 
 <style>
+canvas {
+   margin-left:296px;
+}
 @font-face {
     font-family: "CJ Onlyone Medium";
     src: url(/fonts/CJOnlyoneMedium.ttf);
