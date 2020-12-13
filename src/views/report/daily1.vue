@@ -327,7 +327,7 @@ export default {
                     ]
                 },
                 {
-                    field: '',
+                    field: 'procRate',
                     headerName: '방지시설 처리효율(%)',
                     width: '190px'
                 },

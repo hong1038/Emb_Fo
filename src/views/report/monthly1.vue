@@ -209,7 +209,7 @@ export default {
                     ]
                 },
                 {
-                    field: '',
+                    field: 'procRate',
                     headerName: '방지시설 효율(%)',
                     width: '220px'
                 },
@@ -299,7 +299,7 @@ export default {
                     ]
                 },
                 {
-                    field: '',
+                    field: 'procRate',
                     headerName: '방지시설 처리효율(%)',
                     width : '190'
                 },
@@ -335,12 +335,12 @@ export default {
             errorList:[],
             errorFields: [
                 {
-                    field: 'prevention_date',
+                    field: 'rs_date',
                     headerName: '일자',
                     width: '80px'
                 },
                 {
-                    field: 'equipment_inner_nm',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '120px'
                 },
@@ -399,7 +399,7 @@ export default {
                     width: '150px'
                 },
                 {
-                    field: 'equipment_inner_nm',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '150px'
                 },

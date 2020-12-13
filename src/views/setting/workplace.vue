@@ -350,7 +350,7 @@ export default {
                 .catch(err => {
                     alert("측정기별기준정보목록 추출 실패 \n" + err);
                 })
-
+            this.showblock()
         },
         saveInfo() {
             if (!this.server_key) {
