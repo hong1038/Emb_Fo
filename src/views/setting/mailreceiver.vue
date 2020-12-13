@@ -1,6 +1,7 @@
 <template>
 <b-container fluid>
     <Header></Header>
+    <Left></Left>
     <div style="display:flex">
         <div class="inner mailInner">
             <div class="con">
@@ -108,7 +109,7 @@
 <script>
 import Vue from 'vue'
 import Header from '@/components/header.vue'
-import Left from '@/components/Left.vue'
+import Left from '@/components/Left2.vue'
 // import VueGoodTablePlugin from 'vue-good-table';
 // import 'vue-good-table/dist/vue-good-table.css'
 // import DatePicker from "v-calendar/lib/components/date-picker.umd"
@@ -149,6 +150,7 @@ export default {
             findSz: '',
             perCodeNo: 1,
             MailList: [],
+            comboServers: null, //사업장  
             paginationPageSize: store.state.paginationPageSize,
             gridOptions:{},
             Loadbusy:false,
@@ -245,35 +247,50 @@ export default {
                 this.gridOptions.api.sizeColumnsToFit()
             }, 1);
         },
-        getConditionList() {
-            //this.config = { headers : { "authorization" : this.$Axios.defaults.headers.common["authorization"] }   }
-            // let that = this;
-            this.onClick();
-            axios.post("/api/daedan/cj/ems/setting/MailList", {
+        async getConditionList() {
+            let that = this;
+            await axios.post("/api/daedan/cj/ems/setting/conditionList", {
                     userId: store.state.userInfo.userId
-                })
+                }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            this.MailList = res.data.data;
-
-                            // that.state.servers = res.data.data.servers; //사업장
-                            // that.state.typies = res.data.data.typies; //수집분야(악취,대기,수질)
-                            //that.state.equipPos = res.data.data.equipPos; //측정위치
+                            that.comboServers = res.data.data.serverList; //사업장
+                            that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                         }
                     }
                 })
                 .catch(err => {
-                    alert("검색조건추출 실패 \n" + err);
+                    alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
+
         },
+        // getConditionList() {
+        //     //this.config = { headers : { "authorization" : this.$Axios.defaults.headers.common["authorization"] }   }
+        //     let that = this;
+        //     this.onClick();
+        //     axios.post("/api/daedan/cj/ems/setting/MailList", {
+        //             userId: store.state.userInfo.userId
+        //         })
+        //         .then(res => {
+        //             if (res.status === 200) {
+        //                 if (res.data.statusCode === 200) {
+        //                     that.MailList = res.data.data;
+        //                     that.state.servers = res.data.data.servers; //사업장
+        //                 }
+        //             }
+        //         })
+        //         .catch(err => {
+        //             alert("검색조건추출 실패 \n" + err);
+        //             console.log(err)
+        //         })
+        // },
         getList() {
-            
-            // if (store.state.ckServer.length == 0) {
-            //     alert("사업장은 필수 선택 항목 입니다.")
-            //     return;
-            // }
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
             this.onClick();
 
             axios.post("/api/daedan/cj/ems/setting/MailList", {
