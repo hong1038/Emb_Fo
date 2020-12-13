@@ -798,7 +798,8 @@ export default {
 }
 
 .systemtableWrap .row:not(.line1_box)>input,
-.systemtableWrap .row>select {
+.systemtableWrap .row>select,
+.systemtableWrap .row>textarea {
     max-width: 210px;
     font-size:14px;
 }

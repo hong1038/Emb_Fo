@@ -21,9 +21,9 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <input class="e_btn01" type="button" v-on:click="getList" value="조회">
+                                <input class="e_btn02" type="button" v-on:click="getList" value="조회">
                                 <!-- <input class="md_btn02" type="button" v-on:click="addOn" value="등록"> -->
-                                <input class="e_btn02" type="button" v-on:click="excelBtn" value="엑셀 저장">
+                                <input class="e_btn01" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </div>
                         </div>
                     </div>
