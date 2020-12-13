@@ -49,7 +49,7 @@
 import store from "@/store/index";
 import Vue from "vue";
 import Header from '@/components/header.vue'
-import Left from '@/components/Left.vue'
+import Left from '@/components/Left2.vue'
 
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
@@ -95,7 +95,7 @@ export default {
             perPage: 10,
             fields: [
                 {
-                    field: '',
+                    field: 'area',
                     headerName: '권역',
                     width: '80px'
                 },
@@ -109,12 +109,12 @@ export default {
                     headerName: '악취 측정기',
                     children : [
                         {
-                            filed:'',
+                            filed:'t_odor_nb',
                             headerName : '수량',
                             width:'80'
                         },
                         {
-                            filed :'',
+                            filed :'odor_nb',
                             headerName : '유지보수 계약 관리 수량',
                             width : '190'
                         },
@@ -130,12 +130,12 @@ export default {
                     headerName: '수질 측정기',
                     children : [
                         {
-                            filed:'',
+                            filed:'t_water_nb',
                             headerName : '수량',
                             width:'80'
                         },
                         {
-                            filed :'',
+                            filed :'water_nb',
                             headerName : '유지보수 계약 관리 수량',
                             width : '190'
                         },
@@ -151,12 +151,12 @@ export default {
                     headerName: '대기 측정기',
                     children : [
                         {
-                            filed:'',
+                            filed:'t_air_nb',
                             headerName : '수량',
                             width:'80'
                         },
                         {
-                            filed :'',
+                            filed :'air_nb',
                             headerName : '유지보수 계약 관리 수량',
                             width : '190'
                         },
@@ -261,43 +261,33 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
-            if (store.state.ckCate.length == 0) {
-                alert("분야는 필수 선택 항목 입니다.")
-                return;
-            }
-            if (this.dateFr === null || this.dateTo === null || this.dateFr === "" || this.dateTo === "") {
+            if (this.dateFr === null || this.dateFr === "" ) {
                 alert("날짜를 선택해주세요.")
                 return;
             }
 
             this.onClick();
 
-//             let that = this;
-//             //console.log("store.state.ckServer = " + store.state.ckServer)
-//             this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsList", {
-//                     dateFr: this.dateFr,
-//                     dateTo: this.dateTo,
-//                     serverList: store.state.ckServer,
-//                     cateList: store.state.ckCate,
-//                     equipList: store.state.ckEquip,
-//                     sensorList: store.state.ckSensor,
-//                     findTp: this.findTp,
-//                     findSz: this.findSz,
-//                     pageNo: this.pageNo,
-//                     pageSz: 10000,
-//                     userId: store.state.userInfo.userId
-//                 }, this.config)
-//                 .then(res => {
-//                     if (res.status === 200) {
-//                         if (res.data.statusCode === 200) {
-//                             that.list = res.data.data
-//                             that.listCount = res.data.totalCount
-//                         }
-//                     }
-//                 })
-//                 .catch(err => {
-//                     alert("센서테이터목록 추출 실패 \n" + err);
-//                 })
+            let that = this;
+            //console.log("store.state.ckServer = " + store.state.ckServer)
+            this.$Axios.post("/api/daedan/cj/ems/stat/contactCount", {
+                    dateFr: this.dateFr,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: store.state.pagepaginationPageSize,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.list = res.data.data
+                            that.listCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
         },
 
         onPageChange(params) {

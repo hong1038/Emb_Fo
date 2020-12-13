@@ -34,6 +34,8 @@
                                 }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" />-->
 
                         <ag-grid-vue style="width: 100%; height: 670px;" class="ag-theme-alpine-dark" 
+                                rowSelection="single"
+                                @row-clicked="getInfo"
                                 :columnDefs="fields" 
                                 :rowData="list" 
                                 :gridOptions="gridOptions" 
@@ -52,11 +54,11 @@
                             <div>
                                 <b-row>
                                     <b-col class="regiName col-4">소속(사업장명)</b-col>
-                                    <b-form-input class="col" v-model="server_key" size="sm"></b-form-input>
+                                    <b-form-select class="col" v-model="server_key" :options="comboServers" ></b-form-select>
                                 </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">사용자명</b-col>
-                                    <b-form-input class="col" v-model="name" size="sm"></b-form-input>
+                                    <b-form-input class="col" v-model="user_name" size="sm"></b-form-input>
                                 </b-row>
                                 <!-- <b-row>
                                     <b-col class="regiName col-4">전화번호</b-col>
@@ -68,7 +70,7 @@
                                 </b-row> -->
                                 <b-row>
                                     <b-col class="regiName col-4">메일</b-col>
-                                    <b-form-input class="col" v-model="email" size="sm"></b-form-input>
+                                    <b-form-input class="col" v-model="user_mail" size="sm"></b-form-input>
                                 </b-row>
                             </div>
                         </b-card>
@@ -313,6 +315,12 @@ export default {
                     console.log(err)
                 })
 
+        },
+        getInfo(obj) {
+            this.server_key = obj.data.server_key
+            this.user_name = obj.data.user_name
+            this.user_mail = obj.data.user_mail
+            this.showblock()
         },
         saveInfo() {
             // if (!this.user_name) {

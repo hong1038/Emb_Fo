@@ -100,19 +100,14 @@ export default {
             perPage: 10,
             fields: [
                 {
-                    field: '',
+                    field: 'server_name',
                     headerName: '사업장',
                     width: '120px'
                 },
                 {
-                    field: 'equipmentName',
+                    field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '140px'
-                },
-                {
-                    field: '',
-                    headerName: '유지보수 계약여부',
-                    width: '170px'
                 },
                 {
                     headerName: '유지보수 계획 및 실적(계획/실적)',

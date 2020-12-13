@@ -294,7 +294,7 @@ export default {
             outletList:[],
             outletFields: [
                 {
-                    field: 'category_nd',
+                    field: 'category_cd',
                     headerName: '분야',
                     width: '80px'
                 },

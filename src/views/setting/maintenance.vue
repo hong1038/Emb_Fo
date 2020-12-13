@@ -101,11 +101,6 @@ export default {
                     headerName: '위치분류'
                 },
                 {
-                    field: 'sensor_name',
-                    headerName: '분석항목',
-                    width: '110px',
-                },
-                {
                     field: 'contact_yn',
                     headerName: '계약여부',
                     width: '110px',
