@@ -189,7 +189,6 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
-            gridOptions : {},
             ctxConfig: null,
             dailyChart: null,
             dateFr: store.state.szCurMmFr,
