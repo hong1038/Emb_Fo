@@ -164,7 +164,7 @@ export default {
                     width: '190px'
                 },
                 {
-                    field: 'sensor_name',
+                    field: 'internal_name',
                     headerName: '항목',
                     width: '250px'
                 },

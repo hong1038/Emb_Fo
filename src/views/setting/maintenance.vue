@@ -24,7 +24,7 @@
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid maintenanceTable" style="display:flex;">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark"  rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
                             </ag-grid-vue>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -175,12 +175,12 @@ export default {
                     headerName: '구분'
                 },
                 {
-                    field: 'facility',
+                    field: 'facility_nm',
                     headerName: '시설분류',
                     width:'350'
                 },
                 {
-                    field: 'place_nm',
+                    field: 'location',
                     headerName: '위치분류',
                     width:'240'
                 },
@@ -393,7 +393,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/setting/contactList", {
+            this.$Axios.post("/api/daedan/cj/ems/setting/maintenanceList", {
                     dateFr: this.dateFr,
                     serverList: store.state.ckServer,
                     findTp: this.findTp,
@@ -422,17 +422,16 @@ export default {
             console.log("onRowClck.obj = " + obj);
         },
         // 등록버튼 클릭
-        addOn() {
-            this.server_key = null;
-            this.server_name = null;
-            this.equipment_inner_nm = null; //측정위치
-            this.category = null; //측정분야명
-            this.category_cd = null; //측정분야코드
-            this.facility = null
-            this.place = null
-            this.location = null
-            this.sensor_name = null; //사업장
-            this.contact_yn = null;
+        addOn(obj) {
+            this.server_key = obj.data.server_key;
+            this.server_name = obj.data.server_name;
+            this.equipment_inner_nm = obj.data.equipment_inner_nm; //측정위치
+            this.category = obj.data.category; //측정분야명
+            this.category_cd = obj.data.category_cd; //측정분야코드
+            this.facility = obj.data.facility
+            this.place = obj.data.place
+            this.location = obj.data.location
+            this.contact_yn = obj.data.contact_yn;
             this.showblock();
         },
         // 엑셀저장버튼 클릭

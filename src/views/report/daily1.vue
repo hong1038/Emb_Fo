@@ -368,7 +368,7 @@ export default {
                     width: '100px'
                 },
                 {
-                    field: 'equipment_inner_nm',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '200px'
                 },
@@ -422,7 +422,7 @@ export default {
                     width: '200px'
                 },
                 {
-                    field: 'equipment_inner_nm',
+                    field: 'equipment_name',
                     headerName: '측정위치',
                     width: '200px'
                 },
