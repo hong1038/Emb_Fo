@@ -105,80 +105,80 @@ export default {
                     width: '120px'
                 },
                 {
-                    field: 'equipment_inner_nm',
+                    field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '140px'
+                    width: '200px'
                 },
                 {
                     headerName: '유지보수 계획 및 실적(계획/실적)',
                     children: [{
-                            field: '',
+                            field: 'one',
                             headerName: '1월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'two',
                             headerName: '2월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'three',
                             headerName: '3월',
                             type: 'number',
                             width: '80'
                         },
                         {
-                            field: '',
+                            field: 'four',
                             headerName: '4월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'five',
                             headerName: '5월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'six',
                             headerName: '6월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'seven',
                             headerName: '7월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'eight',
                             headerName: '8월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'nine',
                             headerName: '9월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'ten',
                             headerName: '10월',
                             type: 'number',
                             width: '90px'
                         },
                         {
-                            field: '',
+                            field: 'eleven',
                             headerName: '11월',
                             type: 'number',
                             width: '90px'
                         },
                         {
-                            field: '',
+                            field: 'twelve',
                             headerName: '12월',
                             type: 'number',
                             width: '90px'
