@@ -614,7 +614,7 @@ export default {
                                         'outlet_avg_value':outval[1],
                                         'outlet_min_value':outval[2],
                                         'outoccur':outval[3],
-                                        'procRate':Math.floor((inval[1] - outval[1]) / (inval[1]*100) )+ "%",
+                                        'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
                                         'outlet_standard_value':outval[4]
                                     }
                                     that.list.push(objectitem)   

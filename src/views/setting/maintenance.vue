@@ -54,6 +54,14 @@
                                         <b-col class="regiName col-4">위치분류</b-col>
                                         <b-form-input class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-input>
                                     </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4 lh-2">계약 시작일자</b-col>
+                                        <b-form-input class="col" type="date" size="sm" v-model="fr_date"></b-form-input>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4 lh-2">계약 종료일자</b-col>
+                                        <b-form-input class="col" type="date" size="sm" v-model="to_date"></b-form-input>
+                                    </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">계약여부</b-col>
                                         <b-col class="col-8">
@@ -137,6 +145,10 @@ export default {
             dateFr: store.state.szCurMmTo,
             findTp: '',
             findSz: '',
+
+            fr_date:'',
+            to_date:'',
+            
             gridOptions: {},
             list: [],
             listCount: 0,
@@ -151,11 +163,13 @@ export default {
             busyPop: false,
             busy:false,
 
+            equipment_key:null,
             equipment_inner_nm:null,
             category_cd:null,
             facility:null,
             location:null,
 
+            mno:null,
             comboServers: null, //사업장   
             comboCategories: null, //측청분야     
             comboEquipments: null, //측정위치
@@ -413,6 +427,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
+                            console.log(this.list)
                             that.listCount = res.data.totalCount
                         }
                     }
@@ -431,8 +446,10 @@ export default {
         // 등록버튼 클릭
         addOn(obj) {
             console.log(obj)
+
             this.server_key = obj.data.server_key;
             this.server_name = obj.data.server_name;
+            this.equipment_key = obj.data.equipment_key;
             this.equipment_inner_nm = obj.data.equipment_inner_nm; //측정위치
             this.category = obj.data.category; //측정분야명
             this.category_cd = obj.data.category_cd; //측정분야코드
@@ -484,13 +501,15 @@ export default {
         },
         async saveInfoProc() {
             let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/setting/contactSave", {
+            await this.$Axios.post("/api/daedan/cj/ems/setting/maintenanceSave", {
                     mno: this.mno,
                     server_key:this.server_key,
                     equipment_key:this.equipment_key,
+                    fr_date:this.fr_date,
+                    to_date:this.to_date,
                     category:this.category,
                     facility:this.facility,
-                    location:this.location,
+                    place:this.location,
                     contact_yn:this.contact_yn,   
                     userId: store.state.userInfo.userId
                 }, this.config)

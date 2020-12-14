@@ -340,7 +340,7 @@ export default {
                                         'outlet_avg_value':outval[1],
                                         'outlet_min_value':outval[2],
                                         'outoccur':outval[3],
-                                        'proc_rt':Math.floor((inval[1] - outval[1]) / (inval[1]*100) )+ "%",
+                                        'proc_rt':Math.floor(inval[1] - outval[1]) / (inval[1]*100) + "%",
                                     }
                                     that.list.push(objectitem)   
                                 }
