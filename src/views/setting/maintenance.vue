@@ -56,11 +56,11 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">계약 시작일자</b-col>
-                                        <b-form-input class="col" type="date" size="sm" v-model="fr_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="fr_dt"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">계약 종료일자</b-col>
-                                        <b-form-input class="col" type="date" size="sm" v-model="to_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="to_dt"></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">계약여부</b-col>
@@ -153,8 +153,8 @@ export default {
             findTp: '',
             findSz: '',
 
-            fr_date:'',
-            to_date:'',
+            fr_dt:'',
+            to_dt:'',
             
             gridOptions: {},
             list: [],
@@ -459,8 +459,8 @@ export default {
         addOn(obj) {
             console.log(obj)
             this.mno = obj.data.mno;
-            this.fr_date = obj.data.fr_date;
-            this.to_date = obj.data.to_date;
+            this.fr_dt = obj.data.fr_dt;
+            this.to_dt = obj.data.to_dt;
             this.server_key = obj.data.server_key;
             this.server_name = obj.data.server_name;
             this.equipment_key = obj.data.equipment_key;
@@ -525,8 +525,8 @@ export default {
                     mno: this.mno,
                     server_key:this.server_key,
                     equipment_key:this.equipment_key,
-                    fr_date:this.fr_date,
-                    to_date:this.to_date,
+                    fr_dt:this.fr_dt,
+                    to_dt:this.to_dt,
                     category:this.category,
                     facility:this.facility,
                     place:this.place,

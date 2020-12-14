@@ -131,7 +131,7 @@ export default {
             pageNo: 1,
             perPage: 10,
             
-            pageSz:10,
+            pageSz:store.state.paginationPageSize,
 
             //1. 일일 모니터링 통계
             monitorListCount:0,
@@ -150,9 +150,14 @@ export default {
                 //     hidden: true
                 // },
                 {
+                    field: 'server_name',
+                    headerName: '사업장',
+                    width: '120px'
+                },
+                {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '140px'
+                    width: '80px'
                 },
                 {
                     field: 'equipment_inner_nm',
@@ -527,7 +532,65 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.monitorList = res.data.data
+
+                            that.monitorList = []
+                            let test = []
+                            let list2 = []
+                            let listStandart = []
+                            test = res.data.data.reduce((acc,v) => {
+                                // console.log(Object.values(v).slice(0,25))
+
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12).join('')
+                                listStandart.push(key)
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            console.log(test)
+
+                            listStandart = [...new Set(listStandart)]
+                            listStandart.map(e => {
+                                list2.push(test[e])
+                            })
+                            list2.map(e=>{
+                                if (e.length === 1) {
+                                    that.monitorList.push(e[0])        
+                                }else if (e.length === 2) {
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur,item.inlet_standard_value)
+                                        }else if (item.place === 512) {
+                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                        }
+                                    })
+                                    let objectitem = {
+                                        'prevention_date':e[0].prevention_date,
+                                        'server_name':e[0].server_name,
+                                        'category_cd':e[0].category_cd,
+                                        'equipment_inner_nm':e[0].equipment_inner_nm,
+                                        'inlet_max_value':inval[0],
+                                        'inlet_avg_value':inval[1],
+                                        'inlet_min_value':inval[2],
+                                        'inoccur':inval[3],
+                                        'inlet_standard_value':inval[4],
+                                        'outlet_max_value':outval[0],
+                                        'outlet_avg_value':outval[1],
+                                        'outlet_min_value':outval[2],
+                                        'outoccur':outval[3],
+                                        'outlet_standard_value':outval[4],
+                                        'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
+                                    }
+                                    console.log(objectitem)
+                                    that.monitorList.push(objectitem)   
+                                }
+
+                                
+                            })
+
+
+
+                            // that.monitorList = res.data.data
                             that.monitorListCount = res.data.totalCount
                         }
                     }
@@ -563,7 +626,62 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.inletList = res.data.data
+                            this.inletList = []
+                            let test = []
+                            let list2 = []
+                            let listStandart = []
+                            test = res.data.data.reduce((acc,v) => {
+                                // console.log(Object.values(v).slice(0,25))
+
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 16).join('')
+                                listStandart.push(key)
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            console.log(test)
+
+                            listStandart = [...new Set(listStandart)]
+                            listStandart.map(e => {
+                                list2.push(test[e])
+                            })
+                            list2.map(e=>{
+                                if (e.length === 1) {
+                                    that.inletList.push(e[0])        
+                                }else if (e.length === 2) {
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur,item.inlet_standard_value)
+                                        }else if (item.place === 512) {
+                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                        }
+                                    })
+                                    let objectitem = {
+                                        'prevention_date':e[0].prevention_date,
+                                        'server_name':e[0].server_name,
+                                        'category_cd':e[0].category_cd,
+                                        'equipment_inner_nm':e[0].equipment_inner_nm,
+                                        'inlet_max_value':inval[0],
+                                        'inlet_avg_value':inval[1],
+                                        'inlet_min_value':inval[2],
+                                        'inoccur':inval[3],
+                                        'inlet_standard_value':inval[4],
+                                        'outlet_max_value':outval[0],
+                                        'outlet_avg_value':outval[1],
+                                        'outlet_min_value':outval[2],
+                                        'outoccur':outval[3],
+                                        'outlet_standard_value':outval[4],
+                                        'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
+                                    }
+                                    console.log(objectitem)
+                                    that.inletList.push(objectitem)   
+                                }
+
+                                
+                            })
+
+                            // that.inletList = res.data.data
                             that.inletListCount = res.data.totalCount
                         }
                     }
@@ -599,7 +717,64 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.outletList = res.data.data
+
+                            this.outletList = []
+                            let test = []
+                            let list2 = []
+                            let listStandart = []
+                            test = res.data.data.reduce((acc,v) => {
+                                console.log(Object.values(v).slice(0,25))
+
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12).join('')
+                                listStandart.push(key)
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            console.log(test)
+
+                            listStandart = [...new Set(listStandart)]
+                            listStandart.map(e => {
+                                list2.push(test[e])
+                            })
+                            list2.map(e=>{
+                                if (e.length === 1) {
+                                    that.outletList.push(e[0])        
+                                }else if (e.length === 2) {
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur,item.inlet_standard_value)
+                                        }else if (item.place === 512) {
+                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                        }
+                                    })
+                                    let objectitem = {
+                                        'prevention_date':e[0].prevention_date,
+                                        'server_name':e[0].server_name,
+                                        'category_cd':e[0].category_cd,
+                                        'equipment_inner_nm':e[0].equipment_inner_nm,
+                                        'inlet_max_value':inval[0],
+                                        'inlet_avg_value':inval[1],
+                                        'inlet_min_value':inval[2],
+                                        'inoccur':inval[3],
+                                        'inlet_standard_value':inval[4],
+                                        'outlet_max_value':outval[0],
+                                        'outlet_avg_value':outval[1],
+                                        'outlet_min_value':outval[2],
+                                        'outoccur':outval[3],
+                                        'outlet_standard_value':outval[4],
+                                        'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
+                                    }
+                                    console.log(objectitem)
+                                    that.outletList.push(objectitem)   
+                                }
+
+                                
+                            })
+
+
+                            // that.outletList = res.data.data
                             that.outletListCount = res.data.totalCount
                         }
                     }
