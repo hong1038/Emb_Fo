@@ -401,7 +401,7 @@ export default {
         },
         // 그래프버튼 클릭
         graphBtn() {
-            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 1) {
+            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 2) {
                 this.randarDailyChart()
                 document.getElementsByClassName("small")[0].style.display = 'flex'
             }else{

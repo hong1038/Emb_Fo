@@ -730,9 +730,9 @@ export default {
 </script>
 
 <style>
-canvas {
+/* canvas {
    margin-left:296px;
-}
+} */
 @font-face {
     font-family: "CJ Onlyone Medium";
     src: url(/fonts/CJOnlyoneMedium.ttf);

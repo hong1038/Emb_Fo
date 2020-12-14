@@ -53,8 +53,9 @@
                     </div>
                     <div class="check_list scroll_box">
                         <ul class="equipPos">
-                            <div v-for="(item, index) in equipPos" v-bind:item="item" v-bind:index="index" v-bind:key="item.id">
-                                <input type="checkbox" class="3_checkbox" name="equip" :id=item.id :value=item.id v-model="checkListVal3" @change="getSensors">
+                            <div v-for="(item, index) in equipPos" v-bind:item="item" v-bind:index="index" v-bind:key="item.equipment_key">
+                                <input v-if="link[0] !== 'preventionDataByDay' && link[0] !== 'preventionDataByMon' " type="checkbox" class="3_checkbox" :name="'equip'+index" :class="item.equipment_inner_nm" :value="item.equipment_key" v-model="checkListVal3" @change="getSensors">
+                                <input v-else type="checkbox" class="3_checkbox" :name="'equip'+index" :id="item.equipment_key" :class="item.equipment_inner_nm" :value="item.equipment_key"  @click="checkequipment(item)" @change="getSensors">
                                 <label>{{item.val}}</label>
                             </div>
                         </ul>
@@ -126,6 +127,26 @@ export default {
         },
     },
     methods: {
+        checkequipment(item){
+            let eqList = []
+            eqList = this.equipPos.filter(e => e.equipment_inner_nm === item.equipment_inner_nm)
+            console.log(eqList)
+            if (document.getElementById(item.equipment_key).checked === true) {
+                eqList.map(e=>{
+                    this.checkListVal3.push(e.equipment_key)
+                })
+                document.getElementsByClassName(item.equipment_inner_nm)[0].checked = true;
+                document.getElementsByClassName(item.equipment_inner_nm)[1].checked = true;
+            }else{
+                eqList.map(e => {
+                    this.checkListVal3 = this.checkListVal3.filter(el => el != e.equipment_key)
+                })
+                console.log(this.checkListVal3)
+                document.getElementsByClassName(item.equipment_inner_nm)[0].checked = false;
+                document.getElementsByClassName(item.equipment_inner_nm)[1].checked = false;               
+            }
+
+        },
         getConditionList() {
             //this.config = { headers : { "authorization" : this.$Axios.defaults.headers.common["authorization"] }   }
             let that = this;
