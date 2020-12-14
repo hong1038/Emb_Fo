@@ -286,7 +286,7 @@ export default {
         server_key(){
             this.erInfo.server_key = this.server_key
             this.getEquips()
-        }
+        },
     
     },
     beforeDestroy() {
@@ -295,6 +295,18 @@ export default {
 
     methods: {
         addOn2(){
+            this.erInfo.server_key = null
+            this.erInfo.category = null
+            this.erInfo.category_cd = null
+            this.erInfo.equipment_key = null
+            this.erInfo.abnormal_type = null
+            this.erInfo.rs_date = null
+            this.erInfo.cause = null
+            this.erInfo.action = null
+            this.erInfo.action_date = null
+            this.erInfo.action_type = null
+            this.erInfo.complete_date = null
+
             this.showblock();
         },
         clearTimeout() {
@@ -311,6 +323,9 @@ export default {
             callback()
             },10000)
             // 시간 변경
+        },
+        onShown() {
+            // this.$refs.dialog.focus()
         },
         onHidden() {
             // Return focus to the button once hidden
@@ -488,18 +503,17 @@ export default {
         },
         saveInfo() {
             if (!this.erInfo.server_key) {
-                alert("사업자는 필수 선택 항목 입니다.")
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.erInfo.category) {
+                alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
             if (!this.erInfo.equipment_key) {
                 alert("측정위치는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.erInfo.category_cd) {
-                alert("분야는 필수 선택 항목 입니다.")
-                return;
-            }
-            
 
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
@@ -508,6 +522,7 @@ export default {
         async saveInfoProc() {
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
+            console.log("erInfo.category_cd = " + this.erInfo.category_cd)
             this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
                     erInfo:this.erInfo,
                     userId: store.state.userInfo.userId

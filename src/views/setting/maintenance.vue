@@ -56,7 +56,12 @@
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">계약여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="contact_yn"></b-form-input>
+                                        <b-col class="col-8">
+                                            <b-form-radio-group id="radio-group-1" v-model="contact_yn" :options="ctSelectOptions" value-field="ynItem" text-field="contactName" size="lg" name="radio-sub-component">
+                                              
+                                            </b-form-radio-group>
+                                        </b-col>
+                                        
                                     </b-row>
                                 </div>
                             </b-card>
@@ -143,6 +148,7 @@ export default {
             show:false,
             hide:false,
             busyPop: false,
+            busy:false,
 
             comboServers: null, //사업장   
             comboCategories: null, //측청분야     
@@ -150,6 +156,10 @@ export default {
             comboFacilities: null, //시설분류
             comboLocations: null, //위치분류
 
+            ctSelectOptions:[
+                {ynItem:'Y', contactName:'Y'},
+                {ynItem:'N', contactName:'N'},
+            ],
             fields: [
                 {
                     field: 'server_name',
@@ -188,6 +198,7 @@ export default {
             this.getEquips();
         },
         category_cd() {
+            console.log("hi")
             if (!this.category_cd) return;
             this.getFacPos();
         },
@@ -204,10 +215,10 @@ export default {
                 this.general_air = null
                 this.hide = false
             }
-        }  
-        //usedSensors(){
-        //    console.log("usedSensor = " + this.usedSensors)
-        //},
+        },
+        usedSensors(){
+           console.log("usedSensor = " + this.usedSensors)
+        },
     },
     computed: {},
 
@@ -242,6 +253,9 @@ export default {
             },300)
             // 시간 변경
         },
+         onShown() {
+            // this.$refs.dialog.focus()
+        },
         onHidden() {
             // Return focus to the button once hidden
             // this.$refs.pin.focus()
@@ -267,6 +281,7 @@ export default {
         },
        async getConditionList() {
             let that = this;
+            console.log(this.category)
             await axios.post("/api/daedan/cj/ems/setting/conditionList", {
                     userId: store.state.userInfo.userId
                 }, this.config)
@@ -282,7 +297,7 @@ export default {
                     alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
-
+            this.getEquips();
         },
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
@@ -307,9 +322,10 @@ export default {
                     alert("측정위치추출 실패 \n" + err);
                     console.log(err)
                 })
+            this.getFacPos();
         },
         async getFacPos() {
-            console.log("getFacPos.category_cd = " + this.category_cd)
+            console.log(this)
             let that = this;
 
             await axios.post("/api/daedan/cj/ems/cmmn/comboFacPosList", {
@@ -335,6 +351,7 @@ export default {
                     alert("시설및위치분류추출 실패 \n" + err);
                     console.log(err)
                 })
+            this.getSensors();
         },
         async getSensors() {
             //console.log("getSensors.server_key = " + this.server_key)
@@ -406,12 +423,14 @@ export default {
         },
         // 등록버튼 클릭
         addOn() {
+            this.server_key = null;
             this.server_name = null;
             this.equipment_inner_nm = null; //측정위치
             this.category = null; //측정분야명
             this.category_cd = null; //측정분야코드
             this.facility = null
             this.place = null
+            this.location = null
             this.sensor_name = null; //사업장
             this.contact_yn = null;
             this.showblock();
@@ -421,30 +440,34 @@ export default {
             this.gridOptions.api.exportDataAsExcel({});
         },
         saveInfo() {
-            // if (!this.server_key) {
-            //     alert("측정장소는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.equipment_key) {
-            //     alert("설치장소는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.category_cd) {
-            //     alert("분야는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.facility) {
-            //     alert("시설분류는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.location) {
-            //     alert("측정위치는 필수 선택 항목 입니다.")
-            //     return;
-            // }
-            // if (!this.usedSensors) {
-            //     alert("선택된 분석항목이 없습니다.")
-            //     return;
-            // }
+            if (!this.server_key) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.equipment_inner_nm) {
+                alert("측정위치는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.category_cd) {
+                alert("구분은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.facility) {
+                alert("시설분류는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.location) {
+                alert("위치분류는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.contact_yn) {
+                alert("계약여부는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.usedSensors) {
+                alert("선택된 분석항목이 없습니다.")
+                return;
+            }
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
