@@ -571,7 +571,7 @@ export default {
                                 e.inoccur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
                                 e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
                             })
-
+                            that.list = []
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
@@ -614,7 +614,7 @@ export default {
                                         'outlet_avg_value':outval[1],
                                         'outlet_min_value':outval[2],
                                         'outoccur':outval[3],
-                                        'procRate':"",
+                                        'procRate':Math.floor((inval[1] - outval[1]) / (inval[1]*100) )+ "%",
                                         'outlet_standard_value':outval[4]
                                     }
                                     that.list.push(objectitem)   
