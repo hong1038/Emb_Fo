@@ -36,23 +36,23 @@
                                 <div>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="equipment_inner_nm" :options="comboEquipments" size="sm"></b-form-select>
+                                        <b-form-input class="col" v-model="equipment_inner_nm" :options="comboEquipments" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">구분</b-col>
-                                        <b-form-select class="col" v-model="category_cd" :options="comboCategories" size="sm"></b-form-select>
+                                        <b-form-input class="col" v-model="category_cd" :options="comboCategories" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">시설분류</b-col>
-                                        <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm"></b-form-select>
+                                        <b-form-input class="col" v-model="facility" :options="comboFacilities" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">위치분류</b-col>
-                                        <b-form-select class="col" v-model="location" :options="comboLocations" size="sm"></b-form-select>
+                                        <b-form-input class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-input>
                                     </b-row>
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">계약여부</b-col>
@@ -131,6 +131,7 @@ export default {
     },
     data() {
         return {
+            contact_yn:"",
             mode: 'single',
             info: {},
             dateFr: store.state.szCurMmTo,
@@ -149,6 +150,11 @@ export default {
             hide:false,
             busyPop: false,
             busy:false,
+
+            equipment_inner_nm:null,
+            category_cd:null,
+            facility:null,
+            location:null,
 
             comboServers: null, //사업장   
             comboCategories: null, //측청분야     
@@ -311,6 +317,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res.data.data.equipPos)
                             that.comboEquipments = res.data.data.equipPos; //측정위치
                             if (that.measurementInfo.equipment_key) {
                                 that.equipment_key = that.measurementInfo.equipment_key;
@@ -423,6 +430,7 @@ export default {
         },
         // 등록버튼 클릭
         addOn(obj) {
+            console.log(obj)
             this.server_key = obj.data.server_key;
             this.server_name = obj.data.server_name;
             this.equipment_inner_nm = obj.data.equipment_inner_nm; //측정위치
@@ -432,6 +440,9 @@ export default {
             this.place = obj.data.place
             this.location = obj.data.location
             this.contact_yn = obj.data.contact_yn;
+
+
+            console.log(this.server_key,this.server_name,this.equipment_inner_nm,this.category,this.category_cd,this.facility,this.place,this.location,this.contact_yn)
             this.showblock();
         },
         // 엑셀저장버튼 클릭
@@ -463,10 +474,10 @@ export default {
                 alert("계약여부는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.usedSensors) {
-                alert("선택된 분석항목이 없습니다.")
-                return;
-            }
+            // if (!this.usedSensors) {
+            //     alert("선택된 분석항목이 없습니다.")
+            //     return;
+            // }
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
