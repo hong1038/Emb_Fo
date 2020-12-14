@@ -10,14 +10,14 @@
                     <div class="maintenanceDateCheck container-fluid mt-3">
                         <b-row>
                             <b-col cols="7">
-                                <div>날짜 선택 </div>
+                                <!-- <div>날짜 선택 </div>
                                 <div class="dateSelect"> 
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
-                                </div>
+                                </div> -->
                             </b-col>
                             <b-col cols="5">
-                                <input class="mt_btn01" type="button" v-on:click="getList" value="조회">
-                                <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록">
+                                <input class="mt_btn02" type="button" v-on:click="getList" value="조회">
+                                <!-- <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록"> -->
                                 <input class="mt_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </b-col>
                         </b-row>
