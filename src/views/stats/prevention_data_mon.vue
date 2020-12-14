@@ -181,12 +181,12 @@ export default {
                     field: '',
                     headerName: '배출구',
                     children: [
-                        {
-                            field: 'outlet_standard_value',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '85px'
-                        },
+                        // {
+                        //     field: 'outlet_standard_value',
+                        //     headerName: '기준',
+                        //     type: 'number',
+                        //     width: '85px'
+                        // },
                         {
                             field: 'outlet_avg_value',
                             headerName: '평균',
@@ -214,10 +214,13 @@ export default {
                     width: '146px'
                 },
             ],
-            graphLabel: [],
-            graphDataMin: [],
-            graphDataAvg: [],
-            graphDataMax: [],
+            graphLabel:[],
+            inletgraphDataMin:[],
+            inletgraphDataAvg:[],
+            inletgraphDataMax:[],
+            outletgraphDataMin:[],
+            outletgraphDataAvg:[],
+            outletgraphDataMax:[],
         }
     },
     beforeDestroy() {
@@ -307,29 +310,94 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.list = res.data.data
+
+
+                            that.list = []
+                            let test = []
+                            let list2 = []
+                            let listStandart = []
+                            test = res.data.data.reduce((acc,v) => {
+                                let key = Object.values(v).slice(0,20).filter((e,idx)=> idx === 0 || idx === 12 || idx === 16).join('')
+                                // console.log(key)
+                                listStandart.push(key)
+                                acc[key] = acc[key] ? [...acc[key], v] : [v]
+                                return acc
+                            }, [])
+                            console.log(test)
+                            listStandart = [...new Set(listStandart)]
+                            listStandart.map(e => {
+                                list2.push(test[e])
+                            })
+                            console.log(list2)
+                            list2.map(e=>{
+                                if (e.length === 1) {
+                                    e[0].proc_rt = null
+                                    that.list.push(e[0])        
+                                }else if (e.length === 2) {
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur)
+                                        }else if (item.place === 512) {
+                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur)
+                                        }
+                                    })
+                                    // 자동값((흡입구-배출구)/흡입구*100)
+                                    let objectitem = {
+                                        'prevention_date':e[0].prevention_date,
+                                        'server_name':e[0].server_name,
+                                        'category':e[0].category,
+                                        'category_cd':e[0].category_cd,
+                                        'equipment_inner_nm':e[0].equipment_inner_nm,
+                                        'inlet_max_value':inval[0],
+                                        'inlet_avg_value':inval[1],
+                                        'inlet_min_value':inval[2],
+                                        'inoccur':inval[3],
+                                        'unit':e[0].unit,
+                                        'outlet_max_value':outval[0],
+                                        'outlet_avg_value':outval[1],
+                                        'outlet_min_value':outval[2],
+                                        'outoccur':outval[3],
+                                        'proc_rt':Math.floor((inval[1] - outval[1]) / (inval[1]*100) )+ "%",
+                                    }
+                                    // console.log(objectitem)
+                                    that.list.push(objectitem)   
+                                }
+
+                                
+                            })
+
+
+                            // that.list = res.data.data
                             that.listCount = res.data.totalCount
                             console.log(that.list)
                             
                             this.graphLabel = []
-                            this.graphDataMin = []
-                            this.graphDataAvg = []
-                            this.graphDataMax = []
-
+                            this.inletgraphDataMin = []
+                            this.inletgraphDataAvg = []
+                            this.inletgraphDataMax = []
+                            this.outletgraphDataMin = []
+                            this.outletgraphDataAvg = []
+                            this.outletgraphDataMax = []
                             that.list.map(e => {
-                                if (e.place == 512) {
-                                    e.min_value = e.outlet_min_value
-                                    e.avg_value = e.outlet_avg_value
-                                    e.max_value = e.outlet_max_value
-                                }else if (e.place == 510) {
+                                // if (e.place == 512) {
+                                    e.outmin_value = e.outlet_min_value
+                                    e.outavg_value = e.outlet_avg_value
+                                    e.outmax_value = e.outlet_max_value
+                                // }else if (e.place == 510) {
                                     e.min_value = e.inlet_min_value
                                     e.avg_value = e.inlet_avg_value
                                     e.max_value = e.inlet_max_value                   
-                                }
+                                // }
                                 this.graphLabel.push(e.prevention_date)
-                                this.graphDataMin.push(e.min_value)
-                                this.graphDataAvg.push(e.avg_value)
-                                this.graphDataMax.push(e.max_value)
+                                this.inletgraphDataMin.push(e.min_value)
+                                this.inletgraphDataAvg.push(e.avg_value)
+                                this.inletgraphDataMax.push(e.max_value)
+
+                                this.outletgraphDataMin.push(e.outmin_value)
+                                this.outletgraphDataAvg.push(e.outavg_value)
+                                this.outletgraphDataMax.push(e.outmax_value)
                             })          
                             this.busy = false
                         }
@@ -421,24 +489,46 @@ export default {
                     labels: this.graphLabel,
                     datasets: [
                                                 {
-                            label: '최대',
+                            label: '흡입최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
                             data: this.graphDataMax
                             // data:this.dailyChartData
                         },
                                                 {
-                            label: '평균',
+                            label: '흡입평균',
                             borderColor: '#42f13f',
                             backgroundColor: 'transparent',
                             data: this.graphDataAvg
                             // data:this.dailyChartData
                         },
                         {
-                            label: '최소',
+                            label: '흡입최소',
                             borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
                             data: this.graphDataMin
+                            // data:this.dailyChartData
+                        },
+                                                {
+                            label: '배출최대',
+                            borderColor: '#9966ff',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '배출평균',
+                            borderColor: '#ffcd56',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataAvg
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '배출최소',
+                            borderColor: '#c9cbcf',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMin
                             // data:this.dailyChartData
                         },
 

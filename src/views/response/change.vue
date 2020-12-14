@@ -546,7 +546,7 @@ export default {
                                 e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
                                 console.log(e)
                             })
-
+                            that.list = []
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
