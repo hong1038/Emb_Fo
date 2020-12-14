@@ -69,7 +69,14 @@
                                               
                                             </b-form-radio-group>
                                         </b-col>
-                                        
+                                    </b-row>
+                                    <b-row class="line2_box">
+                                        <b-col class="regiName col-4">완료여부</b-col>
+                                        <b-col class="col-8">
+                                            <b-form-radio-group id="radio-group-2" v-model="success_yn" :options="scSelectOptions" value-field="ynItem" text-field="contactName" size="lg" name="aradio-sub-component">
+                                              
+                                            </b-form-radio-group>
+                                        </b-col>
                                     </b-row>
                                 </div>
                             </b-card>
@@ -139,7 +146,7 @@ export default {
     },
     data() {
         return {
-            contact_yn:"",
+   
             mode: 'single',
             info: {},
             dateFr: store.state.szCurMmTo,
@@ -163,6 +170,8 @@ export default {
             busyPop: false,
             busy:false,
 
+            contact_yn:null,
+            success_yn:null,
             equipment_key:null,
             equipment_inner_nm:null,
             category_cd:null,
@@ -175,7 +184,10 @@ export default {
             comboEquipments: null, //측정위치
             comboFacilities: null, //시설분류
             comboLocations: null, //위치분류
-
+            scSelectOptions:[
+                {ynItem:'Y', contactName:'Y'},
+                {ynItem:'N', contactName:'N'},
+            ],
             ctSelectOptions:[
                 {ynItem:'Y', contactName:'Y'},
                 {ynItem:'N', contactName:'N'},
@@ -446,7 +458,9 @@ export default {
         // 등록버튼 클릭
         addOn(obj) {
             console.log(obj)
-
+            this.mno = obj.data.mno;
+            this.fr_date = obj.data.fr_date;
+            this.to_date = obj.data.to_date;
             this.server_key = obj.data.server_key;
             this.server_name = obj.data.server_name;
             this.equipment_key = obj.data.equipment_key;
@@ -457,7 +471,7 @@ export default {
             this.place = obj.data.place
             this.location = obj.data.location
             this.contact_yn = obj.data.contact_yn;
-
+            this.success_yn = obj.data.success_yn;
 
             console.log(this.server_key,this.server_name,this.equipment_inner_nm,this.category,this.category_cd,this.facility,this.place,this.location,this.contact_yn)
             this.showblock();
@@ -487,8 +501,13 @@ export default {
                 alert("위치분류는 필수 선택 항목 입니다.")
                 return;
             }
+            console.log(this.contact_yn,this.success_yn)
             if (!this.contact_yn) {
                 alert("계약여부는 필수 선택 항목 입니다.")
+                return;
+            }
+            if (!this.success_yn) {
+                alert("완료여부는 필수 선택 항목 입니다.")
                 return;
             }
             // if (!this.usedSensors) {
@@ -501,6 +520,7 @@ export default {
         },
         async saveInfoProc() {
             let that = this;
+
             await this.$Axios.post("/api/daedan/cj/ems/setting/maintenanceSave", {
                     mno: this.mno,
                     server_key:this.server_key,
@@ -509,8 +529,9 @@ export default {
                     to_date:this.to_date,
                     category:this.category,
                     facility:this.facility,
-                    place:this.location,
+                    place:this.place,
                     contact_yn:this.contact_yn,   
+                    success_yn:this.success_yn,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
