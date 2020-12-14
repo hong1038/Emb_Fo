@@ -11,58 +11,60 @@
                         <input type="button" class="measurementLookup" v-on:click="getList" value="조회">
                         <input type="button" class="measurementPlus" v-on:click="showblock" value="등록">
                     </b-row>
-                    <div class="mmtableWrap container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
-                        <!--
-                        <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
-                        -->
+                    <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
+                        <div class="mmtableWrap container-fluid" style="display:flex">
+                            <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="getInfo" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                            <!--
+                            <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
+                            -->
 
-                        <b-card class="right_list" v-if="show">
-                            <b-row>
-                                <b-col class="popUpTitle">사업장 기준 정보 등록</b-col>
-                                <input type="button" class="mmSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
-                                <input type="button" class="mmListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
-                                <input type="button" class="mmListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
-                            </b-row>
-                            <div>
+                            <b-card class="right_list" v-if="show">
                                 <b-row>
-                                    <b-col class="regiName col-4">사업장번호</b-col>
-                                    <b-form-input class="col" v-model="pid" size="sm" readonly></b-form-input>
+                                    <b-col class="popUpTitle">사업장 기준 정보 등록</b-col>
+                                    <input type="button" class="mmSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
+                                    <input type="button" class="mmListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
+                                    <input type="button" class="mmListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
                                 </b-row>
+                                <div>
+                                    <b-row>
+                                        <b-col class="regiName col-4">사업장번호</b-col>
+                                        <b-form-input class="col" v-model="pid" size="sm" readonly></b-form-input>
+                                    </b-row>
 
-                                <b-row>
-                                    <b-col class="regiName col-4">사업장명</b-col>
-                                    <b-form-input class="col" v-model="name1" size="sm"></b-form-input>
-                                </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">사업장명</b-col>
+                                        <b-form-input class="col" v-model="name1" size="sm"></b-form-input>
+                                    </b-row>
 
-                                <b-row>
-                                    <b-col class="regiName col-4">사업장명(약식)</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
-                                </b-row>
-                                <b-row>
-                                    <b-col class="regiName col-4">주소</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="addr"></b-form-input>
-                                </b-row>
-                                <b-row>
-                                    <b-col class="col-4 regiName">영역</b-col>
-                                    <b-form-select class="col" v-model="parAreaCode" :options="comboParAreaCode" size="sm"> </b-form-select>
-                                </b-row>
-                                <b-row>
-                                    <b-col class="col-4 regiName">지역</b-col>
-                                    <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm"> </b-form-select>
-                                </b-row>
-                                
-                                <b-row>
-                                    <b-col class="col-4 regiName">관리서버</b-col>
-                                    <b-form-select class="col" v-model="serverKey" :options="comboServer" size="sm"> </b-form-select>
-                                </b-row>
-                                <b-row>
-                                    <b-col class="col-4 regiName">관리자명</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="name"></b-form-input>
-                                </b-row>
-                            </div>
-                        </b-card>
-                    </div>
+                                    <b-row>
+                                        <b-col class="regiName col-4">사업장명(약식)</b-col>
+                                        <b-form-input class="col" type="text" size="sm" v-model="name2"></b-form-input>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">주소</b-col>
+                                        <b-form-input class="col" type="text" size="sm" v-model="addr"></b-form-input>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="col-4 regiName">영역</b-col>
+                                        <b-form-select class="col" v-model="parAreaCode" :options="comboParAreaCode" size="sm"> </b-form-select>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="col-4 regiName">지역</b-col>
+                                        <b-form-select class="col" v-model="areaCode" :options="comboAreaCode" size="sm"> </b-form-select>
+                                    </b-row>
+                                    
+                                    <b-row>
+                                        <b-col class="col-4 regiName">관리서버</b-col>
+                                        <b-form-select class="col" v-model="serverKey" :options="comboServer" size="sm"> </b-form-select>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="col-4 regiName">관리자명</b-col>
+                                        <b-form-input class="col" type="text" size="sm" v-model="name"></b-form-input>
+                                    </b-row>
+                                </div>
+                            </b-card>
+                        </div>
+                    </b-overlay>
                 </div>
             </div>
         </div>
@@ -125,6 +127,8 @@ export default {
     data() {
         return {
             onRowClicked: "",
+            Loadbusy:false,
+            timeout : null,
             busy: false,
             processing: false,
             altMsg: '',
@@ -280,10 +284,33 @@ export default {
         onShown() {
             this.$refs.dialog.focus()
         },
-        onHidden() {},
-
+        clearTimeout() {
+            if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+            }
+        },
+        setTimeout(callback) {
+            this.clearTimeout()
+            this.timeout = setTimeout(() => {
+            this.clearTimeout()
+            callback()
+            },200)
+            // 시간 변경
+        },
+        onHidden() {
+            // Return focus to the button once hidden
+            this.$refs.pin.focus()
+        },
+        onClick() {
+            this.Loadbusy = true
+            // Simulate an async request
+            this.setTimeout(() => {
+            this.Loadbusy = false
+            })
+        },
         onCancel() {
-            this.busy = false
+            this.busyPop = false
         },
 
         saveblock() {
@@ -304,6 +331,8 @@ export default {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
+            this.onClick();
+
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
             await axios.post("/api/daedan/cj/ems/setting/WorkplaceList", {
