@@ -39,7 +39,33 @@
                     <div class="hmTableWrap">
                         <div class="hmTable hmTable01">
                             <p>1. 전체 통계</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="tsFields" :rowData="tsList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <!--<ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="tsFields" :rowData="tsList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>-->
+                            <div class="hmTotalTable">
+                                <div class="float-left tableLeft">
+                                    <div class="tableTitle">
+                                        <div class="float-left"><span>대분류</span></div>
+                                        <div class="float-left"><span>소분류</span></div>
+                                        <div class="float-left"><span>단위</span></div>
+                                    </div>
+                                    <div class="mainCate" v-for="item in items" v-bind:key="item.mainKey">
+                                        <div class="float-left"><span>{{item.headerName}}</span></div>
+                                        <div class="float-left"><span>{{item.subCate}}</span></div>
+                                        <div class="float-left"><span>{{item.subCate02}}</span></div>
+                                        <div class="float-left"><span>{{item.unit}}</span></div>
+                                    </div>
+                                </div>
+                                <div class="float-left tableRight">
+                                    <div class="tableMonth">
+                                        <div class="float-left" v-for="item in month" v-bind:key="item.mainKey"><p><span>{{item.monthName}}</span>월</p></div>
+                                    </div>
+                                    <div class="tableArea">
+                                        <div class="float-left" v-for="item in area" v-bind:key="item.mainKey"><span>{{item.areaName}}</span></div>
+                                    </div>
+                                    <div class="tableBody">
+                                        <div class="float-left" v-for='item in itemBody' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="hmTable hmTable02">
                             <p>2. 유형별 통계</p>
@@ -101,57 +127,97 @@ export default {
             pageSz:store.state.paginationPageSize,
             list:[],
             listCount:0,
-
+            
             //1. 전체통계
-            tsList:[],
-            tsListCount:0,
-            tsFields: [
-                {
-                    field: 'category',
-                    headerName: '대분류',
-                    width: '140px'
-                },
-                {
-                    field: '',
-                    headerName: '소분류',
-                    width: '140px'
-                },
-                {
-                    field: '',
-                    headerName: '단위',
-                    width: '80px'
-                },
-                {
-                    field: '',
-                    headerName: '경인권',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '중부권',
-                    width : '190'
-                },
-                {
-                    field: '',
-                    headerName: '남부권',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '영남권',
-                    width : '190'
-                },
-                {
-                    field: '',
-                    headerName: '계열사',
-                    width: '190px'
-                },
-                {
-                    field: '',
-                    headerName: '합계',
-                    width : '190'
-                },
+            items:[
+                {mainKey: '1', headerName : '환경모니터링', subCate : '설비적/기계적 문제 발생 및 대응 현황', subCate02 : '발생', unit:'배'},
+                {mainKey: '2', headerName : '환경모니터링', subCate : '설비적/기계적 문제 발생 및 대응 현황', subCate02 : '조치', unit:'배'},
+                {mainKey: '3', headerName : '환경모니터링', subCate : '설비적/기계적 문제 발생 및 대응 현황', subCate02 : '조치율', unit:'%'},
+                {mainKey: '4', headerName : '악취', subCate : '모니터링 이상 대응', subCate02 : '발생', unit:'배'},
+                {mainKey: '5', headerName : '악취', subCate : '모니터링 이상 대응', subCate02 : '조치', unit:'배'},
+                {mainKey: '6', headerName : '악취', subCate : '모니터링 이상 대응', subCate02 : '조치율', unit:'%'},
+                {mainKey: '7', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '발생', unit:'배'},
+                {mainKey: '8', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '조치', unit:'배'},
+                {mainKey: '9', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '조치율', unit:'%'},
             ],
+            month:[
+                {mainKey : '1', monthName : ''},
+                {mainKey : '2', monthName : ''},
+                {mainKey : '3', monthName : ''},
+                {mainKey : '4', monthName : ''},
+                {mainKey : '5', monthName : ''},
+                {mainKey : '6', monthName : ''},
+                {mainKey : '7', monthName : ''},
+            ],
+            area:[
+                {mainKey : '1', areaName : '경인권'},
+                {mainKey : '2', areaName : '중부권'},
+                {mainKey : '3', areaName : '영남권'},
+                {mainKey : '4', areaName : '계열사'},
+                {mainKey : '5', areaName : '바이오'},
+                {mainKey : '6', areaName : '남부권'},
+                {mainKey : '7', areaName : '합계'},
+            ],
+            itemBody:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            tsList:[],
+            //1. 전체통계
+            
+            // tsListCount:0,
+            // tsFields: [
+            //     {
+            //         field: 'category',
+            //         headerName: '대분류',
+            //         width: '140px'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '소분류',
+            //         width: '140px'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '단위',
+            //         width: '80px'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '경인권',
+            //         width: '190px'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '중부권',
+            //         width : '190'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '남부권',
+            //         width: '190px'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '영남권',
+            //         width : '190'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '계열사',
+            //         width: '190px'
+            //     },
+            //     {
+            //         field: '',
+            //         headerName: '합계',
+            //         width : '190'
+            //     },
+            // ],
 
             //2. 유형별 통계
             ttList:[],
@@ -473,6 +539,13 @@ export default {
                 this.busy = false
             })
         },
+        filterDate(date){
+            let getDate = date.split('-');
+            console.log(getDate[1])
+            this.month = this.month.filter(function(item){
+                return item.monthName = getDate[1]
+            })
+        },
 
         async getList1() {
             if (this.dateFr === null || this.dateFr === "") {
@@ -480,28 +553,25 @@ export default {
                 return;
             }
             this.onClick();
-            console.log(this);
+            this.filterDate(this.dateFr);
+
             let that = this;
-            console.log("store.state.ckServer = " + store.state.ckServer)
-            await this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+            
+            await this.$Axios.post("/api/daedan/cj/ems/report/areaCount", {
                     dateFr: this.dateFr,
-                    dateTo: this.dateTo,
-                    serverList: store.state.ckServer,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.tsList = res.data.data
-                            that.tsListCount = res.data.totalCount
                         }
                     }
                 })
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
+                console.log(this.tsList)
                 this.busy = false;
                 this.getList2()
         },
@@ -600,7 +670,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 * {
     margin: 0;
     padding: 0;
@@ -683,5 +753,139 @@ export default {
     font-size:20px;
     font-family:CjFontTitleMedium;
     margin-bottom:0;
+}
+
+.hmTableWrap .hmTable .hmTotalTable{
+    width:100%;
+    height:600px;
+    font-size:14px;
+    .tableLeft{
+        width:40%;
+        height:100%;
+        background:rgb(34,38,40);
+        .tableTitle{
+            height:80px;
+            line-height:40px;
+            font-weight:bold;
+            >div{
+                box-sizing: border-box;
+                &:nth-child(1){
+                    width:30%;
+                    height:100%;
+                }
+                &:nth-child(2){
+                    width:60%;
+                    height:100%;
+                }
+                &:nth-child(3){
+                    width:10%;
+                    height:100%;
+                }
+                >span{
+                    display:block;
+                    width:100%;
+                    height:100%;
+                    margin-top:40px;
+                    text-align: center;
+                    color:white;
+                    border:0.5px solid rgb(102, 102, 102);
+                }
+            }
+        }
+        .mainCate{
+            height:40px;
+            line-height:40px;
+            >div{
+                box-sizing: border-box;
+                border:0.5px solid rgb(102, 102, 102);
+                &:nth-child(1){
+                    width:30%;
+                    height:100%;
+                }
+                &:nth-child(2){
+                    width:50%;
+                    height:100%;
+                }
+                &:nth-child(3){
+                    width:10%;
+                    height:100%;
+                }
+                &:nth-child(4){
+                    width:10%;
+                    height:100%;
+                }
+                >span{
+                    display:block;
+                    width:100%;
+                    height:100%;
+                    text-align: center;
+                    color:white;
+                }
+            }
+        }
+    }
+    .tableRight{
+            width:60%;
+            height:100%;
+            background:rgb(34,38,40);
+            .tableMonth{
+                height:40px;
+                >div{
+                    width:calc(100% / 7);
+                    height:100%;
+                    >p{
+                        width:100%;
+                        height:100%;
+                        text-align:center;
+                        font-size:14px;
+                        border:0.5px solid rgb(102, 102, 102);
+                        border-bottom:none;
+                        color:white;
+                        line-height:40px;
+                        >span{
+                            line-height:40px;
+                            color:white;
+                            text-align:center;
+                            
+                        }
+                    }
+                }
+                
+            }
+
+            .tableArea{
+            height:40px;
+            line-height:40px;
+            font-weight:bold;
+                >div{
+                    width:calc(100% / 7);
+                    height:100%;
+                    >span{
+                        display:block;
+                        width:100%;
+                        height:100%;
+                        color:white;
+                        text-align:center;
+                        border:0.5px solid rgb(102, 102, 102);
+                    }
+                }
+            }
+            .tableBody{
+                height:40px;
+                line-height:40px;
+                >div{
+                    width:calc(100% / 7);
+                    height:100%;
+                    >span{
+                        display:block;
+                        width:100%;
+                        height:100%;
+                        color:white;
+                        text-align: center;
+                        border:0.5px solid rgb(102, 102, 102);
+                    }
+                }
+            }
+        }
 }
 </style>
