@@ -62,7 +62,18 @@
                                         <div class="float-left" v-for="item in area" v-bind:key="item.mainKey"><span>{{item.areaName}}</span></div>
                                     </div>
                                     <div class="tableBody">
-                                        <div class="float-left" v-for='item in itemBody' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in measureBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in measureBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in measureBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in odorBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in odorBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in odorBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in waterBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in waterBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in waterBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in airBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in airBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        <div class="float-left" v-for='item in airBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -136,9 +147,12 @@ export default {
                 {mainKey: '4', headerName : '악취', subCate : '모니터링 이상 대응', subCate02 : '발생', unit:'배'},
                 {mainKey: '5', headerName : '악취', subCate : '모니터링 이상 대응', subCate02 : '조치', unit:'배'},
                 {mainKey: '6', headerName : '악취', subCate : '모니터링 이상 대응', subCate02 : '조치율', unit:'%'},
-                {mainKey: '7', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '발생', unit:'배'},
-                {mainKey: '8', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '조치', unit:'배'},
+                {mainKey: '7', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '발생', unit:''},
+                {mainKey: '8', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '조치', unit:''},
                 {mainKey: '9', headerName : '수질', subCate : '모니터링 이상 대응', subCate02 : '조치율', unit:'%'},
+                {mainKey: '10', headerName : '대기', subCate : '모니터링 이상 대응', subCate02 : '발생', unit:''},
+                {mainKey: '11', headerName : '대기', subCate : '모니터링 이상 대응', subCate02 : '조치', unit:''},
+                {mainKey: '12', headerName : '대기', subCate : '모니터링 이상 대응', subCate02 : '조치율', unit:'%'},
             ],
             month:[
                 {mainKey : '1', monthName : ''},
@@ -158,7 +172,106 @@ export default {
                 {mainKey : '6', areaName : '남부권'},
                 {mainKey : '7', areaName : '합계'},
             ],
-            itemBody:[
+            measureBody_01:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            measureBody_02:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            measureBody_03:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            odorBody_01:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            odorBody_02:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            odorBody_03:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            waterBody_01:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            waterBody_02:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            waterBody_03:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            airBody_01:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            airBody_02:[
+                {mainKey : '1', num : ''},
+                {mainKey : '2', num : ''},
+                {mainKey : '3', num : ''},
+                {mainKey : '4', num : ''},
+                {mainKey : '5', num : ''},
+                {mainKey : '6', num : ''},
+                {mainKey : '7', num : ''},
+            ],
+            airBody_03:[
                 {mainKey : '1', num : ''},
                 {mainKey : '2', num : ''},
                 {mainKey : '3', num : ''},
@@ -541,10 +654,71 @@ export default {
         },
         filterDate(date){
             let getDate = date.split('-');
-            console.log(getDate[1])
+
             this.month = this.month.filter(function(item){
                 return item.monthName = getDate[1]
             })
+        },
+        filterValue(item){
+            console.log(item)
+            //악취 발생
+            if(item[0].n6 == "" || item[0].n6 == null){
+                item[0].n6 = 0;
+            }
+            this.odorBody_01[0].num = item[0].n1
+            this.odorBody_01[1].num = item[0].n2
+            this.odorBody_01[2].num = item[0].n3
+            this.odorBody_01[3].num = item[0].n4
+            this.odorBody_01[4].num = item[0].n5
+            this.odorBody_01[5].num = item[0].n6
+            
+            let SumVal_01 = parseInt(item[0].n1 + item[0].n2 + item[0].n3 + item[0].n4 + item[0].n5 + item[0].n6) 
+            this.odorBody_01[6].num = SumVal_01
+            
+            //악취 조치
+            if(item[0].p6 == "" || item[0].p6 == null){
+                item[0].p6 = 0;
+            }
+            this.odorBody_02[0].num = item[0].p1
+            this.odorBody_02[1].num = item[0].p2
+            this.odorBody_02[2].num = item[0].p3
+            this.odorBody_02[3].num = item[0].p4
+            this.odorBody_02[4].num = item[0].p5
+            this.odorBody_02[5].num = item[0].p6
+            
+            let SumVal_02 = parseInt(item[0].p1 + item[0].p2 + item[0].p3 + item[0].p4 + item[0].p5 + item[0].p6) 
+            this.odorBody_02[6].num = SumVal_02
+
+            //악취 조치율
+            let odorPer_01 = (item[0].p1 / item[0].n1) * 100;
+            let odorPer_02 = (item[0].p2 / item[0].n2) * 100;
+            let odorPer_03 = (item[0].p3 / item[0].n3) * 100;
+            let odorPer_04 = (item[0].p4 / item[0].n4) * 100;
+            let odorPer_05 = (item[0].p5 / item[0].n5) * 100;
+            let odorPer_06 = (item[0].p6 / item[0].n6) * 100;
+            let odorPer_07 = (this.odorBody_02[6].num / this.odorBody_01[6].num) * 100;
+            
+            if(odorPer_01 == "NaN"){
+                odorPer_01 = '0';
+            }
+            if(isNaN){
+                odorPer_01 = '0';
+                odorPer_02 = '0';
+                odorPer_03 = '0';
+                odorPer_04 = '0';
+                odorPer_05 = '0';
+                odorPer_06 = '0';
+                odorPer_07 = '0';
+            }
+
+            this.odorBody_03[0].num = odorPer_01;
+            this.odorBody_03[1].num = odorPer_02;
+            this.odorBody_03[2].num = odorPer_03;
+            this.odorBody_03[3].num = odorPer_04;
+            this.odorBody_03[4].num = odorPer_05;
+            this.odorBody_03[5].num = odorPer_06;
+            this.odorBody_03[6].num = odorPer_07;
+
         },
 
         async getList1() {
@@ -556,7 +730,6 @@ export default {
             this.filterDate(this.dateFr);
 
             let that = this;
-            
             await this.$Axios.post("/api/daedan/cj/ems/report/areaCount", {
                     dateFr: this.dateFr,
                     userId: store.state.userInfo.userId
@@ -571,7 +744,8 @@ export default {
                 .catch(err => {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
-                console.log(this.tsList)
+                
+                this.filterValue(this.tsList);
                 this.busy = false;
                 this.getList2()
         },
@@ -764,8 +938,9 @@ export default {
         height:100%;
         background:rgb(34,38,40);
         .tableTitle{
-            height:80px;
-            line-height:40px;
+            height:45px;
+            line-height:45px;
+            margin-top:45px;
             font-weight:bold;
             >div{
                 box-sizing: border-box;
@@ -785,7 +960,6 @@ export default {
                     display:block;
                     width:100%;
                     height:100%;
-                    margin-top:40px;
                     text-align: center;
                     color:white;
                     border:0.5px solid rgb(102, 102, 102);
@@ -829,7 +1003,7 @@ export default {
             height:100%;
             background:rgb(34,38,40);
             .tableMonth{
-                height:40px;
+                height:45px;
                 >div{
                     width:calc(100% / 7);
                     height:100%;
@@ -841,7 +1015,7 @@ export default {
                         border:0.5px solid rgb(102, 102, 102);
                         border-bottom:none;
                         color:white;
-                        line-height:40px;
+                        line-height:45px;
                         >span{
                             line-height:40px;
                             color:white;
@@ -854,8 +1028,8 @@ export default {
             }
 
             .tableArea{
-            height:40px;
-            line-height:40px;
+            height:45px;
+            line-height:45px;
             font-weight:bold;
                 >div{
                     width:calc(100% / 7);
