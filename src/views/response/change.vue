@@ -79,7 +79,7 @@
 
                                     <b-row>
                                         <b-col class="regiName col-4 lh-3">흡입구 이상점 발생여부</b-col>
-                                        <b-form-input class="col" v-model="occur" :options="occurBox" size="sm" disabled>
+                                        <b-form-input class="col" v-model="outoccur" :options="occurBox" size="sm" disabled>
                                         </b-form-input>
                                     </b-row>
                                     <b-row>
@@ -378,7 +378,7 @@ export default {
             this.prevention_date = obj.data.prevention_date
             this.server_name = obj.data.server_name
             this.category = obj.data.category
-            this.occur = obj.data.occur
+            this.outoccur = obj.data.outoccur
             this.category_cd = obj.data.category_cd
             this.inlet_max_value = obj.data.inlet_max_value
             this.inlet_min_value = obj.data.inlet_min_value

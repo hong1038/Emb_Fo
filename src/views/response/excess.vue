@@ -90,7 +90,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">방지시설 처리효율</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="occur"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="procRate" readonly></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치사항 원인</b-col>
@@ -389,6 +389,7 @@ export default {
             this.re_key = obj.data.re_key
             this.inoccur = obj.data.inoccur
             this.outoccur = obj.data.outoccur
+            this.procRate = obj.data.procRate
 
             this.unit = obj.data.unit; //단위
             // this.internal_name = null; //내부관리명
