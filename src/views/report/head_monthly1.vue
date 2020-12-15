@@ -31,7 +31,7 @@
                             </b-col>
                             <v-spacer></v-spacer>
                             <b-col cols="1">
-                                <v-btn class="hmPlus" v-on:click="getList01">조회</v-btn>
+                                <v-btn class="hmPlus" v-on:click="getList1">조회</v-btn>
                             </b-col>
                             
                         </b-row>
@@ -97,13 +97,17 @@ export default {
             selectWorkplace: "",
             dateFr: store.state.curMmFr,
             date: store.state.curMmFr,
+            pageNo:1,
+            pageSz:store.state.paginationPageSize,
             list:[],
             listCount:0,
 
             //1. 전체통계
+            tsList:[],
+            tsListCount:0,
             tsFields: [
                 {
-                    field: '',
+                    field: 'category',
                     headerName: '대분류',
                     width: '140px'
                 },
@@ -150,6 +154,8 @@ export default {
             ],
 
             //2. 유형별 통계
+            ttList:[],
+            ttListCount:0,
             ttfields: [
                 {
                     field: '',
@@ -297,16 +303,23 @@ export default {
             ],
 
             //3. 문제점/이슈사항
+            eiList:[],
+            eiListCount:0,
             eiFields: [
+                // {
+                //     field: 'prevention_mon',
+                //     headerName: '년월',
+                //     width: '120px'
+                // },
                 {
-                    field: '',
+                    field: 'area',
                     headerName: '권역',
                     width: '100px'
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '140px'
+                    width: '120px'
                 },
                 {
                     field: 'category_cd',
@@ -319,14 +332,14 @@ export default {
                     width: '190px'
                 },
                 {
-                    field: 'unit',
+                    field: '',
                     headerName: '유형',
                     width : '80'
                 },
                 {
                     field: 'rs_date',
                     headerName: '발생 일자',
-                    width: '190px'
+                    width: '120px'
                 },
                 {
                     field: '',
@@ -345,28 +358,35 @@ export default {
                         {
                             field : 'action_date',
                             headerName : '일정',
-                            width: '80'
+                            width: '110'
                         },
                     ]
                 },
                 {
                     field: 'action_type',
                     headerName: '완료 상태',
-                    width: '110px'
+                    width: '120px'
                 },
             ],
 
             //4. 이상점 및 비정상 대응확인
+            erList:[],
+            erListCount:0,
             erFields: [
+                // {
+                //     field: 'prevention_mon',
+                //     headerName: '년월',
+                //     width: '120px'
+                // },
                 {
-                    field: '',
+                    field: 'area',
                     headerName: '권역',
                     width: '100px'
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '140px'
+                    width: '120px'
                 },
                 {
                     field: 'category_cd',
@@ -374,22 +394,22 @@ export default {
                     width: '80px'
                 },
                 {
-                    field: 'prevention_date',
+                    field: 'rc_date',
                     headerName: '발생일자',
-                    width: '140px'
+                    width: '110px'
                 },
                 {
-                    field: '',
+                    field: 'public_name',
                     headerName: '공정명',
                     width : '200'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '방지시설명',
                     width: '200px'
                 },
                 {
-                    field: 'action_type',
+                    field: '',
                     headerName: '유형',
                     width : '110'
                 },
@@ -401,17 +421,17 @@ export default {
                 {
                     field: 'action',
                     headerName: '조치사항',
-                    width : '190'
+                    width : '300'
                 },
                 {
-                    field: 'abnormal_type',
+                    field: 'action_type',
                     headerName: '조치여부',
-                    width : '190'
+                    width : '110'
                 },
                 {
                     field: 'action_date',
                     headerName: '조치 완료 일자',
-                    width : '190'
+                    width : '140'
                 },
             ],
         }
@@ -454,40 +474,139 @@ export default {
             })
         },
 
-        async getList01(){
+        async getList1() {
             if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
             }
+
             this.onClick();
-
-
-            this.busy = false;
-            this.getList02();
+            console.log(this);
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+                    dateFr: this.dateFr,
+                    dateTo: this.dateTo,
+                    serverList: store.state.ckServer,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.tsList = res.data.data
+                            that.tsListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList2()
         },
+        async getList2() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
-        async getList02(){ 
             this.onClick();
 
-
-            this.busy = false;
-            this.getList03();
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+                    dateFr: this.dateFr,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.ttList = res.data.data
+                            that.ttListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList3()
         },
+        async getList3() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
-        async getList03(){
             this.onClick();
 
-            this.busy = false;
-            this.getList04();
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/problemList", {
+                    dateFr: this.dateFr,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.eiList = res.data.data
+                            that.eiListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList4()
         },
+        async getList4() {
+            if (store.state.ckServer.length == 0) {
+                alert("사업장은 필수 선택 항목 입니다.")
+                return;
+            }
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
 
-        async getList04(){
             this.onClick();
 
-
-            this.busy = false;
-
-        }
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/changeOccurList", {
+                    dateFr: this.dateFr,
+                    pageNo: this.pageNo,
+                    pageSz: this.pageSz,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.erList = res.data.data
+                            that.erListCount = res.data.totalCount
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+        },
 
 
     }

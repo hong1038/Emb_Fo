@@ -231,7 +231,7 @@ export default {
                     width: '180px'
                 },
                 {
-                    field: 'abnormal_type',
+                    field: 'abn_type',
                     headerName: '유형',
                     width: '160px'
                 },
