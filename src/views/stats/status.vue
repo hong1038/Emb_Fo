@@ -270,7 +270,7 @@ export default {
 
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/stat/contactCount", {
+            this.$Axios.post("/api/daedan/cj/ems/stat/contact", {
                     dateFr: this.dateFr,
                     serverList: store.state.ckServer,
                     pageNo: this.pageNo,
