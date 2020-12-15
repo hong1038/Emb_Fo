@@ -431,6 +431,7 @@ export default {
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
+
                         this.inletgraphDataMin = []
                         this.inletgraphDataAvg = []
                         this.inletgraphDataMax = []
@@ -441,7 +442,7 @@ export default {
                         let data = []
                         let listStandart = []
                         data = res.data.data.reduce((acc,v) => {
-                            let key = Object.values(v).slice(13,14).join('')
+                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 14).join('')
                             listStandart.push(key)
                             acc[key] = acc[key] ? [...acc[key], v] : [v]
                             return acc

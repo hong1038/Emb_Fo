@@ -110,6 +110,10 @@
             </div>
         </div>
     </div>
+    <div class="responseGraph" v-if="show" style="width:1550px;height:650px">
+        <span>{{prevention_date}} {{server_name}}<h1>{{equipment_inner_nm}}</h1></span>
+        <canvas style="background:white" id="daily-chart" width="1550px" height="550" ></canvas>
+    </div>
     <b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
         <template v-slot:overlay>
             <div v-if="processing" class="text-center p-4 bg-primary text-light rounded">
@@ -139,6 +143,7 @@
 </template>
 
 <script>
+import Chart from 'chart.js'
 import axios from 'axios';
 import store from "@/store/index";
 import Vue from "vue";
@@ -169,6 +174,13 @@ export default {
     },
     data() {
         return {
+            inletgraphDataMin:[],
+            inletgraphDataAvg:[],
+            inletgraphDataMax:[],
+            outletgraphDataMin:[],
+            outletgraphDataAvg:[],
+            outletgraphDataMax:[],
+
             Loadbusy:false,
             timeout : null,
             show:false,
@@ -406,7 +418,7 @@ export default {
             // this.sensors = [];
             
             this.showblock();
-            this.graph();
+            this.changeInfo(obj)
         },
         addOn2(){
             this.showblock();
@@ -516,6 +528,68 @@ export default {
                     alert("측정위치별센서추출 실패 \n" + err);
                     console.log(err)
                 })
+        },
+        changeInfo(obj){
+    this.$Axios.post("/api/daedan/cj/ems/response/excessInfo", {
+                serverKey:obj.data.server_key,
+                equipmentInnerNm:obj.data.equipment_inner_nm,
+                category:obj.data.category,
+                dateTime:obj.data.prevention_date
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+
+                        this.inletgraphDataMin = []
+                        this.inletgraphDataAvg = []
+                        this.inletgraphDataMax = []
+                        this.outletgraphDataMin = []
+                        this.outletgraphDataAvg = []
+                        this.outletgraphDataMax = []
+
+                        let data = []
+                        let listStandart = []
+                        data = res.data.data.reduce((acc,v) => {
+                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 14).join('')
+                            listStandart.push(key)
+                            acc[key] = acc[key] ? [...acc[key], v] : [v]
+                            return acc
+                        }, [])
+                        listStandart = [...new Set(listStandart)]
+                        listStandart.map((e) => {
+                            data[e].map(item => {
+                                if (data[e].length === 1) {
+                                    this.inletgraphDataMin.push(item.inlet_min_value)
+                                    this.inletgraphDataAvg.push(item.inlet_avg_value)
+                                    this.inletgraphDataMax.push(item.inlet_max_value)
+                                    this.outletgraphDataMin.push(item.outlet_min_value)
+                                    this.outletgraphDataAvg.push(item.outlet_avg_value)
+                                    this.outletgraphDataMax.push(item.outlet_max_value)
+                                }else{
+
+                                    if (item.place === 510) {
+                                            // inval.push(item.inlet_avg_value)
+                                        this.inletgraphDataMin.push(item.inlet_min_value)
+                                        this.inletgraphDataAvg.push(item.inlet_avg_value)
+                                        this.inletgraphDataMax.push(item.inlet_max_value)
+
+                                    }else if (item.place === 512) {
+                                        // outval.push(item.outlet_avg_value)
+                                            
+                                        this.outletgraphDataMin.push(item.outlet_min_value)
+                                        this.outletgraphDataAvg.push(item.outlet_avg_value)
+                                        this.outletgraphDataMax.push(item.outlet_max_value)
+                                    }
+                                }
+                            })
+                        })
+                        this.graph(listStandart)
+                    }
+                }
+            })
+            .catch(err => {
+                alert("센서테이터목록 추출 실패 \n" + err);
+            })
         },
         getList() { //구매품의중인 자재목록
             if (store.state.ckServer.length == 0) {
@@ -717,9 +791,117 @@ export default {
             //     })
             this.busyPop = false;
         },
-        graph(){
-            
-        }
+        graph(listStandart){
+            if (this.show === false) {
+                return false
+            }
+            if (this.dailyChart) {
+                this.dailyChart.destroy();
+            }
+            this.ctxDaily = document.getElementById('daily-chart').getContext('2d');
+            this.ctxDaily.height = "100%";
+            this.ctxDaily.width = "100%";
+            // this.ctxDaily.font = "5rem";
+            // console.log(this.dailyChartLabel,this.dailyChartData)
+            let ctxFontSize = 14
+            if (this.winWidth === 3840) {
+                ctxFontSize = 26
+            }
+            console.log(listStandart)
+            this.ctxConfig = {
+                type: 'line',
+                options: {
+                    position: 'bottom',
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                beginAtZero: true,
+                                fontSize: ctxFontSize
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontSize: ctxFontSize
+                            }
+                        }]
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#444',
+                            align: 'center',
+                            anchor: 'end',
+                            font: {
+                                family: 'Roboto',
+                                size: 14,
+                                weight: 700
+                            },
+                            // display: function(context) {
+                            //     return context.dataset.data[context.dataIndex] > 0;
+                            // },
+
+                            backgroundColor: 'white',
+                            borderRadius: 4
+                        }
+                    },
+                    maintainAspectRatio: false,
+                },
+                data: {
+                    labels:listStandart,
+                    datasets: [
+   {
+                            label: '흡입최대',
+                            borderColor: '#f13f3f',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '흡입평균',
+                            borderColor: '#42f13f',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataAvg
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '흡입최소',
+                            borderColor: '#3f5df1',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataMin
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '배출최대',
+                            borderColor: '#9966ff',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '배출평균',
+                            borderColor: '#ffcd56',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataAvg
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '배출최소',
+                            borderColor: '#c9cbcf',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMin
+                            // data:this.dailyChartData
+                        },
+
+                    ]
+                },
+            }
+            this.dailyChart = new Chart(this.ctxDaily, this.ctxConfig);
+            this.dailyChart.update()
+        },
     }
 
     
