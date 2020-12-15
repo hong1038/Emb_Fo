@@ -94,15 +94,15 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치사항 원인</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action"></b-form-input>
+                                        <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="action"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치여부</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action_type"></b-form-input>
+                                        <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="action_type"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치 완료일자</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="action_date"></b-form-input>
                                     </b-row>
                                 </div>
                             </b-card>
@@ -115,7 +115,10 @@
     <!-- <div class="small" style="z-index:10">
         <div> -->
             <!-- <button v-on:click="chartImage()">IMG</button> -->
-            <canvas v-if="show" style="background:white" id="daily-chart" width="1550px" height="550" ></canvas>
+            <div class="responseGraph" v-if="show" style="width:1550px;height:650px">
+                <span>{{prevention_date}} {{server_name}}<h1>{{equipment_inner_nm}}</h1></span>
+                <canvas style="background:white" id="daily-chart" width="1550px" height="550" ></canvas>
+            </div>
         <!-- </div>
     </div> -->
     <b-overlay :show="busyPop" no-wrap @show="onShow" @hidden="onHidden">
@@ -176,6 +179,12 @@ export default {
     },
     data() {
         return {
+            inletgraphDataMin:[],
+            inletgraphDataAvg:[],
+            inletgraphDataMax:[],
+            outletgraphDataMin:[],
+            outletgraphDataAvg:[],
+            outletgraphDataMax:[],
             busy:false,
             timeout : null,
             busyPop: false,
@@ -189,6 +198,7 @@ export default {
                 value: 'pnelNm',
                 text: '판넬명'
             }],
+            graphTitle:null,
             ctxConfig: null,
             dailyChart: null,
             dateFr: store.state.szCurMmFr,
@@ -411,8 +421,13 @@ export default {
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
+                        this.inletgraphDataMin = []
+                        this.inletgraphDataAvg = []
+                        this.inletgraphDataMax = []
+                        this.outletgraphDataMin = []
+                        this.outletgraphDataAvg = []
+                        this.outletgraphDataMax = []
                         console.log(res.data.data)
-
                         let data = []
                         let listStandart = []
                         data = res.data.data.reduce((acc,v) => {
@@ -428,14 +443,33 @@ export default {
                         listStandart.map((e,idx) => {
                             console.log(idx)
                             data[e].map(item => {
-                                if (item.place === 510) {
-                                    inval.push(item.inlet_avg_value)
-                                }else if (item.place === 512) {
-                                    outval.push(item.outlet_avg_value)
+                                console.log(item)
+                                if (data[e].length === 1) {
+                                    this.inletgraphDataMin.push(item.inlet_min_value)
+                                    this.inletgraphDataAvg.push(item.inlet_avg_value)
+                                    this.inletgraphDataMax.push(item.inlet_max_value)
+                                    this.outletgraphDataMin.push(item.outlet_min_value)
+                                    this.outletgraphDataAvg.push(item.outlet_avg_value)
+                                    this.outletgraphDataMax.push(item.outlet_max_value)
+                                }else{
+
+                                    if (item.place === 510) {
+                                            // inval.push(item.inlet_avg_value)
+                                        this.inletgraphDataMin.push(item.inlet_min_value)
+                                        this.inletgraphDataAvg.push(item.inlet_avg_value)
+                                        this.inletgraphDataMax.push(item.inlet_max_value)
+
+                                    }else if (item.place === 512) {
+                                        // outval.push(item.outlet_avg_value)
+                                            
+                                        this.outletgraphDataMin.push(item.outlet_min_value)
+                                        this.outletgraphDataAvg.push(item.outlet_avg_value)
+                                        this.outletgraphDataMax.push(item.outlet_max_value)
+                                    }
                                 }
                             })
                         })
-                        this.graph(inval,outval,listStandart)
+                        this.graph(listStandart)
                         console.log(inval,outval)
                     }
                 }
@@ -444,7 +478,7 @@ export default {
                 alert("센서테이터목록 추출 실패 \n" + err);
             })
         },
-        graph(inval,outval,listStandart){
+        graph(listStandart){
             if (this.show === false) {
                 return false
             }
@@ -503,19 +537,49 @@ export default {
                 data: {
                     labels:listStandart,
                     datasets: [
-                        {
-                            label: '흡입구',
+   {
+                            label: '흡입최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
-                            data: inval
+                            data: this.inletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '흡입평균',
+                            borderColor: '#42f13f',
+                            backgroundColor: 'transparent',
+                            data: this.inletgraphDataAvg
                             // data:this.dailyChartData
                         },
 
                         {
-                            label: '배출구',
-                            borderColor: '#42f13f',
+                            label: '흡입최소',
+                            borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
-                            data: outval
+                            data: this.inletgraphDataMin
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '배출최대',
+                            borderColor: '#9966ff',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMax
+                            // data:this.dailyChartData
+                        },
+                        {
+                            label: '배출평균',
+                            borderColor: '#ffcd56',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataAvg
+                            // data:this.dailyChartData
+                        },
+
+                        {
+                            label: '배출최소',
+                            borderColor: '#c9cbcf',
+                            backgroundColor: 'transparent',
+                            data: this.outletgraphDataMin
                             // data:this.dailyChartData
                         },
 
@@ -732,9 +796,9 @@ export default {
 </script>
 
 <style>
-/* canvas {
+.responseGraph {
    margin-left:296px;
-} */
+}
 @font-face {
     font-family: "CJ Onlyone Medium";
     src: url(/fonts/CJOnlyoneMedium.ttf);
