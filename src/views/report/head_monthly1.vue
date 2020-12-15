@@ -479,7 +479,6 @@ export default {
                 alert("날짜를 선택해주세요.")
                 return;
             }
-
             this.onClick();
             console.log(this);
             let that = this;
@@ -507,10 +506,6 @@ export default {
                 this.getList2()
         },
         async getList2() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
             if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
@@ -541,10 +536,6 @@ export default {
                 this.getList3()
         },
         async getList3() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
             if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
@@ -575,10 +566,6 @@ export default {
                 this.getList4()
         },
         async getList4() {
-            if (store.state.ckServer.length == 0) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
             if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
                 return;
