@@ -110,7 +110,7 @@ export default {
                     width: '200px'
                 },
                 {
-                    headerName: '유지보수 계획 및 실적(계획/실적)',
+                    headerName: '유지보수 계획 및 실적 (계획/실적)',
                     children: [{
                             field: 'oneList',
                             headerName: '1월',
