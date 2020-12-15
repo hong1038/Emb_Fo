@@ -88,17 +88,20 @@
                                         <b-col class="regiName col-4 lh-3">배출구 이상점 발생여부</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="outoccur" readonly></b-form-input>
                                     </b-row>
-                                    <b-row>
+                                    <!-- <b-row>
                                         <b-col class="regiName col-4 lh-2">방지시설 처리효율</b-col>
                                         <b-form-input class="col" type="text" size="sm" v-model="procRate" readonly></b-form-input>
-                                    </b-row>
+                                    </b-row> -->
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치사항 원인</b-col>
                                         <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="action"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치여부</b-col>
-                                        <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="action_type"></b-form-textarea>
+                                        <b-form-select class="col" v-model="action_type" size="sm">
+                                            <option value="진행">진행</option>
+                                            <option value="완료">완료</option>
+                                        </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치 완료일자</b-col>
@@ -373,18 +376,25 @@ export default {
             this.busyPop = false
         },
         addOn(obj) {
+            console.log(obj)
             this.prevention_date = obj.data.prevention_date
             // this.mno = obj.data.mno; //관리번호
             this.server_key = obj.data.server_key; //사업장
             this.server_name = obj.data.server_name
             this.equipment_name = obj.data.equipment_name; //측정위치
             this.equipment_inner_nm = obj.data.equipment_inner_nm
+            this.equipment_key = obj.data.equipment_key
             this.category = obj.data.category; //측정분야명
             this.category_cd = obj.data.category_cd; //측정분야코드
             this.cause = obj.data.cause
+
+
             this.action_type = obj.data.action_type
             this.action_date = obj.data.action_date
             this.action = obj.data.action
+
+
+            this.place = obj.data.place
             this.abnormal_type = obj.data.abnormal_type
             // this.facility = obj.data.facility; //시설분류
             // this.location = obj.data.location; //위치분류
@@ -427,7 +437,7 @@ export default {
                         this.outletgraphDataMin = []
                         this.outletgraphDataAvg = []
                         this.outletgraphDataMax = []
-                        console.log(res.data.data)
+
                         let data = []
                         let listStandart = []
                         data = res.data.data.reduce((acc,v) => {
@@ -437,13 +447,8 @@ export default {
                             return acc
                         }, [])
                         listStandart = [...new Set(listStandart)]
-                        let inval = []
-                        let outval = []
-                        console.log(data)
-                        listStandart.map((e,idx) => {
-                            console.log(idx)
+                        listStandart.map((e) => {
                             data[e].map(item => {
-                                console.log(item)
                                 if (data[e].length === 1) {
                                     this.inletgraphDataMin.push(item.inlet_min_value)
                                     this.inletgraphDataAvg.push(item.inlet_avg_value)
@@ -470,7 +475,6 @@ export default {
                             })
                         })
                         this.graph(listStandart)
-                        console.log(inval,outval)
                     }
                 }
             })
@@ -641,7 +645,7 @@ export default {
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
-                                let key = Object.values(v).slice(0,17).filter((e,idx)=> idx === 0 || idx === 13 || idx === 16).join('')
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 14 || idx === 17).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
@@ -659,36 +663,41 @@ export default {
                                     let inval = []
                                     e.map(item => {
                                         if (item.place === 510) {
-                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur)
+                                            inval = item;
                                         }else if (item.place === 512) {
-                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                            item.action_type = item.action_type !== null ? item.action_type.trim() : null 
+                                            outval = item;
                                         }
                                     })
-                                    console.log(outval,inval)
+                                    // console.log(outval,inval)
                                     let objectitem = {
-                                        'category':e[0].category,
-                                        'server_key':e[0].server_key,
-                                        'prevention_date':e[0].prevention_date,
-                                        'server_name':e[0].server_name,
-                                        'category_cd':e[0].category_cd,
-                                        'equipment_inner_nm':e[0].equipment_inner_nm,
-                                        'inlet_max_value':inval[0],
-                                        'inlet_avg_value':inval[1],
-                                        'inlet_min_value':inval[2],
-                                        'inoccur':inval[3],
-                                        'outlet_max_value':outval[0],
-                                        'outlet_avg_value':outval[1],
-                                        'outlet_min_value':outval[2],
-                                        'outoccur':outval[3],
-                                        'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
-                                        'outlet_standard_value':outval[4]
+                                        'action':outval.action, 
+                                        'action_date':outval.action_date, 
+                                        'action_type':outval.action_type, 
+                                        'cause':outval.cause, 
+                                        'place':outval.place,
+                                        'category':outval.category,
+                                        'server_key':outval.server_key,
+                                        'prevention_date':outval.prevention_date,
+                                        'server_name':outval.server_name,
+                                        'category_cd':outval.category_cd,
+                                        'equipment_key':outval.equipment_key,
+                                        'equipment_inner_nm':outval.equipment_inner_nm,
+                                        'inlet_max_value':inval.inlet_max_value,
+                                        'inlet_avg_value':inval.inlet_avg_value,
+                                        'inlet_min_value':inval.inlet_min_value,
+                                        'inoccur':inval.inoccur,
+                                        'outlet_max_value':outval.outlet_max_value,
+                                        'outlet_avg_value':outval.outlet_avg_value,
+                                        'outlet_min_value':outval.outlet_min_value,
+                                        'outoccur':outval.outoccur,
+                                        'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
+                                        'outlet_standard_value':outval.outlet_standard_value
                                     }
+                                    console.log(objectitem)
                                     that.list.push(objectitem)   
                                 }
-
-                                
                             })
-                            console.log(res.data.data)
                             // that.list = res.data.data
                             that.listCount = res.data.totalCount
                         }
@@ -713,57 +722,42 @@ export default {
 
         },
         saveInfo() {
-            let that = this;
-            this.$Axios.post("/api/daedan/cj/ems/response/excessSave", {
-                    exInfo:this.exInfo,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.list = res.data.data
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
+
 
             this.busyPop = true;
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
-            // let that = this;
-            // await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
-            //         mno: this.mno,
-            //         server_key: this.server_key,
-            //         equipment_key: this.equipment_key,
-            //         category: this.category_cd,
-            //         place: this.location,
-            //         facility: this.facility,
-            //         public_name : this.public_name,
-            //         internal_name: this.internal_name,
-            //         internal_numger: this.internal_numger,
-            //         legal_standard: this.legal_standard,
-            //         manage_standard: this.manage_standard,
-            //         ordr_no: this.odor_no,
-            //         unit: this.unit,
-            //         usedSensors: this.usedSensors,
-                    
-            //         userId: store.state.userInfo.userId
-            //     }, this.config)
-            //     .then(res => {
-            //         if (res.status === 200) {
-            //             if (res.data.statusCode === 200) {
-            //                 that.saveblock();
-            //                 that.getList();
-            //             }
-            //         }
-            //     })
-            //     .catch(err => {
-            //         alert("측정기별기준정보저장 실패 \n" + err);
-            //     })
+            let that = this;
+            this.$Axios.post("/api/daedan/cj/ems/response/excessSave", {
+                    exInfo:this.exInfo,
+                    place: this.place,
+                    re_key:this.re_key,
+                    server_key: this.server_key,
+                    equipment_key: this.equipment_key,
+                    category_cd: this.category_cd,
+                    category:this.category,
+                    re_date: this.prevention_date,
+                    occur:this.occur,
+                    cause:this.cause,
+                    action:this.action,
+                    action_type:this.action_type,
+                    action_date:this.action_date,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                              that.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+            this.showblock();
+
             this.busyPop = false;
 
         },

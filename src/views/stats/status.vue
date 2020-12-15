@@ -109,19 +109,22 @@ export default {
                     headerName: '악취 측정기',
                     children : [
                         {
-                            filed:'t_odor_nb',
+                            field:'obor_to',
+                            type:'number',
                             headerName : '수량',
-                            width:'80'
+                            width:'80y'
                         },
                         {
-                            filed :'odor_nb',
+                            field :'obor',
+                            type:'number',
                             headerName : '유지보수 계약 관리 수량',
-                            width : '190'
+                            width : '190y'
                         },
                         {
-                            filed : '',
+                            field : '',
+                            type:'number',
                             headerName : '계약율(%)',
-                            width:'110'
+                            width:'110y'
                         }
                     ]
                 },
@@ -130,19 +133,22 @@ export default {
                     headerName: '수질 측정기',
                     children : [
                         {
-                            filed:'t_water_nb',
+                            field:'water_to',
+                            type:'number',
                             headerName : '수량',
-                            width:'80'
+                            width:'80y'
                         },
                         {
-                            filed :'water_nb',
+                            field :'water',
+                            type:'number',
                             headerName : '유지보수 계약 관리 수량',
-                            width : '190'
+                            width : '190y'
                         },
                         {
-                            filed : '',
+                            field : '',
+                            type:'number',
                             headerName : '계약율(%)',
-                            width:'110'
+                            width:'110y'
                         }
                     ]
                 },
@@ -151,19 +157,22 @@ export default {
                     headerName: '대기 측정기',
                     children : [
                         {
-                            filed:'t_air_nb',
+                            field:'air_to',
+                            type:'number',
                             headerName : '수량',
-                            width:'80'
+                            width:'80y'
                         },
                         {
-                            filed :'air_nb',
+                            field :'air',
+                            type:'number',
                             headerName : '유지보수 계약 관리 수량',
-                            width : '190'
+                            width : '190y'
                         },
                         {
-                            filed : '',
+                            field : '',
+                            type:'number',
                             headerName : '계약율(%)',
-                            width:'110'
+                            width:'110y'
                         }
                     ]
                 },
@@ -172,19 +181,22 @@ export default {
                     headerName: '합계',
                     children : [
                         {
-                            filed:'',
+                            field:'',
+                            type:'number',
                             headerName : '수량',
-                            width:'80'
+                            width:'80y'
                         },
                         {
-                            filed :'',
+                            field :'',
+                            type:'number',
                             headerName : '유지보수 계약 관리 수량',
-                            width : '190'
+                            width : '190y'
                         },
                         {
-                            filed : '',
+                            field : '',
+                            type:'number',
                             headerName : '계약율(%)',
-                            width:'110'
+                            width:'110y'
                         }
                     ]
                 },
@@ -271,7 +283,7 @@ export default {
             let that = this;
             //console.log("store.state.ckServer = " + store.state.ckServer)
             this.$Axios.post("/api/daedan/cj/ems/stat/contact", {
-                    dateFr: this.dateFr,
+                    dateFr: String(this.dateFr),
                     serverList: store.state.ckServer,
                     pageNo: this.pageNo,
                     pageSz: store.state.pagepaginationPageSize,
@@ -281,6 +293,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.list = res.data.data
+                            console.log(that.list)
                             that.listCount = res.data.totalCount
                         }
                     }
@@ -290,17 +303,17 @@ export default {
                 })
         },
 
-        onPageChange(params) {
-            this.pageNo = params.currentPage;
-            this.getList();
-        },
+        // onPageChange(params) {
+        //     this.pageNo = params.currentPage;
+        //     this.getList();
+        // },
 //         onRowClick: function (obj) {
 //             console.log("onRowClck.obj = " + obj);
 //         },
-//         // 엑셀저장버튼 클릭
-//         excelBtn() {
-//             this.gridOptions.api.exportDataAsExcel({});
-//         },
+        // 엑셀저장버튼 클릭
+        excelBtn() {
+            this.gridOptions.api.exportDataAsExcel({});
+        },
 //         // 그래프버튼 클릭
 //         graphBtn() {
 

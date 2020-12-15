@@ -371,12 +371,14 @@ export default {
             this.busyPop = false
         },
         addOn(obj) {
+            console.log(obj)
             this.server_key = obj.data.server_key
             this.equipment_key = obj.data.equipment_key
             this.equipment_name = obj.data.equipment_name
             this.equipment_inner_nm = obj.data.equipment_inner_nm
             this.prevention_date = obj.data.prevention_date
             this.server_name = obj.data.server_name
+            this.place = obj.data.place
             this.category = obj.data.category
             this.outoccur = obj.data.outoccur
             this.category_cd = obj.data.category_cd
@@ -402,6 +404,7 @@ export default {
             // this.public_name = null; //공정명
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
+            
             this.showblock();
             this.graph();
         },
@@ -542,7 +545,6 @@ export default {
                             res.data.data.map(e => {
                                 e.inoccur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
                                 e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
-                                console.log(e)
                             })
 
                             that.list = []
@@ -550,7 +552,6 @@ export default {
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
-                                console.log(Object.values(v).slice(0,25))
                                 let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12 || idx === 23).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
@@ -570,32 +571,40 @@ export default {
                                     let inval = []
                                     e.map(item => {
                                         if (item.place === 510) {
-                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur)
+                                            inval = item;
                                         }else if (item.place === 512) {
-                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur)
+                                            item.action_type = item.action_type !== null ? item.action_type.trim() : null 
+                                            outval = item;
                                         }
                                     })
                                     let objectitem = {
-                                        'prevention_date':e[0].prevention_date,
-                                        'server_name':e[0].server_name,
-                                        'category_cd':e[0].category_cd,
-                                        'equipment_inner_nm':e[0].equipment_inner_nm,
-                                        'inlet_max_value':inval[0],
-                                        'inlet_avg_value':inval[1],
-                                        'inlet_min_value':inval[2],
-                                        'inoccur':inval[3],
-                                        'outlet_max_value':outval[0],
-                                        'outlet_avg_value':outval[1],
-                                        'outlet_min_value':outval[2],
-                                        'outoccur':outval[3],
-                                        'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
+                                        'action':outval.action, 
+                                        'action_date':outval.action_date, 
+                                        'action_type':outval.action_type, 
+                                        'cause':outval.cause, 
+                                        'place':outval.place,
+                                        'prevention_date':outval.prevention_date,
+                                        'server_key':outval.server_key,
+                                        'server_name':outval.server_name,
+                                        'category':outval.category,
+                                        'category_cd':outval.category_cd,
+                                        'equipment_inner_nm':outval.equipment_inner_nm,
+                                        'equipment_key':outval.equipment_key,
+                                        'inlet_max_value':inval.inlet_max_value,
+                                        'inlet_avg_value':inval.inlet_avg_value,
+                                        'inlet_min_value':inval.inlet_min_value,
+                                        'inoccur':inval.inoccur,
+                                        'outlet_max_value':outval.outlet_max_value,
+                                        'outlet_avg_value':outval.outlet_avg_value,
+                                        'outlet_min_value':outval.outlet_min_value,
+                                        'outoccur':outval.outoccur,
+                                        'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
                                     }
                                     that.list.push(objectitem)   
                                 }
 
                                 
                             })
-
                             // that.list = res.data.data
                             // that.list2 = res.data.data
                             that.listCount = res.data.totalCount
@@ -651,9 +660,10 @@ export default {
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
+            console.log(this.place)
             let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/response/changeSaveInfo", {
-                    // mno: this.mno,
+            await this.$Axios.post("/api/daedan/cj/ems/response/changeSave", {
+                    place: this.place,
                     server_key: this.server_key,
                     equipment_key: this.equipment_key,
                     category_cd: this.category_cd,
