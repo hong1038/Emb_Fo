@@ -197,7 +197,6 @@ export default {
             // dateTo: "",
             gridOptions:{}, 
             list: [],
-            list2: [],
             list3: [],
             listCount: 0,
             pageNo: 1,
@@ -547,6 +546,7 @@ export default {
                                 console.log(e)
                             })
                             that.list = []
+                            this.list3 = []
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {

@@ -571,7 +571,8 @@ export default {
                                 e.inoccur = e.inlet_max_value >= e.inlet_standard_value ? "Y" : "N";
                                 e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
                             })
-                            that.list = []
+                            this.list = []
+                            this.list2 = []
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
