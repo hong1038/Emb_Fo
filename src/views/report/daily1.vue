@@ -856,6 +856,9 @@ export default {
                 })
                 this.busy = false;
         },
+        graph(){
+            
+        }
     },
 }
 </script>

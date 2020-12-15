@@ -52,8 +52,8 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm" disabled> 
-                                        </b-form-select>
+                                        <b-form-input class="col" v-model="server_key" :options="comboServers" size="sm" disabled> 
+                                        </b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">구분</b-col>
@@ -82,13 +82,13 @@
                                         <b-form-input class="col" v-model="outoccur" :options="occurBox" size="sm" disabled>
                                         </b-form-input>
                                     </b-row>
-                                    <b-row>
+                                    <b-row style="margin-top:15px"> 
                                         <b-col class="regiName col-4 lh-4">변경점 / 이상점 확인결과 원인</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="cause"></b-form-input>
+                                        <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="cause"></b-form-textarea>
                                     </b-row>
-                                    <b-row>
+                                    <b-row style="margin-top:15px">
                                         <b-col class="regiName col-4">조치사항</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="action"></b-form-input>
+                                        <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="action"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치여부</b-col>
@@ -876,7 +876,7 @@ export default {
 .changeTableWrap .right_list .regiName+input,
 .changeTableWrap .right_list .regiName+select {
     height: 30px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     font-size:14px;
 }
 
@@ -887,7 +887,7 @@ export default {
 
 .changeTableWrap .right_list .lh-3+input,
 .changeTableWrap .right_list .lh-3+select {
-    margin-top:35px;
+    /* margin-top:35px; */
 }
 .changeTableWrap .right_list .lh-4+input,
 .changeTableWrap .right_list .lh-4+select {
