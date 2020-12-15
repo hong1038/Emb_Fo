@@ -665,59 +665,57 @@ export default {
             if(item[0].n6 == "" || item[0].n6 == null){
                 item[0].n6 = 0;
             }
-            this.odorBody_01[0].num = item[0].n1
-            this.odorBody_01[1].num = item[0].n2
-            this.odorBody_01[2].num = item[0].n3
-            this.odorBody_01[3].num = item[0].n4
-            this.odorBody_01[4].num = item[0].n5
-            this.odorBody_01[5].num = item[0].n6
+            this.measureBody_01[0].num = item[0].n1
+            this.measureBody_01[1].num = item[0].n2
+            this.measureBody_01[2].num = item[0].n3
+            this.measureBody_01[3].num = item[0].n4
+            this.measureBody_01[4].num = item[0].n5
+            this.measureBody_01[5].num = item[0].n6
             
+
             let SumVal_01 = parseInt(item[0].n1 + item[0].n2 + item[0].n3 + item[0].n4 + item[0].n5 + item[0].n6) 
-            this.odorBody_01[6].num = SumVal_01
+            this.measureBody_01[6].num = SumVal_01
             
             //악취 조치
             if(item[0].p6 == "" || item[0].p6 == null){
                 item[0].p6 = 0;
             }
-            this.odorBody_02[0].num = item[0].p1
-            this.odorBody_02[1].num = item[0].p2
-            this.odorBody_02[2].num = item[0].p3
-            this.odorBody_02[3].num = item[0].p4
-            this.odorBody_02[4].num = item[0].p5
-            this.odorBody_02[5].num = item[0].p6
+            this.measureBody_02[0].num = item[0].p1
+            this.measureBody_02[1].num = item[0].p2
+            this.measureBody_02[2].num = item[0].p3
+            this.measureBody_02[3].num = item[0].p4
+            this.measureBody_02[4].num = item[0].p5
+            this.measureBody_02[5].num = item[0].p6
             
             let SumVal_02 = parseInt(item[0].p1 + item[0].p2 + item[0].p3 + item[0].p4 + item[0].p5 + item[0].p6) 
-            this.odorBody_02[6].num = SumVal_02
+            this.measureBody_02[6].num = SumVal_02
 
             //악취 조치율
-            let odorPer_01 = (item[0].p1 / item[0].n1) * 100;
-            let odorPer_02 = (item[0].p2 / item[0].n2) * 100;
-            let odorPer_03 = (item[0].p3 / item[0].n3) * 100;
-            let odorPer_04 = (item[0].p4 / item[0].n4) * 100;
-            let odorPer_05 = (item[0].p5 / item[0].n5) * 100;
-            let odorPer_06 = (item[0].p6 / item[0].n6) * 100;
-            let odorPer_07 = (this.odorBody_02[6].num / this.odorBody_01[6].num) * 100;
+            let measurePer_01 = (item[0].p1 / item[0].n1) * 100;
+            let measurePer_02 = (item[0].p2 / item[0].n2) * 100;
+            let measurePer_03 = (item[0].p3 / item[0].n3) * 100;
+            let measurePer_04 = (item[0].p4 / item[0].n4) * 100;
+            let measurePer_05 = (item[0].p5 / item[0].n5) * 100;
+            let measurePer_06 = (item[0].p6 / item[0].n6) * 100;
+            let measurePer_07 = (this.measureBody_02[6].num / this.measureBody_01[6].num) * 100;
             
-            if(odorPer_01 == "NaN"){
-                odorPer_01 = '0';
-            }
             if(isNaN){
-                odorPer_01 = '0';
-                odorPer_02 = '0';
-                odorPer_03 = '0';
-                odorPer_04 = '0';
-                odorPer_05 = '0';
-                odorPer_06 = '0';
-                odorPer_07 = '0';
+                measurePer_01 = '0';
+                measurePer_02 = '0';
+                measurePer_03 = '0';
+                measurePer_04 = '0';
+                measurePer_05 = '0';
+                measurePer_06 = '0';
+                measurePer_07 = '0';
             }
 
-            this.odorBody_03[0].num = odorPer_01;
-            this.odorBody_03[1].num = odorPer_02;
-            this.odorBody_03[2].num = odorPer_03;
-            this.odorBody_03[3].num = odorPer_04;
-            this.odorBody_03[4].num = odorPer_05;
-            this.odorBody_03[5].num = odorPer_06;
-            this.odorBody_03[6].num = odorPer_07;
+            this.measureBody_03[0].num = measurePer_01;
+            this.measureBody_03[1].num = measurePer_02;
+            this.measureBody_03[2].num = measurePer_03;
+            this.measureBody_03[3].num = measurePer_04;
+            this.measureBody_03[4].num = measurePer_05;
+            this.measureBody_03[5].num = measurePer_06;
+            this.measureBody_03[6].num = measurePer_07;
 
         },
 
