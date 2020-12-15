@@ -112,79 +112,79 @@ export default {
                 {
                     headerName: '유지보수 계획 및 실적(계획/실적)',
                     children: [{
-                            field: 'one',
+                            field: 'oneList',
                             headerName: '1월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'two',
+                            field: 'twoList',
                             headerName: '2월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'three',
+                            field: 'threeList',
                             headerName: '3월',
                             type: 'number',
                             width: '80'
                         },
                         {
-                            field: 'four',
+                            field: 'fourList',
                             headerName: '4월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'five',
+                            field: 'fiveList',
                             headerName: '5월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'six',
+                            field: 'sixList',
                             headerName: '6월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'seven',
+                            field: 'sevenList',
                             headerName: '7월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'eight',
+                            field: 'eightList',
                             headerName: '8월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'nine',
+                            field: 'nineList',
                             headerName: '9월',
                             type: 'number',
                             width: '80px'
                         },
                         {
-                            field: 'ten',
+                            field: 'tenList',
                             headerName: '10월',
                             type: 'number',
                             width: '90px'
                         },
                         {
-                            field: 'eleven',
+                            field: 'elevenList',
                             headerName: '11월',
                             type: 'number',
                             width: '90px'
                         },
                         {
-                            field: 'twelve',
+                            field: 'twelveList',
                             headerName: '12월',
                             type: 'number',
                             width: '90px'
                         },
                         {
-                            field: '',
+                            field: 'Alltotal',
                             headerName: '합계',
                             type: 'number',
                             width: '80px'
@@ -292,6 +292,23 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            res.data.data.map(e=>{
+                                console.log(e)
+                                e.Alltotal = e.onecount + e.twocount + e.threecount + e.fourcount + e.fivecount + e.sixcount + e.sevencount + e.eightcount + e.ninecount + e.tencount + e.elevencount + e.twelvecount
+
+                                e.oneList = e.one+" / "+e.one_to 
+                                e.twoList = e.two+" / "+e.two_to 
+                                e.threeList = e.three+" / "+e.three_to 
+                                e.fourList = e.four+" / "+e.four_to 
+                                e.fiveList = e.five+" / "+e.five_to 
+                                e.sixList = e.six+" / "+e.six_to 
+                                e.sevenList = e.seven+" / "+e.seven_to 
+                                e.eightList = e.eight+" / "+e.eight_to 
+                                e.nineList = e.nine+" / "+e.nine_to 
+                                e.tenList = e.ten+" / "+e.ten_to 
+                                e.elevenList = e.eleven+" / "+e.eleven_to 
+                                e.twelveList = e.twelve+" / "+e.twelve_to 
+                            })
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
                         }
