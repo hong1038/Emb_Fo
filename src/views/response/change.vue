@@ -52,7 +52,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-input class="col" v-model="server_key" :options="comboServers" size="sm" disabled> 
+                                        <b-form-input class="col" v-model="server_name" :options="comboServers" size="sm" disabled> 
                                         </b-form-input>
                                     </b-row>
                                     <b-row>
@@ -403,8 +403,7 @@ export default {
             // this.odor_number = null; //악취방지시설고유일련번호
             // this.sensors = [];
             this.showblock();
-
-            
+            this.graph();
         },
         addOn2(){
             this.showblock();
@@ -545,13 +544,14 @@ export default {
                                 e.outoccur = e.outlet_max_value >= e.outlet_standard_value ? "Y" : "N";
                                 console.log(e)
                             })
+
                             that.list = []
                             this.list3 = []
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
                                 console.log(Object.values(v).slice(0,25))
-                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12 || idx === 22).join('')
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12 || idx === 23).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
@@ -652,7 +652,7 @@ export default {
         },
         async saveInfoProc() {
             let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/response/changeSave", {
+            await this.$Axios.post("/api/daedan/cj/ems/response/changeSaveInfo", {
                     // mno: this.mno,
                     server_key: this.server_key,
                     equipment_key: this.equipment_key,
@@ -707,6 +707,9 @@ export default {
             //     })
             this.busyPop = false;
         },
+        graph(){
+            
+        }
     }
 
     
