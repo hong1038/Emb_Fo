@@ -49,7 +49,7 @@
 
                                 <b-row v-if="hide">
                                     <b-col class="regiName col-4">일반대기</b-col>
-                                    <b-form-input class="col" type="text" size="sm" v-model="general_air" disabled></b-form-input>
+                                    <b-form-select class="col" type="text" size="sm" v-model="general_air" :options="general_airList" disabled></b-form-select>
                                 </b-row>
 
                                 <b-row v-else>
@@ -213,12 +213,10 @@ export default {
             sensorList: [], //분석항목리스트
             serverList:{},
             date: "",
+            general_air: 517,
             show: false,
-
-            gridOptions: {
-     
-       
-            },
+            general_airList:[{ id:517,text:"부지경계",val: "부지경계",value: 517}],
+            gridOptions: {},
 
         }
     },
@@ -238,10 +236,10 @@ export default {
         },
         facility(){
             if (this.facility === 201) {
-                this.general_air = "부지경계"
+                // this.general_air = 517
                 this.hide = true
             }else{
-                this.general_air = null
+                // this.general_air = null
                 this.hide = false
             }
         }  
@@ -391,6 +389,7 @@ export default {
                         if (res.data.statusCode === 200) {
                             that.comboFacilities = res.data.data.facilities; //서설분류
                             that.comboLocations = res.data.data.locations; //위치분류
+                            console.log(this.location,that.comboLocations,this.general_air,this.general_airList)
                             if (that.measurementInfo.facility) {
                                 that.facility = that.measurementInfo.facility; //시설분류 설정    
                             }
