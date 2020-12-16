@@ -511,9 +511,9 @@ export default {
                     width: '190px'
                 },
                 {
-                    field: '',
+                    field: 'abn_type',
                     headerName: '유형',
-                    width : '80'
+                    width : '140'
                 },
                 {
                     field: 'rs_date',
@@ -544,7 +544,7 @@ export default {
                 {
                     field: 'action_type',
                     headerName: '완료 상태',
-                    width: '120px'
+                    width: '110px'
                 },
             ],
 
@@ -573,14 +573,14 @@ export default {
                     width: '80px'
                 },
                 {
-                    field: 'rc_date',
+                    field: 're_date',
                     headerName: '발생일자',
                     width: '110px'
                 },
                 {
                     field: 'public_name',
                     headerName: '공정명',
-                    width : '200'
+                    width : '140'
                 },
                 {
                     field: 'equipment_inner_nm',
@@ -588,24 +588,24 @@ export default {
                     width: '200px'
                 },
                 {
-                    field: '',
+                    field: 'abn_type',
                     headerName: '유형',
-                    width : '110'
+                    width : '140'
                 },
                 {
                     field: 'cause',
                     headerName: '초과사항 확인결과 원인',
-                    width: '315px'
+                    width: '320px'
                 },
                 {
                     field: 'action',
                     headerName: '조치사항',
-                    width : '300'
+                    width : '400'
                 },
                 {
                     field: 'action_type',
                     headerName: '조치여부',
-                    width : '110'
+                    width : '105'
                 },
                 {
                     field: 'action_date',
