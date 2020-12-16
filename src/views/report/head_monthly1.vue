@@ -32,6 +32,7 @@
                             <v-spacer></v-spacer>
                             <b-col cols="1">
                                 <v-btn class="hmPlus" v-on:click="getList1">조회</v-btn>
+                                <v-btn class="hmPlus" v-on:click="getList11">테스트키</v-btn>
                             </b-col>
                             
                         </b-row>
@@ -136,6 +137,7 @@ export default {
             date: store.state.curMmFr,
             pageNo:1,
             pageSz:store.state.paginationPageSize,
+            testList:[],
             list:[],
             listCount:0,
             
@@ -837,7 +839,30 @@ export default {
                 this.busy = false;
         },
 
+async getList11() {
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+            this.onClick();
+            this.filterDate(this.dateFr);
 
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/report/caseStatistics", {
+                    dateFr: this.dateFr,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.testList = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
+        },
     }
 }
 </script>
