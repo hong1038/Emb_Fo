@@ -60,13 +60,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">유형</b-col>
-                                        <b-form-select class="col" v-model="erInfo.abnormal_type" size="sm">
-                                            <option disabled value="">==선택==</option>
-                                            <option>센서이상</option>
-                                            <option>통신이상</option>
-                                            <option>방지시설이상</option>
-                                            <option>PC이상</option>
-                                        </b-form-select>
+                                        <b-form-select class="col" v-model="erInfo.abnormal_type" :options="comboabnormal" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">발생일자</b-col>
@@ -182,7 +176,7 @@ export default {
             hide: false,
 
             paginationPageSize: store.state.paginationPageSize,
-
+            comboabnormal:[], //유형
             comboServers: [], //사업장   
             comboCategories: [], //분야     
             comboEquipments: [], //측정위치
@@ -281,6 +275,7 @@ export default {
             }
         }
         this.getConditionList();
+        this.getcAbnormalType();
     },
     watch:{
         server_key(){
@@ -393,6 +388,26 @@ export default {
                 })
                 // this.getEquips()
         },
+
+
+        async getcAbnormalType() {
+            await axios.post("/api/daedan/cj/ems/cmmn/cAbnormalType", {
+                    serverKey:store.state.ckServer,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            this.comboabnormal = res.data.data.abnormal
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서이상, 통신이상, 방지시설이상 추출 실패 \n" + err);
+                    console.log(err)
+                })
+                // this.getEquips()
+        },
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
             let that = this;
@@ -401,12 +416,10 @@ export default {
             await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
                     serverKey: this.server_key,
                     userId: store.state.userInfo.userId
-
                 }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            console.log("etttestsetstest")
                             that.comboEquipments = res.data.data.equipPos; //측정위치
                         }
                     }

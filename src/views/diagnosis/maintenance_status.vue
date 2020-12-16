@@ -184,7 +184,7 @@ export default {
                             width: '90px'
                         },
                         {
-                            field: 'Alltotal',
+                            field: 'All',
                             headerName: '합계',
                             type: 'number',
                             width: '80px'
@@ -294,7 +294,9 @@ export default {
                         if (res.data.statusCode === 200) {
                             res.data.data.map(e=>{
                                 console.log(e)
-                                e.Alltotal = e.onecount + e.twocount + e.threecount + e.fourcount + e.fivecount + e.sixcount + e.sevencount + e.eightcount + e.ninecount + e.tencount + e.elevencount + e.twelvecount
+                                e.Allcount = e.n1 + e.n2 + e.n3 + e.n4 + e.n5 + e.n6 + e.n7 + e.n8 + e.n9 + e.n10 + e.n11 + e.n12
+                                e.Alltotal = e.t1 + e.t2 + e.t3 + e.t4 + e.t5 + e.t6 + e.t7 + e.t8 + e.t9 + e.t10 + e.t11 + e.t12
+                                e.All = e.Allcount +' / '+ e.Alltotal
 
                                 e.oneList = e.one+" / "+e.one_to 
                                 e.twoList = e.two+" / "+e.two_to 

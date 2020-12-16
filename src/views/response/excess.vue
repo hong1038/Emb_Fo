@@ -93,8 +93,12 @@
                                         <b-form-input class="col" type="text" size="sm" v-model="procRate" readonly></b-form-input>
                                     </b-row> -->
                                     <b-row>
-                                        <b-col class="regiName col-4 lh-2">조치사항 원인</b-col>
+                                        <b-col class="regiName col-4 lh-2">조치사항</b-col>
                                         <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="action"></b-form-textarea>
+                                    </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4 lh-2">조치사항 원인</b-col>
+                                        <b-form-textarea class="col" style="height:120px" type="text" size="sm" v-model="cause"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">조치여부</b-col>
@@ -103,6 +107,13 @@
                                             <option value="완료">완료</option>
                                         </b-form-select>
                                     </b-row>
+                                    <b-row>
+                                        <b-col class="regiName col-4">유형</b-col>
+                                        <b-form-select class="col" v-model="abnormal_type" :options="comboabnormal" size="sm"></b-form-select>
+                                    </b-row>
+
+
+
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">조치 완료일자</b-col>
                                         <b-form-input class="col" type="date" size="sm" v-model="action_date"></b-form-input>
@@ -196,6 +207,7 @@ export default {
 
             exInfo: {},
             config: {},
+            comboabnormal:[],//유형
             mode: 'single', //날짜선택방법
             findTps: [{
                 value: 'pnelNm',
@@ -338,7 +350,7 @@ export default {
                 "authorization": this.$Axios.defaults.headers.common["authorization"]
             }
         }
-        
+        this.getcAbnormalType()
         //this.getList(); 여기서 실행하면 최초 실행시 -1일식 차감해서 검색일자가 설정되는 오류 발생됨.
     },
 
@@ -375,6 +387,27 @@ export default {
         onCancel() {
             this.busyPop = false
         },
+
+        getcAbnormalType() {
+            this.$Axios.post("/api/daedan/cj/ems/cmmn/eAbnormalType", {
+                    serverKey:store.state.ckServer,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            console.log(res.data.data.abnormal)
+                            this.comboabnormal = res.data.data.abnormal
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서이상, 통신이상, 방지시설이상 추출 실패 \n" + err);
+                    console.log(err)
+                })
+                // this.getEquips()
+        },
+
         addOn(obj) {
             console.log(obj)
             this.prevention_date = obj.data.prevention_date
@@ -672,6 +705,7 @@ export default {
                                     })
                                     // console.log(outval,inval)
                                     let objectitem = {
+                                        'abnormal_type':outval.abnormal_type,
                                         'action':outval.action, 
                                         'action_date':outval.action_date, 
                                         'action_type':outval.action_type, 
@@ -743,8 +777,11 @@ export default {
                     occur:this.occur,
                     cause:this.cause,
                     action:this.action,
+                    occur_yn:this.outoccur,
                     action_type:this.action_type,
                     action_date:this.action_date,
+                    abnormal_type:this.abnormal_type,
+                    // 넘기는 키 : 
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {

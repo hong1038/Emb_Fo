@@ -421,10 +421,10 @@ export default {
     },
     watch: {
         selectWorkplace() {
-            console.log(this.selectWorkplace)
+
         },
         date() {
-            console.log(this.date)
+
         }
     },
     methods: {
@@ -524,14 +524,14 @@ export default {
                             acc[key] = acc[key] ? [...acc[key], v] : [v]
                             return acc
                         }, [])
-                        console.log(test)
+
 
                         listStandart = [...new Set(listStandart)]
                         listStandart.map(e => {
                             list2.push(test[e])
                         })
                         list2.map(e=>{
-                            console.log(e)
+
                             if (e[0].place === 511) {
                                 return false
                             }
@@ -565,7 +565,7 @@ export default {
                                     'outlet_standard_value':outval[4],
                                     'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
                                 }
-                                console.log(objectitem)
+
                                 that.operList.push(objectitem)   
                             }
 
@@ -639,12 +639,12 @@ export default {
                         test = res.data.data.reduce((acc,v) => {
                             console.log(Object.values(v).slice(0,25))
 
-                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 9).join('')
+                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 16).join('')
                             listStandart.push(key)
                             acc[key] = acc[key] ? [...acc[key], v] : [v]
                             return acc
                         }, [])
-                        console.log(test)
+
 
                         listStandart = [...new Set(listStandart)]
                         listStandart.map(e => {
@@ -680,15 +680,10 @@ export default {
                                     'outlet_standard_value':outval[4],
                                     'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
                                 }
-                                console.log(objectitem)
+     
                                 that.outletList.push(objectitem)   
                             }
-
-                            
                         })
-
-
-
                         // that.outletList = res.data.data
                         that.outletListCount = res.data.totalCount
                     }
