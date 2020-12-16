@@ -52,7 +52,7 @@
                                     <b-form-input class="col" type="text" size="sm" v-model="general_air" disabled></b-form-input>
                                 </b-row>
 
-                                <b-row>
+                                <b-row v-else>
                                     <b-col class="regiName col-4">위치분류</b-col>
                                     <b-form-select class="col" v-model="location" :options="comboLocations" size="sm" ></b-form-select>
                                 </b-row>
@@ -567,15 +567,22 @@ export default {
             this.altMsg = "처리중인 기준정보를 저장 하시겠습니까 ? ";
             this.workTp = "SAVE_INFO"
         },
+
         async saveInfoProc() {
             let that = this;
+            let location = null;
+            if (this.hide === true) {
+                location = this.general_air
+            }else{
+                location = this.location
+            }
             await this.$Axios.post("/api/daedan/cj/ems/setting/measurementSave", {
                     mno: this.mno,
                     server_key: this.server_key,
                     equipment_inner_nm: this.equipment_inner_nm,
                     equipment_key: this.equipment_key,
                     category: this.category_cd,
-                    place: this.location,
+                    place: location,
                     facility: this.facility,
                     public_name : this.public_name,
                     internal_name: this.internal_name,

@@ -679,7 +679,8 @@ export default {
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
-                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 14 || idx === 17).join('')
+                                console.log(Object.values(v).slice(0,25))
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 16).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
@@ -781,6 +782,7 @@ export default {
                     action_type:this.action_type,
                     action_date:this.action_date,
                     abnormal_type:this.abnormal_type,
+                    pre_rate:Math.floor((this.inlet_avg_value - this.outlet_avg_value) / this.inlet_avg_value*100),
                     // 넘기는 키 : 
                     userId: store.state.userInfo.userId
                 }, this.config)

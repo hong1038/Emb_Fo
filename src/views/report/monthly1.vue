@@ -2,7 +2,7 @@
 <b-container fluid>
     <Header></Header>
     <div style="display:flex">
-        <Left></Left>
+        <Left2></Left2>
         <div class="inner">
             <div class="con">
                 <div class="con_box_right container-fluid float-left">
@@ -76,7 +76,7 @@
 <script>
 import store from "@/store/index";
 import Header from '@/components/header.vue'
-import Left from '@/components/Left.vue'
+import Left2 from '@/components/Left2.vue'
 import Main from '@/components/main.vue'
 // import Vue from 'vue'
 
@@ -98,7 +98,7 @@ export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
-        Left,
+        Left2,
         Main,
         AgGridVue,
     },
@@ -513,6 +513,7 @@ export default {
             .then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
+                        console.log(res.data)
                         this.operList = []
                         let test = []
                         let list2 = []
@@ -538,33 +539,34 @@ export default {
                             if (e.length === 1) {
                                 that.operList.push(e[0])        
                             }else if (e.length === 2) {
-                                let outval = []
-                                let inval = []
-                                e.map(item => {
-                                    if (item.place === 510) {
-                                        inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur,item.inlet_standard_value)
-                                    }else if (item.place === 512) {
-                                        outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                    let outval = []
+                                    let inval = []
+                                    e.map(item => {
+                                        if (item.place === 510) {
+                                            inval = item;
+                                        }else if (item.place === 512) {
+                                            // item.action_type = item.action_type !== null ? item.action_type.trim() : null 
+                                            outval = item;
+                                        }
+                                    })
+                                    let objectitem = {
+                                        'unit':outval.unit,
+                                        'prevention_date':outval.prevention_date,
+                                        'server_name':outval.server_name,
+                                        'category_cd':outval.category_cd,
+                                        'equipment_inner_nm':outval.equipment_inner_nm,
+                                        'inlet_max_value':inval.inlet_max_value,
+                                        'inlet_avg_value':inval.inlet_avg_value,
+                                        'inlet_min_value':inval.inlet_min_value,
+                                        'inoccur':inval.inoccur,
+                                        'inlet_standard_value':inval.inlet_standard_value,
+                                        'outlet_max_value':outval.outlet_max_value,
+                                        'outlet_avg_value':outval.outlet_avg_value,
+                                        'outlet_min_value':outval.outlet_min_value,
+                                        'outoccur':outval.outoccur,
+                                        'outlet_standard_value':outval.outlet_standard_value,
+                                        'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
                                     }
-                                })
-                                let objectitem = {
-                                    'unit':e[0].unit,
-                                    'prevention_date':e[0].prevention_date,
-                                    'server_name':e[0].server_name,
-                                    'category_cd':e[0].category_cd,
-                                    'equipment_inner_nm':e[0].equipment_inner_nm,
-                                    'inlet_max_value':inval[0],
-                                    'inlet_avg_value':inval[1],
-                                    'inlet_min_value':inval[2],
-                                    'inoccur':inval[3],
-                                    'inlet_standard_value':inval[4],
-                                    'outlet_max_value':outval[0],
-                                    'outlet_avg_value':outval[1],
-                                    'outlet_min_value':outval[2],
-                                    'outoccur':outval[3],
-                                    'outlet_standard_value':outval[4],
-                                    'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
-                                }
 
                                 that.operList.push(objectitem)   
                             }
