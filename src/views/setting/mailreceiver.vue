@@ -68,10 +68,10 @@
                                     <b-col class="regiName col-4">핸드폰번호</b-col>
                                     <b-form-input class="col" v-model="emInfo.hp" size="sm"></b-form-input>
                                 </b-row> -->
-                                <b-row>
-                                    <b-col class="regiName col-4">메일</b-col>
-                                    <b-form-input class="col" v-model="user_mail" size="sm"></b-form-input>
-                                </b-row>
+                                <div>
+                                    <span style="display:block;width:380px;font-size:14px" class="col-4">메일</span>
+                                    <b-form-textarea style="font-size:14px;min-height:380px;max-height:380px;" class="col" v-model="user_mail" size="sm"></b-form-textarea>
+                                </div>
                             </div>
                         </b-card>
                     </div>
@@ -317,6 +317,7 @@ export default {
 
         },
         getInfo(obj) {
+            this.mail_no = obj.data.mail_no
             this.server_key = obj.data.server_key
             this.user_name = obj.data.user_name
             this.user_mail = obj.data.user_mail
@@ -334,6 +335,7 @@ export default {
         async saveInfoProc() {
             let that = this;
             await this.$Axios.post("/api/daedan/cj/ems/setting/mailSave", {
+                    mail_no:this.mail_no,
                     user_name: this.user_name,
                     server_key:this.server_key,
                     user_mail:this.user_mail,
@@ -359,21 +361,21 @@ export default {
         },
         async dropInfoProc() {
             // let that = this;
-            //     await this.$Axios.post("/api/daedan/cj/ems/setting/measurementDrop", {
-            //             mno: this.mno,
-            //             userId: store.state.userInfo.userId
-            //         }, this.config)
-            //         .then(res => {
-            //             if (res.status === 200) {
-            //                 if (res.data.statusCode === 200) {
-            //                     that.saveblock();
-            //                     that.getList();
-            //                 }
-            //             }
-            //         })
-            //         .catch(err => {
-            //             alert("측정기별기준정보삭제 실패 \n" + err);
-            //         })
+            await this.$Axios.post("/api/daedan/cj/ems/setting/mailDrop", {
+                    mailNo: this.mail_no,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            this.saveblock();
+                            this.getList();
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("측정기별기준정보삭제 실패 \n" + err);
+                })
             this.busy = false;
         }
     

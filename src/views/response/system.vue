@@ -338,11 +338,12 @@ export default {
         },
         addOn(obj) {
             console.log(obj)
+            console.log(this.erInfo)
             // this.server_key = null; //사업장
             // this.equipment_key = null; //측정위치
             // this.category = null; //측정분야명
             // this.category_cd = null; //측정분야코드
-
+            this.erInfo.rs_key = obj.data.rs_key
             this.erInfo.server_key = obj.data.server_key
             this.erInfo.category = obj.data.category
             this.erInfo.category_cd = obj.data.category_cd
@@ -535,17 +536,29 @@ export default {
             this.workTp = "SAVE_INFO"
         },
         async saveInfoProc() {
-            let that = this;
+            // let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
             console.log("erInfo.category_cd = " + this.erInfo.category_cd)
             this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
                     erInfo:this.erInfo,
+                    rs_key:this.erInfo.rs_key,
+                    abnormal_type:this.erInfo.abnormal_type,
+                    action:this.erInfo.action,
+                    action_date:this.erInfo.action_date,
+                    action_type:this.erInfo.action_type,
+                    category:this.erInfo.category,
+                    cause:this.erInfo.cause,
+                    complete_date:this.erInfo.complete_date,
+                    equipment_key:this.erInfo.equipment_key,
+                    rs_date:this.erInfo.rs_date,
+                    server_key:this.erInfo.server_key,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.erInfo = res.data.data
+                            // that.erInfo = res.data.data
+                            this.getList();
                         }
                     }
                 })
@@ -582,22 +595,21 @@ export default {
             //     .catch(err => {
             //         alert("측정기별기준정보저장 실패 \n" + err);
             //     })
-            this.saveblock();
-            this.getList();
+            this.addOn2()
             this.busyPop = false;
 
         },
         dropInfo(){
-            let that = this;
+            // let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
-                    erInfo:this.erInfo,
+            this.$Axios.post("/api/daedan/cj/ems/response/systemDel", {
+                    rsKey:this.erInfo.rs_key,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.erInfo = res.data.data
+                            // that.erInfo = res.data.data
                         }
                     }
                 })

@@ -234,6 +234,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res.data.data)
                             that.list = res.data.data
                             that.listCount = res.data.totalCount
                         }

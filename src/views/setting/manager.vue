@@ -131,10 +131,10 @@ export default {
             perPage: 10,
             comboName2: null,
             fields: [
-                // {
-                //     field: 'wp_pid',
-                //     hidden: true
-                // },
+                {
+                    field: 'value',
+                    hidden: true
+                },
                 {
                     field: 'name',
                     headerName: '담당자'
@@ -244,7 +244,11 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(res.data.data.serverList)
                             that.comboServers = res.data.data.serverList; //사업장
+                            that.comboServers.push({
+                                area_code: null,id: null,prt_seq: null,text: "전체",val: "전체",value: null
+                            })
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                         }
                     }
@@ -255,34 +259,38 @@ export default {
                 })
 
         },
-        async getInfo() {
-            axios.post("/api/daedan/cj/ems/setting/managerList", {
-                        serverKey:this.server_key,
-                        pageNo:this.pageNo,
-                        pageSz:this.pageSz,
-                        userId: store.state.userInfo.userId
-                    })
-                    .then(res => {
-                        if (res.status === 200) {
-                            if (res.data.statusCode === 200) {
-                                console.log(res.data.data)
-                                this.list = res.data.data;
-                                this.listCount = res.data.totalCount;
-                                }
-                        }
-                    })
-                    .catch(err => {
-                        alert("검색조건추출 실패 \n" + err);
-                        console.log(err)
-                    })
-                    this.showblock();
+        async getInfo(obj) {
+            // axios.post("/api/daedan/cj/ems/setting/managerList", {
+            //             serverKey:this.server_key,
+            //             pageNo:this.pageNo,
+            //             pageSz:this.pageSz,
+            //             userId: store.state.userInfo.userId
+            //         })
+            //         .then(res => {
+            //             if (res.status === 200) {
+            //                 if (res.data.statusCode === 200) {
+            //                     console.log(res.data.data)
+            //                     this.list = res.data.data;
+            //                     this.listCount = res.data.totalCount;
+            //                     }
+            //             }
+            //         })
+            //         .catch(err => {
+            //             alert("검색조건추출 실패 \n" + err);
+            //             console.log(err)
+            //         })   
+            this.name = obj.data.name
+            this.server_key = obj.data.wp_pid
+            this.email = obj.data.email
+            console.log(obj)
+            this.showblock();
         },
         async getList() {
             console.log(this.server_key)
-            if (this.server_key === null) {
-                alert("사업장은 필수 선택 항목 입니다.")
-                return;
-            }
+            // if (this.server_key === null) {
+            //     alert("사업장은 필수 선택 항목 입니다.")
+            //     return;
+            // }
             this.onClick();
 
             axios.post("/api/daedan/cj/ems/setting/managerList", {
