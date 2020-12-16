@@ -873,28 +873,7 @@ export default {
                             // data:this.dailyChartData
                         },
 
-                        {
-                            label: '배출최대',
-                            borderColor: '#9966ff',
-                            backgroundColor: 'transparent',
-                            data: this.outletgraphDataMax
-                            // data:this.dailyChartData
-                        },
-                        {
-                            label: '배출평균',
-                            borderColor: '#ffcd56',
-                            backgroundColor: 'transparent',
-                            data: this.outletgraphDataAvg
-                            // data:this.dailyChartData
-                        },
-
-                        {
-                            label: '배출최소',
-                            borderColor: '#c9cbcf',
-                            backgroundColor: 'transparent',
-                            data: this.outletgraphDataMin
-                            // data:this.dailyChartData
-                        },
+                
 
                     ]
                 },
