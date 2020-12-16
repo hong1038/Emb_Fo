@@ -38,30 +38,30 @@
                     <div class="monthlyTableWrap">
                         <div class="monthlyTable monthlyTable01">
                             <p>1. 월말 보고 Summary</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :pagination="true" ></ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable02">
                             <p>2. 운전 현황(월간 통계)</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :pagination="true" ></ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable03">
                             <p>3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :pagination="true" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable04">
                             <p>4. 배출구 초과이력 관리</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable05">
                             <p>5. 설비적/기계적 문제 발생 및 대응 현황</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable06">
                             <p>6. 운영 특이사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                     </div>
@@ -636,6 +636,7 @@ export default {
                         let test = []
                         let list2 = []
                         let listStandart = []
+                        console.log(res)
                         test = res.data.data.reduce((acc,v) => {
                             console.log(Object.values(v).slice(0,25))
 

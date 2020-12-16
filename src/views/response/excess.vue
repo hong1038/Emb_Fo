@@ -269,24 +269,24 @@ export default {
                             type: 'number',
                             width: '100px'
                         },
-                        {
-                            field: 'inoccur',
-                            headerName: '이상점 발생여부',
-                            type: 'number',
-                            width: '140px'
-                        },
+                        // {
+                        //     field: 'inoccur',
+                        //     headerName: '이상점 발생여부',
+                        //     type: 'number',
+                        //     width: '140px'
+                        // },
                     ]
                 },
                 {
                     field: '',
                     headerName: '배출구',
                     children: [
-                        // {
-                        //     field: 'outlet_standard_value',
-                        //     headerName: '기준',
-                        //     type: 'number',
-                        //     width: '100px'
-                        // },
+                        {
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '100px'
+                        },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',

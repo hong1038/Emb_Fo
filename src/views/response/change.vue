@@ -265,37 +265,37 @@ export default {
                         },
                     ]
                 },
-                {
-                    field: '',
-                    headerName: '배출구',
-                    children: [
+                // {
+                //     field: '',
+                //     headerName: '배출구',
+                //     children: [
                 
-                        {
-                            field: 'outlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'outoccur',
-                            headerName: '이상점 발생여부',
-                            type: 'number',
-                            width: '140px'
-                        },
-                    ]
-                },
+                //         {
+                //             field: 'outlet_max_value',
+                //             headerName: '최대',
+                //             type: 'number',
+                //             width: '100px'
+                //         },
+                //         {
+                //             field: 'outlet_avg_value',
+                //             headerName: '평균',
+                //             type: 'number',
+                //             width: '100px'
+                //         },
+                //         {
+                //             field: 'outlet_min_value',
+                //             headerName: '최소',
+                //             type: 'number',
+                //             width: '100px'
+                //         },
+                //         {
+                //             field: 'outoccur',
+                //             headerName: '이상점 발생여부',
+                //             type: 'number',
+                //             width: '140px'
+                //         },
+                //     ]
+                // },
              
             ],
         }

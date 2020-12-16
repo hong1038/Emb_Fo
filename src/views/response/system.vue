@@ -421,6 +421,8 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.comboEquipments = res.data.data.equipPos; //측정위치
+
+                            
                         }
                     }
                 })

@@ -337,12 +337,12 @@ export default {
                     width: '190px'
                 },
                 {
-                    field: 'action_type',
+                    field: 'abn_type',
                     headerName: '유형',
                     width: '80px'
                 },
                 {
-                    field: 'action',
+                    field: 'cause',
                     headerName: '조치사항ㆍ원인',
                      width: '220px'
                 },
@@ -540,7 +540,7 @@ export default {
                             test = res.data.data.reduce((acc,v) => {
                                 // console.log(Object.values(v).slice(0,25))
 
-                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12).join('')
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
@@ -706,7 +706,7 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            await this.$Axios.post("/api/daedan/cj/ems/report/excessDataList", {
+            await this.$Axios.post("/api/daedan/cj/ems/report/excessDayList", {
                     dateFr: this.dateFr,
                     dateTo: this.dateTo,
                     serverList: store.state.ckServer,
@@ -717,7 +717,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-
+                            console.log(res)
                             this.outletList = []
                             let test = []
                             let list2 = []
@@ -725,7 +725,7 @@ export default {
                             test = res.data.data.reduce((acc,v) => {
                                 console.log(Object.values(v).slice(0,25))
 
-                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 12).join('')
+                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 9).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
