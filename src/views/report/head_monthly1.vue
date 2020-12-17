@@ -39,7 +39,7 @@
                     <div class="hmTableWrap">
                         <div class="hmTable hmTable01">
                             <p>1. 전체 통계</p>
-                            <!--<ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="tsFields" :rowData="tsList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>-->
+                            <!--<ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="tsFields" :rowData="tsList" :pagination="true" ></ag-grid-vue>-->
                             <div class="hmTotalTable">
                                 <div class="float-left tableLeft">
                                     <div class="tableTitle">
@@ -65,12 +65,15 @@
                                         <div class="float-left" v-for='item in measureBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in measureBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in measureBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
+
                                         <div class="float-left" v-for='item in odorBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in odorBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in odorBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
+
                                         <div class="float-left" v-for='item in waterBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in waterBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in waterBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
+                                        
                                         <div class="float-left" v-for='item in airBody_01' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in airBody_02' v-bind:key="item.num"><span>{{item.num}}</span></div>
                                         <div class="float-left" v-for='item in airBody_03' v-bind:key="item.num"><span>{{item.num}}</span></div>
@@ -80,17 +83,17 @@
                         </div>
                         <div class="hmTable hmTable02">
                             <p>2. 유형별 통계</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttListA" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttListA" :gridOptions="gridOptions" :pagination="true" >
                         </ag-grid-vue>
                         </div>
                         <div class="hmTable hmTable03">
                             <p>3. 문제점 / 이슈사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="eiFields" :rowData="eiList" :pagination="true" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="eiFields" :rowData="eiList" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                         <div class="hmTable hmTable04">
                             <p>4. 이상점 및 비정상 대응확인</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="erFields" :rowData="erList" :pagination="true" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="erFields" :rowData="erList" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                     </div>
@@ -349,11 +352,11 @@ export default {
                     headerName: '사업장',
                     width: '110px'
                 },
-                {
-                    field: 'category_cd',
-                    headerName: '구분',
-                    width: '80px'
-                },
+                // {
+                //     field: 'category_cd',
+                //     headerName: '구분',
+                //     width: '80px'
+                // },
                 // {
                 //     field: 'unit',
                 //     headerName: '구분',
@@ -368,22 +371,22 @@ export default {
                             headerName : '측정기, 방지시설 문제/이슈대응(기계적 문제)',
                             children : [
                                 {
-                                    field : '',
+                                    field : 's1',
                                     headerName : '센서이상',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 't1',
                                     headerName : '통신이상',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'f1',
                                     headerName : '설비이상',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'sv_occur_to',
                                     headerName : '소계',
                                     width : '80'
                                 },
@@ -400,17 +403,17 @@ export default {
                             headerName : '악취',
                             children : [
                                 {
-                                    field : '',
+                                    field : 'ob1',
                                     headerName : '농도상승',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'ob2',
                                     headerName : '수치오류',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'sv_obor_occur_to',
                                     headerName : '소계',
                                     width : '80'
                                 },
@@ -421,17 +424,17 @@ export default {
                             headerName : '수질',
                             children : [
                                 {
-                                    field : '',
+                                    field : 'wat1',
                                     headerName : '농도상승',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'wat2',
                                     headerName : '수치오류',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'sv_wat_occur_to',
                                     headerName : '소계',
                                     width : '80'
                                 },
@@ -442,17 +445,17 @@ export default {
                             headerName : '대기',
                             children : [
                                 {
-                                    field : '',
+                                    field : 'air1',
                                     headerName : '농도상승',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'air2',
                                     headerName : '수치오류',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'sv_air_occur_to',
                                     headerName : '소계',
                                     width : '80'
                                 },
@@ -463,17 +466,17 @@ export default {
                             headerName : '합계',
                             children : [
                                 {
-                                    field : '',
+                                    field : 'all1',
                                     headerName : '농도상승',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'all2',
                                     headerName : '수치오류',
                                     width : '104'
                                 },
                                 {
-                                    field : '',
+                                    field : 'all_occur_to',
                                     headerName : '소계',
                                     width : '80'
                                 },
@@ -668,6 +671,8 @@ export default {
             if(item[0].n6 == "" || item[0].n6 == null){
                 item[0].n6 = 0;
             }
+
+            //설비적/기계적 문제 발생 및 대응 현황
             this.measureBody_01[0].num = item[0].n1
             this.measureBody_01[1].num = item[0].n2
             this.measureBody_01[2].num = item[0].n3
@@ -676,10 +681,10 @@ export default {
             this.measureBody_01[5].num = item[0].n6
             
 
-            let SumVal_01 = parseInt(item[0].n1 + item[0].n2 + item[0].n3 + item[0].n4 + item[0].n5 + item[0].n6) 
+            let SumVal_01 = item[0].n1 + item[0].n2 + item[0].n3 + item[0].n4 + item[0].n5 + item[0].n6
             this.measureBody_01[6].num = SumVal_01
             
-            //악취 조치
+            //설비적/기계적 문제 발생 및 대응 현황 조치
             if(item[0].p6 == "" || item[0].p6 == null){
                 item[0].p6 = 0;
             }
@@ -690,10 +695,10 @@ export default {
             this.measureBody_02[4].num = item[0].p5
             this.measureBody_02[5].num = item[0].p6
             
-            let SumVal_02 = parseInt(item[0].p1 + item[0].p2 + item[0].p3 + item[0].p4 + item[0].p5 + item[0].p6) 
+            let SumVal_02 = item[0].p1 + item[0].p2 + item[0].p3 + item[0].p4 + item[0].p5 + item[0].p6
             this.measureBody_02[6].num = SumVal_02
 
-            //악취 조치율
+            //설비적/기계적 문제 발생 및 대응 현황 조치율
             let measurePer_01 = (item[0].p1 / item[0].n1) * 100;
             let measurePer_02 = (item[0].p2 / item[0].n2) * 100;
             let measurePer_03 = (item[0].p3 / item[0].n3) * 100;
@@ -721,6 +726,171 @@ export default {
             this.measureBody_03[6].num = measurePer_07;
 
         },
+
+
+        filterValu2(item){
+            console.log(item)
+            //악취 발생
+            if(item[0].a6 == "" || item[0].a6 == null){
+                item[0].a6 = 0;
+            }
+
+            if(item[0].c6 == "" || item[0].c6 == null){
+                item[0].c6 = 0;
+            }
+
+            if(item[0].e6 == "" || item[0].e6 == null){
+                item[0].e6 = 0;
+            }
+
+
+            if(item[0].b6 == "" || item[0].b6 == null){
+                item[0].b6 = 0;
+            }
+
+            if(item[0].d6 == "" || item[0].d6 == null){
+                item[0].d6 = 0;
+            }
+
+            if(item[0].f6 == "" || item[0].f6 == null){
+                item[0].f6 = 0;
+            }
+            //악취 
+
+            this.odorBody_01[0].num = item[0].a1
+            this.odorBody_01[1].num = item[0].a2
+            this.odorBody_01[2].num = item[0].a3
+            this.odorBody_01[3].num = item[0].a4
+            this.odorBody_01[4].num = item[0].a5
+            this.odorBody_01[5].num = item[0].a6
+
+            this.odorBody_02[0].num = item[0].b1
+            this.odorBody_02[1].num = item[0].b2
+            this.odorBody_02[2].num = item[0].b3
+            this.odorBody_02[3].num = item[0].b4
+            this.odorBody_02[4].num = item[0].b5
+            this.odorBody_02[5].num = item[0].b6
+            
+            this.odorBody_01[6].num = item[0].obor_occur_to
+            this.odorBody_02[6].num = item[0].obor_ms_to
+
+            let odorPer_01 = (item[0].b1 / item[0].a1) * 100;
+            let odorPer_02 = (item[0].b2 / item[0].a2) * 100;
+            let odorPer_03 = (item[0].b3 / item[0].a3) * 100;
+            let odorPer_04 = (item[0].b4 / item[0].a4) * 100;
+            let odorPer_05 = (item[0].b5 / item[0].a5) * 100;
+            let odorPer_06 = (item[0].b6 / item[0].a6) * 100;
+            let odorPer_07 = (this.odorBody_02[6].num / this.odorBody_01[6].num) * 100;
+            
+            if(isNaN){
+                odorPer_01 = '0';
+                odorPer_02 = '0';
+                odorPer_03 = '0';
+                odorPer_04 = '0';
+                odorPer_05 = '0';
+                odorPer_06 = '0';
+                odorPer_07 = '0';
+            }
+
+            this.odorBody_03[0].num = odorPer_01;
+            this.odorBody_03[1].num = odorPer_02;
+            this.odorBody_03[2].num = odorPer_03;
+            this.odorBody_03[3].num = odorPer_04;
+            this.odorBody_03[4].num = odorPer_05;
+            this.odorBody_03[5].num = odorPer_06;
+            this.odorBody_03[6].num = odorPer_07;
+
+            //수질
+
+            this.waterBody_01[0].num = item[0].c1
+            this.waterBody_01[1].num = item[0].c2
+            this.waterBody_01[2].num = item[0].c3
+            this.waterBody_01[3].num = item[0].c4
+            this.waterBody_01[4].num = item[0].c5
+            this.waterBody_01[5].num = item[0].c6
+
+            this.waterBody_02[0].num = item[0].d1
+            this.waterBody_02[1].num = item[0].d2
+            this.waterBody_02[2].num = item[0].d3
+            this.waterBody_02[3].num = item[0].d4
+            this.waterBody_02[4].num = item[0].d5
+            this.waterBody_02[5].num = item[0].d6
+            
+            this.waterBody_01[6].num = item[0].wat_occur_to
+            this.waterBody_02[6].num = item[0].wat_ms_to
+
+            let waterPer_01 = (item[0].d1 / item[0].c1) * 100;
+            let waterPer_02 = (item[0].d2 / item[0].c2) * 100;
+            let waterPer_03 = (item[0].d3 / item[0].c3) * 100;
+            let waterPer_04 = (item[0].d4 / item[0].c4) * 100;
+            let waterPer_05 = (item[0].d5 / item[0].c5) * 100;
+            let waterPer_06 = (item[0].d6 / item[0].c6) * 100;
+            let waterPer_07 = (this.waterBody_02[6].num / this.waterBody_01[6].num) * 100;
+            
+            if(isNaN){
+                waterPer_01 = '0';
+                waterPer_02 = '0';
+                waterPer_03 = '0';
+                waterPer_04 = '0';
+                waterPer_05 = '0';
+                waterPer_06 = '0';
+                waterPer_07 = '0';
+            }
+
+            this.waterBody_03[0].num = waterPer_01;
+            this.waterBody_03[1].num = waterPer_02;
+            this.waterBody_03[2].num = waterPer_03;
+            this.waterBody_03[3].num = waterPer_04;
+            this.waterBody_03[4].num = waterPer_05;
+            this.waterBody_03[5].num = waterPer_06;
+            this.waterBody_03[6].num = waterPer_07;
+
+            //대기
+
+            this.airBody_01[0].num = item[0].e1
+            this.airBody_01[1].num = item[0].e2
+            this.airBody_01[2].num = item[0].e3
+            this.airBody_01[3].num = item[0].e4
+            this.airBody_01[4].num = item[0].e5
+            this.airBody_01[5].num = item[0].e6
+
+            this.airBody_02[0].num = item[0].f1
+            this.airBody_02[1].num = item[0].f2
+            this.airBody_02[2].num = item[0].f3
+            this.airBody_02[3].num = item[0].f4
+            this.airBody_02[4].num = item[0].f5
+            this.airBody_02[5].num = item[0].f6
+            
+            this.airBody_01[6].num = item[0].air_occur_to
+            this.airBody_02[6].num = item[0].air_ms_to
+
+            let airPer_01 = (item[0].f1 / item[0].e1) * 100;
+            let airPer_02 = (item[0].f2 / item[0].e2) * 100;
+            let airPer_03 = (item[0].f3 / item[0].e3) * 100;
+            let airPer_04 = (item[0].f4 / item[0].e4) * 100;
+            let airPer_05 = (item[0].f5 / item[0].e5) * 100;
+            let airPer_06 = (item[0].f6 / item[0].e6) * 100;
+            let airPer_07 = (this.airBody_02[6].num / this.airBody_01[6].num) * 100;
+            
+            if(isNaN){
+                airPer_01 = '0';
+                airPer_02 = '0';
+                airPer_03 = '0';
+                airPer_04 = '0';
+                airPer_05 = '0';
+                airPer_06 = '0';
+                airPer_07 = '0';
+            }
+
+            this.airBody_03[0].num = airPer_01;
+            this.airBody_03[1].num = airPer_02;
+            this.airBody_03[2].num = airPer_03;
+            this.airBody_03[3].num = airPer_04;
+            this.airBody_03[4].num = airPer_05;
+            this.airBody_03[5].num = airPer_06;
+            this.airBody_03[6].num = airPer_07;
+
+        },
         async getList1() {
             if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
@@ -738,6 +908,8 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.tsListA = res.data.data
+                            this.filterValue(this.tsListA);
+                            this.getList11()
                         }
                     }
                 })
@@ -745,15 +917,11 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
                 
-                this.filterValue(this.tsList);
+                
                 this.busy = false;
-                this.getList11()
+
         },
         async getList11() {
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
             this.onClick();
             this.filterDate(this.dateFr);
 
@@ -765,7 +933,9 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            // console.log(res.data.data)
                             that.tsListB = res.data.data
+                            this.filterValu2(that.tsListB)
                         }
                     }
                 })
@@ -773,7 +943,7 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
                 this.getList2()
-                this.filterValue(this.tsList);
+                // this.filterValue(this.tsListB);
                 this.busy = false;
                 
         },
@@ -794,7 +964,19 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            res.data.data.map(e => {
+                                e.sv_occur_to = e.s1 + e.t1 + e.f1
+                                e.sv_obor_occur_to = e.ob1 + e.ob2
+                                e.sv_wat_occur_to = e.wat1 + e.wat2 
+                                e.sv_air_occur_to = e.air1 + e.air2
+
+                                e.all1 = e.ob1 + e.wat1 + e.air1
+                                e.all2 = e.ob2 + e.wat2 + e.air2
+                                e.all_occur_to = e.sv_air_occur_to + e.sv_obor_occur_to + e.sv_wat_occur_to
+                            })
                             that.ttListA = res.data.data
+                            console.log(that.ttListA)
+
                         }
                     }
                 })

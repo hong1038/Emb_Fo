@@ -48,7 +48,7 @@
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">시설분류</b-col>
-                                        <b-form-input class="col" v-model="facility" :options="comboFacilities" size="sm" disabled></b-form-input>
+                                        <b-form-select class="col" v-model="facility" :options="comboFacilities" size="sm" disabled></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">위치분류</b-col>
@@ -329,7 +329,7 @@ export default {
                     alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
-            this.getEquips();
+          
         },
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
@@ -362,7 +362,7 @@ export default {
             let that = this;
 
             await axios.post("/api/daedan/cj/ems/cmmn/comboFacPosList", {
-                    category: this.category_cd,
+                    category: this.category,
                     userId: store.state.userInfo.userId
 
                 }, this.config)
@@ -474,6 +474,7 @@ export default {
             this.success_yn = obj.data.success_yn;
 
             console.log(this.server_key,this.server_name,this.equipment_inner_nm,this.category,this.category_cd,this.facility,this.place,this.location,this.contact_yn)
+            this.getEquips();
             this.showblock();
         },
         // 엑셀저장버튼 클릭

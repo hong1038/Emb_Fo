@@ -121,7 +121,7 @@ export default {
                             width : '190y'
                         },
                         {
-                            field : '',
+                            field : 'obor_per',
                             type:'number',
                             headerName : '계약율(%)',
                             width:'110y'
@@ -145,7 +145,7 @@ export default {
                             width : '190y'
                         },
                         {
-                            field : '',
+                            field : 'water_per',
                             type:'number',
                             headerName : '계약율(%)',
                             width:'110y'
@@ -169,7 +169,7 @@ export default {
                             width : '190y'
                         },
                         {
-                            field : '',
+                            field : 'air_per',
                             type:'number',
                             headerName : '계약율(%)',
                             width:'110y'
@@ -181,19 +181,19 @@ export default {
                     headerName: '합계',
                     children : [
                         {
-                            field:'',
+                            field:'all_to',
                             type:'number',
                             headerName : '수량',
                             width:'80y'
                         },
                         {
-                            field :'',
+                            field :'all',
                             type:'number',
                             headerName : '유지보수 계약 관리 수량',
                             width : '190y'
                         },
                         {
-                            field : '',
+                            field : 'all_per',
                             type:'number',
                             headerName : '계약율(%)',
                             width:'110y'
@@ -292,8 +292,19 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            // console.log(obor,water,air)
+                            res.data.data.map(e => {
+                                console.log(e.obor)
+                                e.all_to = e.obor_to + e.air_to + e.water_to
+                                e.all = e.obor + e.air + e.water
+                                e.all_per = e.all === 0 ? 0 : Math.floor((e.all / e.all_to) * 100)
+                                e.obor_per = e.obor === 0 ?  0 : Math.floor((e.obor / e.obor_to) * 100)
+                                e.air_per = e.air === 0 ?  0 : Math.floor((e.air / e.air_to) * 100)
+                                e.water_per = e.water === 0 ?  0 : Math.floor((e.water / e.water_to) * 100)
+                            })                            
                             that.list = res.data.data
                             console.log(that.list)
+                            
                             that.listCount = res.data.totalCount
                         }
                     }

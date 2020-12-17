@@ -475,7 +475,8 @@ export default {
                         let data = []
                         let listStandart = []
                         data = res.data.data.reduce((acc,v) => {
-                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 14).join('')
+                            console.log(Object.values(v).slice(0,35))
+                            let key = Object.values(v).slice(0,30).filter((e,idx)=> idx === 24).join('')
                             listStandart.push(key)
                             acc[key] = acc[key] ? [...acc[key], v] : [v]
                             return acc
@@ -683,8 +684,8 @@ export default {
                             let test = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
-                                console.log(Object.values(v).slice(0,25))
-                                let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 16).join('')
+                                console.log(Object.values(v).slice(0,35))
+                                let key = Object.values(v).slice(0,30).filter((e,idx)=> idx === 0 || idx === 12 || idx === 24).join('')
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
@@ -696,43 +697,87 @@ export default {
                             })
                             this.list2.map(e=>{
                                 if (e.length === 1) {
+                                    e[0].procRate = '-';
+                                    if (e[0].place === 511) {
+                                        e[0].inoccur = '-'
+                                        e[0].outlet_standard_value = e[0].midlet_standard_value
+                                        e[0].outlet_max_value = e[0].midlet_max_value 
+                                        e[0].outlet_avg_value = e[0].midlet_avg_value 
+                                        e[0].outlet_min_value = e[0].midlet_min_value 
+                                    }
                                     that.list.push(e[0])        
                                 }else if (e.length === 2) {
                                     let outval = []
                                     let inval = []
+                                    // console.log(e)
                                     e.map(item => {
+                                        if (item.place === 511) {
+                                            console.log(e,2)
+                                        }
                                         if (item.place === 510) {
                                             inval = item;
-                                        }else if (item.place === 512) {
+                                        }else if (item.place === 512 || item.place === 511 ) {
                                             item.action_type = item.action_type !== null ? item.action_type.trim() : null 
                                             outval = item;
                                         }
                                     })
                                     // console.log(outval,inval)
                                     let objectitem = {
-                                        'abnormal_type':outval.abnormal_type,
-                                        'action':outval.action, 
-                                        'action_date':outval.action_date, 
-                                        'action_type':outval.action_type, 
-                                        'cause':outval.cause, 
-                                        'place':outval.place,
-                                        'category':outval.category,
-                                        'server_key':outval.server_key,
-                                        'prevention_date':outval.prevention_date,
-                                        'server_name':outval.server_name,
-                                        'category_cd':outval.category_cd,
-                                        'equipment_key':outval.equipment_key,
-                                        'equipment_inner_nm':outval.equipment_inner_nm,
-                                        'inlet_max_value':inval.inlet_max_value,
-                                        'inlet_avg_value':inval.inlet_avg_value,
-                                        'inlet_min_value':inval.inlet_min_value,
-                                        'inoccur':inval.inoccur,
-                                        'outlet_max_value':outval.outlet_max_value,
-                                        'outlet_avg_value':outval.outlet_avg_value,
-                                        'outlet_min_value':outval.outlet_min_value,
-                                        'outoccur':outval.outoccur,
-                                        'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
-                                        'outlet_standard_value':outval.outlet_standard_value
+
+                                    }
+
+                                    if (outval.place === 511) {
+                                        objectitem = {
+                                            'abnormal_type':outval.abnormal_type,
+                                            'action':outval.action, 
+                                            'action_date':outval.action_date, 
+                                            'action_type':outval.action_type, 
+                                            'cause':outval.cause, 
+                                            'place':outval.place,
+                                            'category':outval.category,
+                                            'server_key':outval.server_key,
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_key':outval.equipment_key,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':outval.inlet_max_value,
+                                            'inlet_avg_value':outval.inlet_avg_value,
+                                            'inlet_min_value':outval.inlet_min_value,
+                                            'inoccur':outval.inoccur,
+                                            'outlet_max_value':outval.midlet_max_value,
+                                            'outlet_avg_value':outval.midlet_avg_value,
+                                            'outlet_min_value':outval.midlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'procRate':'-',
+                                            'outlet_standard_value':outval.midlet_standard_value
+                                        }                                      
+                                    }else{       
+                                        objectitem = {
+                                            'abnormal_type':outval.abnormal_type,
+                                            'action':outval.action, 
+                                            'action_date':outval.action_date, 
+                                            'action_type':outval.action_type, 
+                                            'cause':outval.cause, 
+                                            'place':outval.place,
+                                            'category':outval.category,
+                                            'server_key':outval.server_key,
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_key':outval.equipment_key,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':inval.inlet_max_value,
+                                            'inlet_avg_value':inval.inlet_avg_value,
+                                            'inlet_min_value':inval.inlet_min_value,
+                                            'inoccur':inval.inoccur,
+                                            'outlet_max_value':outval.outlet_max_value,
+                                            'outlet_avg_value':outval.outlet_avg_value,
+                                            'outlet_min_value':outval.outlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
+                                            'outlet_standard_value':outval.outlet_standard_value
+                                        }
                                     }
                                     console.log(objectitem)
                                     that.list.push(objectitem)   

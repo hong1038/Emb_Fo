@@ -181,12 +181,12 @@ export default {
                     field: '',
                     headerName: '배출구',
                     children: [
-                        // {
-                        //     field: 'outlet_standard_value',
-                        //     headerName: '기준',
-                        //     type: 'number',
-                        //     width: '85px'
-                        // },
+                        {
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '85px'
+                        },
                         {
                             field: 'outlet_avg_value',
                             headerName: '평균',
@@ -317,7 +317,8 @@ export default {
                             let list2 = []
                             let listStandart = []
                             test = res.data.data.reduce((acc,v) => {
-                                let key = Object.values(v).slice(0,20).filter((e,idx)=> idx === 0 || idx === 12 || idx === 16).join('')
+                                // console.log(Object.values(v).slice(0,30))
+                                let key = Object.values(v).slice(0,30).filter((e,idx)=> idx === 0 || idx === 9 || idx === 20).join('')
                                 // console.log(key)
                                 listStandart.push(key)
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
@@ -325,41 +326,75 @@ export default {
                             }, [])
                             console.log(test)
                             listStandart = [...new Set(listStandart)]
+                            console.log(listStandart)
                             listStandart.map(e => {
                                 list2.push(test[e])
                             })
                             console.log(list2)
                             list2.map(e=>{
                                 if (e.length === 1) {
-                                    e[0].proc_rt = null
+                                    e[0].proc_rt = '-'
+                                    if (e[0].place === 511) {
+                                        e[0].outlet_standard_value = e[0].midlet_standard_value
+                                        e[0].outlet_max_value = e[0].midlet_max_value 
+                                        e[0].outlet_avg_value = e[0].midlet_avg_value 
+                                        e[0].outlet_min_value = e[0].midlet_min_value 
+                                    }
                                     that.list.push(e[0])        
                                 }else if (e.length === 2) {
                                     let outval = []
                                     let inval = []
+                                    // console.log(e)
                                     e.map(item => {
+                                        if (item.place === 511) {
+                                            console.log(e,2)
+                                        }
                                         if (item.place === 510) {
-                                            inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur)
-                                        }else if (item.place === 512) {
-                                            outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur)
+                                            inval = item;
+                                        }else if (item.place === 512 || item.place === 511 ) {
+                                            item.action_type = item.action_type !== null ? item.action_type : null 
+                                            outval = item;
                                         }
                                     })
-                                    // 자동값((흡입구-배출구)/흡입구*100)
-                                    let objectitem = {
-                                        'prevention_date':e[0].prevention_date,
-                                        'server_name':e[0].server_name,
-                                        'category':e[0].category,
-                                        'category_cd':e[0].category_cd,
-                                        'equipment_inner_nm':e[0].equipment_inner_nm,
-                                        'inlet_max_value':inval[0],
-                                        'inlet_avg_value':inval[1],
-                                        'inlet_min_value':inval[2],
-                                        'inoccur':inval[3],
-                                        'unit':e[0].unit,
-                                        'outlet_max_value':outval[0],
-                                        'outlet_avg_value':outval[1],
-                                        'outlet_min_value':outval[2],
-                                        'outoccur':outval[3],
-                                        'proc_rt':Math.floor(inval[1] - outval[1]) / (inval[1]*100)+ "%",
+                                    let objectitem = {}
+                                    if (outval.place === 511) {
+                                          objectitem = {
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category':outval.category,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':outval.inlet_max_value,
+                                            'inlet_avg_value':outval.inlet_avg_value,
+                                            'inlet_min_value':outval.inlet_min_value,
+                                            'inoccur':outval.inoccur,
+                                            'unit':outval.unit,
+                                            'outlet_standard_value':outval.midlet_standard_value,
+                                            'outlet_max_value':outval.midlet_max_value,
+                                            'outlet_avg_value':outval.midlet_avg_value,
+                                            'outlet_min_value':outval.midlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'proc_rt':'-',
+                                        }                                      
+                                    }else{       
+                                        objectitem = {
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category':outval.category,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':inval.inlet_max_value,
+                                            'inlet_avg_value':inval.inlet_avg_value,
+                                            'inlet_min_value':inval.inlet_min_value,
+                                            'inoccur':inval.inoccur,
+                                            'unit':outval.unit,
+                                            'outlet_standard_value':outval.outlet_standard_value,
+                                            'outlet_max_value':outval.outlet_max_value,
+                                            'outlet_avg_value':outval.outlet_avg_value,
+                                            'outlet_min_value':outval.outlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'proc_rt':(Math.floor(inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100).toFixed(2) + "%",
+                                        }
                                     }
                                     // console.log(objectitem)
                                     that.list.push(objectitem)   
@@ -381,23 +416,15 @@ export default {
                             this.outletgraphDataAvg = []
                             this.outletgraphDataMax = []
                             that.list.map(e => {
-                                // if (e.place == 512) {
-                                    e.outmin_value = e.outlet_min_value
-                                    e.outavg_value = e.outlet_avg_value
-                                    e.outmax_value = e.outlet_max_value
-                                // }else if (e.place == 510) {
-                                    e.min_value = e.inlet_min_value
-                                    e.avg_value = e.inlet_avg_value
-                                    e.max_value = e.inlet_max_value                   
-                                // }
-                                this.graphLabel.push(e.prevention_date)
-                                this.inletgraphDataMin.push(e.min_value)
-                                this.inletgraphDataAvg.push(e.avg_value)
-                                this.inletgraphDataMax.push(e.max_value)
 
-                                this.outletgraphDataMin.push(e.outmin_value)
-                                this.outletgraphDataAvg.push(e.outavg_value)
-                                this.outletgraphDataMax.push(e.outmax_value)
+                                this.graphLabel.push(e.prevention_date)
+                                this.inletgraphDataMin.push(e.inlet_min_value)
+                                this.inletgraphDataAvg.push(e.inlet_avg_value)
+                                this.inletgraphDataMax.push(e.inlet_max_value)
+
+                                this.outletgraphDataMin.push(e.outlet_min_value)
+                                this.outletgraphDataAvg.push(e.outlet_avg_value)
+                                this.outletgraphDataMax.push(e.outlet_max_value)
                             })          
                             this.busy = false
                         }
@@ -420,7 +447,7 @@ export default {
         },
         // 그래프버튼 클릭
         graphBtn() {
-            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 1) {
+            if (this.list !== [] && store.state.ckServer.length == 1 && store.state.ckCate.length == 1 && store.state.ckEquip.length == 2) {
                 this.randarDailyChart()
                 document.getElementsByClassName("small")[0].style.display = 'flex'
             }else{
@@ -496,21 +523,21 @@ export default {
                             label: '흡입최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
-                            data: this.graphDataMax
+                            data: this.inletgraphDataMax
                             // data:this.dailyChartData
                         },
                                                 {
                             label: '흡입평균',
                             borderColor: '#42f13f',
                             backgroundColor: 'transparent',
-                            data: this.graphDataAvg
+                            data: this.inletgraphDataAvg
                             // data:this.dailyChartData
                         },
                         {
                             label: '흡입최소',
                             borderColor: '#3f5df1',
                             backgroundColor: 'transparent',
-                            data: this.graphDataMin
+                            data: this.inletgraphDataMin
                             // data:this.dailyChartData
                         },
                                                 {

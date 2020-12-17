@@ -207,7 +207,7 @@ export default {
                             width: '120px'
                         },
                         {
-                            field: '',
+                            field: 'occur',
                             headerName: '초과횟수',
                             type: 'number',
                             width: '140px'
@@ -297,7 +297,7 @@ export default {
                             width: '80px'
                         },
                         {
-                            field: '',
+                            field: 'occur',
                             headerName: '초과횟수',
                             type: 'number',
                             width: '110px'
@@ -520,8 +520,8 @@ export default {
                         let list2 = []
                         let listStandart = []
                         test = res.data.data.reduce((acc,v) => {
-                            // console.log( Object.values(v).slice(0,25))
-                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 9).join('')
+                            console.log( Object.values(v).slice(0,30))
+                            let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 17).join('')
                             listStandart.push(key)
                             acc[key] = acc[key] ? [...acc[key], v] : [v]
                             return acc
@@ -533,40 +533,76 @@ export default {
                             list2.push(test[e])
                         })
                         list2.map(e=>{
-
-                            if (e[0].place === 511) {
-                                return false
-                            }
                             if (e.length === 1) {
+                                e[0].procRate = '-'
+                                e[0].occur = '-'
+                                if (e[0].place === 512) {
+                                    // console.log(e[0].inlet_avg_value,e[0].outlet_avg_value)
+                                    // e[0].procRate = Math.floor((e[0].inlet_avg_value - e[0].outlet_avg_value) / e[0].inlet_avg_value*100) + "%",
+                                    e[0].occur = e[0].outlet_max_value >= e[0].outlet_standard_value ? 1 : 0
+                                }
+                                if (e[0].place === 511) {
+                                    e[0].occur = e[0].midlet_max_value >= e[0].midlet_standard_value ? 1 : 0
+                                    e[0].outlet_standard_value = e[0].midlet_standard_value
+                                    e[0].outlet_max_value = e[0].midlet_max_value 
+                                    e[0].outlet_avg_value = e[0].midlet_avg_value 
+                                    e[0].outlet_min_value = e[0].midlet_min_value 
+                                }
                                 that.operList.push(e[0])        
                             }else if (e.length === 2) {
-                                    let outval = []
-                                    let inval = []
-                                    e.map(item => {
-                                        if (item.place === 510) {
-                                            inval = item;
-                                        }else if (item.place === 512) {
-                                            // item.action_type = item.action_type !== null ? item.action_type.trim() : null 
-                                            outval = item;
+                                let outval = []
+                                let inval = []
+                                // console.log(e)
+                                e.map(item => {
+
+                                    if (item.place === 510) {
+                                        inval = item;
+                                    }else if (item.place === 512 || item.place === 511 ) {
+                                        // item.action_type = item.action_type !== null ? item.action_type : null 
+                                        outval = item;
+                                    }
+                                })
+                                let objectitem = {}
+                                    if (outval.place === 511) {
+                                        objectitem = {
+                                            'unit':outval.unit,
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':outval.inlet_max_value,
+                                            'inlet_avg_value':outval.inlet_avg_value,
+                                            'inlet_min_value':outval.inlet_min_value,
+                                            'inoccur':outval.inoccur,
+                                            'inlet_standard_value':outval.inlet_standard_value,
+                                            'outlet_max_value':outval.midlet_max_value,
+                                            'outlet_avg_value':outval.midlet_avg_value,
+                                            'outlet_min_value':outval.midlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'outlet_standard_value':outval.midlet_standard_value,
+                                            'occur':outval.midlet_max_value >= outval.midlet_standard_value ? 1 : 0,
+                                            'procRate':'-',
+                                        }                                      
+                                    }else{       
+                                        objectitem = {
+                                            'unit':outval.unit,
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':inval.inlet_max_value,
+                                            'inlet_avg_value':inval.inlet_avg_value,
+                                            'inlet_min_value':inval.inlet_min_value,
+                                            'inoccur':inval.inoccur,
+                                            'inlet_standard_value':inval.inlet_standard_value,
+                                            'outlet_max_value':outval.outlet_max_value,
+                                            'outlet_avg_value':outval.outlet_avg_value,
+                                            'outlet_min_value':outval.outlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'outlet_standard_value':outval.outlet_standard_value,
+                                            'occur':outval.outlet_max_value >= outval.outlet_standard_value ? 1 : 0,
+                                            'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
                                         }
-                                    })
-                                    let objectitem = {
-                                        'unit':outval.unit,
-                                        'prevention_date':outval.prevention_date,
-                                        'server_name':outval.server_name,
-                                        'category_cd':outval.category_cd,
-                                        'equipment_inner_nm':outval.equipment_inner_nm,
-                                        'inlet_max_value':inval.inlet_max_value,
-                                        'inlet_avg_value':inval.inlet_avg_value,
-                                        'inlet_min_value':inval.inlet_min_value,
-                                        'inoccur':inval.inoccur,
-                                        'inlet_standard_value':inval.inlet_standard_value,
-                                        'outlet_max_value':outval.outlet_max_value,
-                                        'outlet_avg_value':outval.outlet_avg_value,
-                                        'outlet_min_value':outval.outlet_min_value,
-                                        'outoccur':outval.outoccur,
-                                        'outlet_standard_value':outval.outlet_standard_value,
-                                        'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
                                     }
 
                                 that.operList.push(objectitem)   
@@ -656,34 +692,76 @@ export default {
                         })
                         list2.map(e=>{
                             if (e.length === 1) {
+                                e[0].procRate = '-'
+                                e[0].occur = '-'
+                                if (e[0].place === 512) {
+                                    // console.log(e[0].inlet_avg_value,e[0].outlet_avg_value)
+                                    // e[0].procRate = Math.floor((e[0].inlet_avg_value - e[0].outlet_avg_value) / e[0].inlet_avg_value*100) + "%",
+                                    e[0].occur = e[0].outlet_max_value >= e[0].outlet_standard_value ? 1 : 0
+                                }
+                                if (e[0].place === 511) {
+                                    e[0].occur = e[0].midlet_max_value >= e[0].midlet_standard_value ? 1 : 0
+                                    e[0].outlet_standard_value = e[0].midlet_standard_value
+                                    e[0].outlet_max_value = e[0].midlet_max_value 
+                                    e[0].outlet_avg_value = e[0].midlet_avg_value 
+                                    e[0].outlet_min_value = e[0].midlet_min_value 
+                                }
                                 that.outletList.push(e[0])        
                             }else if (e.length === 2) {
                                 let outval = []
                                 let inval = []
+                                // console.log(e)
                                 e.map(item => {
+
                                     if (item.place === 510) {
-                                        inval.push(item.inlet_max_value,item.inlet_avg_value,item.inlet_min_value,item.inoccur,item.inlet_standard_value)
-                                    }else if (item.place === 512) {
-                                        outval.push(item.outlet_max_value,item.outlet_avg_value,item.outlet_min_value,item.outoccur,item.outlet_standard_value)
+                                        inval = item;
+                                    }else if (item.place === 512 || item.place === 511 ) {
+                                        // item.action_type = item.action_type !== null ? item.action_type : null 
+                                        outval = item;
                                     }
                                 })
-                                let objectitem = {
-                                    'prevention_date':e[0].prevention_date,
-                                    'server_name':e[0].server_name,
-                                    'category_cd':e[0].category_cd,
-                                    'equipment_inner_nm':e[0].equipment_inner_nm,
-                                    'inlet_max_value':inval[0],
-                                    'inlet_avg_value':inval[1],
-                                    'inlet_min_value':inval[2],
-                                    'inoccur':inval[3],
-                                    'inlet_standard_value':inval[4],
-                                    'outlet_max_value':outval[0],
-                                    'outlet_avg_value':outval[1],
-                                    'outlet_min_value':outval[2],
-                                    'outoccur':outval[3],
-                                    'outlet_standard_value':outval[4],
-                                    'procRate':Math.floor((inval[1] - outval[1]) / inval[1]*100) + "%",
-                                }
+                                let objectitem = {}
+                                    if (outval.place === 511) {
+                                        objectitem = {
+                                            'unit':outval.unit,
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':outval.inlet_max_value,
+                                            'inlet_avg_value':outval.inlet_avg_value,
+                                            'inlet_min_value':outval.inlet_min_value,
+                                            'inoccur':outval.inoccur,
+                                            'inlet_standard_value':outval.inlet_standard_value,
+                                            'outlet_max_value':outval.midlet_max_value,
+                                            'outlet_avg_value':outval.midlet_avg_value,
+                                            'outlet_min_value':outval.midlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'outlet_standard_value':outval.midlet_standard_value,
+                                            'occur':outval.midlet_max_value >= outval.midlet_standard_value ? 1 : 0,
+                                            'procRate':'-',
+                                        }                                      
+                                    }else{       
+                                        objectitem = {
+                                            'unit':outval.unit,
+                                            'prevention_date':outval.prevention_date,
+                                            'server_name':outval.server_name,
+                                            'category_cd':outval.category_cd,
+                                            'equipment_inner_nm':outval.equipment_inner_nm,
+                                            'inlet_max_value':inval.inlet_max_value,
+                                            'inlet_avg_value':inval.inlet_avg_value,
+                                            'inlet_min_value':inval.inlet_min_value,
+                                            'inoccur':inval.inoccur,
+                                            'inlet_standard_value':inval.inlet_standard_value,
+                                            'outlet_max_value':outval.outlet_max_value,
+                                            'outlet_avg_value':outval.outlet_avg_value,
+                                            'outlet_min_value':outval.outlet_min_value,
+                                            'outoccur':outval.outoccur,
+                                            'outlet_standard_value':outval.outlet_standard_value,
+                                            'occur':outval.outlet_max_value >= outval.outlet_standard_value ? 1 : 0,
+                                            'procRate':Math.floor((inval.inlet_avg_value - outval.outlet_avg_value) / inval.inlet_avg_value*100) + "%",
+                                        }
+                                    }
      
                                 that.outletList.push(objectitem)   
                             }
