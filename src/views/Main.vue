@@ -147,7 +147,7 @@
                         </b-col>
                         <b-col cols="3" style="height:830px;">
                             <v-card max-width="400" class="mx-auto">
-                                <h1 style="margin-left:10px">{{areaNm}}</h1>
+                                <h1 style="margin-left:10px; font-family: CjFontTitleBold;">{{areaNm}}</h1>
                                 <v-container class="card-list">
                                     <v-card color="white" dark style="margin-bottom:10px" v-for="(item,i) in rowData " :key="i">
                                         <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg3d,item.pinImg2d)">
@@ -930,6 +930,7 @@ export default {
                     font-size: 24px;
                     line-height: 10px;
                     box-sizing: border-box;
+                    font-family: CjFontTitleBold;
                 }
                 /* 중단 - 날짜, 날씨, 온도 */
                 &:nth-child(2) {
@@ -998,6 +999,7 @@ export default {
             text-align: left;
             &:nth-child(1) {
                 font-size: 24px;
+                 font-family: CjFontTitleBold;
             }
         }
         .chartWrap {
@@ -1037,6 +1039,7 @@ export default {
             &:nth-child(1) {
                 font-size: 24px;
                 height: 40px;
+                 font-family: CjFontTitleBold;
             }
         }
         .monitorWrap {

@@ -721,6 +721,9 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 2.604165vw;
 }
 
+.menu{
+    font-family: CjFontTitleBold;
+}
 /* align */
 
 .cl_left {

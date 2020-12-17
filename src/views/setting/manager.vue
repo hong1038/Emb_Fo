@@ -293,7 +293,7 @@ export default {
             this.name = obj.data.name
             this.server_key = obj.data.wp_pid
             this.email = obj.data.email
-            console.log(obj)
+            console.log(store.state.userInfo.email)
 
 
         },

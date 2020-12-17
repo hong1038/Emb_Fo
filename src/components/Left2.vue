@@ -1,5 +1,5 @@
 <template>
-<div class="inner">
+<div class="inner" id="left2">
     <div class="con_box_left">
         <div class="check_box02 con_box">
             <div class="con checkList">

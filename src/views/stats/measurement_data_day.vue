@@ -395,13 +395,18 @@ export default {
                     responsive: false,
                     scales: {
                         yAxes: [{
+
                             ticks: {
                                 min: 0,
                                 beginAtZero: true,
                                 fontSize: ctxFontSize
-                            }
+                            },
+
                         }],
                         xAxes: [{
+                            gridLines : {
+                                display : false
+                            },
                             ticks: {
                                 fontSize: ctxFontSize
                             }

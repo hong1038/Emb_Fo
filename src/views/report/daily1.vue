@@ -30,12 +30,14 @@
                                 </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
+                                <input type="button" class="d_btn02" value="프린트" @click="print">
                                 <input type="button" class="d_btn01" value="조회" v-on:click="getList1">
                             </b-col>
+                       
                         </b-row>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="dailyTableWrap">
+                    <div class="dailyTableWrap"  id="printMe">
                         <div class="dailyTable dailyTable01">
                             <p>1. 일일 모니터링 통계</p>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
@@ -71,14 +73,16 @@
 </template>
 
 <script>
+
+
+
 import store from "@/store/index";
 import axios from 'axios';
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
 import Main from '@/components/main.vue'
 import Vue from 'vue'
-// import DatePicker from "v-calendar/lib/components/date-picker.umd"
-// import BootstrapVue from 'bootstrap-vue'
+
 
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
@@ -91,7 +95,9 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
+
 Vue.use(Datetime)
+
 
 export default {
     components: {
@@ -100,6 +106,7 @@ export default {
         Left,
         Main,
         AgGridVue,
+
     },
     computed: {
         currentDate() {
@@ -109,6 +116,7 @@ export default {
     },
     data() {
         return {
+            output: null,
             show01:false,
             show02:false,
             show03:false,
@@ -860,9 +868,25 @@ export default {
                 })
                 this.busy = false;
         },
-        graph(){
-            
+
+        print () {
+            let app = document.getElementById('header')
+            let app2 = document.getElementById('left2')  
+            // const printContents = elementRef.innerHTML 
+            let printDiv = document.createElement('DIV')
+            document.body.appendChild(printDiv) 
+            // printDiv.innerHTML = printContents 
+            app.style.display = 'none' 
+            app2.style.display = 'none' 
+            window.print() 
+            app.style.display = 'block' 
+            app2.style.display = 'block' 
+            printDiv.style.display = 'none' 
+            printDiv.innerHTML = ''
+
+
         }
+        
     },
 }
 </script>
@@ -944,6 +968,23 @@ export default {
     position: absolute;
     top: 0px;
     right: 20px;
+    width: 150px;
+    height: 30px;
+    padding-left: 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: rgb(187, 231, 248);
+    box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
+}
+.d_btn02{
+    position: absolute;
+    top: 0px;
+    right: 180px;
     width: 150px;
     height: 30px;
     padding-left: 0;
