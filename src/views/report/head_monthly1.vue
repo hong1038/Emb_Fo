@@ -31,8 +31,8 @@
                             </b-col>
                             <v-spacer></v-spacer>
                             <b-col cols="1">
-                                <v-btn class="hmPlus" v-on:click="getList1">조회</v-btn>
-                                <v-btn class="hmPlus" v-on:click="getList11">테스트키</v-btn>
+                                <button type="button" class="hmPlus" v-on:click="getList1">조회</button>
+                                <button type="button" class="hmPlus" v-on:click="getList11">테스트키</button>
                             </b-col>
                             
                         </b-row>
@@ -926,12 +926,20 @@ async getList11() {
     right:20px;
     width:150px;
     height:30px;
-    background: rgb(187, 231, 248) !important;
+    background:white;
     box-shadow: 0px 0px 3px blue;
+    transition:all 0.3s;
+    font-size:16px;
+}
+
+.hmDateSelect .hmPlus:hover{
+    font-weight: bold;
+    background: rgb(81, 81, 255);
+    color: white;
 }
 
 .hmDateSelect button span{
-    font-size:16px;
+    font-size:14px;
 }
 
 .hmTableWrap{

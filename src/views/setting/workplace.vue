@@ -553,7 +553,7 @@ export default {
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: rgb(187, 231, 248);
+    background:white;
     box-shadow: 0px 0px 3px blue;
     text-decoration: none;
     color: black;
@@ -573,13 +573,13 @@ export default {
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: rgb(187, 231, 248);
+    background:white;
     box-shadow: 0px 0px 3px blue;
     text-decoration: none;
     color: black;
 }
 
-.measurementPlus:hover {
+.measurementLookup:hover, .measurementPlus:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;

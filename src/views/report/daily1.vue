@@ -977,7 +977,7 @@ export default {
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: rgb(187, 231, 248);
+    background: white;
     box-shadow: 0px 0px 3px blue;
     font-size: 16px;
 }
@@ -994,12 +994,12 @@ export default {
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: rgb(187, 231, 248);
+    background: white;
     box-shadow: 0px 0px 3px blue;
     font-size: 16px;
 }
 
-.d_btn01:hover {
+.d_btn02:hover, .d_btn01:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
