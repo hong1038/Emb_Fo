@@ -122,6 +122,7 @@ export default {
             listCount: 0,
             pageNo: 1,
             perPage: 10,
+            pageSz:store.state.paginationPageSize,
 
             //1. 월말 보고 Summary
             summaryListCount: 0,
@@ -230,7 +231,7 @@ export default {
                     width: '80px'
                 },
                 {
-                    field: 'rs_date',
+                    field: 'rc_date',
                     headerName: '발생일자',
                     width: '120px'
                 },
@@ -276,7 +277,7 @@ export default {
                     width: '110px'
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'equipment_inner_nm',
                     headerName: '방지시설명',
                     width: '130px'
                 },
@@ -304,12 +305,12 @@ export default {
                     ]
                 },
                 {
-                    field: 'procRate',
+                    field: 'pre_rate',
                     headerName: '방지시설 처리효율(%)',
                     width : '190'
                 },
                 {
-                    field: 'action_type',
+                    field: 'abn_type',
                     headerName: '유형',
                     width: '90px'
                 },
@@ -324,7 +325,7 @@ export default {
                     width: '130px'
                 },
                 {
-                    field: 'abnormal_type',
+                    field: 'action_type',
                     headerName: '조치 여부',
                     width: '110px'
                 },
