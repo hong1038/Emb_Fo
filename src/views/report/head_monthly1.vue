@@ -32,7 +32,6 @@
                             <v-spacer></v-spacer>
                             <b-col cols="1">
                                 <button type="button" class="hmPlus" v-on:click="getList1">조회</button>
-                                <button type="button" class="hmPlus" v-on:click="getList11">테스트키</button>
                             </b-col>
                             
                         </b-row>
@@ -81,7 +80,7 @@
                         </div>
                         <div class="hmTable hmTable02">
                             <p>2. 유형별 통계</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttList" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttListA" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" v-b-visible="handleVisibility">
                         </ag-grid-vue>
                         </div>
                         <div class="hmTable hmTable03">
@@ -282,7 +281,8 @@ export default {
                 {mainKey : '6', num : ''},
                 {mainKey : '7', num : ''},
             ],
-            tsList:[],
+            tsListA:[],
+            tsListB:[],
             //1. 전체통계
             
             // tsListCount:0,
@@ -335,29 +335,30 @@ export default {
             // ],
 
             //2. 유형별 통계
-            ttList:[],
+            ttListA:[],
+            ttListB:[],
             ttListCount:0,
             ttfields: [
                 {
-                    field: '',
+                    field: 'area',
                     headerName: '권역',
                     width: '100px'
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '130px'
+                    width: '110px'
                 },
                 {
                     field: 'category_cd',
                     headerName: '구분',
                     width: '80px'
                 },
-                {
-                    field: 'unit',
-                    headerName: '단위',
-                    width: '80px'
-                },
+                // {
+                //     field: 'unit',
+                //     headerName: '구분',
+                //     width: '80px'
+                // },
                 {
                     field: '',
                     headerName: '환경모니터링',
@@ -368,18 +369,18 @@ export default {
                             children : [
                                 {
                                     field : '',
-                                    headerName : '센서 이상',
-                                    width : '109'
+                                    headerName : '센서이상',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
-                                    headerName : '통신 이상',
-                                    width : '109'
+                                    headerName : '통신이상',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
-                                    headerName : '설비 이상',
-                                    width : '109'
+                                    headerName : '설비이상',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
@@ -400,13 +401,13 @@ export default {
                             children : [
                                 {
                                     field : '',
-                                    headerName : '농도 상승',
-                                    width : '109'
+                                    headerName : '농도상승',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
-                                    headerName : '수치 오류',
-                                    width : '109'
+                                    headerName : '수치오류',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
@@ -421,13 +422,13 @@ export default {
                             children : [
                                 {
                                     field : '',
-                                    headerName : '농도 상승',
-                                    width : '109'
+                                    headerName : '농도상승',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
-                                    headerName : '수치 오류',
-                                    width : '109'
+                                    headerName : '수치오류',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
@@ -442,13 +443,13 @@ export default {
                             children : [
                                 {
                                     field : '',
-                                    headerName : '농도 상승',
-                                    width : '109'
+                                    headerName : '농도상승',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
-                                    headerName : '수치 오류',
-                                    width : '109'
+                                    headerName : '수치오류',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
@@ -463,13 +464,13 @@ export default {
                             children : [
                                 {
                                     field : '',
-                                    headerName : '농도 상승',
-                                    width : '109'
+                                    headerName : '농도상승',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
-                                    headerName : '수치 오류',
-                                    width : '109'
+                                    headerName : '수치오류',
+                                    width : '104'
                                 },
                                 {
                                     field : '',
@@ -720,7 +721,6 @@ export default {
             this.measureBody_03[6].num = measurePer_07;
 
         },
-
         async getList1() {
             if (this.dateFr === null || this.dateFr === "") {
                 alert("날짜를 선택해주세요.")
@@ -737,7 +737,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.tsList = res.data.data
+                            that.tsListA = res.data.data
                         }
                     }
                 })
@@ -747,7 +747,35 @@ export default {
                 
                 this.filterValue(this.tsList);
                 this.busy = false;
+                this.getList11()
+        },
+        async getList11() {
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+            this.onClick();
+            this.filterDate(this.dateFr);
+
+            let that = this;
+            await this.$Axios.post("/api/daedan/cj/ems/report/categoryOccurCount", {
+                    dateFr: this.dateFr,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.tsListB = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("센서테이터목록 추출 실패 \n" + err);
+                })
                 this.getList2()
+                this.filterValue(this.tsList);
+                this.busy = false;
+                
         },
         async getList2() {
             if (this.dateFr === null || this.dateFr === "") {
@@ -759,22 +787,46 @@ export default {
 
             let that = this;
             console.log("store.state.ckServer = " + store.state.ckServer)
-            await this.$Axios.post("/api/daedan/cj/ems/report/changeDataList", {
+            await this.$Axios.post("/api/daedan/cj/ems/report/caseStatisticsA", {
                     dateFr: this.dateFr,
-                    pageNo: this.pageNo,
-                    pageSz: this.pageSz,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            that.ttList = res.data.data
-                            that.ttListCount = res.data.totalCount
+                            that.ttListA = res.data.data
                         }
                     }
                 })
                 .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
+                    alert("유형별 통계목록 추출 실패 \n" + err);
+                })
+                this.busy = false;
+                this.getList22()
+        },
+        async getList22() {
+            if (this.dateFr === null || this.dateFr === "") {
+                alert("날짜를 선택해주세요.")
+                return;
+            }
+
+            this.onClick();
+
+            let that = this;
+            console.log("store.state.ckServer = " + store.state.ckServer)
+            await this.$Axios.post("/api/daedan/cj/ems/report/caseStatisticsB", {
+                    dateFr: this.dateFr,
+                    userId: store.state.userInfo.userId
+                }, this.config)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data.statusCode === 200) {
+                            that.ttListB = res.data.data
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert("유형별 통계목록 추출 실패 \n" + err);
                 })
                 this.busy = false;
                 this.getList3()
@@ -837,31 +889,6 @@ export default {
                     alert("센서테이터목록 추출 실패 \n" + err);
                 })
                 this.busy = false;
-        },
-
-async getList11() {
-            if (this.dateFr === null || this.dateFr === "") {
-                alert("날짜를 선택해주세요.")
-                return;
-            }
-            this.onClick();
-            this.filterDate(this.dateFr);
-
-            let that = this;
-            await this.$Axios.post("/api/daedan/cj/ems/report/caseStatistics", {
-                    dateFr: this.dateFr,
-                    userId: store.state.userInfo.userId
-                }, this.config)
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.statusCode === 200) {
-                            that.testList = res.data.data
-                        }
-                    }
-                })
-                .catch(err => {
-                    alert("센서테이터목록 추출 실패 \n" + err);
-                })
         },
     }
 }
