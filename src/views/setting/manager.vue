@@ -10,7 +10,7 @@
                         <label for="location" class="managerLocationLabel">사업장을 선택해주세요.</label>
                         <b-form-select name="location" class="managerLocation" v-model="server_key" :options="comboServers" size="sm" aria-placeholder="사업장"></b-form-select>
                         <input type="button" class="managerLookUp" v-on:click="getList" value="조회">
-                        <input type="button" class="managerPlus" v-on:click="showblock" value="등록">
+                        <input type="button" class="managerPlus" v-on:click="showblock2" value="등록">
                     </b-row>
                     <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
                     <div class="managertableWrap container-fluid" style="display:flex">
@@ -22,7 +22,7 @@
                                 <b-col class="popUpTitle">사용자 정보 등록</b-col>
                                 <input type="button" class="managerSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
                                 <input type="button" class="managerListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
-                                <input type="button" class="managerListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제">
+                                <!-- <input type="button" class="managerListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제"> -->
                             </b-row>
                             <div>
                                 <b-row>
@@ -72,9 +72,9 @@
                         <b-col cols="6" align="center" class="popUpInfo">
                             <b-button variant="primary" @click="onCancel" size="sm">취소</b-button>
                         </b-col>
-                        <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
+                        <!-- <b-col cols="6" align="center" v-if="workTp ==='DROP_INFO'" class="popUpInfo">
                             <b-button v-on:click="dropInfoProc" variant="danger" size="sm">삭제</b-button>
-                        </b-col>
+                        </b-col> -->
                     </b-row>
                 </div>
             </div>
@@ -181,6 +181,13 @@ export default {
       this.clearTimeout()
     },
     methods: {
+        showblock2(){
+            this.name = null
+            this.server_key = null
+            this.email = null
+
+            this.showblock()
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -242,9 +249,14 @@ export default {
                         if (res.data.statusCode === 200) {
                             console.log(res.data.data.serverList)
                             that.comboServers = res.data.data.serverList; //사업장
-                            that.comboServers.push({
-                                area_code: null,id: null,prt_seq: null,text: "전체",val: "전체",value: null
-                            })
+                            that.comboServers.push(
+                                {
+                                    area_code: 0,id: 1,prt_seq: null,text: "cloudmain",val: "cloudmain",value: 1
+                                },
+                                {
+                                    area_code: null,id: null,prt_seq: null,text: "전체",val: "전체",value: null
+                                }
+                            )
                             that.comboCategories = res.data.data.cateList; //수집분야(악취,대기,수질)
                         }
                     }
@@ -316,6 +328,10 @@ export default {
             this.Loadbusy = false;
         },
         saveInfo() {
+            if (store.state.userInfo.email !== this.email) {
+                alert('자신의 아이디만 수정 가능 합니다.')
+                return;
+            }
             if (!this.name) {
                 alert("성명은 필수 입력 항목 입니다.")
                 return;
