@@ -132,10 +132,6 @@ export default {
             comboName2: null,
             fields: [
                 {
-                    field: 'value',
-                    hidden: true
-                },
-                {
                     field: 'name',
                     headerName: '담당자'
                 },
@@ -279,11 +275,15 @@ export default {
             //             alert("검색조건추출 실패 \n" + err);
             //             console.log(err)
             //         })   
+            if (this.email === null || this.email === obj.data.email) {
+                this.showblock();
+            }
             this.name = obj.data.name
             this.server_key = obj.data.wp_pid
             this.email = obj.data.email
             console.log(obj)
-            this.showblock();
+
+
         },
         async getList() {
             console.log(this.server_key)
