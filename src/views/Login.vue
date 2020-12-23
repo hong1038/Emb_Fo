@@ -5,8 +5,14 @@
         <img src="@/assets/login_logo.png" class="logo">
     </div>
     <div class='loginWrap'>
-        <h1>Welcome to CJ Cheiljedang</h1>
+        <div class="loginTitle">Welcome to CJ Cheiljedang</div>
+        <div class="logoWrap">
+            <img src="../assets/logo.png" alt="logo">
+            <div>통합 환경 모니터링 시스템</div>
+        </div>
+
         <div class="loginForm">
+            
             <div class="idWrap">
                 <div>
                     <div>E-mail</div>
@@ -101,16 +107,33 @@ export default {
 </script>
 
 <style>
+
 @font-face {
-    font-family: "CJ Onlyone Medium";
-    src: url(/../assets/fonts/CJOnlyoneMedium.ttf);
-    font-weight: 400;
+    font-family: CjFontBodyLight;
+        font-style: normal;
+    font-weight: 100;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW body Light.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: "CJ Onlyone Bold";
-    src: url(/../assets/fonts/CJOnlyoneBold.ttf);
-    font-weight: bold;
+    font-family: CjFontBodyRegular;
+        font-style: normal;
+    font-weight: 400;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW body Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: CjFontTitleBold;
+        font-style: normal;
+    font-weight: 900;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW title Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: CjFontTitleMedium;
+        font-style: normal;
+    font-weight: 400;
+    src: url('../../src/assets/fonts/CJ ONLYONE NEW title Medium.ttf') format('truetype');
 }
 
 img {
@@ -218,17 +241,39 @@ input {
 
 /* title */
 
-.loginWrap>h1 {
-    font-family: 'Arial';
+.loginWrap>.loginTitle {
+    width:110%;
+    margin-left:-5%;
     text-align: center;
-    margin-top: 200px;
+    /*margin-top: 32%;*/
+    margin-top: 32%;
     color: white;
-    font-size: 28px;
+    font-size: 1.8rem;
+    font-family:CjFontTitleBold;
+    font-weight:bold;
+    /*display:none;*/
+}
+.loginWrap>.logoWrap{
+    width:100%;
+    /*margin-top:40%;*/
+    margin-top:5%;
+}
+
+.loginWrap>.logoWrap>img{
+    /*width:100%;*/
+    width:90%;
+    margin-left:5%;
+}
+.loginWrap>.logoWrap>div{
+    color:white;
+    font-family: CjFontTitleBold;
+    font-size:1.6rem;
+    font-weight:bold;
+    text-align: center;
 }
 
 .loginForm {
     position: relative;
-    margin-top: 50px;
 }
 
 .loginForm>div {
@@ -244,19 +289,16 @@ input {
     color: white;
 }
 
-.loginForm>div>div>div {
-    font-family: 'Noto Sans KR';
-}
-
 .loginForm>div>div>div:nth-child(1) {
     height: 40px;
     line-height: 40px;
     color: white;
-    font-size: 18px;
+    font-size: 1.1rem;
+    font-family: CjFontBodyRegular;
 }
 
 .loginForm>div>div>div:nth-child(2) {
-    height: 50px;
+    height: 45px;
 }
 
 .loginForm>div>div>div:nth-child(2)>input {
@@ -265,7 +307,7 @@ input {
     background: white;
     box-sizing: border-box;
     padding-left: 10px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .loginForm>.loginBtnWrap {

@@ -1318,5 +1318,4 @@ only screen and (min-device-pixel-ratio: 1.5) {
     border:.5rem solid currentColor;
     border-right-color:transparent;
 }
-
 </style>

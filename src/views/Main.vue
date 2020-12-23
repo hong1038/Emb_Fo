@@ -30,7 +30,7 @@
                                         </b-col>
                                         <b-col cols="2">
                                             <span>{{windDeg}}</span>
-                                            <span>{{weather.wind.speed}}</span>
+                                            <span>{{weather.wind.speed}} m/s</span>
                                         </b-col>
                                         <!-- <b-col cols="3"></b-col> -->
                                         <b-col cols="2">
@@ -38,7 +38,7 @@
                                         </b-col>
                                         <b-col cols="2">
                                             <span>습도</span>
-                                            <span>{{weather.main.humidity}}</span>
+                                            <span>{{weather.main.humidity}} %</span>
                                         </b-col>
                                     </b-row>
                                 </div>
@@ -93,23 +93,23 @@
                             <!-- <div v-on:click="pinClick(10014,'pin01','공주')" class="locationPin pin01" ref="pin" :disabled="busy">
                                 <p class="pin01Ball"></p>공주
                             </div> -->
-                            <div v-on:click="pinClick(10021,'pin02','남원')" class="locationPin pin02">
-                                <p class="pin02Ball"></p>남원
+                            <div v-on:click="pinClick(10021,'pin02','남원')" class="locationPin pin02 ">
+                                <p class="area10021 pin02Ball"></p>남원
                             </div>
-                            <div v-on:click="pinClick(10015,'pin03','논산')" class="locationPin pin03">
-                                <p class="pin03Ball"></p>논산
+                            <div v-on:click="pinClick(10015,'pin03','논산')" class="locationPin pin03 ">
+                                <p class="area10015 pin03Ball"></p>논산
                             </div>
-                            <div v-on:click="pinClick(10031,'pin04','부산')" class="locationPin pin04">
-                                <p class="pin04Ball"></p>부산
+                            <div v-on:click="pinClick(10031,'pin04','부산')" class="locationPin pin04 ">
+                                <p class="area10031 pin04Ball"></p>부산
                             </div>
-                            <div v-on:click="pinClick(10041,'pin05','씨푸드 성남')" class="locationPin pin05">
-                                <p class="pin05Ball"></p>씨푸드 성남
+                            <div v-on:click="pinClick(10041,'pin05','씨푸드 성남')" class="locationPin pin05 ">
+                                <p class="area10041 pin05Ball"></p>씨푸드 성남
                             </div>
                             <!-- <div v-on:click="pinClick(10040,'pin06','씨푸드 이천')" class="locationPin pin06"> -->
                                 <!-- <p class="pin06Ball"></p>씨푸드 이천 -->
                             <!-- </div> -->
-                            <div v-on:click="pinClick(10051,'pin07','안산')" class="locationPin pin07">
-                                <p class="pin07Ball"></p>안산
+                            <div v-on:click="pinClick(10051,'pin07','안산')" class="locationPin pin07 ">
+                                <p class="area10051 pin07Ball"></p>안산
                             </div>
                             <!-- <div v-on:click="pinClick(10030,'pin08','양산')" class="locationPin pin08"> -->
                                 <!-- <p class="pin08Ball"></p>양산 -->
@@ -123,23 +123,23 @@
                             <!-- <div v-on:click="pinClick(10011,'pin11','음성')" class="locationPin pin11"> -->
                                 <!-- <p class="pin11Ball"></p>음성 -->
                             <!-- </div> -->
-                            <div v-on:click="pinClick(10001,'pin12','인천1')" class="locationPin pin12">
-                                <p class="pin12Ball"></p>인천1
+                            <div v-on:click="pinClick(10001,'pin12','인천1')" class="locationPin pin12 ">
+                                <p class="area10001 pin12Ball"></p>인천1
                             </div>
-                            <div v-on:click="pinClick(10002,'pin13','인천2')" class="locationPin pin13">
-                                <p class="pin13Ball"></p>인천2
+                            <div v-on:click="pinClick(10002,'pin13','인천2')" class="locationPin pin13 ">
+                                <p class="area10002 pin13Ball"></p>인천2
                             </div>
-                            <div v-on:click="pinClick(10003,'pin14','인천3')" class="locationPin pin14">
-                                <p class="pin14Ball"></p>인천3
+                            <div v-on:click="pinClick(10003,'pin14','인천3')" class="locationPin pin14 ">
+                                <p class="area10003 pin14Ball"></p>인천3
                             </div>
-                            <div v-on:click="pinClick(10000,'pin15','인천냉동')" class="locationPin pin15">
-                                <p class="pin15Ball"></p>인천냉동
+                            <div v-on:click="pinClick(10000,'pin15','인천냉동')" class="locationPin pin15 ">
+                                <p class="area10000 pin15Ball"></p>인천냉동
                             </div>
                             <!-- <div v-on:click="pinClick(10020,'pin16','진안')" class="locationPin pin16"> -->
                                 <!-- <p class="pin16Ball"></p>진안 -->
                             <!-- </div> -->
-                            <div v-on:click="pinClick(10012,'pin17','진천')" class="locationPin pin17">
-                                <p class="pin17Ball"></p>진천
+                            <div v-on:click="pinClick(10012,'pin17','진천')" class="locationPin pin17 ">
+                                <p class="area10012 pin17Ball"></p>진천
                             </div>
                             <!-- <div v-on:click="pinClick(10013,'pin18','진천BC')" class="locationPin pin18"> -->
                                 <!-- <p class="pin18Ball"></p>진천BC -->
@@ -158,35 +158,35 @@
                                                 <p style="font-weight:bold;font-size:18px">
                                                     {{item.name = item.name === "인천냉동식품공장" ? "인천냉동 식품공장" : item.name }}
                                                 </p>
-                                                <p v-if="item.air_abnormal_yn === 'X'">
-                                                    대기 : 값이없음
-                                                </p>
-                                                <p v-else-if="item.air_abnormal_yn === 'Y'" style="display:flex">
-                                                    대기 :  <span style="color:red;font-weight:bold">이상있음</span>
-                                                </p>
-                                                <p v-else-if="item.air_abnormal_yn === 'N'">
-                                                    대기 : 이상없음
-                                                </p>
-
-                                                <p v-if="item.water_abnormal_yn === 'X'">
-                                                    수질 : 값이없음
-                                                </p>
-                                                <p v-else-if="item.water_abnormal_yn === 'Y'" style="display:flex">
-                                                    수질 : <span style="color:red;font-weight:bold">이상있음</span>
-                                                </p>
-                                                <p v-else-if="item.water_abnormal_yn === 'N'">
-                                                    수질 : 이상없음
-                                                </p>
-
                                                 <p v-if="item.odor_abnormal_yn === 'X'">
-                                                    악취 : 값이없음
+                                                    악취  <span style="color:blue;font-weight:bold">값이없음</span>
                                                 </p>
                                                 <p v-else-if="item.odor_abnormal_yn === 'Y'" style="display:flex">
-                                                    악취 : <span style="color:red;font-weight:bold">이상있음</span>
+                                                    악취  <span style="color:red;font-weight:bold">이상있음</span>
                                                 </p>
                                                 <p v-else-if="item.odor_abnormal_yn === 'N'">
-                                                    악취 : 이상없음
+                                                    악취  <span style="color:blue;font-weight:bold">이상없음</span>
                                                 </p>
+                                                <p v-if="item.air_abnormal_yn === 'X'">
+                                                    대기  <span style="color:blue;font-weight:bold">값이없음</span>
+                                                </p>
+                                                <p v-else-if="item.air_abnormal_yn === 'Y'" style="display:flex">
+                                                    대기   <span style="color:red;font-weight:bold">이상있음</span>
+                                                </p>
+                                                <p v-else-if="item.air_abnormal_yn === 'N'">
+                                                    대기  <span style="color:blue;font-weight:bold">이상없음</span>
+                                                </p>
+                                                <p v-if="item.water_abnormal_yn === 'X'">
+                                                    수질  <span style="color:blue;font-weight:bold">값이없음</span>
+                                                </p>
+                                                <p v-else-if="item.water_abnormal_yn === 'Y'" style="display:flex">
+                                                    수질  <span style="color:red;font-weight:bold">이상있음</span>
+                                                </p>
+                                                <p v-else-if="item.water_abnormal_yn === 'N'">
+                                                    수질  <span style="color:blue;font-weight:bold">이상없음</span>
+                                                </p>
+
+
 
                                             </div>
                                         </div>
@@ -362,6 +362,7 @@ export default {
     },
     beforeDestroy() {
       this.clearTimeout()
+
     },
 
     beforeMount() {
@@ -390,7 +391,28 @@ export default {
     created() {
         this.getWether();
         this.onClick();
-
+        this.$Axios.post("/api/daedan/cj/ems/main/omList", {
+        }, this.config)
+        .then(res => {
+            this.datas = res.data.data.area
+            this.datas[0].air_abnormal_yn = "Y"
+            this.datas = this.datas.filter(e => 
+                e.area_code !== 10014 ||
+                e.area_code !== 10040 ||
+                e.area_code !== 10030 ||
+                e.area_code !== 10004 ||
+                e.area_code !== 10010 ||
+                e.area_code !== 10011 ||
+                e.area_code !== 10020 ||
+                e.area_code !== 10013
+            )
+            
+            this.pollData();
+        })
+        .catch(err => {
+            alert("가동률데이터목록 추출 실패 \n" + err);
+        })
+        
     },
     watch: {
         moniList() {
@@ -398,6 +420,32 @@ export default {
         }
     },
     methods: {
+        pollData(){
+            this.polling = setInterval(() => {
+                if (this.pinshow === 1) {
+                    this.pinshow = 0
+                    this.datas.map(e => {
+                        if (e.air_abnormal_yn === "Y" || e.odor_abnormal_yn  === "Y" || e.water_abnormal_yn === "Y") {
+                            e.pinshow = 0   
+                            document.getElementsByClassName("area"+e.area_code)[0].style.opacity = 0
+                            document.getElementsByClassName("area"+e.area_code)[0].style.background = "red"
+                            document.getElementsByClassName("area"+e.area_code)[0].style.borderColor = "red"
+                            document.getElementsByClassName("area"+e.area_code)[0].style.boxShadow = "0px 0px 10px 4px red"
+                        }else{
+                            document.getElementsByClassName("area"+e.area_code)[0].style.boxShadow = "none"
+                            document.getElementsByClassName("area"+e.area_code)[0].style.background = "transparent"
+                            document.getElementsByClassName("area"+e.area_code)[0].style.borderColor = "black"
+                        }
+                    })
+                }else{
+                    this.pinshow = 1
+                    this.datas.map(e => {
+                        document.getElementsByClassName("area"+e.area_code)[0].style.opacity = 1
+                        e.pinshow = 1
+                    })
+                }
+            }, 500);
+        },  
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -698,6 +746,7 @@ export default {
             const response = await fetch('http://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=696fa8118910f5ecc9778cfaf53d36b7')
             const data = await response.json(); //경도(126.98)
             this.weather = data;
+            console.log(this.weather.wind)
             /*
             console.log("날씨정보" + data.coord.lon); //위도(37.57)
             console.log("날씨정보.weather = " + data.weather[0].main); //하늘(Clear)
@@ -868,7 +917,10 @@ export default {
 .mainInner {
     width: 100%;
     height: 100%;
-
+    *{
+        font-weight:bold;
+        font-family:CjFontBodyRegular;
+    }
     .conWrap {
         width: 100%;
         height: 100%;
@@ -914,7 +966,6 @@ export default {
                             font-size: 3.5rem;
                             line-height: 40px;
                             font-weight: "bold";
-                            font-family: "Arial";
                             &:nth-child(3){
                                 padding-left:2rem;
                             }
@@ -930,7 +981,6 @@ export default {
                     font-size: 24px;
                     line-height: 10px;
                     box-sizing: border-box;
-                    font-family: CjFontTitleBold;
                 }
                 /* 중단 - 날짜, 날씨, 온도 */
                 &:nth-child(2) {
@@ -999,7 +1049,6 @@ export default {
             text-align: left;
             &:nth-child(1) {
                 font-size: 24px;
-                 font-family: CjFontTitleBold;
             }
         }
         .chartWrap {
@@ -1025,7 +1074,6 @@ export default {
                 right:0;
                 font-size: 20px;
                 font-weight: bold;
-                font-family: 'Arial';
                 text-align: center;
             }   
         }
@@ -1039,7 +1087,6 @@ export default {
             &:nth-child(1) {
                 font-size: 24px;
                 height: 40px;
-                 font-family: CjFontTitleBold;
             }
         }
         .monitorWrap {
@@ -1119,7 +1166,6 @@ export default {
             font-size: 14px;
             line-height: 25px;
             text-align: center;
-            font-family: "Noto Sans KR";
             cursor:pointer;
             >p {
                 content: "";

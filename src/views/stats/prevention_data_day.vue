@@ -142,6 +142,12 @@ export default {
                     width: '80px'
                 },
                 {
+                    field: 'internal_number',
+                    headerName: '관리번호',
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
+                },
+                {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
                     width: '300px'
@@ -155,6 +161,29 @@ export default {
                     field: 'prevention_date',
                     headerName: '측정일시',
                     width: '180px'
+                },
+                {
+                    field: '',
+                    headerName: '흡입구',
+                    children: [{
+                            field: 'inlet_avg_value',
+                            headerName: '평균',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'inlet_max_value',
+                            headerName: '최대',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
+                            field: 'inlet_min_value',
+                            headerName: '최소',
+                            type: 'number',
+                            width: '100px'
+                        },
+                    ]
                 },
                 {
                     field: '',
@@ -184,30 +213,7 @@ export default {
                             type: 'number',
                             width: '100px'
                         },
-                ]},
-                {
-                    field: '',
-                    headerName: '흡입구',
-                    children: [{
-                            field: 'inlet_avg_value',
-                            headerName: '평균',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_max_value',
-                            headerName: '최대',
-                            type: 'number',
-                            width: '100px'
-                        },
-                        {
-                            field: 'inlet_min_value',
-                            headerName: '최소',
-                            type: 'number',
-                            width: '100px'
-                        },
-                    ]
-                },
+                ]},                
                 {
                     field: 'proc_rt',
                     headerName: '처리효율',

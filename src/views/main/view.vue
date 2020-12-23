@@ -814,7 +814,9 @@ export default {
     width:100%;
     height:100%;
 }
-
+.imgBox .pinBoxWrap *{
+    font-weight:bold;
+}
 .imgBox .pinBox{
     position:absolute;
     width:190px;
@@ -978,6 +980,7 @@ export default {
     cursor: pointer;
     box-sizing: border-box;
     transition: all 0.2s;
+    font-weight:bold;
 }
 
 .bottomBox>.bottom_subMenuBox>div:hover {

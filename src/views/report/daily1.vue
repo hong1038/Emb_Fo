@@ -193,18 +193,19 @@ export default {
                             type: 'number',
                             width: '100px'
                         },
-                        // {
-                        //     field: 'inlet_standard_value',
-                        //     headerName: '기준',
-                        //     type: 'number',
-                        //     width: '100px'
-                        // },
                     ]
                 },
                 {
                     field: '',
                     headerName: '배출구',
-                    children: [{
+                    children: [
+                        {
+                            field: 'outlet_standard_value',
+                            headerName: '기준',
+                            type: 'number',
+                            width: '100px'
+                        },
+                        {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
@@ -222,13 +223,13 @@ export default {
                             type: 'number',
                             width: '100px'
                         },
-                        {
-                            field: 'outlet_standard_value',
-                            headerName: '기준',
-                            type: 'number',
-                            width: '100px'
-                        },
                     ]
+                },
+                {
+                    field: '',
+                    headerName: '초과횟수',
+                    type: 'number',
+                    width: '100px'
                 },
                 {
                     field: 'procRate',
@@ -351,7 +352,7 @@ export default {
                 },
                 {
                     field: 'cause',
-                    headerName: '조치사항ㆍ원인',
+                    headerName: '초과사항 확인결과 원인',
                      width: '220px'
                 },
                 {

@@ -103,45 +103,53 @@ export default {
                 //     hidden: true
                 // },
                 {
-                    field: 'internal_number',
-                    headerName: '관리번호',
-                    width: '80px'
-                },
-                {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category',
                     headerName: '분야',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
+                },
+                {
+                    field: 'internal_number',
+                    headerName: '관리번호',
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '160px'
+                    width: '160px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'sensor_name',
                     headerName: '센서목록',
-                    width: '130px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '70px'
+                    width: '70px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'date_time',
                     headerName: '측정일시',
-                    width: '110px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'sensor_data_value',
                     headerName: '측정값',
                     width: '80px',
-                    type: 'number'
+                    type: 'number',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
         }
