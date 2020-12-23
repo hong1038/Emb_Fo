@@ -39,7 +39,7 @@
                         </b-row>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="mt-4 container-fluid">
+                    <div class="mt-4 container-fluid text-center">
                         <!-- <vue-good-table class="elevation-5" mode="remote" :line-numbers="true" :columns="fields" :rows="list" :totalRows="listCount" :pagination-options="{
                                     enabled: true,
                                     mode: 'records',
@@ -150,50 +150,65 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category',
                     headerName: '분야',
-                    width: '200px'
+                    width: '200px',
+                    cellStyle: {textAlign: 'center'}
+                },
+                {
+                    field: 'internal_number',
+                    headerName: '관리번호',
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '370px'
+                    width: '370px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'sensor_name',
-                    headerName: '센서명',
-                    width: '100px'
+                    headerName: '센서목록',
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_tm',
                     headerName: '측정시간',
-                    width: '170px'
+                    width: '170px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '105px'
+                    width: '105px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'min_value',
                     headerName: '최소',
                     type: 'number',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_avg_value',
                     headerName: '평균',
                     type: 'number',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'max_value',
                     headerName: '최대',
                     type: 'number',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
 
             ],
@@ -631,5 +646,8 @@ export default {
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
+}
+.ag-header-cell-label {
+   justify-content: center;
 }
 </style>

@@ -136,6 +136,12 @@ export default {
                     width: '80px'
                 },
                 {
+                    field: 'internal_number',
+                    headerName: '관리번호',
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
+                },
+                {
                     field: 'equipment_inner_nm',
                     headerName: '방지시설',
                     width: '285px'

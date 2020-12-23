@@ -126,45 +126,59 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '측정장소',
-                    width: '230px'
+                    width: '230px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category',
                     headerName: '측정항목',
-                    width: '200px'
+                    width: '200px',
+                    cellStyle: {textAlign: 'center'}
+                },
+                {
+                    field: 'internal_number',
+                    headerName: '관리번호',
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '375px'
+                    width: '375px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_date',
                     headerName: '측정날짜',
-                    width: '170px'
+                    width: '170px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '110px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_min_value',
                     headerName: '최소',
                     type: 'number',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_avg_value',
                     headerName: '평균',
                     type: 'number',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_max_value',
                     headerName: '최대',
                     type: 'number',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
 
             ],
@@ -557,5 +571,8 @@ export default {
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
+}
+.ag-header-cell-label {
+   justify-content: center;
 }
 </style>
