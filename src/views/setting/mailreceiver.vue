@@ -109,6 +109,8 @@
 </template>
 
 <script>
+import{ init } from 'emailjs-com';
+init("user_VJrcQmsOmyO0H19Hfu6vP");
 import Vue from 'vue'
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'

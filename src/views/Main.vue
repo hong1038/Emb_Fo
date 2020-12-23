@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="con_left02">
-                                <div>{{pinName}} {{title}}가동률</div>
+                                <div>{{pinName}} {{title}}가동률</div>                                
                                 <div class="chartWrap mt-4">
                                     <div class="chartOut">
                                         <div class="chartIn"></div>
@@ -395,7 +395,7 @@ export default {
         }, this.config)
         .then(res => {
             this.datas = res.data.data.area
-            this.datas[0].air_abnormal_yn = "Y"
+            // this.datas[0].air_abnormal_yn = "Y"
             this.datas = this.datas.filter(e => 
                 e.area_code !== 10014 ||
                 e.area_code !== 10040 ||

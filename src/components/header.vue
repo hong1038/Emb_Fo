@@ -46,9 +46,6 @@
                                 <router-link :to="{ name: 'measurementData'}">측정값 조회</router-link>
                             </li>
                             <li>
-                                <router-link :to="{ name: 'status'}">현황</router-link>
-                            </li>
-                            <li>
                                 <router-link :to="{ name: 'measurementDataByDay'}">일간통계 및 그래프</router-link>
                             </li>
                             <li>
@@ -91,6 +88,9 @@
                         <ul class="main_nav main_nav04">
                             <li>
                                 <router-link :to="{ name: 'maintenanceStatus'}">측정기 유지보수 계약 및 실행현황</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'status'}">측정기 현황</router-link>
                             </li>
                         </ul>
                     </li>
