@@ -157,7 +157,8 @@
                                 <v-container class="card-list">
                                     <v-card color="white" dark style="margin-bottom:10px" v-for="(item,i) in rowData " :key="i">
                                         <div class="card-content" @click="gotoView(item.server_key,item.name,item.pinImg3d,item.pinImg2d)">
-                                            <v-avatar class="ma-3" size="125" tile>
+                                            <v-avatar class="ma-3 position-relative" size="125" tile>
+                                                <div class="wpNowState" v-if="item.odor_abnormal_yn === 'Y' || item.water_abnormal_yn === 'Y' || item.air_abnormal_yn === 'Y'"></div>
                                                 <v-img v-bind:src="item.pinImg"></v-img>
                                             </v-avatar>
                                             <div class="card-text">
@@ -1342,6 +1343,18 @@ export default {
         }
     }
 
+}
+
+.wpNowState{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:3;
+    width:7px;
+    height:100%;
+    background:red;
+    line-height:2;
+    display:flex;
 }
 
 .v-application ul,
