@@ -32,6 +32,7 @@
                             <v-spacer></v-spacer>
                             <b-col cols="1">
                                 <button type="button" class="hmPlus" v-on:click="getList1">조회</button>
+                                <!-- <input class="mtz_btn01" type="button" v-on:click="excelBtn" value="엑셀 저장"> -->
                             </b-col>
                             
                         </b-row>
@@ -1072,7 +1073,11 @@ export default {
                 })
                 this.busy = false;
         },
-    }
+    },
+    // 엑셀저장버튼 클릭
+        excelBtn() {
+            this.gridOptions.api.exportDataAsExcel({});
+        },
 }
 </script>
 
@@ -1082,6 +1087,22 @@ export default {
     padding: 0;
 }
 
+// .mtz_btn01 {
+//     position: absolute;
+//     top: 0;
+//     right:200px;
+//     width: 150px;
+//     height: 30px;
+//     display: inline-block;
+//     text-align: center;
+//     cursor: pointer;
+//     transition: all 0.3s;
+//     box-sizing: border-box;
+//     border-radius: 10px;
+//     background: white;
+//     box-shadow: 0px 0px 3px blue;
+//     font-size: 16px;
+// }
 
 .headMonthlyCon{
     width:1900px;
@@ -1136,6 +1157,7 @@ export default {
     width:150px;
     height:30px;
     background:white;
+    border-radius: 10px;
     box-shadow: 0px 0px 3px blue;
     transition:all 0.3s;
     font-size:16px;
