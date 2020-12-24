@@ -47,6 +47,8 @@
                         <div>                           
                             <button v-on:click="chartImage()">IMG</button>
                             <button v-on:click="close()">&times;</button>
+                            <span class="yAxisLabel">({{graphDataUnit}})</span>
+                            <span class="xAxisLabel">(시간)</span>
                             <div>
                                 <canvas style="margin-bottom:25px" id="daily-chart" width="950" height="550"></canvas>
                                 <!-- <canvas id="daily-chart2" width="950" height="255"></canvas> -->
@@ -222,6 +224,7 @@ export default {
                 },
             ],
             graphLabel: [],
+            graphDataUnit:[],
             inletgraphDataMin: [],
             inletgraphDataAvg: [],
             inletgraphDataMax: [],
@@ -327,6 +330,7 @@ export default {
                             })
                             // console.log(list2)
                             list2.map(e=>{
+                                this.graphDataUnit = e[0].unit
                                 if (e.length === 1) {
                                     e[0].proc_rt = '-'
                                     if (e[0].place === 511) {
@@ -424,9 +428,9 @@ export default {
                                 this.outletgraphDataMin.push(e.outmin_value)
                                 this.outletgraphDataAvg.push(e.outavg_value)
                                 this.outletgraphDataMax.push(e.outmax_value)
-                            })          
-                            console.log(this.graphLabel)
+                            })      
                             this.busy = false
+                            // this.graphDataUnit = this.graphLabel[0];
                         }
                     }
                 })
@@ -488,7 +492,9 @@ export default {
                             ticks: {
                                 min: 0,
                                 beginAtZero: true,
-                                fontSize: ctxFontSize
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold'
                             },
                         }],
                         xAxes: [{
@@ -496,7 +502,9 @@ export default {
                                 display : false
                             },
                             ticks: {
-                                fontSize: ctxFontSize
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold'
                             }
                         }]
                     },
@@ -519,6 +527,12 @@ export default {
                         }
                     },
                     maintainAspectRatio: false,
+                    legend:{
+                        labels:{
+                            fontFamily : 'CjFontBodyRegular',
+                            fontStyle : 'bold'
+                        }
+                    },
                 },
                 data: {
 
@@ -640,6 +654,23 @@ export default {
 .small > div > button:nth-child(2){
     top: 0px;
     right: 0px;
+}
+
+.small > div > span{
+    position:absolute;
+    font-size:12px;
+    font-family:CjFontBodyRegular;
+    font-weight:bold;
+}
+
+.small > div > .yAxisLabel{
+    top:6%;
+    left:6%;
+}
+
+.small > div > .xAxisLabel{
+    top:93%;
+    right:5%;
 }
 * {
     margin: 0;

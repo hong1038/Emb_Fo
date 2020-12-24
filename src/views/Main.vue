@@ -44,11 +44,17 @@
                                 </div>
                             </div>
                             <div class="con_left02">
-                                <div>{{pinName}} {{title}}가동률</div>                                
+                                <div>{{pinName}} {{title}} 가동률</div>
+                                <div class="chartLegend">
+                                    <span>정상</span>
+                                    <span>기준초과</span>
+                                </div>           
                                 <div class="chartWrap mt-4">
                                     <div class="chartOut">
                                         <div class="chartIn"></div>
+                                        
                                     </div>
+                                    <span class="chartPlus">* 전일 기준</span>
                                     <span class="chartPer">{{opRate}}%</span>
                                 </div>
                             </div>
@@ -1042,6 +1048,7 @@ export default {
         }
     }
     .con_left02 {
+        position:relative;
         margin-top: 5px;
         
         >div {
@@ -1049,6 +1056,38 @@ export default {
             text-align: left;
             &:nth-child(1) {
                 font-size: 24px;
+            }
+        }
+        .chartLegend{
+            position:absolute;
+            top:22%;
+            right:0;
+            width:40%;
+            // outline:1px solid;
+            span{
+                margin-left:15%;
+                position:relative;
+                &:before{
+                    content:"";
+                    position:absolute;
+                    top:1px;
+                    left:-20px;
+                    background:#ccc;
+                    border-radius:100%;
+                    width:15px;
+                    height:15px;
+                }
+                &:nth-child(1){
+                    margin-left:35%;
+                    &:before{
+                        background:#5151ff;
+                    }
+                }
+                &:nth-child(2){
+                    &:before{
+                        background:#ccc;
+                    }
+                }
             }
         }
         .chartWrap {
@@ -1067,7 +1106,11 @@ export default {
                     border-radius: 7px;
                 }
             }
-            
+            .chartPlus{
+                position:relative;
+                left:1%;
+                font-size:0.5rem;
+            }
             .chartPer {
                 position: absolute;
                 top:0;
@@ -1075,12 +1118,16 @@ export default {
                 font-size: 20px;
                 font-weight: bold;
                 text-align: center;
+                font-family: CjFontTitleBold;
             }   
         }
     }
     .con_left03 {
         height: 480px;
         margin-top: 5px;
+        *{
+            font-weight:bold;
+        }
         >div {
             width: 100%;
             text-align: left;
@@ -1159,6 +1206,9 @@ export default {
         position: relative;
         margin-top: 20px;
         height: 800px;
+        *{
+            font-family: CjFontTitleMedium;
+        }
         >div {
             position: absolute;
             width: 65px;
@@ -1208,6 +1258,9 @@ export default {
             /*씨푸드 성남*/
             top: 260px;
             left: 300px;
+            width:75px;
+            word-break: keep-all;
+            text-indent: -10px;
         }
 
         .pin06 {

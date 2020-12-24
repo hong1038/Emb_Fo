@@ -47,6 +47,8 @@
                         <div>
                             <button v-on:click="chartImage()">IMG</button>
                             <button v-on:click="close()">&times;</button>
+                            <span class="yAxisLabel">({{graphDataUnit}})</span>
+                            <span class="xAxisLabel">(날짜)</span>
                             <canvas style="background:white" id="daily-chart" width="950" height="550" ></canvas>
                         </div>
                     </div>
@@ -221,6 +223,7 @@ export default {
                 },
             ],
             graphLabel:[],
+            graphDataUnit:[],
             inletgraphDataMin:[],
             inletgraphDataAvg:[],
             inletgraphDataMax:[],
@@ -250,7 +253,7 @@ export default {
 
     watch: {
         dateSelect() {
-            console.log(this.dateSelect)
+            // console.log(this.dateSelect)
         }
     },
 
@@ -330,14 +333,15 @@ export default {
                                 acc[key] = acc[key] ? [...acc[key], v] : [v]
                                 return acc
                             }, [])
-                            console.log(test)
+                            // console.log(test)
                             listStandart = [...new Set(listStandart)]
-                            console.log(listStandart)
+                            // console.log(listStandart)
                             listStandart.map(e => {
                                 list2.push(test[e])
                             })
-                            console.log(list2)
+                            // console.log(list2)
                             list2.map(e=>{
+                                this.graphDataUnit = e[0].unit
                                 if (e.length === 1) {
                                     e[0].proc_rt = '-'
                                     if (e[0].place === 511) {
@@ -353,7 +357,7 @@ export default {
                                     // console.log(e)
                                     e.map(item => {
                                         if (item.place === 511) {
-                                            console.log(e,2)
+                                            // console.log(e,2)
                                         }
                                         if (item.place === 510) {
                                             inval = item;
@@ -363,6 +367,7 @@ export default {
                                         }
                                     })
                                     let objectitem = {}
+                                    
                                     if (outval.place === 511) {
                                           objectitem = {
                                             'prevention_date':outval.prevention_date,
@@ -412,7 +417,7 @@ export default {
 
                             // that.list = res.data.data
                             that.listCount = res.data.totalCount
-                            console.log(that.list)
+                            // console.log(that.list)
                             
                             this.graphLabel = []
                             this.inletgraphDataMin = []
@@ -489,7 +494,9 @@ export default {
                             ticks: {
                                 min: 0,
                                 beginAtZero: true,
-                                fontSize: ctxFontSize
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold'
                             },
                         }],
                         xAxes: [{
@@ -497,7 +504,9 @@ export default {
                                 display : false
                             },
                             ticks: {
-                                fontSize: ctxFontSize
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold'
                             }
                         }]
                     },
@@ -520,6 +529,12 @@ export default {
                         }
                     },
                     maintainAspectRatio: false,
+                    legend:{
+                        labels:{
+                            fontFamily : 'CjFontBodyRegular',
+                            fontStyle : 'bold'
+                        }
+                    },
                 },
                 data: {
 
@@ -639,6 +654,22 @@ export default {
     right: 0px;
 }
 
+.small > div > span{
+    position:absolute;
+    font-size:12px;
+    font-family:CjFontBodyRegular;
+    font-weight:bold;
+}
+
+.small > div > .yAxisLabel{
+    top:6%;
+    left:6%;
+}
+
+.small > div > .xAxisLabel{
+    top:93%;
+    right:5%;
+}
 * {
     margin: 0;
     padding: 0;

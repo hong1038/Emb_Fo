@@ -23,7 +23,7 @@
                             <div v-if="item.equipment_inner_nm.length > 20">
                                 <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
                                 <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
-                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511">
+                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511 || boxlistvalplace[index] != 516">
                                     <div  class="container" >
                                         <b-row class="pinBody">
                                             <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
@@ -623,7 +623,7 @@ export default {
 
             this.boxList2.map((e, idx) => {
                 // console.log(e,idx,this.boxlistvalinletstandard[idx])
-                if (this.boxlistvalplace[e.box_code - 1] != 511) {             
+                if (this.boxlistvalplace[e.box_code - 1] != 511 || this.boxlistvalplace[e.box_code - 1] != 516) {             
                     if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-") {
                         document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
                         document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"

@@ -48,6 +48,8 @@
                         <div>
                             <button v-on:click="chartImage()">IMG</button>
                             <button v-on:click="close()">&times;</button>
+                            <span class="yAxisLabel">({{graphDataUnit[0]}})</span>
+                            <span class="xAxisLabel">(날짜)</span>
                             <canvas width="950" height="550" id="daily-chart"></canvas>
                         </div>
                     </div>
@@ -186,6 +188,7 @@ export default {
             graphDataMin:[],
             graphDataAvg:[],
             graphDataMax:[],
+            graphDataUnit:[],
         }
     },
     beforeDestroy() {
@@ -280,8 +283,9 @@ export default {
                                 this.graphDataMin.push(e.min_value)
                                 this.graphDataAvg.push(e.measurement_avg_value)
                                 this.graphDataMax.push(e.max_value)
+                                this.graphDataUnit.push(e.unit)
                             })          
-
+                            console.log(this.graphDataUnit)
                             this.busy = false;
                         }
                     }
@@ -333,21 +337,46 @@ export default {
                     responsive: false,
                     scales: {
                         yAxes: [{
-
                             ticks: {
                                 min: 0,
                                 beginAtZero: true,
-                                fontSize: ctxFontSize
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold'
                             },
-
+                            // scaleLabel:{
+                            //     display:true,
+                            //     labelString : this.graphDataUnit[0],
+                            //     fontFamily : 'CjFontBodyRegular',
+                            //     fontStyle : 'bold',
+                            // }
                         }],
                         xAxes: [{
                             gridLines : {
                                 display : false
                             },
                             ticks: {
-                                fontSize: ctxFontSize
-                            }
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold',
+                                userCallback : function(value){
+                                    value = value.toString();
+                                    value = value.split("-");
+                                    if(value[0].length > 2){
+                                        value[0] = value[0].substring(2,4)
+                                    }
+                                    value = value.join("-");
+                                    console.log(value)
+                                    return value;
+                                }
+                            },
+                            // scaleLabel:{
+                                // display:true,
+                                // labelString : "일",
+                                // fontFamily : 'CjFontBodyRegular',
+                                // fontStyle : 'bold',
+                                
+                            // }
                         }]
                     },
                     plugins: {
@@ -366,9 +395,29 @@ export default {
 
                             //backgroundColor: 'rgba(255.255.255,0.8)',
                             borderRadius: 4
+                        },
+                        afterDraw: chart => {
+                            this.ctxDaily = chart.chart.ctxDaily;
+                            this.ctxDaily.save();
+                            this.ctxDaily.font = "bold 14px CjFontBodyRegular"
+                            var y = 50;
+
+                            this.ctxDaily.textAlign = 'left';        
+                            this.ctxDaily.fillText('CO2', 5, y);
+                            this.ctxDaily.fillText('°C', 46, y);
+
+                            this.ctxDaily.textAlign = 'right';
+                            this.ctxDaily.fillText('%', chart.chart.width - 10, y);
+                            this.ctxDaily.restore();
                         }
                     },
                     maintainAspectRatio: false,
+                    legend:{
+                        labels:{
+                            fontFamily : 'CjFontBodyRegular',
+                            fontStyle : 'bold'
+                        }
+                    },
                 },
                 data: {
 
@@ -465,6 +514,22 @@ export default {
     right: 0px;
 }
 
+.small > div > span{
+    position:absolute;
+    font-size:12px;
+    font-family:CjFontBodyRegular;
+    font-weight:bold;
+}
+
+.small > div > .yAxisLabel{
+    top:6%;
+    left:6%;
+}
+
+.small > div > .xAxisLabel{
+    top:93%;
+    right:5%;
+}
 * {
     margin: 0;
     padding: 0;
