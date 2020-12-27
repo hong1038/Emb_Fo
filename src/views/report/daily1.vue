@@ -173,6 +173,11 @@ export default {
                     width: '300px'
                 },
                 {
+                    field: 'unit',
+                    headerName: '단위',
+                    width: '80px'
+                },
+                {
                     field: '',
                     headerName: '흡입구',
                     children: [{

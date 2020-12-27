@@ -436,7 +436,7 @@ export default {
                 alert("사업자는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.category_cd) {
+            if (!this.category) {
                 alert("구분은 필수 선택 항목 입니다.")
                 return;
             }

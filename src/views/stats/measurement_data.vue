@@ -121,7 +121,7 @@ export default {
                     cellStyle: {textAlign: 'center'}
                 },
                 {
-                    field: 'equipment_name',
+                    field: 'internal_name',
                     headerName: '측정위치',
                     width: '160px',
                     cellStyle: {textAlign: 'center'}

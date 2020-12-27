@@ -63,6 +63,8 @@
                         <div>
                             <button v-on:click="chartImage()">IMG</button>
                             <button v-on:click="close()">&times;</button>
+                            <span class="yAxisLabel">({{graphDataUnit[0]}})</span>
+                            <span class="xAxisLabel">(시간)</span>
                             <canvas style="background:white" id="daily-chart" width="950" height="550" ></canvas>
                         </div>
                     </div>
@@ -216,6 +218,7 @@ export default {
             graphDataMin: [],
             graphDataAvg: [],
             graphDataMax: [],
+            graphDataUnit:[],
             // test2:[],
         }
     },
@@ -345,6 +348,7 @@ export default {
                                 this.graphDataMin.push(e.min_value)
                                 this.graphDataAvg.push(e.measurement_avg_value)
                                 this.graphDataMax.push(e.max_value)
+                                this.graphDataUnit.push(e.unit)
                             })          
                             // const graphDataMin2 = []
                             // const graphDataMax2 = []
@@ -406,25 +410,38 @@ export default {
             this.ctxConfig = {
                 type: 'line',
                 options: {
-                    position: 'bottom',
                     responsive: false,
                     scales: {
                         yAxes: [{
-
                             ticks: {
                                 min: 0,
                                 beginAtZero: true,
-                                fontSize: ctxFontSize
+                                fontSize: ctxFontSize,
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold'
                             },
-
+                            // scaleLabel:{
+                            //     display:true,
+                            //     labelString : this.graphDataUnit[0],
+                            //     fontFamily : 'CjFontBodyRegular',
+                            //     fontStyle : 'bold',
+                            // }
                         }],
                         xAxes: [{
                             gridLines : {
                                 display : false
                             },
                             ticks: {
-                                fontSize: ctxFontSize
-                            }
+                                position : 'right',
+                                fontFamily : 'CjFontBodyRegular',
+                                fontStyle : 'bold',
+                            },
+                            // scaleLabel:{
+                            //     display:true,
+                            //     labelString : "일",
+                            //     fontFamily : 'CjFontBodyRegular',
+                            //     fontStyle : 'bold',
+                            // }
                         }]
                     },
                     plugins: {
@@ -443,15 +460,22 @@ export default {
 
                             backgroundColor: 'white',
                             borderRadius: 4
-                        }
+                        },
                     },
                     maintainAspectRatio: false,
+                    legend:{
+                        labels:{
+                            fontFamily : 'CjFontBodyRegular',
+                            fontStyle : 'bold'
+                        }
+                    },
                 },
                 data: {
 
                     labels: this.graphLabel,
                     datasets: [
                         {
+
                             label: '최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
@@ -501,50 +525,6 @@ export default {
 </script>
 
 <style>
-.small {
-    /* max-width: 600px; */
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0,0,0,.3 );
-    align-items: center;
-    justify-content: center;
-    display: none;
-}
-
-.small > div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    box-shadow:0px 0px 15px 0px rgb(165 165 165);
-    border-radius: 5px;
-    width: 1050px;
-    height: 650px;
-    position: relative;
-}
-.small > div > button{
-    width: 100px;
-    height: 40px;
-    position: absolute;
-    font-size: 16px;
-    background: rgb(81, 81, 255);
-    color: white;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-.small > div > button:first-child{
-    top: 0px;
-    right: 110px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 5px;
-}
-.small > div > button:nth-child(2){
-    top: 0px;
-    right: 0px;
-}
 * {
     margin: 0;
     padding: 0;
@@ -638,6 +618,67 @@ export default {
     color: white;
 }
 
+.small {
+    /* max-width: 600px; */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,.3 );
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.small > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow:0px 0px 15px 0px rgb(165 165 165);
+    border-radius: 5px;
+    width: 1050px;
+    height: 650px;
+    position: relative;
+}
+.small > div > button{
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    font-size: 16px;
+    background: rgb(81, 81, 255);
+    color: white;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.small > div > button:first-child{
+    top: 0px;
+    right: 110px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 5px;
+}
+.small > div > button:nth-child(2){
+    top: 0px;
+    right: 0px;
+}
+
+.small > div > span{
+    position:absolute;
+    font-size:12px;
+    font-family:CjFontBodyRegular;
+    font-weight:bold;
+}
+
+.small > div > .yAxisLabel{
+    top:6%;
+    left:6%;
+}
+
+.small > div > .xAxisLabel{
+    top:93%;
+    right:5%;
+}
 .v-menu__content {
     top: 215px !important;
 }
