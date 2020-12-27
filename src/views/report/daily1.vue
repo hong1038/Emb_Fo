@@ -41,15 +41,17 @@
                         <div class="dailyTable dailyTable01">
                             <p>1. 일일 모니터링 통계</p>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <canvas style="background:white" id="chart1" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable02">
                             <p>2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <canvas style="background:white" id="chart2" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable03">
                             <p>3. 배출구 초과이력 관리</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility">
-                            </ag-grid-vue>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <canvas style="background:white" id="chart3" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable04">
                             <p>4. 설비적/기계적 문제 발생 및 대응 현황</p>
@@ -142,6 +144,15 @@ export default {
             pageSz:store.state.paginationPageSize,
 
             //1. 일일 모니터링 통계
+
+            chart1inletMax:[],
+            chart1inletAvg:[],
+            chart1inletMin:[],
+            chart1standard:[],
+            chart1outletMax:[],
+            chart1outletAvg:[],
+            chart1outletMin:[],
+            chart1label:[],
             monitorListCount:0,
             monitorList:[],
             monitorFields: [
@@ -244,6 +255,11 @@ export default {
             ],
 
             //2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항
+
+            chart2inletMax:[],
+            chart2inletAvg:[],
+            chart2inletMin:[],
+            chart2abel:[],
             inletListCount:0,
             inletList: [],
             inletFields: [
@@ -309,6 +325,10 @@ export default {
             ],
 
             //3. 배출구 초과이력 관리
+            chart3standard:[],
+            chart3outletMax:[],
+            chart3label:[],
+
             outletListCount:0,
             outletList:[],
             outletFields: [
@@ -451,7 +471,13 @@ export default {
                     width: '1100px'
                 },
             ],
+
+
         }
+
+
+
+
     },
     beforeDestroy() {
         this.clearTimeout()

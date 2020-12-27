@@ -230,6 +230,7 @@ export default {
             outletgraphDataMin:[],
             outletgraphDataAvg:[],
             outletgraphDataMax:[],
+            standard_value:[],
         }
     },
     beforeDestroy() {
@@ -426,13 +427,17 @@ export default {
                             this.outletgraphDataMin = []
                             this.outletgraphDataAvg = []
                             this.outletgraphDataMax = []
+                            this.standard_value = []
                             that.list.map(e => {
-
-                                this.graphLabel.push(e.prevention_date)
+                                let dateVal = []
+                                dateVal = e.prevention_date.split("-")
+                                dateVal[0] = dateVal[0].substring(2,4)
+                                this.graphLabel.push(dateVal.join("/"))
                                 this.inletgraphDataMin.push(e.inlet_min_value)
                                 this.inletgraphDataAvg.push(e.inlet_avg_value)
                                 this.inletgraphDataMax.push(e.inlet_max_value)
 
+                                this.standard_value.push(e.outlet_standard_value)
                                 this.outletgraphDataMin.push(e.outlet_min_value)
                                 this.outletgraphDataAvg.push(e.outlet_avg_value)
                                 this.outletgraphDataMax.push(e.outlet_max_value)
@@ -540,11 +545,19 @@ export default {
 
                     labels: this.graphLabel,
                     datasets: [
+                        {
+                            label: '기준값',
+                            borderColor: 'red',
+                            backgroundColor: 'transparent',
+                            data: this.standard_value,
+                            borderDash: [10,5]
+                            // data:this.dailyChartData
+                        },
                                                 {
                             label: '흡입최대',
                             borderColor: '#f13f3f',
                             backgroundColor: 'transparent',
-                            data: this.inletgraphDataMax
+                            data: this.inletgraphDataMax,
                             // data:this.dailyChartData
                         },
                                                 {

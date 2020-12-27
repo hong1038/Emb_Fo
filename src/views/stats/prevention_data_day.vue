@@ -232,6 +232,7 @@ export default {
             outletgraphDataMin: [],
             outletgraphDataAvg: [],
             outletgraphDataMax: [],
+            standard_value:[],
         }
     },
     beforeDestroy() {
@@ -410,6 +411,7 @@ export default {
                             this.outletgraphDataMin = []
                             this.outletgraphDataAvg = []
                             this.outletgraphDataMax = []
+                            this.standard_value = []
                             that.list.map(e => {
                                 // if (e.place == 512) {
                                     e.outmin_value = e.outlet_min_value
@@ -425,6 +427,7 @@ export default {
                                 this.inletgraphDataAvg.push(e.avg_value)
                                 this.inletgraphDataMax.push(e.max_value)
 
+                                this.standard_value.push(e.outlet_standard_value)
                                 this.outletgraphDataMin.push(e.outmin_value)
                                 this.outletgraphDataAvg.push(e.outavg_value)
                                 this.outletgraphDataMax.push(e.outmax_value)
@@ -538,6 +541,14 @@ export default {
 
                     labels: this.graphLabel,
                     datasets: [
+                        {
+                            label: '기준값',
+                            borderColor: 'red',
+                            backgroundColor: 'transparent',
+                            data: this.standard_value,
+                            borderDash: [10,5]
+                            // data:this.dailyChartData
+                        },
                         {
                             label: '흡입최대',
                             borderColor: '#f13f3f',

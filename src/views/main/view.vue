@@ -390,7 +390,9 @@ export default {
                 let graphLabel = []
                 let graphDataIn = []
                 let graphDataOut = []
+                let outlet_standard_value = []
                 this.data.map(item => {
+                    console.log(item)
                     if (e.equipment_inner_nm === item.equipment_inner_nm) {
                         if (item.place == 511) {
                             midlet_place = true;
@@ -398,6 +400,7 @@ export default {
                         graphLabel.push(item.prevention_date)
                         if (item.place == 512) {
                             graphDataOut.push(item.outlet_avg_value)
+                            outlet_standard_value.push(item.outlet_standard_value)
                         }
                         if (item.place == 510) {
                             graphDataIn.push(item.inlet_avg_value)                            
@@ -487,6 +490,16 @@ export default {
                                 backgroundColor: 'transparent',
                                 pointRadius: 1,
                                 data: graphDataOut,
+                                borderWidth:5
+                                // data:dailyChartData
+                            },
+                            {
+                                label: '기준값',
+                                borderColor: 'red',
+                                backgroundColor: 'transparent',
+                                pointRadius: 1,
+                                data: outlet_standard_value,
+                                borderDash: [10,5],
                                 borderWidth:5
                                 // data:dailyChartData
                             },

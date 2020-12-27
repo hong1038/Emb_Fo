@@ -130,7 +130,10 @@
         <div> -->
             <!-- <button v-on:click="chartImage()">IMG</button> -->
             <div class="responseGraph" v-if="show" style="width:1550px;height:650px">
-                <span>{{prevention_date}} {{server_name}}<h1>{{equipment_inner_nm}}</h1></span>
+                <div style="display:flex;justify-content: space-between;">
+                    <span>{{prevention_date}} {{server_name}}<h1>{{equipment_inner_nm}}</h1></span>
+                    <button class="imgbutton"  v-on:click="chartImage()">IMG</button>
+                </div>
                 <canvas style="background:white" id="daily-chart" width="1550px" height="550" ></canvas>
             </div>
         <!-- </div>
@@ -359,6 +362,20 @@ export default {
     },
 
     methods: {
+        chartImage(){
+            this.dailyChart.update({
+                duration: 0
+            });
+            var link = document.createElement('a');
+            link.href = this.dailyChart.toBase64Image();
+            link.download = 'chart'+this.dateFr+'.png';
+            this.dailyChart.options.tooltips.backgroundColor = 'white'
+            link.click();
+            this.dailyChart.options.title.text = 'ChartTitle';
+            this.dailyChart.update({
+                duration: 0
+            });
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)

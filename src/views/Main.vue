@@ -401,20 +401,20 @@ export default {
         this.$Axios.post("/api/daedan/cj/ems/main/omList", {
         }, this.config)
         .then(res => {
-            this.datas = res.data.data.area
             // this.datas[0].air_abnormal_yn = "Y"
-            this.datas = this.datas.filter(e => 
-                e.area_code !== 10014 ||
-                e.area_code !== 10040 ||
-                e.area_code !== 10030 ||
-                e.area_code !== 10004 ||
-                e.area_code !== 10010 ||
-                e.area_code !== 10011 ||
-                e.area_code !== 10020 ||
+            this.datas = res.data.data.area.filter(e => 
+                e.area_code !== 10014 &&
+                e.area_code !== 10040 &&
+                e.area_code !== 10030 &&
+                e.area_code !== 10004 &&
+                e.area_code !== 10010 &&
+                e.area_code !== 10011 &&
+                e.area_code !== 10020 &&
                 e.area_code !== 10013
             )
-            
-            this.pollData();
+            this.setTimeout(() => {
+                this.pollData();
+            }, 3000);
         })
         .catch(err => {
             alert("가동률데이터목록 추출 실패 \n" + err);
@@ -432,6 +432,7 @@ export default {
                 if (this.pinshow === 1) {
                     this.pinshow = 0
                     this.datas.map(e => {
+                        // console.log(document.getElementsByClassName("area"+e.area_code)[0],e)
                         if (e.air_abnormal_yn === "Y" || e.odor_abnormal_yn  === "Y" || e.water_abnormal_yn === "Y") {
                             e.pinshow = 0   
                             document.getElementsByClassName("area"+e.area_code)[0].style.opacity = 0
@@ -439,6 +440,9 @@ export default {
                             document.getElementsByClassName("area"+e.area_code)[0].style.borderColor = "red"
                             document.getElementsByClassName("area"+e.area_code)[0].style.boxShadow = "0px 0px 10px 4px red"
                         }else{
+                            if ( document.getElementsByClassName("area"+e.area_code)[0].style.background === "rgb(48, 230, 55)") {
+                                return
+                            }
                             document.getElementsByClassName("area"+e.area_code)[0].style.boxShadow = "none"
                             document.getElementsByClassName("area"+e.area_code)[0].style.background = "transparent"
                             document.getElementsByClassName("area"+e.area_code)[0].style.borderColor = "black"

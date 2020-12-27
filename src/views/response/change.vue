@@ -110,8 +110,11 @@
             </div>
         </div>
     </div>
-    <div class="responseGraph" v-if="show" style="width:1550px;height:650px">
-        <span>{{prevention_date}} {{server_name}}<h1>{{equipment_inner_nm}}</h1></span>
+    <div class="responseGraph" v-if="show" style="width:1550px;height:650px;margin-left:320px">
+        <div style="display:flex;justify-content: space-between;">
+            <span>{{prevention_date}} {{server_name}}<h1>{{equipment_inner_nm}}</h1></span>
+            <button class="imgbutton"  v-on:click="chartImage()">IMG</button>
+        </div>
         <canvas style="background:white" id="daily-chart" width="1550px" height="550" ></canvas>
     </div>
     <b-overlay :show="busyPop" no-wrap @shown="onShown" @hidden="onHidden">
@@ -340,6 +343,20 @@ export default {
     },
 
     methods: {
+        chartImage(){
+            this.dailyChart.update({
+                duration: 0
+            });
+            var link = document.createElement('a');
+            link.href = this.dailyChart.toBase64Image();
+            link.download = 'chart'+this.dateFr+'.png';
+            this.dailyChart.options.tooltips.backgroundColor = 'white'
+            link.click();
+            this.dailyChart.options.title.text = 'ChartTitle';
+            this.dailyChart.update({
+                duration: 0
+            });
+        },
         // search(){
         //     if (this.list.length === 0) {
         //         alert('조회된 리스트가 없습니다.')
@@ -1133,5 +1150,13 @@ export default {
 .ag-header-group-text{
     display:block;
     margin:0 auto;
+}
+.imgbutton{
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    background: rgb(81, 81, 255);
+    color: white;
+    border-radius: 5px;
 }
 </style>
