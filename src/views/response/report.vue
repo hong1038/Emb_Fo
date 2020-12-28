@@ -464,8 +464,8 @@ export default {
             let that = this;
             await this.$Axios.post("/api/daedan/cj/ems/response/reportDataSave", {
                     server_key: this.server_key,
-                    equipment_key:this.equipment_key,
-                    category_cd:this.category_cd,
+                    // equipment_key:this.equipment_key,
+                    category_cd:this.category,
                     problem:this.problem,
                     action:this.action,
                     prevention_date:this.prevention_date,
