@@ -409,7 +409,7 @@ export default {
                 })
                 // this.getEquips()
         },
-        async getEquips(e) {
+        async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
             let that = this;
             this.serverKey = store.state.ckServer
