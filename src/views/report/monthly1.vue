@@ -30,7 +30,7 @@
                                 </div>
                             </b-col>
                             <b-col cols="3">
-                                <input type="button" class="m_btn01" value="조회" v-on:click="getList01">
+                                <input type="button" class="repM_btn01" value="조회" v-on:click="getList01">
                             </b-col>
                         </b-row>
                     </div>
@@ -131,22 +131,26 @@ export default {
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'problem',
                     headerName: '문제점/이슈사항',
-                    width: '600px'
+                    width: '600px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action',
                     headerName: '대응방안',
-                    width: '600px'
+                    width: '600px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'prevention_date',
                     headerName: '개선일정',
-                    width: '180px'
+                    width: '180px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
 
@@ -157,17 +161,20 @@ export default {
                                 {
                     field: 'prevention_date',
                     headerName: '일자',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '190px'
+                    width: '260px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 // {
                 //     field: 'internal_name',
@@ -177,7 +184,8 @@ export default {
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -186,38 +194,44 @@ export default {
                             field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
-                            width: '120px'
+                            width: '120px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '120px'
+                            width: '120px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '120px'
+                            width: '120px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '120px'
+                            width: '120px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'occur',
                             headerName: '초과횟수',
                             type: 'number',
-                            width: '140px'
+                            width: '140px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
                 {
                     field: 'procRate',
                     headerName: '방지시설 효율(%)',
-                    width: '220px'
+                    width: '220px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
 
@@ -228,37 +242,44 @@ export default {
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'rc_date',
                     headerName: '발생일자',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'server_name',
                     headerName: '공정명',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치명',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'cause',
                     headerName: '변경점/이상점 확인 결과 원인',
-                    width : '415'
+                    width : '415',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action',
                     headerName: '조치사항',
-                    width: '415px'
+                    width: '415px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action_date',
                     headerName: '조치 완료일자',
-                    width: '200px'
+                    width: '200px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
 
@@ -269,17 +290,20 @@ export default {
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'prevention_date',
                     headerName: '발생일자',
-                    width: '110px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '방지시설명',
-                    width: '130px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -288,51 +312,60 @@ export default {
                             field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
-                            width: '80px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '80px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'occur',
                             headerName: '초과횟수',
                             type: 'number',
-                            width: '110px'
+                            width: '110px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
                 {
                     field: 'pre_rate',
                     headerName: '방지시설 처리효율(%)',
-                    width : '190'
+                    width : '190',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'abn_type',
                     headerName: '유형',
-                    width: '90px'
+                    width: '90px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'cause',
                     headerName: '초과사항 확인결과 원인',
-                    width: '250px'
+                    width: '250px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action',
                     headerName: '조치사항',
-                    width: '130px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action_type',
                     headerName: '조치 여부',
-                    width: '110px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'action_date',
                     headerName: '조치 완료일자',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
 
@@ -343,22 +376,26 @@ export default {
                 {
                     field: 'rs_date',
                     headerName: '일자',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '120px'
+                    width: '175px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'abn_type',
                     headerName: '유형',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'rs_date',
                     headerName: '발생일자',
-                    width: '110px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -367,26 +404,30 @@ export default {
                             field: 'cause',
                             headerName: '문제점/이슈사항',
                             type: 'number',
-                            width: '380px'
+                            width: '390px',
+                            cellStyle: {textAlign: 'left'}
                         },
                         {
                             field: 'action',
                             headerName: '대응 방안',
                             type: 'number',
-                            width: '380px'
+                            width: '390px',
+                            cellStyle: {textAlign: 'left'}
                         },
                         {
                             field: 'action_date',
                             headerName: '일정',
                             type: 'number',
-                            width: '130px'
+                            width: '130px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
                 {
                     field: 'action_type',
                     headerName: '완료상태',
-                    width : '200'
+                    width : '110',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
 
@@ -397,22 +438,26 @@ export default {
                 {
                     field: 'prevention_date',
                     headerName: '일자',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'issue',
                     headerName: '특이사항',
-                    width: '1050px'
+                    width: '1050px',
+                    cellStyle: {textAlign: 'left'}
                 },
             ]
         }
@@ -892,7 +937,7 @@ export default {
     display: none;
 }
 
-.m_btn01 {
+.repM_btn01 {
     position: absolute;
     top: 0px;
     right: 20px;
@@ -910,7 +955,7 @@ export default {
     font-size: 16px;
 }
 
-.m_btn01:hover {
+.repM_btn01:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
@@ -943,5 +988,19 @@ export default {
     margin:0 auto;
     font-size:16px;
 }
+.monthlyTable .ag-header-cell-label {
+   justify-content: center !important;
+}
 
+.monthlyTable01 .ag-header-cell:nth-child(2) .ag-header-cell-label,
+.monthlyTable01 .ag-header-cell:nth-child(3) .ag-header-cell-label,
+.monthlyTable03 .ag-header-cell:nth-child(5) .ag-header-cell-label,
+.monthlyTable03 .ag-header-cell:nth-child(6) .ag-header-cell-label,
+.monthlyTable04 .ag-header-cell:nth-child(9) .ag-header-cell-label,
+.monthlyTable04 .ag-header-cell:nth-child(10) .ag-header-cell-label,
+.monthlyTable05 .ag-header-cell:nth-child(5) .ag-header-cell-label,
+.monthlyTable05 .ag-header-cell:nth-child(6) .ag-header-cell-label,
+.monthlyTable06 .ag-header-cell:nth-child(4) .ag-header-cell-label{
+    justify-content: left !important;
+}
 </style>

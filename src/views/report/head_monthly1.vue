@@ -346,12 +346,14 @@ export default {
                 {
                     field: 'area',
                     headerName: '권역',
-                    width: '100px'
+                    width: '105px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '110px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 // {
                 //     field: 'category_cd',
@@ -374,22 +376,26 @@ export default {
                                 {
                                     field : 's1',
                                     headerName : '센서이상',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 't1',
                                     headerName : '통신이상',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'f1',
                                     headerName : '설비이상',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'sv_occur_to',
                                     headerName : '소계',
-                                    width : '80'
+                                    width : '80',
+                                    cellStyle: {textAlign: 'center' }
                                 },
                             ]
                         }
@@ -406,17 +412,20 @@ export default {
                                 {
                                     field : 'ob1',
                                     headerName : '농도상승',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'ob2',
                                     headerName : '수치오류',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'sv_obor_occur_to',
                                     headerName : '소계',
-                                    width : '80'
+                                    width : '80',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                             ]
                         },
@@ -427,17 +436,20 @@ export default {
                                 {
                                     field : 'wat1',
                                     headerName : '농도상승',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'wat2',
                                     headerName : '수치오류',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'sv_wat_occur_to',
                                     headerName : '소계',
-                                    width : '80'
+                                    width : '80',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                             ]
                         },
@@ -448,17 +460,20 @@ export default {
                                 {
                                     field : 'air1',
                                     headerName : '농도상승',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'air2',
                                     headerName : '수치오류',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'sv_air_occur_to',
                                     headerName : '소계',
-                                    width : '80'
+                                    width : '80',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                             ]
                         },
@@ -469,17 +484,20 @@ export default {
                                 {
                                     field : 'all1',
                                     headerName : '농도상승',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'all2',
                                     headerName : '수치오류',
-                                    width : '104'
+                                    width : '112',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                                 {
                                     field : 'all_occur_to',
                                     headerName : '소계',
-                                    width : '80'
+                                    width : '80',
+                                    cellStyle: {textAlign: 'center'}
                                 },
                             ]
                         },
@@ -500,32 +518,38 @@ export default {
                 {
                     field: 'area',
                     headerName: '권역',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '120px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '190px'
+                    width: '220px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'abn_type',
                     headerName: '유형',
-                    width : '140'
+                    width : '110',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'rs_date',
                     headerName: '발생 일자',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -534,24 +558,28 @@ export default {
                         {
                             field : 'cause',
                             headerName : '문제점/이슈사항',
-                            width: '418'
+                            width: '418',
+                            cellStyle: {textAlign: 'left'}
                         },
                         {
                             field : 'action',
                             headerName : '대응 방안',
-                            width: '470'
+                            width: '470',
+                            cellStyle: {textAlign: 'left'}
                         },
                         {
                             field : 'action_date',
                             headerName : '일정',
-                            width: '110'
+                            width: '120',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
                 {
                     field: 'action_type',
                     headerName: '완료 상태',
-                    width: '110px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
 
@@ -567,57 +595,68 @@ export default {
                 {
                     field: 'area',
                     headerName: '권역',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 're_date',
                     headerName: '발생일자',
-                    width: '110px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'public_name',
                     headerName: '공정명',
-                    width : '140'
+                    width : '140',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '방지시설명',
-                    width: '200px'
+                    width: '200px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'abn_type',
                     headerName: '유형',
-                    width : '140'
+                    width : '140',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'cause',
                     headerName: '초과사항 확인결과 원인',
-                    width: '320px'
+                    width: '320px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action',
                     headerName: '조치사항',
-                    width : '400'
+                    width : '400',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action_type',
                     headerName: '조치여부',
-                    width : '105'
+                    width : '105',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'action_date',
                     headerName: '조치 완료 일자',
-                    width : '140'
+                    width : '140',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
         }
@@ -1323,5 +1362,16 @@ export default {
                 }
             }
         }
+}
+
+.hmTable .ag-header-cell-label {
+   justify-content: center !important;
+}
+
+.hmTable03 .ag-header-cell:nth-child(7) .ag-header-cell-label,
+.hmTable03 .ag-header-cell:nth-child(8) .ag-header-cell-label,
+.hmTable04 .ag-header-cell:nth-child(8) .ag-header-cell-label,
+.hmTable04 .ag-header-cell:nth-child(9) .ag-header-cell-label {
+   justify-content: left !important;
 }
 </style>

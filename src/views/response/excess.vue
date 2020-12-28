@@ -722,6 +722,9 @@ export default {
                                         e[0].outlet_avg_value = e[0].midlet_avg_value 
                                         e[0].outlet_min_value = e[0].midlet_min_value 
                                     }
+                                    e[0].inlet_max_value = e[0].inlet_max_value > 0 ? e[0].inlet_max_value : '-'
+                                    e[0].inlet_min_value = e[0].inlet_min_value > 0 ? e[0].inlet_min_value : '-'
+                                    e[0].inlet_avg_value = e[0].inlet_avg_value > 0 ? e[0].inlet_avg_value : '-' 
                                     that.list.push(e[0])        
                                 }else if (e.length === 2) {
                                     let outval = []
@@ -796,6 +799,12 @@ export default {
                                             'outlet_standard_value':outval.outlet_standard_value
                                         }
                                     }
+                                    objectitem.inlet_max_value = objectitem.inlet_max_value > 0 ? objectitem.inlet_max_value : '-'
+                                    objectitem.inlet_min_value = objectitem.inlet_min_value > 0 ? objectitem.inlet_min_value : '-'
+                                    objectitem.inlet_avg_value = objectitem.inlet_avg_value > 0 ? objectitem.inlet_avg_value : '-' 
+                                    objectitem.outlet_max_value = objectitem.outlet_max_value > 0 ? objectitem.outlet_max_value : '-'
+                                    objectitem.outlet_min_value = objectitem.outlet_min_value > 0 ? objectitem.outlet_min_value : '-'
+                                    objectitem.outlet_avg_value = objectitem.outlet_avg_value > 0 ? objectitem.outlet_avg_value : '-'
                                     console.log(objectitem)
                                     that.list.push(objectitem)   
                                 }

@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="mt-4 container-fluid">
+                    <div class="mt-4 container-fluid measurementGrid">
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
                     </div>
@@ -380,5 +380,9 @@ export default {
     font-weight: bold;
     background: rgb(81, 81, 255);
     color: white;
+}
+
+.measurementGrid .ag-header-cell-label {
+   justify-content: center !important;
 }
 </style>

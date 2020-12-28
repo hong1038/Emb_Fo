@@ -192,9 +192,6 @@
                                                 <p v-else-if="item.water_abnormal_yn === 'N'">
                                                     수질  <span style="color:blue;font-weight:bold">이상없음</span>
                                                 </p>
-
-
-
                                             </div>
                                         </div>
                                     </v-card>

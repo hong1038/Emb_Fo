@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                        <div class="mt-4 container-fluid">
+                        <div class="mt-4 container-fluid text-center mdmGrid">
                             <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                             </ag-grid-vue>
                         </div>
@@ -128,58 +128,58 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '측정장소',
-                    width: '230px',
+                    width: '220px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category',
                     headerName: '측정항목',
-                    width: '200px',
+                    width: '120px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'internal_number',
                     headerName: '관리번호',
-                    width: '80px',
+                    width: '170px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '375px',
+                    width: '400px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_date',
                     headerName: '측정날짜',
-                    width: '170px',
+                    width: '202px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '110px',
+                    width: '80px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_min_value',
                     headerName: '최소',
                     type: 'number',
-                    width: '140px',
+                    width: '105px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_avg_value',
                     headerName: '평균',
                     type: 'number',
-                    width: '140px',
+                    width: '105px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'measurement_max_value',
                     headerName: '최대',
                     type: 'number',
-                    width: '140px',
+                    width: '105px',
                     cellStyle: {textAlign: 'center'}
                 },
 
@@ -637,7 +637,9 @@ export default {
     box-sizing: border-box;
     padding-left: 10px;
 }
-.ag-header-cell-label {
-   justify-content: center;
+.mdmGrid .ag-header-cell-label {
+   justify-content: center !important;
 }
+
+
 </style>

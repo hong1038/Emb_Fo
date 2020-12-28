@@ -735,7 +735,7 @@ export default {
                                         }
                                     }
                                     objectitem.inlet_max_value = objectitem.inlet_max_value > 0 ? objectitem.inlet_max_value : '-'
-                                    objectitem.inlet_min_value = objectitem.inlet_min_value > 0 ? objectitem.inlet_min_value : '-'
+                                    objectitem.inlet_min_value = objectitem.inlet_min_value > 0 ? objectitem.inlet_min_value : '-' 
                                     objectitem.inlet_avg_value = objectitem.inlet_avg_value > 0 ? objectitem.inlet_avg_value : '-' 
                                     that.list.push(objectitem)   
                                 }

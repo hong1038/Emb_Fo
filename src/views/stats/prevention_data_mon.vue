@@ -39,7 +39,7 @@
 
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="container-fluid mt-4">
+                    <div class="container-fluid mt-4 pdmGrid">
                         <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list"  :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize">
                         </ag-grid-vue>
                     </div>
@@ -130,23 +130,26 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '120px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category',
                     headerName: '분야',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'internal_number',
                     headerName: '관리번호',
-                    width: '80px',
+                    width: '110px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '방지시설',
-                    width: '285px'
+                    width: '285px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 // {
                 //     field: 'internal_name',
@@ -156,12 +159,14 @@ export default {
                 {
                     field: 'prevention_date',
                     headerName: '측정날짜',
-                    width: '200px'
+                    width: '170px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -170,19 +175,22 @@ export default {
                             field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                 ]},
                 {
@@ -193,25 +201,29 @@ export default {
                             field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '85px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
@@ -219,7 +231,8 @@ export default {
                     field: 'proc_rt',
                     headerName: '처리효율',
                     type: 'number',
-                    width: '146px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
             graphLabel:[],
@@ -806,5 +819,8 @@ export default {
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
+}
+.pdmGrid .ag-header-cell-label {
+   justify-content: center !important;
 }
 </style>
