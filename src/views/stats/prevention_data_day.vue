@@ -39,22 +39,22 @@
 
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="container-fluid mt-4">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :gridOptions="gridOptions"  :paginationPageSize="paginationPageSize">
-                        </ag-grid-vue>
-                    </div>
-                    <div class="small" style="z-index:10">
-                        <div>                           
-                            <button v-on:click="chartImage()">IMG</button>
-                            <button v-on:click="close()">&times;</button>
-                            <span class="yAxisLabel">({{graphDataUnit}})</span>
-                            <span class="xAxisLabel">(시간)</span>
-                            <div>
-                                <canvas style="margin-bottom:25px" id="daily-chart" width="950" height="550"></canvas>
-                                <!-- <canvas id="daily-chart2" width="950" height="255"></canvas> -->
+                        <div class="container-fluid mt-4 text-center pddGrid">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" :columnDefs="fields" :rowData="list" :pagination="true" :gridOptions="gridOptions"  :paginationPageSize="paginationPageSize">
+                            </ag-grid-vue>
+                        </div>
+                        <div class="small" style="z-index:10">
+                            <div>                           
+                                <button v-on:click="chartImage()">IMG</button>
+                                <button v-on:click="close()">&times;</button>
+                                <span class="yAxisLabel">({{graphDataUnit}})</span>
+                                <span class="xAxisLabel">(시간)</span>
+                                <div>
+                                    <canvas style="margin-bottom:25px" id="daily-chart" width="950" height="550"></canvas>
+                                    <!-- <canvas id="daily-chart2" width="950" height="255"></canvas> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </b-overlay>
                 </div>
             </div>
@@ -136,33 +136,38 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '120px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'internal_number',
                     headerName: '관리번호',
-                    width: '80px',
+                    width: '110px',
                     cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '300px'
+                    width: '315px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'unit',
                     headerName: '단위',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'prevention_date',
                     headerName: '측정일시',
-                    width: '180px'
+                    width: '110px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -171,19 +176,22 @@ export default {
                             field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '100px'
+                            width: '80',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '100px'
+                            width: '80',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '100px'
+                            width: '80',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
@@ -195,32 +203,37 @@ export default {
                             field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
-                            width: '85px'
+                            width: '80',
+                            cellStyle: {textAlign: 'center'}
                         },
                         { 
                             field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '100px'
+                            width: '80',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '100px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '100px'
+                            width: '80px',
+                            cellStyle: {textAlign: 'center'}
                         },
                 ]},                
                 {
                     field: 'proc_rt',
                     headerName: '처리효율',
                     type: 'number',
-                    width: '146px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
             graphLabel: [],
@@ -822,5 +835,8 @@ export default {
     display:block;
     margin:0 auto;
     font-size:14px;
+}
+.pddGrid .ag-header-cell-label {
+   justify-content: center !important;
 }
 </style>
