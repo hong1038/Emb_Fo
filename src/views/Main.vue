@@ -363,6 +363,8 @@ export default {
             pin: null,
             backgroundImage: mainimage,
             moniList: null,
+            moniList2: null,
+            moniList2val:[],
             checkPin:false,
             areaNm:"전체"
         }
@@ -398,28 +400,7 @@ export default {
     created() {
         this.getWether();
         this.onClick();
-        this.$Axios.post("/api/daedan/cj/ems/main/omList", {
-        }, this.config)
-        .then(res => {
-            // this.datas[0].air_abnormal_yn = "Y"
-            this.datas = res.data.data.area.filter(e => 
-                e.area_code !== 10014 &&
-                e.area_code !== 10040 &&
-                e.area_code !== 10030 &&
-                e.area_code !== 10004 &&
-                e.area_code !== 10010 &&
-                e.area_code !== 10011 &&
-                e.area_code !== 10020 &&
-                e.area_code !== 10013
-            )
-            this.setTimeout(() => {
-                this.pollData();
-            }, 5000);
-        })
-        .catch(err => {
-            alert("가동률데이터목록 추출 실패 \n" + err);
-        })
-        
+        this.pinSelect2()
     },
     watch: {
         moniList() {
@@ -427,8 +408,72 @@ export default {
         }
     },
     methods: {
+        pinSelect2(){
+            this.$Axios.post("/api/daedan/cj/ems/main/omList", {
+            }, this.config)
+            .then(res => {
+                this.moniList2 = res.data.data.moni
+                this.pinwar()
+            }).catch(err => {
+                console.log(err)
+            })
+
+        },
+        pinwar(){
+            console.log(this.moniList2)
+            this.moniList2val = []
+            this.moniList2.map(e=>{
+                    if (e.place === 510) {
+                        if (e.inlet_avg_value > e.inlet_standard_value) {
+                            this.moniList2val.push(e.server_key)
+                        }          
+                    }else if (e.place === 512) {
+                        if (e.outlet_avg_value > e.outlet_standard_value) {
+                            this.moniList2val.push(e.server_key)
+                        }
+                    }else if (e.place === 511) {
+                        if (e.midlet_avg_value > e.midlet_standard_value) {
+                            this.moniList2val.push(e.server_key)
+                        }
+                    }  
+            })
+            this.moniList2val = Array.from(new Set(this.moniList2val))
+
+            this.$Axios.post("/api/daedan/cj/ems/main/omList", {
+            }, this.config)
+            .then(res => {
+
+                // this.datas[0].air_abnormal_yn = "Y"
+                this.datas = res.data.data.area.filter(e => 
+                    e.area_code !== 10014 &&
+                    e.area_code !== 10040 &&
+                    e.area_code !== 10030 &&
+                    e.area_code !== 10004 &&
+                    e.area_code !== 10010 &&
+                    e.area_code !== 10011 &&
+                    e.area_code !== 10020 &&
+                    e.area_code !== 10013
+                )
+
+                    this.datas.map(item => {
+                        for (let index = 0; index < this.moniList2val.length; index++) {
+                            if (this.moniList2val[index] === item.server_key) {
+                                item.odor_abnormal_yn = "Y"
+                            }
+                        }
+                    })
+
+                this.setTimeout(() => {
+                    this.pollData();
+                }, 5000);
+            })
+            .catch(err => {
+                alert("가동률데이터목록 추출 실패 \n" + err);
+            })
+        },
         pollData(){
             this.polling = setInterval(() => {
+                console.log(this.moniList)
                 if (this.pinshow === 1) {
                     this.pinshow = 0
                     this.datas.map(e => {
@@ -501,6 +546,7 @@ export default {
             this.onClick();
             this.areaPin = areaPin
             this.pinName = name
+
 
             this.$Axios.post("/api/daedan/cj/ems/main/omList", {
                     serverList: this.serverList,
@@ -602,6 +648,15 @@ export default {
                                         console.log(error)
                                     }      
                                 }
+
+                                this.rowData.map(item => {
+                                    for (let index = 0; index < this.moniList2val.length; index++) {
+                                        if (this.moniList2val[index] === item.server_key) {
+                                            item.odor_abnormal_yn = "Y"
+                                        }
+                                    }
+                                })
+
                                 this.getmoniList()
                         }
                     }
