@@ -638,7 +638,8 @@ export default {
     padding-left: 10px;
 }
 .systemtableWrap .row:not(.line1_box)>input,
-.systemtableWrap .row>select {
+.systemtableWrap .row>select,
+.systemtableWrap .row>textarea {
     max-width: 210px;
 }
 
