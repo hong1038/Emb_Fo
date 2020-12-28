@@ -409,7 +409,7 @@ export default {
                 })
                 // this.getEquips()
         },
-        async getEquips() {
+        async getEquips(e) {
             console.log("getEquips.server_key = " + this.server_key)
             let that = this;
             this.serverKey = store.state.ckServer
@@ -422,8 +422,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             that.comboEquipments = res.data.data.equipPos; //측정위치
-
-                            
+                         
                         }
                     }
                 })
