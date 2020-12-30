@@ -249,7 +249,7 @@ export default {
                     break;
             }
         },
-
+        // 측정위치
         async getEquipPos() {
             //alert("envPos.checkListVal1 = " + this.checkListVal1);
             this.equipPos = [];
@@ -278,7 +278,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             console.log(res.data.data)
-                            that.equipPos = res.data.data.equipInnerPos; //서벼별측정위치
+                            that.equipPos = res.data.data.equipInnerPos; //서버별측정위치
                             that.sensors = res.data.data.sensors; //서버별센서목록
                         }
                     }
@@ -289,6 +289,7 @@ export default {
                 })
 
         },
+        // 센서명
         async getSensors() {
             let that = this;
             this.sensors = [];
@@ -300,6 +301,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            that.sensors = [],
                             that.sensors = res.data.data.sensors; //서버별센서목록
                         }
                     }
