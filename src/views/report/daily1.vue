@@ -40,12 +40,12 @@
                     <div class="dailyTableWrap"  id="printMe">
                         <div class="dailyTable dailyTable01">
                             <p>1. 일일 모니터링 통계</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" id='FirstGrid' :dataSource='monitorList' :toolbar='toolbarOptions' :allowExcelExport='true' :toolbarClick='toolbarClick' :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
                             <canvas style="background:white" id="chart1" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable02">
                             <p>2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" id='SecondGrid' :dataSource='inletList' :allowExcelExport='true' :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
                             <canvas style="background:white" id="chart2" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable03">
@@ -91,7 +91,6 @@ import 'vue-datetime/dist/vue-datetime.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import { GridPlugin, Toolbar, ExcelExport } from "@syncfusion/ej2-vue-grids";
 import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
@@ -1068,28 +1067,8 @@ export default {
                 this.busy = false;
         },
 
-        print () {
-            let app = document.getElementById('header')
-            let app2 = document.getElementById('left2')  
-            // const printContents = elementRef.innerHTML 
-            let printDiv = document.createElement('DIV')
-            document.body.appendChild(printDiv) 
-            // printDiv.innerHTML = printContents 
-            app.style.display = 'none' 
-            app2.style.display = 'none' 
-            window.print() 
-            app.style.display = 'block' 
-            app2.style.display = 'block' 
-            printDiv.style.display = 'none' 
-            printDiv.innerHTML = ''
-
-
-        }
         
     },
-    provide: {
-        grid: [Toolbar, ExcelExport]
-  }
 }
 </script>
 
