@@ -43,53 +43,53 @@
                                 <div>
                                     <b-row v-if="hide">
                                         <b-col class="regiName col-4">키값</b-col>
-                                        <b-form-input class="col" type="text" size="sm" v-model="erInfo.rs_key"></b-form-input>
+                                        <b-form-input class="col" type="text" size="sm" v-model="rs_key"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">사업장</b-col>
-                                        <b-form-select class="col" v-model="erInfo.server_key" :options="comboServers" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="server_key" :options="comboServers" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">분야</b-col>
-                                        <b-form-select class="col" v-model="erInfo.category" :options="comboCategories" size="sm" > 
+                                        <b-form-select class="col" v-model="category" :options="comboCategories" size="sm" > 
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">측정위치</b-col>
-                                        <b-form-select class="col" v-model="erInfo.equipment_key" :options="comboEquipments" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="equipment_key" :options="comboEquipments" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">유형</b-col>
-                                        <b-form-select class="col" v-model="erInfo.abnormal_type" :options="comboabnormal" size="sm"></b-form-select>
+                                        <b-form-select class="col" v-model="abnormal_type" :options="comboabnormal" size="sm"></b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">발생일자</b-col>
-                                        <b-form-input class="col" type="date" size="sm" v-model="erInfo.rs_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="rs_date"></b-form-input>
                                     </b-row>
 
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">문제점 / 이슈사항</b-col>
-                                        <b-form-textarea class="col" type="text" style="max-height:120px;min-height:120px" size="sm" v-model="erInfo.cause"></b-form-textarea>
+                                        <b-form-textarea class="col" type="text" style="max-height:120px;min-height:120px" size="sm" v-model="cause"></b-form-textarea>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">대응방안</b-col>
-                                        <b-form-textarea class="col" type="text" size="sm" style="max-height:120px;min-height:120px" v-model="erInfo.action"></b-form-textarea>
+                                        <b-form-textarea class="col" type="text" size="sm" style="max-height:120px;min-height:120px" v-model="action"></b-form-textarea>
                                     </b-row>
 
                                     <b-row>
                                         <b-col class="regiName col-4">개선일정</b-col>
-                                        <b-form-input class="col" type="date" size="sm" v-model="erInfo.action_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="action_date"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료여부</b-col>
-                                        <b-form-select class="col" v-model="erInfo.action_type" size="sm">
+                                        <b-form-select class="col" v-model="action_type" size="sm">
                                             <option value="진행">진행</option>
                                             <option value="완료">완료</option>
                                         </b-form-select>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4">완료일자</b-col>
-                                        <b-form-input class="col" type="date" size="sm" v-model="erInfo.complete_date"></b-form-input>
+                                        <b-form-input class="col" type="date" size="sm" v-model="complete_date"></b-form-input>
                                     </b-row>
                                 </div>
                             </b-card>
@@ -290,17 +290,17 @@ export default {
 
     methods: {
         addOn2(){
-            this.erInfo.server_key = null
-            this.erInfo.category = null
-            this.erInfo.category_cd = null
-            this.erInfo.equipment_key = null
-            this.erInfo.abnormal_type = null
-            this.erInfo.rs_date = null
-            this.erInfo.cause = null
-            this.erInfo.action = null
-            this.erInfo.action_date = null
-            this.erInfo.action_type = null
-            this.erInfo.complete_date = null
+            this.server_key = null
+            this.category = null
+            this.category_cd = null
+            this.equipment_key = null
+            this.abnormal_type = null
+            this.rs_date = null
+            this.cause = null
+            this.action = null
+            this.action_date = null
+            this.action_type = null
+            this.complete_date = null
 
             this.showblock();
         },
@@ -343,18 +343,18 @@ export default {
             // this.equipment_key = null; //측정위치
             // this.category = null; //측정분야명
             // this.category_cd = null; //측정분야코드
-            this.erInfo.rs_key = obj.data.rs_key
-            this.erInfo.server_key = obj.data.server_key
-            this.erInfo.category = obj.data.category
-            this.erInfo.category_cd = obj.data.category_cd
-            this.erInfo.equipment_key = obj.data.equipment_key
-            this.erInfo.abnormal_type = obj.data.abnormal_type
-            this.erInfo.rs_date = obj.data.rs_date
-            this.erInfo.cause = obj.data.cause
-            this.erInfo.action = obj.data.action
-            this.erInfo.action_date = obj.data.action_date
-            this.erInfo.action_type = obj.data.action_type
-            this.erInfo.complete_date = obj.data.complete_date
+            this.rs_key = obj.data.rs_key
+            this.server_key = obj.data.server_key
+            this.category = obj.data.category
+            this.category_cd = obj.data.category_cd
+            this.equipment_key = obj.data.equipment_key
+            this.abnormal_type = obj.data.abnormal_type
+            this.rs_date = obj.data.rs_date
+            this.cause = obj.data.cause
+            this.action = obj.data.action
+            this.action_date = obj.data.action_date
+            this.action_type = obj.data.action_type
+            this.complete_date = obj.data.complete_date
             // this.sensors = [];
             this.showblock();
         },
@@ -387,7 +387,7 @@ export default {
                     alert("서버목록/수집분야(악취,수질,대기) 추출 실패 \n" + err);
                     console.log(err)
                 })
-                // this.getEquips()
+                this.getEquips()
         },
 
 
@@ -412,7 +412,7 @@ export default {
         async getEquips() {
             console.log("getEquips.server_key = " + this.server_key)
             let that = this;
-            this.serverKey = store.state.ckServer
+            // this.serverKey = store.state.ckServer
             console.log(this.server_key)
             await axios.post("/api/daedan/cj/ems/cmmn/comboEquipPosList", {
                     serverKey: this.server_key,
@@ -517,15 +517,15 @@ export default {
                 })
         },
         saveInfo() {
-            if (!this.erInfo.server_key) {
+            if (!this.server_key) {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.erInfo.category) {
+            if (!this.category) {
                 alert("분야는 필수 선택 항목 입니다.")
                 return;
             }
-            if (!this.erInfo.equipment_key) {
+            if (!this.equipment_key) {
                 alert("측정위치는 필수 선택 항목 입니다.")
                 return;
             }
@@ -539,18 +539,17 @@ export default {
             console.log("store.state.ckServer = " + store.state.ckServer)
             console.log("erInfo.category_cd = " + this.erInfo.category_cd)
             this.$Axios.post("/api/daedan/cj/ems/response/systemDataSave", {
-                    erInfo:this.erInfo,
-                    rs_key:this.erInfo.rs_key,
-                    abnormal_type:this.erInfo.abnormal_type,
-                    action:this.erInfo.action,
-                    action_date:this.erInfo.action_date,
-                    action_type:this.erInfo.action_type,
-                    category:this.erInfo.category,
-                    cause:this.erInfo.cause,
-                    complete_date:this.erInfo.complete_date,
-                    equipment_key:this.erInfo.equipment_key,
-                    rs_date:this.erInfo.rs_date,
-                    server_key:this.erInfo.server_key,
+                    rs_key:this.rs_key,
+                    abnormal_type:this.abnormal_type,
+                    action:this.action,
+                    action_date:this.action_date,
+                    action_type:this.action_type,
+                    category:this.category,
+                    cause:this.cause,
+                    complete_date:this.complete_date,
+                    equipment_key:this.equipment_key,
+                    rs_date:this.rs_date,
+                    server_key:this.server_key,
                     userId: store.state.userInfo.userId
                 }, this.config)
                 .then(res => {
