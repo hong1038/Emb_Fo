@@ -63,9 +63,7 @@
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility">
                             </ag-grid-vue>
                         </div>
-                        
                     </div>
-                    
                     </b-overlay>
                 </div>
             </div>
@@ -1067,6 +1065,23 @@ export default {
                 this.busy = false;
         },
 
+        print () {
+            let app = document.getElementById('header')
+            let app2 = document.getElementById('left2')  
+            // const printContents = elementRef.innerHTML 
+            let printDiv = document.createElement('DIV')
+            document.body.appendChild(printDiv) 
+            // printDiv.innerHTML = printContents 
+            app.style.display = 'none' 
+            app2.style.display = 'none' 
+            window.print() 
+            app.style.display = 'block' 
+            app2.style.display = 'block' 
+            printDiv.style.display = 'none' 
+            printDiv.innerHTML = ''
+
+
+        }
         
     },
 }

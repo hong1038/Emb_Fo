@@ -249,7 +249,7 @@ export default {
                     break;
             }
         },
-
+        // 측정위치
         async getEquipPos() {
             //alert("envPos.checkListVal1 = " + this.checkListVal1);
             this.equipPos = [];
@@ -278,28 +278,36 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             console.log(res.data.data)
-                            that.equipPos = res.data.data.equipInnerPos; //서벼별측정위치
-                            that.sensors = res.data.data.sensors; //서버별센서목록
+                            that.equipPos = res.data.data.equipInnerPos; //서버별측정위치
                         }
                     }
                 })
                 .catch(err => {
-                    console.log("ASDASDSAAD")
                     alert("측정위치및센서검색조건추출 실패 \n" + err);
                 })
 
         },
+        // 센서명
         async getSensors() {
+            if (this.checkListVal3.length === 0) {
+                this.sensors = []
+                return
+            }
             let that = this;
-            this.sensors = [];
-            await axios.post("/api/daedan/cj/ems/cmmn/comboSensorList", {
+            this.sensors = []
+            await axios.post("/api/daedan/cj/ems/cmmn/comboMsSensorList", {
                     userId: store.state.userInfo.userId,
                     serverList: store.state.ckServer,
+                    equipmentKey: store.state.ckEquip[0],
                     equipList: store.state.ckEquip
                 })
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
+                            console.log(
+                                res.data.data.sensors,
+                                    store.state.ckEquip
+                            )
                             that.sensors = res.data.data.sensors; //서버별센서목록
                         }
                     }
