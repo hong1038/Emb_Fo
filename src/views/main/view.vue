@@ -367,6 +367,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             this.data = res.data.data;
+                            console.log(res.data.data)
                             this.graph();
                         }
                     }
@@ -379,6 +380,7 @@ export default {
             if (this.Chart != undefined) {   
                 this.Chart.destroy();
             }
+            console.log(this.boxList2,this.boxList)
 
             this.boxList2.map((e, idx) => {
                 console.log(document.getElementById('line-graph' + idx))
@@ -514,9 +516,11 @@ export default {
             this.boxList2 = []
             let filterKeywords = []
             let filterKeywords2 = []
+            console.log(item)
             if (item === "All") {
                 this.eqbkey = null;
                 this.boxList2 = this.boxList
+                console.log(this.boxList2)
                 this.boxList2.map(e => {
                     filterKeywords.push(e.equipment_inner_nm)
                 })
@@ -532,12 +536,17 @@ export default {
                 let filterHeight = filterKeywords3.filter(x => x.length > 15)
                 filterHeight.map(e => {
                     this.boxHeight.push(e)
-                })
-                console.log(this.boxHeight, this.allKeywords)
-                
-                filterKeywords3.map(item => {
-                   this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
-                })
+                })  
+                // console.log(this.boxHeight, this.allKeywords,filterKeywords3)
+                // console.log(filterKeywords3)
+                // this.boxList2.map(e => {
+                //     console.log(e.equipment_inner_nm)
+                // })
+                // filterKeywords3.map(x => {
+                //    this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== x)
+                //    console.log(this.boxList2)
+                // })
+
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm
