@@ -73,9 +73,6 @@
 </template>
 
 <script>
-
-
-
 import store from "@/store/index";
 import axios from 'axios';
 import Header from '@/components/header.vue'
@@ -97,7 +94,6 @@ import {
 } from "ag-grid-vue"
 
 Vue.use(Datetime)
-
 
 export default {
     components: {
@@ -142,7 +138,6 @@ export default {
             pageSz:store.state.paginationPageSize,
 
             //1. 일일 모니터링 통계
-
             chart1inletMax:[],
             chart1inletAvg:[],
             chart1inletMin:[],
@@ -266,7 +261,6 @@ export default {
             ],
 
             //2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항
-
             chart2inletMax:[],
             chart2inletAvg:[],
             chart2inletMin:[],
@@ -713,9 +707,6 @@ export default {
 
                                 
                             })
-
-
-
                             // that.monitorList = res.data.data
                             that.monitorListCount = res.data.totalCount
                         }
@@ -842,11 +833,8 @@ export default {
                                     }
                                     that.inletList.push(objectitem)   
                                 }
-
-
                                 
                             })
-
                             // that.inletList = res.data.data
                             that.inletListCount = res.data.totalCount
                         }
@@ -977,11 +965,8 @@ export default {
                                     }
                                     that.outletList.push(objectitem)   
                                 }
-
                                 
                             })
-
-
                             // that.outletList = res.data.data
                             that.outletListCount = res.data.totalCount
                         }
@@ -1079,8 +1064,6 @@ export default {
             app2.style.display = 'block' 
             printDiv.style.display = 'none' 
             printDiv.innerHTML = ''
-
-
         }
         
     },
