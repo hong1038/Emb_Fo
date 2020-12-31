@@ -639,7 +639,7 @@ export default {
                                             this.areaNm = this.rowData[0].name
                                         }
 
-                                        this.opRate = res.data.data.oper.opRate.toFixed(2)
+                                        this.opRate = res.data.data.oper.opRate.toFixed(0)
                                         document.getElementsByClassName("chartIn")[0].style.width = this.opRate+"%"
                                     } catch (error) {
                                         console.log(error)
@@ -1030,7 +1030,8 @@ export default {
                             line-height: 40px;
                             font-weight: "bold";
                             &:nth-child(3){
-                                padding-left:2rem;
+                                padding-left:1.5rem;
+                                font-size:3.4rem;
                             }
                         }
                     }
