@@ -358,6 +358,7 @@ export default {
             })
         },
         monitoringListPerHour() {
+            console.log("qweqeqweqeweqw")
             this.$Axios.post("/api/daedan/cj/ems/main/MonitoringListPerHourSensor", {
                     serverKey: store.state.serverKey,
                     equipmentInnerNm: this.eqbKey,
@@ -394,7 +395,7 @@ export default {
                 let graphDataOut = []
                 let outlet_standard_value = []
                 this.data.map(item => {
-                    console.log(item)
+                    // console.log(item)
                     if (e.equipment_inner_nm === item.equipment_inner_nm) {
                         if (item.place == 511) {
                             midlet_place = true;
@@ -536,17 +537,11 @@ export default {
                 let filterHeight = filterKeywords3.filter(x => x.length > 15)
                 filterHeight.map(e => {
                     this.boxHeight.push(e)
-                })  
-                // console.log(this.boxHeight, this.allKeywords,filterKeywords3)
-                // console.log(filterKeywords3)
-                // this.boxList2.map(e => {
-                //     console.log(e.equipment_inner_nm)
-                // })
-                // filterKeywords3.map(x => {
-                //    this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== x)
-                //    console.log(this.boxList2)
-                // })
-
+                })
+                
+                filterKeywords3.map(item => {
+                   this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
+                })
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm
@@ -580,11 +575,10 @@ export default {
 
                             this.title = store.state.serverName
                             this.scrubber = res.data.data
-
+                            this.monitoringListPerHour(this.eqbkey)
                             setTimeout(() => {
                                 this.barCheck()
-                                this.monitoringListPerHour(this.eqbkey)
-                            }, 100);
+                            }, 500);
                         }
                     }
                 })
@@ -644,8 +638,8 @@ export default {
             }
 
             this.boxList2.map((e, idx) => {
-                // console.log(e,idx,this.boxlistvalinletstandard[idx])
-                if (this.boxlistvalplace[e.box_code - 1] != 511 || this.boxlistvalplace[e.box_code - 1] != 516) {             
+                if (this.boxlistvalplace[e.box_code - 1] != 511 && this.boxlistvalplace[e.box_code - 1] !== 516) {             
+                                        console.log(this.boxlistvalplace[e.box_code - 1],511)
                     if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-") {
                         document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
                         document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
@@ -667,6 +661,7 @@ export default {
                     }else{
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
                     }
+                         console.log(idx)
                 }else{
                     if (this.boxlistvalmid[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] ) {
                         document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#ff3131"
@@ -675,7 +670,7 @@ export default {
                         document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#5151ff"
                         document.getElementsByClassName(idx + '_mid_up')[0].style.width = (this.boxlistvalmid[e.box_code - 1] * 100 / this.boxlistvalstandard[e.box_code - 1])+"%"
                     }
-
+                    console.log(idx)
                     if (this.boxlistvalmid[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1]) {
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
                     }else{
