@@ -925,7 +925,7 @@ export default {
                     break;
 
                 default:
-                    this.pinSelect(0, '', '')
+                    this.pinSelect(10012, 'pin17', '진천')
                     break;
             }
 
@@ -951,7 +951,7 @@ export default {
             } else if (store.state.areaCode === 10031) {
                 this.pinSelect(store.state.areaCode, 'pin04', '부산',true)
             } else if (store.state.areaCode === 10041) {
-                this.pinSelect(store.state.areaCode, 'pin05', '싸푸드성남',true)
+                this.pinSelect(store.state.areaCode, 'pin05', '씨푸드성남',true)
             } else if (store.state.areaCode === 10051) {
                 this.pinSelect(store.state.areaCode, 'pin07', '안산',true)
             }
