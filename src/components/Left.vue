@@ -295,19 +295,16 @@ export default {
             }
             let that = this;
             this.sensors = []
+            let equipmentKeyVal = this.checkListVal3.length === 1 ? this.checkListVal3[0] : null;
             await axios.post("/api/daedan/cj/ems/cmmn/comboMsSensorList", {
                     userId: store.state.userInfo.userId,
                     serverList: store.state.ckServer,
-                    equipmentKey: store.state.ckEquip[0],
-                    equipList: store.state.ckEquip
+                    equipmentKey:  equipmentKeyVal,
+                    equipList: this.checkListVal3
                 })
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
-                            console.log(
-                                res.data.data.sensors,
-                                    store.state.ckEquip
-                            )
                             that.sensors = res.data.data.sensors; //서버별센서목록
                         }
                     }
