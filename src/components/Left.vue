@@ -298,6 +298,7 @@ export default {
             await axios.post("/api/daedan/cj/ems/cmmn/comboMsSensorList", {
                     userId: store.state.userInfo.userId,
                     serverList: store.state.ckServer,
+                    equipmentKey: store.state.ckEquip[0],
                     equipList: store.state.ckEquip
                 })
                 .then(res => {
