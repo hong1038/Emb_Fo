@@ -209,6 +209,7 @@
 
 <script>
 // @ is an alias to /src
+// import Vue from 'vue';
 import store from "@/store/index";
 import Header from '@/components/header.vue'
 
@@ -363,11 +364,14 @@ export default {
             moniList2: null,
             moniList2val:[],
             checkPin:false,
-            areaNm:"전체"
+            areaNm:"전체",
+
         }
     },
     beforeDestroy() {
-      this.clearTimeout()
+        this.clearTimeout()
+        clearInterval(this.timer);
+        clearInterval(this.polling02);
 
     },
 
@@ -397,14 +401,24 @@ export default {
     created() {
         this.getWether();
         this.onClick();
-        this.pinSelect2()
+        this.pinSelect2();
+
+        window.addEventListener('load', this.updateData())
     },
+    
     watch: {
         moniList() {
             this.testmoni()
         }
     },
     methods: {
+        updateData(){
+            this.polling02 = setInterval(() => {
+                store.state.rememberArea = this.areaPin
+                console.log(store.state.rememberArea)
+                this.pinClick(store.state.rememberArea, this.pin, this.name);
+            },18000000)
+        },
         pinSelect2(){
             this.$Axios.post("/api/daedan/cj/ems/main/omList", {
             }, this.config)
@@ -417,7 +431,7 @@ export default {
 
         },
         pinwar(){
-            console.log(this.moniList2)
+            // console.log(this.moniList2)
             this.moniList2val = []
             this.moniList2.map(e=>{
                     if (e.place === 510) {
@@ -470,7 +484,7 @@ export default {
         },
         pollData(){
             this.polling = setInterval(() => {
-                console.log(this.moniList)
+                // console.log(this.moniList)
                 if (this.pinshow === 1) {
                     this.pinshow = 0
                     this.datas.map(e => {
@@ -525,7 +539,6 @@ export default {
         },
 
         pinClick(areaPin, pin, name){
-
             this.checkPin = true;
             this.pinSelect(areaPin, pin, name);
 
@@ -557,7 +570,7 @@ export default {
 
                                 this.moniList = res.data.data.moni
 
-                                console.log(this.moniList)
+                                // console.log(this.moniList)
 
                                 res.data.data.area[9].pinImg = pin01Img
                                 res.data.data.area[12].pinImg = pin02Img
@@ -616,7 +629,7 @@ export default {
                                 res.data.data.area[7].pinImg2d = pin17Img2D
                                 res.data.data.area[8].pinImg2d = pin18Img2D
 
-                                console.log(res.data.data.area,areaPin)
+                                // console.log(res.data.data.area,areaPin)
                                 if (type === true) {
                                     try {
                                         this.rowData = res.data.data.area.filter((e) => Number(String(e.area_code).split("")[3]) === Number(String(this.areaPin).split("")[3]))
@@ -631,11 +644,11 @@ export default {
                                         if (this.checkPin === false) {
                                             this.rowData = res.data.data.area.filter(e => e.area_code != 10014 && e.area_code != 10013 && e.area_code != 10040 && e.area_code != 10030 && e.area_code != 10004 && e.area_code != 10010 && e.area_code != 10011 && e.area_code != 10020 )
                                         }else{
-                                            console.log(res.data.data.area)
+                                            // console.log(res.data.data.area)
                                             
                                             
                                             this.rowData = res.data.data.area.filter((e) => e.area_code == areaPin)
-                                            console.log(this.areaNm)
+                                            // console.log(this.areaNm)
                                             this.areaNm = this.rowData[0].name
                                         }
 
@@ -809,7 +822,7 @@ export default {
             const response = await fetch('http://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=696fa8118910f5ecc9778cfaf53d36b7')
             const data = await response.json(); //경도(126.98)
             this.weather = data;
-            console.log(this.weather.wind)
+            // console.log(this.weather.wind)
             /*
             console.log("날씨정보" + data.coord.lon); //위도(37.57)
             console.log("날씨정보.weather = " + data.weather[0].main); //하늘(Clear)
