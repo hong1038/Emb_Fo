@@ -42,13 +42,21 @@ export default new Vuex.Store({
             state.userInfo = userInfo;
 
             state.szCurDt = userInfo.szCurDt;
-            state.szCurMmFr = (new Date().getFullYear()) + "-" + (new Date().getMonth() + 1) + "-" + "02";
-            state.szCurMmTo = (new Date().getFullYear()) + "-" + (new Date().getMonth() + 1) + "-" + (new Date().getDate() + 1);
+            let m = new Date().getMonth() + 1;
+            let d = new Date().getDate();
+            if (m < 10) {
+                m = "0" + m;
+            }
+            if (d < 10) {
+                d = "0" + d;
+            }
+            state.szCurMmFr = (new Date().getFullYear()) + "-" + m + "-" + d;
+            state.szCurMmTo = (new Date().getFullYear()) + "-" + m + "-" + d;
 
             state.curDt = userInfo.curDt;
-            state.curMmFr = (new Date().getFullYear()) + "-" + (new Date().getMonth() + 1);
-            // state.curMmTo = userInfo.curMMTo;
-            state.curYFr = (new Date().getFullYear())
+            state.curMmFr = (new Date().getFullYear()) + "-" + m
+                // state.curMmTo = userInfo.curMMTo;
+            state.curYFr = (new Date().getFullYear()) + "-" + m
             console.log(state.curYFr)
 
             state.areaCode = userInfo.areaCode;
