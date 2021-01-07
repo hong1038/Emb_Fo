@@ -324,7 +324,6 @@ figcaption,
 span {
     margin: 0;
     padding: 0;
-    color: rgb(0, 0, 0);
     letter-spacing: -0.5px;
 }
 
@@ -1282,6 +1281,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
     height: 24px;
     box-sizing: border-box;
     padding-left: 10px;
+    font-size:16px;
+    font-weight:bold;
 }
 
 .v-date-picker-header{
