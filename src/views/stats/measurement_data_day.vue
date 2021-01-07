@@ -13,9 +13,7 @@
                             <b-col cols="7">
                                 <div>일자 선택</div>
                                 <div class="dateSelect">
-                                    <vue-monthly-picker v-model="dateFr" inputClass="dateSelectInput" dateFormat="YYYY-MM"
-                                    :monthLabels="['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']">
-                                    </vue-monthly-picker>
+                                    <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                             </b-col>
                             <b-col cols="5">
@@ -80,14 +78,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Chart from 'chart.js'
-import VueMonthlyPicker from 'vue-monthly-picker'
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
     components: {
         Header,
         Left,
         AgGridVue,
-        VueMonthlyPicker
+        DatePick
     },
 
     data() {
@@ -104,7 +103,7 @@ export default {
             datacollection: null,
             config: {},
             mode: 'single', //날짜선택방법
-            dateFr: store.state.curMmFr,
+            dateFr: store.state.szCurMmFr,
             findTp: '',
             findSz: '',
             list: [],

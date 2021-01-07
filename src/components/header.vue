@@ -1323,6 +1323,9 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .vue-monthly-picker{
     width:100%;
 }
+.vue-monthly-picker .display-text{
+    padding-left:10px;
+}
 .vue-monthly-picker *{
     font-size:16px;
     font-weight:bold;

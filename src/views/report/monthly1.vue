@@ -12,7 +12,7 @@
                             <b-col cols="9">
                                 <div>월 선택</div>
                                 <div class="dateSelect">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                    <!--<v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
@@ -25,8 +25,11 @@
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
-                                    </v-menu>
+                                    </v-menu>-->
                                     <!--<datetime type="date" v-model="dateFr" class="datetime"></datetime>-->
+                                    <vue-monthly-picker v-model="dateFr" inputClass="dateSelectInput" dateFormat="YYYY-MM"
+                                    :monthLabels="['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']">
+                                    </vue-monthly-picker>
                                 </div>
                             </b-col>
                             <b-col cols="3">
@@ -92,6 +95,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue
 } from "ag-grid-vue"
+import VueMonthlyPicker from 'vue-monthly-picker'
 
 // Vue.use(Datetime)
 export default {
@@ -101,6 +105,7 @@ export default {
         Left2,
         Main,
         AgGridVue,
+        VueMonthlyPicker
     },
     computed: {
         currentDate() {
@@ -505,6 +510,50 @@ export default {
         // },
 
         async getList01() {
+            if(String(this.dateFr._d).length > 15){
+                let y = String(this.dateFr._d).substring(11,15);
+                let m = String(this.dateFr._d).substring(4,7);
+                if(m == "Jan"){
+                    m = "01"
+                }
+                else if(m == "Feb"){
+                    m = "02"
+                }
+                else if(m == "Feb"){
+                    m = "02"
+                }
+                else if(m == "Mar"){
+                    m = "03"
+                }
+                else if(m == "Apr"){
+                    m = "04"
+                }
+                else if(m == "May"){
+                    m = "05"
+                }
+                else if(m == "Jun"){
+                    m = "06"
+                }
+                else if(m == "Jul"){
+                    m = "07"
+                }
+                else if(m == "Aug"){
+                    m = "08"
+                }
+                else if(m == "Sep"){
+                    m = "09"
+                }
+                else if(m == "Oct"){
+                    m = "10"
+                }
+                else if(m == "Nov"){
+                    m = "11"
+                }
+                else if(m == "Dec"){
+                    m = "12"
+                }
+                this.dateFr = y +"-"+ m   
+            }
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;

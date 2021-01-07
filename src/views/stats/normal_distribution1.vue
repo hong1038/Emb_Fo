@@ -19,11 +19,11 @@
                             </div>
                             <div class="col-5" style="display:flex;align-items:center">
                                 <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">기간 선택</div>
-                                <div class="dateSelect">
+                                <div class="dateSelect ndDateSelect">
                                     <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                                 <div style="text-align:center; width:20px;">~</div>
-                                <div class="dateSelect dateSelectTo">
+                                <div class="dateSelect dateSelectTo ndDateSelect">
                                     <date-pick v-model="dateTo" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
 
@@ -528,5 +528,7 @@ export default {
     width: 0;
     height: 0;
 }
-
+.ndDateSelect{
+    width:150px;
+}
 </style>
