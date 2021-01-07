@@ -12,7 +12,7 @@
                             <div class="col-7">
                                 <div>월 선택</div>
                                 <div class="dateSelect">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                                    <!--<v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
@@ -25,8 +25,11 @@
                                                 OK
                                             </v-btn>
                                         </v-date-picker>
-                                    </v-menu>
+                                    </v-menu>-->
                                     <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                    <vue-monthly-picker v-model="dateFr" inputClass="dateSelectInput" dateFormat="YYYY-MM"
+                                    :monthLabels="['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']">
+                                    </vue-monthly-picker>
                                 </div>
                             </div>
                             <div class="col-5 report_clickBox">
@@ -129,22 +132,24 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+// import Datetime from 'vue-datetime'
+// import 'vue-datetime/dist/vue-datetime.css'
+import VueMonthlyPicker from 'vue-monthly-picker'
 
 import axios from 'axios';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.use(Datetime)
+// Vue.use(Datetime)
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
         Vue,
-        AgGridVue
+        AgGridVue,
+        VueMonthlyPicker
         // DatePicker,
         // BootstrapVue,
     },
@@ -707,4 +712,5 @@ export default {
 .reportTable .ag-header-cell:nth-child(4) .ag-header-cell-label{
     justify-content: left !important;
 }
+
 </style>

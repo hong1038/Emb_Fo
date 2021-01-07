@@ -13,11 +13,11 @@
                                 <div>기간 선택</div>
                                 <v-date-picker value="range" is-range />
                                 <div class="dateSelect">
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                                 <div>~</div>
                                 <div class="dateSelect dateSelectTo">
-                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
+                                    <date-pick v-model="dateTo" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                             </div>
                             <div class="col-5">
@@ -168,12 +168,12 @@
 
 <script>
 import store from "@/store/index";
-import Vue from "vue";
+// import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 // import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
@@ -181,7 +181,6 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 import Chart from 'chart.js'
-Vue.use(Datetime)
 
 //달력관련
 //import DatePicker from "v-calendar/lib/components/date-picker.umd"
@@ -191,8 +190,9 @@ export default {
         Header,
         Left,
         AgGridVue,
+        DatePick
         // vue,
-        // DatePicker  
+         
     },
     data() {
         return {

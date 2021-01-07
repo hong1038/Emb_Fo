@@ -1319,4 +1319,21 @@ only screen and (min-device-pixel-ratio: 1.5) {
     border:.5rem solid currentColor;
     border-right-color:transparent;
 }
+
+.vue-monthly-picker{
+    width:100%;
+}
+.vue-monthly-picker *{
+    font-size:16px;
+    font-weight:bold;
+}
+.dateSelectInput{
+    position:relative;
+    z-index:2;
+    width:100%;
+}
+.vue-monthly-picker .vmp-clear-icon{
+    display:none !important;
+    cursor:default !important;
+}
 </style>

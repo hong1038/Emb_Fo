@@ -13,11 +13,11 @@
                                 <div class="col-7">
                                     <div>기간 선택</div>
                                     <div class="dateSelect">
-                                        <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                        <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                     </div>
                                     <div>~</div>
                                     <div class="dateSelect dateSelectTo">
-                                        <datetime type="date" v-model="dateTo" class="datetime"></datetime>
+                                        <date-pick v-model="dateTo" :format="'YYYY-MM-DD'"></date-pick>
                                     </div>
                                 </div>
                                 <div class="col-5">
@@ -130,7 +130,7 @@
 
 <script>
 import store from "@/store/index";
-import Vue from "vue";
+// import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
 
@@ -140,20 +140,19 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-Vue.use(Datetime)
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
         AgGridVue,
-        // DatePicker,
+        DatePick
         // BootstrapVue,
     },
     data() {

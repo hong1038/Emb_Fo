@@ -665,18 +665,4 @@ export default {
 .measurementDayGrid .ag-header-cell-label {
    justify-content: center !important;
 }
-
-.vue-monthly-picker{
-    width:100%;
-}
-
-.vue-monthly-picker *{
-    font-size:16px;
-    font-weight:bold;
-}
-.dateSelectInput{
-    position:relative;
-    z-index:2;
-    width:100%;
-}
 </style>
