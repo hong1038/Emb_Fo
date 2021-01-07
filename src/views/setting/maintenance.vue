@@ -7,24 +7,29 @@
             <div class="con mtConBox">
                 <div class="con_box_right container-fluid">
                     <p>측정기별 유지보수 계약 정보</p>
-                    <div class="maintenanceDateCheck container-fluid mt-3">
+                    <div>
+                        <input class="mt_btn02" type="button" v-on:click="getList" value="조회">
+                        <!-- <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록"> -->
+                        <input class="mt_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
+                    </div>
+                    <!-- <div class="maintenanceDateCheck container-fluid">
                         <b-row>
                             <b-col cols="7">
-                                <!-- <div>날짜 선택 </div>
+                                 <div>날짜 선택 </div>
                                 <div class="dateSelect"> 
                                     <datetime type="date" v-model="dateFr" class="datetime"></datetime>
-                                </div> -->
+                                </div> 
                             </b-col>
                             <b-col cols="5">
                                 <input class="mt_btn02" type="button" v-on:click="getList" value="조회">
-                                <!-- <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록"> -->
+                               <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록">
                                 <input class="mt_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </b-col>
                         </b-row>
-                    </div>
+                    </div> -->
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                        <div class="mt-4 container-fluid maintenanceTable" style="display:flex;">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark"  rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
+                        <div class="mt-1 container-fluid maintenanceTable" style="display:flex;">
+                            <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark"  rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
                             </ag-grid-vue>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -645,7 +650,7 @@ export default {
 .mt_btn02,
 .mt_btn03 {
     position: absolute;
-    top: -15px;
+    top: 40px;
     width: 150px;
     height: 30px;
     display: inline-block;

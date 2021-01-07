@@ -1,8 +1,9 @@
 <template>
 <b-container fluid>
     <Header></Header>
-    <Left></Left>
+    
     <div style="display:flex">
+        <Left></Left>
         <div class="inner mailInner">
             <div class="con">
                 <div class="con_box_right mailConBox container-fluid">
@@ -33,7 +34,7 @@
                                     allLabel: 'All',
                                 }" @on-row-click="onRowClick" @on-page-change="onPageChange" theme="black-rhino" />-->
 
-                        <ag-grid-vue style="width: 100%; height: 670px;" class="ag-theme-alpine-dark" 
+                        <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark" 
                                 rowSelection="single"
                                 @row-clicked="getInfo"
                                 :columnDefs="fields" 
@@ -389,12 +390,6 @@ export default {
     padding: 0;
 }
 
-.mailInner,
-.mailConBox {
-    margin: 0 auto;
-}
-
-
 .con_box_right {
     box-sizing: border-box;
     position: relative;
@@ -413,7 +408,7 @@ export default {
 
 .mailPlus,.mailList {
     position: absolute;
-    top: 30px;
+    top: 40px;
     right: 20px;
     width: 150px;
     height: 30px;
@@ -429,6 +424,8 @@ export default {
     box-shadow: 0px 0px 3px blue;
     text-decoration: none;
     color: black;
+    font-weight:400;
+    font-family: CjFontBodyRegular;
 }
 
 .mailList{

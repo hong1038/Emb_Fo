@@ -1,8 +1,8 @@
 <template>
 <b-container fluid>
     <Header></Header>
-    <Left></Left>
     <div style="display:flex">
+        <Left></Left>
         <div class="inner settingInner">
             <div class="con">
                 <div class="con_box_right workplaceBox container-fluid float-left">
@@ -646,7 +646,6 @@ export default {
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: rgb(187, 231, 248);
     box-shadow: 0px 0px 3px blue;
     font-size: 14px;
     text-decoration: none;
