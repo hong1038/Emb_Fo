@@ -1,8 +1,8 @@
 <template>
 <b-container fluid>
     <Header></Header>
-    <Left></Left>
     <div style="display:flex">
+        <Left></Left>
         <div class="inner settingInner">
             <div class="con">
                 <div class="con_box_right measurementBox container-fluid float-left">

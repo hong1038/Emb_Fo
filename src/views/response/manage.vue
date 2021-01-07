@@ -225,7 +225,7 @@ export default {
                 {
                     field: 'issue',
                     headerName: '특이사항',
-                    width: '880px',
+                    width: '875px',
                     cellStyle: {textAlign: 'left'}
                 },
             ],
