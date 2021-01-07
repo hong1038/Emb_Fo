@@ -417,6 +417,7 @@ export default {
                 store.state.rememberArea = this.areaPin
                 console.log(store.state.rememberArea)
                 this.pinClick(store.state.rememberArea, this.pin, this.name);
+                this.getWether();
             },18000000)
         },
         pinSelect2(){
