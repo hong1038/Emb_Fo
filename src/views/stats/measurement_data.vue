@@ -12,12 +12,12 @@
                             <div class="col-7">
                                 <div>기간 선택</div>
                                 <div class="dateSelect">
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
-                                <div>~</div>
+                                <div class="dash">~</div>
                                 <div class="dateSelect dateSelectTo">
-                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
-                                </div>
+                                    <date-pick v-model="dateTo" :format="'YYYY-MM-DD'"></date-pick>
+                                </div> 
                             </div>
                             <div class="col-5">
                                 <input class="md_btn01" type="button" v-on:click="getList" value="조회">
@@ -40,12 +40,9 @@
 
 <script>
 import store from "@/store/index";
-import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
 import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
@@ -53,10 +50,9 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-Vue.use(Datetime)
-
 //달력관련
-//import DatePicker from "v-calendar/lib/components/date-picker.umd"
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
     components: {
@@ -64,7 +60,7 @@ export default {
         Left,
         AgGridVue,
         // vue,
-        // DatePicker  
+        DatePick 
     },
     data() {
         return {
@@ -161,7 +157,9 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
     },
+    mounted(){
 
+    },
     created() {
         this.config = {
             headers: {
@@ -173,7 +171,6 @@ export default {
         }, 1);
         //this.getList(); 여기서 실행하면 최초 실행시 -1일식 차감해서 검색일자가 설정되는 오류 발생됨.
     },
-
     beforeDestroy() {
       this.clearTimeout()
     },
@@ -318,13 +315,17 @@ export default {
     font-size: 16px;
 }
 
-.measurementDateCheck>div>div>div:nth-child(2),
-.measurementDateCheck>div>div>div:nth-child(4) {
+.measurementDateCheck>div>div>.dateSelect {
     width: 150px;
     font-size: 14px;
 }
 
-.measurementDateCheck>div>div>div:nth-child(3) {
+.measurementDateCheck>div>div>.dateSelect input{
+    font-size:16px;
+    font-weight:bold;
+}
+
+.measurementDateCheck>div>div>.dash {
     width: 20px;
     font-size: 16px;
     font-weight: bold;
@@ -338,6 +339,12 @@ export default {
     border-bottom: 1px solid rgb(170, 170, 170);
 }
 
+.measurementDateCheck .datePickerWrap{
+    position:absolute;
+    top:40px;
+    left:10%;
+    z-index:3;
+}
 /*datepicker css*/
 
 .v-text-field {

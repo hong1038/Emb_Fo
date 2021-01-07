@@ -13,21 +13,9 @@
                                 <div>날짜 선택</div>
                                 <!-- <input type="date" class="" v-model="dateFr"> -->
                                 <div class="dateSelect">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                    <vue-monthly-picker v-model="dateFr" inputClass="dateSelectInput" dateFormat="YYYY-MM"
+                                    :monthLabels="['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']">
+                                    </vue-monthly-picker>
                                 </div>
                             </div>
                             <div class="col-9">
@@ -62,10 +50,7 @@
 
 <script>
 import store from "@/store/index";
-import Vue from "vue";
-
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+// import Vue from "vue";
 
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
@@ -79,13 +64,14 @@ import 'ag-grid-enterprise';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Chart from 'chart.js'
-Vue.use(Datetime)
+import VueMonthlyPicker from 'vue-monthly-picker'
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
-        AgGridVue
+        AgGridVue,
+        VueMonthlyPicker
         // BootstrapVue,
     },
     computed: {
@@ -822,5 +808,14 @@ export default {
 }
 .pdmGrid .ag-header-cell-label {
    justify-content: center !important;
+}
+.vue-monthly-picker *{
+    font-size:16px;
+    font-weight:bold;
+}
+.dateSelectInput{
+    position:relative;
+    z-index:2;
+    width:100%;
 }
 </style>

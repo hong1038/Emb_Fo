@@ -7,35 +7,6 @@
             <div class="con">
                 <div class="con_box_right container-fluid float-left">
                     <p>정규분포</p>
-                    <!--<div class="distri_dateCheck container-fluid mt-4">
-                        <div class="row">
-                            <div class="col-7">
-                                <div>월 선택</div>
-                                <input type="date" v-model="dateFr">
-                                <div class="distri_dateSelect">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
-                                </div>
-
-                            </div>
-                            <div class="col-5">
-                                <input class="nd_btn01" type="button" v-on:click="getList" value="조회">
-                            </div>
-                        </div>
-                    </div>-->
                     <div class="ndDateCheck container-fluid mt-4">
                         <div class="row">
                             <div class="col-2">
@@ -48,13 +19,12 @@
                             </div>
                             <div class="col-5" style="display:flex;align-items:center">
                                 <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">기간 선택</div>
-                                <!-- <input type="date" v-model="dateFr"> -->
                                 <div class="dateSelect">
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                                 <div style="text-align:center; width:20px;">~</div>
                                 <div class="dateSelect dateSelectTo">
-                                    <datetime type="date" v-model="dateTo" class="datetime"></datetime>
+                                    <date-pick v-model="dateTo" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
 
                             </div>
@@ -85,21 +55,20 @@ import Left from '@/components/Left.vue'
 import Main from '@/components/main.vue'
 import 'vue-good-table/dist/vue-good-table.css'
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
-import Vue from 'vue'
-// import DatePicker from "v-calendar/lib/components/date-picker.umd"
+// import Vue from 'vue'
 // import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Chart from 'chart.js'
-Vue.use(Datetime)
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
         Main,
+        DatePick
         // BootstrapVue,
     },
     data() {

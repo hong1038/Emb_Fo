@@ -12,23 +12,10 @@
                         <b-row>
                             <b-col cols="7">
                                 <div>일자 선택</div>
-                                <!-- <input type="date" class="" v-model="dateFr"> -->
                                 <div class="dateSelect">
-                                    <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field :placeholder="currentDate" v-model="date" label="" prepend-icon=" mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" no-title scrollable locale="ko">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu> -->
-                                    <datetime type="date" v-model="dateFr"  class="datetime"></datetime>
+                                    <vue-monthly-picker v-model="dateFr" inputClass="dateSelectInput" dateFormat="YYYY-MM"
+                                    :monthLabels="['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']">
+                                    </vue-monthly-picker>
                                 </div>
                             </b-col>
                             <b-col cols="5">
@@ -77,11 +64,8 @@
 
 <script>
 import store from "@/store/index";
-
-import Vue from 'vue'
+// import Vue from "vue"
 // import axios from 'axios'
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
 
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
@@ -92,27 +76,18 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-// import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Chart from 'chart.js'
-// import  { Line } from 'vue-chartjs'
-Vue.use(Datetime)
+import VueMonthlyPicker from 'vue-monthly-picker'
 
 export default {
     components: {
         Header,
         Left,
         AgGridVue,
-        // Line,
-        // DatePicker,
-    },
-    computed: {
-        // currentDate() {
-        //     let s = new Date().toLocaleDateString();
-        //     return s;
-        // }
+        VueMonthlyPicker
     },
 
     data() {
@@ -129,7 +104,7 @@ export default {
             datacollection: null,
             config: {},
             mode: 'single', //날짜선택방법
-            dateFr: store.state.szCurMmTo,
+            dateFr: store.state.curMmFr,
             findTp: '',
             findSz: '',
             list: [],
@@ -232,7 +207,9 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
     },
-
+    mounted(){
+        
+    },
     created() {
         this.$Axios.get('http://cjenv.daedan.com/api/getValue/CJ_Jincheon_05/1').then((response) => {this.results = response.data.results}).catch( error => { console.log(error); });
 //          this.$Axios.post("http://cjenv.daedan.com/api/getValue/CJ_Jincheon_05/1").then(res => {
@@ -684,11 +661,22 @@ export default {
 }
 
 /*vdatetime-input*/
-.dateSelect input {
-    box-sizing: border-box;
-    padding-left: 10px;
-}
+
 .measurementDayGrid .ag-header-cell-label {
    justify-content: center !important;
+}
+
+.vue-monthly-picker{
+    width:100%;
+}
+
+.vue-monthly-picker *{
+    font-size:16px;
+    font-weight:bold;
+}
+.dateSelectInput{
+    position:relative;
+    z-index:2;
+    width:100%;
 }
 </style>

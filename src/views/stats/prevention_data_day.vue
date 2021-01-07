@@ -13,21 +13,7 @@
                                 <div>날짜 선택</div>
                                 <!-- <input type="date" class="" v-model="dateFr"> -->
                                 <div class="dateSelect">
-                                    <!-- <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field :placeholder="currentDate" v-model="date" label="" prepend-icon=" mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu> -->
-                                    <datetime type="date" v-model="dateFr" :placeholder="cureentDate" class="datetime"></datetime>
+                                    <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                             </div>
                             <div class="col-9">
@@ -65,12 +51,10 @@
 
 <script>
 import store from "@/store/index";
-import Vue from "vue";
+// import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
 import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
@@ -82,14 +66,15 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Chart from 'chart.js'
-Vue.use(Datetime)
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 export default {
     components: {
         Header,
         Left,
         AgGridVue,
         // vue,
-        // DatePicker,
+        DatePick,
     },
     computed: {
         // currentDate() {

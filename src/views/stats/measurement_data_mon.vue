@@ -13,21 +13,9 @@
                                 <div>월 선택</div>
                                 <!-- <input type="date" v-model="dateFr"> -->
                                 <div class="dateSelect">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="date" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="date" type="month" no-title scrollable locale="ko" style="width:100%;">
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                    <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                    <vue-monthly-picker v-model="dateFr" inputClass="dateSelectInput" dateFormat="YYYY-MM"
+                                    :monthLabels="['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']">
+                                    </vue-monthly-picker>
                                 </div>
 
                             </div>
@@ -65,8 +53,7 @@ import store from "@/store/index";
 // import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left.vue'
-// import Datetime from 'vue-datetime'
-// import 'vue-datetime/dist/vue-datetime.css'
+
 import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
@@ -78,14 +65,14 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-// Vue.use(Datetime)
+import VueMonthlyPicker from 'vue-monthly-picker'
 import Chart from 'chart.js'
 export default {
     components: {
         Header,
         Left,
-        AgGridVue
-        // DatePicker,
+        AgGridVue,
+        VueMonthlyPicker
     },
     computed: {
         currentDate() {
