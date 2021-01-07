@@ -21,8 +21,6 @@
                                 <div class="float-left" style="width:60px; font-size:14px; line-height:30px;">연도 선택</div>
                                 <div class="dateSelect float-left">
                                     <datepicker 
-                                        
-                                        
                                         :format="DatePickerFormat"
                                         :language="language"
                                         minimum-view="year"

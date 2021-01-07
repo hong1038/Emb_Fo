@@ -13,7 +13,7 @@
                                 <div class="col-7">
                                     <div class="float-left">년도 선택</div>
                                     <div class="dateSelect float-left">
-                                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
+                                        <!--<v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
@@ -22,8 +22,16 @@
                                                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                                                 <v-btn text color="primary" @click="saveYear">OK</v-btn>
                                             </v-date-picker>
-                                        </v-menu>               
+                                        </v-menu>-->         
                                         <!-- <datetime type="date" v-model="dateFr" class="datetime"></datetime> -->
+                                        <datepicker 
+                                        :format="DatePickerFormat"
+                                        :language="language"
+                                        minimum-view="year"
+                                        name="datepicker"
+                                        id="input-id"
+                                        input-class="input-class"
+                                        v-model="dateFr"></datepicker>
                                     </div>
                                 </div>
                                 <div class="col-5">
@@ -58,27 +66,38 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+// import Datetime from 'vue-datetime'
+// import 'vue-datetime/dist/vue-datetime.css'
+import Datepicker from 'vuejs-datepicker';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.use(Datetime)
+// Vue.use(Datetime)
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
         Vue,
-        AgGridVue
-        // DatePicker,
+        AgGridVue,
+        Datepicker,
         // BootstrapVue,
     },
     data() {
         return {
             busy:false,
             timeout : null,
+            DatePickerFormat:'yyyy',
+            language:{
+                language: 'Korean', 
+                months: ['1', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 
+                monthsAbbr: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 
+                days: ['일', '월', '화', '수', '목', '금', '토'], 
+                rtl: false, 
+                ymd: false, 
+                yearSuffix: '년'
+            },
 
             gridOptions:{},
             config: {},

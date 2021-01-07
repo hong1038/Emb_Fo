@@ -14,7 +14,7 @@
                                 <v-date-picker value="range" is-range />
                                 <div class="dateSelect">
                                     <!--<datetime type="year" v-model="dateFr" class="datetime"></datetime>-->
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
+                                    <!--<v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="dateFr" transition="scale-transition" offset-y max-width="290px">
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field v-model="dateSelect" label="" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
@@ -23,7 +23,15 @@
                                                 <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                                                 <v-btn text color="primary" @click="saveYear">OK</v-btn>
                                             </v-date-picker>
-                                        </v-menu> 
+                                        </v-menu> -->
+                                        <datepicker 
+                                        :format="DatePickerFormat"
+                                        :language="language"
+                                        minimum-view="year"
+                                        name="datepicker"
+                                        id="input-id"
+                                        input-class="input-class"
+                                        v-model="dateFr"></datepicker>
                                 </div>
                             </div>
                             <div class="col-5">
@@ -47,12 +55,13 @@
 
 <script>
 import store from "@/store/index";
-import Vue from "vue";
+// import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
 
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+// import Datetime from 'vue-datetime'
+// import 'vue-datetime/dist/vue-datetime.css'
+import Datepicker from 'vuejs-datepicker';
 
 import 'ag-grid-enterprise';
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -61,7 +70,7 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-Vue.use(Datetime)
+// Vue.use(Datetime)
 
 // //달력관련
 // //import DatePicker from "v-calendar/lib/components/date-picker.umd"
@@ -71,6 +80,7 @@ export default {
         Header,
         Left,
         AgGridVue,
+        Datepicker
         // vue,
         // DatePicker  
     },
@@ -78,6 +88,16 @@ export default {
         return {
             busy:false,
             timeout : null,
+            DatePickerFormat:'yyyy',
+            language:{
+                language: 'Korean', 
+                months: ['1', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 
+                monthsAbbr: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 
+                days: ['일', '월', '화', '수', '목', '금', '토'], 
+                rtl: false, 
+                ymd: false, 
+                yearSuffix: '년'
+            },
 
             config: {},
             mode: 'single', //날짜선택방법

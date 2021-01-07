@@ -26,7 +26,7 @@
                                             </v-btn>
                                         </v-date-picker>
                                     </v-menu> -->
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
+                                    <date-pick v-model="dateFr" :format="'YYYY-MM-DD'"></date-pick>
                                 </div>
                             </b-col>
                             <b-col cols="3" class="col-3">
@@ -78,11 +78,10 @@ import axios from 'axios';
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
 import Main from '@/components/main.vue'
-import Vue from 'vue'
+// import Vue from 'vue'
 
-
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+import DatePick from 'vue-date-pick';
+import 'vue-date-pick/dist/vueDatePick.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -93,8 +92,6 @@ import {
     AgGridVue,
 } from "ag-grid-vue"
 
-Vue.use(Datetime)
-
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -102,7 +99,7 @@ export default {
         Left,
         Main,
         AgGridVue,
-
+        DatePick
     },
     computed: {
         currentDate() {
