@@ -529,6 +529,9 @@ export default {
     height: 0;
 }
 .ndDateSelect{
+    width:150px !important;
+}
+.ndDateSelect input{
     width:150px;
 }
 </style>
