@@ -29,7 +29,7 @@
                         </div>
                         <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="systemTable ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize" :onRowClicked="onRowClicked" />
                             <!--
                         <b-card class="elevation-5"  bg-variant="light"  img-alt="Image" img-top height="100%" tag="article" v-if="show">  
                         -->
@@ -212,27 +212,32 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '160px'
+                    width: '160px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '180px'
+                    width: '180px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'abn_type',
                     headerName: '유형',
-                    width: '160px'
+                    width: '160px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'rs_date',
                     headerName: '발생일자',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -241,29 +246,34 @@ export default {
                         {
                             field: 'cause',
                             headerName: '문제점/이슈사항',
-                            width: '180px'
+                            width: '180px',
+                            cellStyle: {textAlign: 'left'}
                         },
                         {
                             field: 'action',
                             headerName: '대응방안',
-                            width: '180px'
+                            width: '180px',
+                            cellStyle: {textAlign: 'left'}
                         },
                         {
                             field: 'action_date',
                             headerName: '개선일정',
-                            width: '120px'
+                            width: '120px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
                 {
                     field: 'action_type',
                     headerName: '완료여부',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'complete_date',
                     headerName: '완료일자',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
         }
@@ -900,4 +910,13 @@ export default {
     width: 0;
     height: 0;
 }
+
+.systemTable .ag-header-cell-label {
+   justify-content: center !important;
+}
+.systemTable .ag-header-cell:nth-child(6) .ag-header-cell-label,
+.systemTable .ag-header-cell:nth-child(7) .ag-header-cell-label{
+    justify-content: left !important;
+}
+
 </style>

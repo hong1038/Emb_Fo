@@ -38,7 +38,7 @@
                     </div>
                     <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
                     <div class="systemtableWrap mt-4 container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
+                        <ag-grid-vue style="width: 100%; height: 650px;" class="reportTable ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
                         <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">월말 보고<br>등록</b-col>
@@ -226,32 +226,38 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '130px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'problem',
                     headerName: '문제점/이슈사항',
-                    width: '400px'
+                    width: '400px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'action',
                     headerName: '대응방안',
-                    width: '636px'
+                    width: '636px',
+                    cellStyle: {textAlign: 'left'}
                 },
                 {
                     field: 'prevention_date',
                     headerName: '개선 일정',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'abnormal_type',
                     headerName: '완료 여부',
-                    width: '140px'
+                    width: '140px',
+                    cellStyle: {textAlign: 'center'}
                 },
             ],
         }
@@ -692,5 +698,13 @@ export default {
     height: 50px;
     font-size: 16px;
     border-radius: 7px;
+}
+
+.reportTable .ag-header-cell-label {
+   justify-content: center !important;
+}
+.reportTable .ag-header-cell:nth-child(3) .ag-header-cell-label,
+.reportTable .ag-header-cell:nth-child(4) .ag-header-cell-label{
+    justify-content: left !important;
 }
 </style>

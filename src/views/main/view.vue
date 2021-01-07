@@ -184,6 +184,7 @@
                 </div>
                 <div class="canvasWrap" v-for="(item,idx) in boxList2" v-bind:key="idx" :id="'graph-canvas'+idx">
                     <div>{{item.equipment_inner_nm}}</div>
+                    <div class="canvasUnit">단위 : {{testUnit[0]}}</div>
                     <canvas :id="'line-graph'+idx" class="line-graph" width="560" height="200"></canvas>
                 </div>
             </div>
@@ -242,6 +243,8 @@ export default {
             data_equipment_inner_nm:[],
             boxHeight:[],
             allKeywords:[],
+
+            testUnit : [],
         }
 
     },
@@ -259,7 +262,7 @@ export default {
                     e.check = true;
                 })
                 this.boxList = res.data.data
-                console.log(this.boxList)
+                // console.log(this.boxList)
             }).catch(err =>{
                 alert(err)
             })
@@ -358,7 +361,7 @@ export default {
             })
         },
         monitoringListPerHour() {
-            console.log("qweqeqweqeweqw")
+            // console.log("qweqeqweqeweqw")
             this.$Axios.post("/api/daedan/cj/ems/main/MonitoringListPerHourSensor", {
                     serverKey: store.state.serverKey,
                     equipmentInnerNm: this.eqbKey,
@@ -368,7 +371,6 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             this.data = res.data.data;
-                            console.log(res.data.data)
                             this.graph();
                         }
                     }
@@ -381,10 +383,9 @@ export default {
             if (this.Chart != undefined) {   
                 this.Chart.destroy();
             }
-            console.log(this.boxList2,this.boxList)
 
             this.boxList2.map((e, idx) => {
-                console.log(document.getElementById('line-graph' + idx))
+                // console.log(document.getElementById('line-graph' + idx))
                 if (document.getElementsByClassName('line-graph').length === 0 ) {
                     return false;
                 }
@@ -394,6 +395,7 @@ export default {
                 let graphDataIn = []
                 let graphDataOut = []
                 let outlet_standard_value = []
+                // let graphUnit = []
                 this.data.map(item => {
                     // console.log(item)
                     if (e.equipment_inner_nm === item.equipment_inner_nm) {
@@ -408,6 +410,8 @@ export default {
                         if (item.place == 510) {
                             graphDataIn.push(item.inlet_avg_value)                            
                         }
+                        this.testUnit.push(item.unit)
+                        console.log(this.testUnit)
                     }
                 })
                 if (midlet_place === true) {
@@ -517,11 +521,11 @@ export default {
             this.boxList2 = []
             let filterKeywords = []
             let filterKeywords2 = []
-            console.log(item)
+            // console.log(item)
             if (item === "All") {
                 this.eqbkey = null;
                 this.boxList2 = this.boxList
-                console.log(this.boxList2)
+                console.log(this.boxList2, this.boxList)
                 this.boxList2.map(e => {
                     filterKeywords.push(e.equipment_inner_nm)
                 })
@@ -542,12 +546,14 @@ export default {
                 filterKeywords3.map(item => {
                    this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
                 })
+                console.log(this.boxList2)
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm
                 this.boxList.map(e => {                    
                     if (e.equipment_inner_nm === item.equipment_inner_nm) {
                         this.boxList2.push(e)
+                        
                     }
                 });
             }
@@ -591,7 +597,7 @@ export default {
             // console.log(item.equipment_inner_nm, item.box_code)
             let nameHeight = document.getElementsByClassName('eqKey'+item.box_code)
             item.check = false;
-            console.log(item.equipment_inner_nm.length)
+            // console.log(item.equipment_inner_nm.length)
             if(item.equipment_inner_nm.length > 14){
                 for(let i = 0; i < nameHeight.length; i++){
                     nameHeight[i].style.lineHeight = '15px';
@@ -639,7 +645,7 @@ export default {
 
             this.boxList2.map((e, idx) => {
                 if (this.boxlistvalplace[e.box_code - 1] != 511 && this.boxlistvalplace[e.box_code - 1] !== 516) {             
-                                        console.log(this.boxlistvalplace[e.box_code - 1],511)
+                                        // console.log(this.boxlistvalplace[e.box_code - 1],511)
                     if (this.boxlistvalin[e.box_code - 1] >= this.boxlistvalinletstandard[e.box_code - 1] && this.boxlistvalin[e.box_code - 1] != "-") {
                         document.getElementsByClassName(idx + '_in_up')[0].style.background = "#ff3131"
                         document.getElementsByClassName(idx + '_in_up')[0].style.width = "100%"
@@ -661,7 +667,7 @@ export default {
                     }else{
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#5151ff"
                     }
-                         console.log(idx)
+                        //  console.log(idx)
                 }else{
                     if (this.boxlistvalmid[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1] ) {
                         document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#ff3131"
@@ -670,7 +676,7 @@ export default {
                         document.getElementsByClassName(idx + '_mid_up')[0].style.background = "#5151ff"
                         document.getElementsByClassName(idx + '_mid_up')[0].style.width = (this.boxlistvalmid[e.box_code - 1] * 100 / this.boxlistvalstandard[e.box_code - 1])+"%"
                     }
-                    console.log(idx)
+                    // console.log(idx)
                     if (this.boxlistvalmid[e.box_code - 1] >= this.boxlistvalstandard[e.box_code - 1]) {
                         document.getElementsByClassName('infoTitle_' + idx)[0].style.background = "#ff3131"
                     }else{
@@ -1128,6 +1134,7 @@ export default {
 }
 
 .viewRightBox>.canvasWrap {
+    position:relative;
     width: 100%;
     height: 250px;
     box-sizing: border-box;
@@ -1144,6 +1151,14 @@ export default {
     font-weight: bold;
     box-sizing: border-box;
     padding: 5px;
+}
+
+.viewRightBox>.canvasWrap>div:nth-child(2) {
+    position:absolute;
+    top:3%;
+    right:3%;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .viewRightBox::-webkit-scrollbar {

@@ -28,7 +28,7 @@
                     </div>
                     <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onLoadHidden">
                     <div class="manageTableWrap mt-4 container-fluid" style="display:flex">
-                        <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
+                        <ag-grid-vue style="width: 100%; height: 650px;" class="manageTable ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" :paginationPageSize="paginationPageSize"/>
                     <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">운영 특이사항 등록</b-col>
@@ -202,27 +202,32 @@ export default {
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '130px'
+                    width: '130px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_name',
                     headerName: '측정위치',
-                    width: '250px'
+                    width: '250px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'prevention_date',
                     headerName: '날짜',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'issue',
                     headerName: '특이사항',
-                    width: '880px'
+                    width: '880px',
+                    cellStyle: {textAlign: 'left'}
                 },
             ],
         }
@@ -809,5 +814,11 @@ export default {
     height: 50px;
     font-size: 16px;
     border-radius: 7px;
+}
+.manageTable .ag-header-cell-label {
+   justify-content: center !important;
+}
+.manageTable .ag-header-cell:nth-child(5) .ag-header-cell-label{
+    justify-content: left !important;
 }
 </style>

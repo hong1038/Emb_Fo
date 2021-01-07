@@ -29,7 +29,7 @@
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid excessTable" style="display:flex;">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" >
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="excessTable ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" >
                             </ag-grid-vue>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -233,22 +233,26 @@ export default {
                 {
                     field: 'prevention_date',
                     headerName: '일자',
-                    width: '118px'
+                    width: '118px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '분야',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '방지시설명',
-                    width: '200px'
+                    width: '200px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -258,19 +262,22 @@ export default {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         // {
                         //     field: 'inoccur',
@@ -288,38 +295,44 @@ export default {
                             field: 'outlet_standard_value',
                             headerName: '기준',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'outoccur',
                             headerName: '이상점 발생여부',
                             type: 'number',
-                            width: '140px'
+                            width: '140px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
                 {
                     field: 'procRate',
                     headerName: '방지시설 처리효율(%)',
-                    width: '150px'
+                    width: '150px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 // {
                 //     field: 'action',
@@ -1080,5 +1093,8 @@ export default {
     height: 50px;
     font-size: 16px;
     border-radius: 7px;
+}
+.excessTable .ag-header-cell-label {
+   justify-content: center !important;
 }
 </style>

@@ -37,7 +37,7 @@
                         </div>
                         <b-overlay :show="Loadbusy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-4 container-fluid changeTableWrap" style="display:flex">
-                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true" />
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="changeTable ag-theme-alpine-dark" rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions" :pagination="true"/>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
                                     <b-col class="popUpTitle">변경점<br>대응 등록</b-col>
@@ -221,22 +221,26 @@ export default {
                 {
                     field: 'prevention_date',
                     headerName: '일자',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'server_name',
                     headerName: '사업장',
-                    width: '100px'
+                    width: '100px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'category_cd',
                     headerName: '구분',
-                    width: '80px'
+                    width: '80px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: 'equipment_inner_nm',
                     headerName: '측정위치',
-                    width: '120px'
+                    width: '120px',
+                    cellStyle: {textAlign: 'center'}
                 },
                 {
                     field: '',
@@ -246,25 +250,29 @@ export default {
                             field: 'inlet_max_value',
                             headerName: '최대',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_avg_value',
                             headerName: '평균',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inlet_min_value',
                             headerName: '최소',
                             type: 'number',
-                            width: '100px'
+                            width: '100px',
+                            cellStyle: {textAlign: 'center'}
                         },
                         {
                             field: 'inoccur',
                             headerName: '이상점 발생여부',
                             type: 'number',
-                            width: '140px'
+                            width: '140px',
+                            cellStyle: {textAlign: 'center'}
                         },
                     ]
                 },
@@ -1158,5 +1166,8 @@ export default {
     background: rgb(81, 81, 255);
     color: white;
     border-radius: 5px;
+}
+.changeTable .ag-header-cell-label {
+   justify-content: center !important;
 }
 </style>
