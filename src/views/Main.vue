@@ -135,9 +135,9 @@
                             <div v-on:click="pinClick(10002,'pin13','인천2')" class="locationPin pin13 ">
                                 <p class="area10002 pin13Ball"></p>인천2
                             </div>
-                            <div v-on:click="pinClick(10003,'pin14','인천3')" class="locationPin pin14 ">
+                            <!--<div v-on:click="pinClick(10003,'pin14','인천3')" class="locationPin pin14 ">
                                 <p class="area10003 pin14Ball"></p>인천3
-                            </div>
+                            </div>-->
                             <div v-on:click="pinClick(10000,'pin15','인천냉동')" class="locationPin pin15 ">
                                 <p class="area10000 pin15Ball"></p>인천냉동
                             </div>
