@@ -464,7 +464,8 @@ export default {
                     e.area_code !== 10010 &&
                     e.area_code !== 10011 &&
                     e.area_code !== 10020 &&
-                    e.area_code !== 10013
+                    e.area_code !== 10013 &&
+                    e.area_code !== 10003
                 )
 
                     this.datas.map(item => {
@@ -485,11 +486,11 @@ export default {
         },
         pollData(){
             this.polling = setInterval(() => {
-                // console.log(this.moniList)
                 if (this.pinshow === 1) {
+                    // console.log("asd")
                     this.pinshow = 0
                     this.datas.map(e => {
-                        // console.log(document.getElementsByClassName("area"+e.area_code)[0],e)
+                        console.log(document.getElementsByClassName("area"+e.area_code)[0],e)
                         if (e.air_abnormal_yn === "Y" || e.odor_abnormal_yn  === "Y" || e.water_abnormal_yn === "Y") {
                             e.pinshow = 0   
                             document.getElementsByClassName("area"+e.area_code)[0].style.opacity = 0
@@ -506,6 +507,7 @@ export default {
                         }
                     })
                 }else{
+                    // console.log("asdasd")
                     this.pinshow = 1
                     this.datas.map(e => {
                         document.getElementsByClassName("area"+e.area_code)[0].style.opacity = 1
