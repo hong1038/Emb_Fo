@@ -166,7 +166,7 @@
                                                     {{item.name = item.name === "인천냉동식품공장" ? "인천냉동 식품공장" : item.name }}
                                                 </p>
                                                 <p v-if="item.odor_abnormal_yn === 'X'" class='text-black'>
-                                                    악취  <span style="color:blue;font-weight:bold"> 값이없음</span>
+                                                    악취  <span style="color:blue;font-weight:bold"> -</span>
                                                 </p>
                                                 <p v-else-if="item.odor_abnormal_yn === 'Y'" style="display:flex" class='text-black'>
                                                     악취 <span style="color:red;font-weight:bold;margin-left:5px;"> 이상있음</span>
@@ -175,7 +175,7 @@
                                                     악취  <span style="color:blue;font-weight:bold"> 이상없음</span>
                                                 </p>
                                                 <p v-if="item.air_abnormal_yn === 'X'" class='text-black'>
-                                                    대기  <span style="color:blue;font-weight:bold"> 값이없음</span>
+                                                    대기  <span style="color:blue;font-weight:bold"> -</span>
                                                 </p>
                                                 <p v-else-if="item.air_abnormal_yn === 'Y'" style="display:flex" class='text-black'>
                                                     대기   <span style="color:red;font-weight:bold"> 이상있음</span>
@@ -184,7 +184,7 @@
                                                     대기  <span style="color:blue;font-weight:bold"> 이상없음</span>
                                                 </p>
                                                 <p v-if="item.water_abnormal_yn === 'X'" class='text-black'>
-                                                    수질  <span style="color:blue;font-weight:bold"> 값이없음</span>
+                                                    수질  <span style="color:blue;font-weight:bold"> -</span>
                                                 </p>
                                                 <p v-else-if="item.water_abnormal_yn === 'Y'" style="display:flex" class='text-black'>
                                                     수질  <span style="color:red;font-weight:bold"> 이상있음</span>
