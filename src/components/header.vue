@@ -20,22 +20,35 @@
                                 <router-link :to="{ name: 'Main'}">전체</router-link>
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10000)">경인권</a>
+                                <router-link :to="{ name: 'Main', }">
+                                    <a v-on:click="resetMain(10000)">경인권</a>
+                                </router-link>
+                                <!--<a v-on:click="resetMain(10000)">경인권</a>-->
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10015)">중부권</a>
+                                <router-link :to="{ name: 'Main', }">
+                                    <a v-on:click="resetMain(10015)">중부권</a>
+                                </router-link>
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10021)">남부권</a>
+                                <router-link :to="{ name: 'Main', }">
+                                    <a v-on:click="resetMain(10021)">남부권</a>
+                                </router-link>
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10031)">영남권</a>
+                                <router-link :to="{ name: 'Main', }">
+                                    <a v-on:click="resetMain(10031)">영남권</a>
+                                </router-link>
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10041)">계열사</a>
+                                <router-link :to="{ name: 'Main', }">
+                                    <a v-on:click="resetMain(10041)">계열사</a>
+                                </router-link>
                             </li>
                             <li>
-                                <a v-on:click="resetMain(10051)">바이오</a>
+                                <router-link :to="{ name: 'Main', }">
+                                    <a v-on:click="resetMain(10051)">바이오</a>
+                                </router-link>
                             </li>
                         </ul>
                     </li>
