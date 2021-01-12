@@ -39,28 +39,43 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="dailyTableWrap"  id="printMe">
                         <div class="dailyTable dailyTable01">
-                            <p>1. 일일 모니터링 통계</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>1. 일일 모니터링 통계</p>
+                                <button class="ex_button" @click="excelBtn1()">Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions1"></ag-grid-vue>
                             <canvas style="background:white" id="chart1" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable02">
-                            <p>2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
+                                <button class="ex_button" @click="excelBtn2()">Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions2"></ag-grid-vue>
                             <canvas style="background:white" id="chart2" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable03">
-                            <p>3. 배출구 초과이력 관리</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility"></ag-grid-vue>
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>3. 배출구 초과이력 관리</p>
+                                <button class="ex_button" @click="excelBtn3()">Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions3"></ag-grid-vue>
                             <canvas style="background:white" id="chart3" width="1550px" height="550" ></canvas>
                         </div>
                         <div class="dailyTable dailyTable04">
-                            <p>4. 설비적/기계적 문제 발생 및 대응 현황</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" v-b-visible="handleVisibility">
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>4. 설비적/기계적 문제 발생 및 대응 현황</p>
+                                <button class="ex_button" @click="excelBtn4()">Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions4">
                             </ag-grid-vue>
                         </div>
                         <div class="dailyTable dailyTable05">
-                            <p>5. 운영 특이사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility">
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>5. 운영 특이사항</p>
+                                <button class="ex_button" @click="excelBtn5()">Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions5">
                             </ag-grid-vue>
                         </div>
                     </div>
@@ -109,6 +124,11 @@ export default {
     },
     data() {
         return {
+            gridOptions1:{},
+            gridOptions2:{},
+            gridOptions3:{},
+            gridOptions4:{},
+            gridOptions5:{},
             output: null,
             show01:false,
             show02:false,
@@ -532,18 +552,34 @@ export default {
         }
     },
     methods: {
-          toolbarClick: function (args) {
-          if (args.item.id === 'FirstGrid_excelexport') { // 'Grid_excelexport' -> Grid component id + _ + toolbar item name
-            let appendExcelExportProperties = {
-                multipleExport: { type: 'AppendToSheet', blankRows: 2 }
-            };
+        toolbarClick: function (args) {
+            if (args.item.id === 'FirstGrid_excelexport') { // 'Grid_excelexport' -> Grid component id + _ + toolbar item name
+                let appendExcelExportProperties = {
+                    multipleExport: { type: 'AppendToSheet', blankRows: 2 }
+                };
 
-            let firstGridExport = this.$refs.grid1.excelExport(appendExcelExportProperties, true);
-            firstGridExport.then((fData) => {
-                this.$refs.grid2.excelExport(appendExcelExportProperties, false, fData);
-            });
-        }
-      },
+                let firstGridExport = this.$refs.grid1.excelExport(appendExcelExportProperties, true);
+                firstGridExport.then((fData) => {
+                    this.$refs.grid2.excelExport(appendExcelExportProperties, false, fData);
+                });
+            }
+        },
+        excelBtn1(){
+            this.gridOptions1.api.exportDataAsExcel({});
+        },
+        excelBtn2(){
+            this.gridOptions2.api.exportDataAsExcel({});
+        },
+        excelBtn3(){
+            this.gridOptions3.api.exportDataAsExcel({});
+        },
+        excelBtn4(){
+            this.gridOptions4.api.exportDataAsExcel({});
+        },
+        excelBtn5(){
+            this.gridOptions5.api.exportDataAsExcel({});
+        },
+        
         getConditionList() {
             let that = this;
             axios.post("/api/daedan/cj/ems/setting/conditionList", {
@@ -1223,5 +1259,19 @@ export default {
 
 .dailyTable05 .ag-header-cell:nth-child(3) .ag-header-cell-label{
     justify-content: left !important;
+}
+.ex_button{
+    width: 150px;
+    height: 30px;
+    padding-left: 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
 }
 </style>

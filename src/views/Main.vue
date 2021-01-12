@@ -486,6 +486,10 @@ export default {
         },
         pollData(){
             this.polling = setInterval(() => {
+                console.log()
+                if (window.location.pathname !== '/') {
+                    return false;
+                }
                 if (this.pinshow === 1) {
                     // console.log("asd")
                     this.pinshow = 0
