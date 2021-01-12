@@ -23,7 +23,7 @@
                             <div v-if="item.equipment_inner_nm.length > 20">
                                 <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
                                 <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
-                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511 || boxlistvalplace[index] != 516">
+                                <div class="scrollbox" v-if="(boxlistvalplace[index] !== 511 || boxlistvalplace[index] !== 516) && item.equipment_inner_nm != '폐수처리장 공정악취 AB 통합 S/C 1차처리'">
                                     <div  class="container" >
                                         <b-row class="pinBody">
                                             <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
@@ -41,11 +41,27 @@
                                     <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
                                     <!-- </div> -->
                                 </div>
+                                <div class="scrollbox" v-else-if="(boxlistvalplace[index] !== 511 || boxlistvalplace[index] !== 516) && item.equipment_inner_nm == '폐수처리장 공정악취 AB 통합 S/C 1차처리'">
+                                    <div  class="container" >
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="4">배출<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                        </b-row>
+                                    </div>
+                                    <div  class="container">
+                                        <b-row class="pinBody">
+                                            <b-col cols="4">{{boxlistvalstandard[index]}}</b-col>
+                                            <b-col cols="4">{{boxlistvalout[index]}}</b-col>
+                                        </b-row>
+                                    </div>
+                                    <!-- <div v-for="(e,idx) in testdata" :key="index+idx"> -->
+                                    <!-- </div> -->
+                                </div>
                                 <div class="scrollbox" v-else>
                                     <div  class="container" >
                                         <b-row class="pinBody">
                                             <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                            <b-col cols="4">중간<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="5">측정값<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
                                         </b-row>
                                     </div>
                                     <div  class="container">
@@ -83,7 +99,7 @@
                                     <div  class="container" >
                                         <b-row class="pinBody">
                                             <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
-                                            <b-col cols="4">중간<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
+                                            <b-col cols="5">측정값<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
                                         </b-row>
                                     </div>
                                     <div  class="container">
