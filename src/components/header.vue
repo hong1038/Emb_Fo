@@ -5,7 +5,7 @@
     <div id="header">
         <div class=" inner clear">
             <div class="logo">
-                <router-link :to="{ name: 'login'}">
+                <router-link :to="{ name: 'Main'}">
                     <img src="../assets/logo.png" alt="logo">
                 </router-link>
             </div>

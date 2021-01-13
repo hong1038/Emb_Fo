@@ -38,6 +38,13 @@
                         <b-col cols="4" v-for="(item , idx) in List" :key="idx">
                             <p>{{item[0].internal_name}}</p>
                             <canvas :id="'chart'+idx"></canvas>
+                            <!-- <div>
+                                <div>
+                                    <div class="yAxisBar yAxisBar1" :id="'yAxisBar1_'+idx">1</div>
+                                    <div class="yAxisBar yAxisBar2" :id="'yAxisBar2_'+idx">2</div>
+                                    <div class="yAxisBar yAxisBar3" :id="'yAxisBar3_'+idx">3</div>
+                                </div>
+                            </div> -->
                         </b-col>
                     </div>
                     </b-overlay>
@@ -287,39 +294,184 @@ export default {
         },
         randarChart() {
             if (this.Chart != undefined) {   
-                this.Chart.destroy();
+                // this.Chart.destroy();
             }
             // if (this.dailyChart2) {
             //     this.dailyChart2.destroy();
             // }
             this.List.map((e,idx) => {
-                const chartList = []
+                const chartList = [
+                    {
+                        x: 1000,
+                        y: 0,
+                        r: 0
+                    },
+                    {
+                        x: 0,
+                        y: e.length,
+                        r: 0
+                    }
+                ]
+                const val10 = []
+                const val100 = []
+                const val200 = []
+                const val300 = []
+                const val400 = []
+                const val500 = []
+                const val600 = []
+                const val700 = []
+                const val800 = []
+                const val900 = []
+                const val1000 = []
+
+                const chartAvgBar = []; 
+                // const overBar = 0;
+                // const underBar = 0;
+
                 this.inletgraphLabel = []
+
+
                 e.map(item => {
+                    console.log(item)
                     if (item.place === 512) {
-                        chartList.push(item.outlet_avg_value)
+                        if(item.outlet_avg_value < 100 ) {
+                            val10.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 100 && item.outlet_avg_value < 200 ){
+                            val100.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 200 && item.outlet_avg_value < 300 ){
+                            val200.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 300 && item.outlet_avg_value < 400 ){
+                            val300.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 400 && item.outlet_avg_value < 500 ){
+                            val400.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 500 && item.outlet_avg_value < 600 ){
+                            val500.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 600 && item.outlet_avg_value < 700 ){
+                            val600.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 700 && item.outlet_avg_value < 800 ){
+                            val700.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 800 && item.outlet_avg_value < 900 ){
+                            val800.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value > 900 && item.outlet_avg_value < 1000 ){
+                            val900.push(item.outlet_avg_value)
+                        }else if(item.outlet_avg_value >= 1000){
+                            val1000.push(item.outlet_avg_value)
+                        }
+                        // chartList.push(item.outlet_avg_value)
+                        chartAvgBar.push(item.outlet_avg_value)
                         this.inletgraphLabel.push(item.to_char)
                     }
                     if (item.place === 511) {
-                        chartList.push(item.midlet_avg_value)
+                        if(item.midlet_avg_value < 100 ) {
+                            val10.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 100 && item.midlet_avg_value < 200 ){
+                            val100.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 200 && item.midlet_avg_value < 300 ){
+                            val200.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 300 && item.midlet_avg_value < 400 ){
+                            val300.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 400 && item.midlet_avg_value < 500 ){
+                            val400.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 500 && item.midlet_avg_value < 600 ){
+                            val500.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 600 && item.midlet_avg_value < 700 ){
+                            val600.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 700 && item.midlet_avg_value < 800 ){
+                            val700.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 800 && item.midlet_avg_value < 900 ){
+                            val800.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value > 900 && item.midlet_avg_value < 1000 ){
+                            val900.push(item.midlet_avg_value)
+                        }else if(item.midlet_avg_value >= 1000){
+                            val1000.push(item.midlet_avg_value)
+                        }
+                        // chartList.push(item.midlet_avg_value)
+                        chartAvgBar.push(item.midlet_avg_value)
                         this.inletgraphLabel.push(item.to_char)
                     }
                     if (item.place === 510) {
-                        chartList.push(item.inlet_avg_value)
+                        if(item.inlet_avg_value < 100 ) {
+                            val10.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 100 && item.inlet_avg_value < 200 ){
+                            val100.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 200 && item.inlet_avg_value < 300 ){
+                            val200.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 300 && item.inlet_avg_value < 400 ){
+                            val300.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 400 && item.inlet_avg_value < 500 ){
+                            val400.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 500 && item.inlet_avg_value < 600 ){
+                            val500.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 600 && item.inlet_avg_value < 700 ){
+                            val600.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 700 && item.inlet_avg_value < 800 ){
+                            val700.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 800 && item.inlet_avg_value < 900 ){
+                            val800.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value > 900 && item.inlet_avg_value < 1000 ){
+                            val900.push(item.inlet_avg_value)
+                        }else if(item.inlet_avg_value >= 1000){
+                            val1000.push(item.inlet_avg_value) 
+                        }
+                        // chartList.push(item.inlet_avg_value)
+                        chartAvgBar.push(item.inlet_avg_value)
                         this.inletgraphLabel.push(item.to_char)
                     }
                 })
+                const arr = chartAvgBar.reduce(function add(sum, currValue) {
+                return sum + currValue;
+                }, 0);
+                const chartAvgBarVal = arr / chartAvgBar.length;
+                // console.log(document.getElementById('yAxisBar2_'+idx),chartAvgBarVal/10+"%")
+                // document.getElementById('yAxisBar2_'+idx)[0].style.left = chartAvgBarVal/10+"%"
 
+
+                console.log(chartAvgBarVal)
+                if (val10.length !== 0) {
+                    chartList.push({x:10,y:val10.length,r:5})
+                } 
+                if (val100.length !== 0) {
+                    chartList.push({x:100,y:val100.length,r:5})
+                } 
+                if (val200.length !== 0) {
+                    chartList.push({x:200,y:val200.length,r:5})
+                } 
+                if (val300.length !== 0) {
+                    chartList.push({x:300,y:val300.length,r:5})
+                } 
+                if (val400.length !== 0) {
+                    chartList.push({x:400,y:val400.length,r:5})
+                } 
+                if (val500.length !== 0) {
+                    chartList.push({x:500,y:val500.length,r:5})
+                } 
+                if (val600.length !== 0) {
+                    chartList.push({x:600,y:val600.length,r:5})
+                } 
+                if (val700.length !== 0) {
+                    chartList.push({x:700,y:val700.length,r:5})
+                } 
+                if (val800.length !== 0) {
+                    chartList.push({x:800,y:val800.length,r:5})
+                } 
+                if (val900.length !== 0) {
+                    chartList.push({x:900,y:val900.length,r:5})
+                } 
+                if (val1000.length !== 0) {
+                    chartList.push({x:1000,y:val1000.length,r:5})
+                } 
                 this.ctxDaily = document.getElementById('chart'+idx).getContext('2d');
-
                 this.ctxDaily.height = "100%";
                 this.ctxDaily.width = "100%";
                 // this.ctxDaily.font = "5rem";
                 // console.log(this.dailyChartLabel,this.dailyChartData)
                 let ctxFontSize = 14
+
+
                 this.ctxConfig = {
-                    type: 'line',
+                    type: 'bubble',
                     options: {
+
                         position: 'bottom',
                         responsive: false,
                         scales: {
@@ -354,7 +506,7 @@ export default {
                                 borderRadius: 4
                             }
                         },
-                        maintainAspectRatio: false,
+                        // maintainAspectRatio: false,
                     },
                     data: {
 
@@ -363,15 +515,15 @@ export default {
                             {
                                 label: '측정값',
                                 borderColor: '#42f13f',
-                                backgroundColor: 'transparent',
+                                backgroundColor: '#42f13f',
                                 data: chartList
                                 // data:this.dailyChartData
-                            }
-    
+                            },
                         ]
                     },
                 }
                 this.Chart = new Chart(this.ctxDaily, this.ctxConfig);
+                
                 this.Chart.update()
                 this.busy = false
             })
@@ -495,6 +647,7 @@ export default {
 }
 
 .canvasWrap>div{
+    position:relative;
     width:100%;
     height:60%;
 }
@@ -507,6 +660,33 @@ export default {
     width:100%;
     height:250px;
     outline:1px solid;
+}
+.canvasWrap>div>div{
+    position: absolute;
+    top: 83px;
+    left: 50px;
+    width: 418px;
+    height: 180px;
+    /* border: 1px solid red; */
+}
+.canvasWrap>div>div>div{
+    width: 100%;
+    position: relative;
+    height: 100%;
+}
+.canvasWrap>div>div>div>div.yAxisBar{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:3px;
+    height:185px;
+    border:2px dashed red;
+}
+.canvasWrap>div>div>div>div.yAxisBar1 ,.canvasWrap>div>div>div>div.yAxisBar1{
+    border:2px dashed red;
+}
+.canvasWrap>div>div>div>div.yAxisBar2{
+    border:2px solid blue;
 }
 
 .canvasWrap::-webkit-scrollbar {
