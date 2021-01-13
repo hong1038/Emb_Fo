@@ -7,7 +7,7 @@
                     <div class="title clear">
                         <h5>사업장</h5>
                         <div class="btn_area">
-                            <input type="button" value="전체선택" @click="checkAll('1')" class="check_all" id="categoryCheckAll">
+                            <!-- <input type="button" value="전체선택" @click="checkAll('1')" class="check_all" id="categoryCheckAll"> -->
                             <input type="button" value="새로고침" @click="checkReset('1')" class="clear_btn" id="serverClearAll">
                         </div>
                     </div>

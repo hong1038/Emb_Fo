@@ -408,14 +408,19 @@ export default {
     
     watch: {
         moniList() {
-            this.testmoni()
+            this.moniList.map((e, idx) => {
+                e.idx = idx;
+            })
+            setTimeout(() => {
+                document.getElementsByClassName("chartIn")[0].style.width = this.opRate+"%"
+                this.testmoni()
+            }, 1000);
         }
     },
     methods: {
         updateData(){
             this.polling02 = setInterval(() => {
                 store.state.rememberArea = this.areaPin
-                console.log(store.state.rememberArea)
                 this.pinClick(store.state.rememberArea, this.pin, this.name);
                 this.getWether();
             },18000000)
@@ -486,7 +491,7 @@ export default {
         },
         pollData(){
             this.polling = setInterval(() => {
-                console.log()
+                
                 if (window.location.pathname !== '/') {
                     return false;
                 }
@@ -494,7 +499,6 @@ export default {
                     // console.log("asd")
                     this.pinshow = 0
                     this.datas.map(e => {
-                        console.log(document.getElementsByClassName("area"+e.area_code)[0],e)
                         if (e.air_abnormal_yn === "Y" || e.odor_abnormal_yn  === "Y" || e.water_abnormal_yn === "Y") {
                             e.pinshow = 0   
                             document.getElementsByClassName("area"+e.area_code)[0].style.opacity = 0
@@ -659,11 +663,15 @@ export default {
                                             this.areaNm = this.rowData[0].name
                                         }
 
-                                        this.opRate = res.data.data.oper.opRate.toFixed(0)
-                                        setTimeout(() =>{
-                                            document.getElementsByClassName("chartIn")[0].style.width = this.opRate+"%"
-                                        },500)
-                                        
+                                        if (res.data.data.oper.opRate === '' || res.data.data.oper.opRate === undefined || res.data.data.oper.opRate === 'NaN') {
+                                            this.opRate = 0;    
+                                        }else{
+                                            this.opRate = res.data.data.oper.opRate.toFixed(0)
+                                        }
+                                        // setTimeout(() => {
+                                            
+                                           
+                                        // }, 500);
                                     } catch (error) {
                                         console.log(error)
                                     }      
@@ -715,13 +723,10 @@ export default {
 
         },
         testmoni() {
-            this.moniList.map((e, idx) => {
-                e.idx = idx;
-            })
+
             if (this.moniList.length === 0) return false
 
             setTimeout(() => {
-
                 this.moniList.map((e) => {
                     if (e.place === 510) {
                         if (e.inlet_avg_value > e.inlet_standard_value) {
