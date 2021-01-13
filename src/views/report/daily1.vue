@@ -1273,5 +1273,7 @@ export default {
     background: white;
     box-shadow: 0px 0px 3px blue;
     font-size: 16px;
+    margin-top:10px;
+    margin-right:5px;
 }
 </style>
