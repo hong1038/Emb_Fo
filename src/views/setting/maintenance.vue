@@ -7,29 +7,30 @@
             <div class="con mtConBox">
                 <div class="con_box_right container-fluid">
                     <p>측정기별 유지보수 계약 정보</p>
-                    <div>
-                        <input class="mt_btn02" type="button" v-on:click="getList" value="조회">
-                        <!-- <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록"> -->
-                        <input class="mt_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
-                    </div>
-                    <!-- <div class="maintenanceDateCheck container-fluid">
+                    <div class="maintenanceDateCheck container-fluid">
                         <b-row>
                             <b-col cols="7">
-                                 <div>날짜 선택 </div>
-                                <div class="dateSelect"> 
-                                    <datetime type="date" v-model="dateFr" class="datetime"></datetime>
-                                </div> 
+                                 <div>연도 선택</div>
+                                <div class="dateSelect">
+                                    <Datepicker 
+                                        :format="DatePickerFormat"
+                                        :language="language"
+                                        minimum-view="year"
+                                        name="datepicker"
+                                        id="input-id"
+                                        input-class="input-class"
+                                        v-model="dateFr"></Datepicker>
+                                </div>
                             </b-col>
                             <b-col cols="5">
                                 <input class="mt_btn02" type="button" v-on:click="getList" value="조회">
-                               <input class="mt_btn02" type="button"  v-on:click="addOn" value="등록">
                                 <input class="mt_btn03" type="button" v-on:click="excelBtn" value="엑셀 저장">
                             </b-col>
                         </b-row>
-                    </div> -->
+                    </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                         <div class="mt-1 container-fluid maintenanceTable" style="display:flex;">
-                            <ag-grid-vue style="width: 100%; height: 715px;" class="ag-theme-alpine-dark"  rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
+                            <ag-grid-vue style="width: 100%; height: 650px;" class="ag-theme-alpine-dark"  rowSelection="single" @row-clicked="addOn" :columnDefs="fields" :rowData="list" :gridOptions="gridOptions">
                             </ag-grid-vue>
                             <b-card class="right_list" v-if="show">
                                 <b-row>
@@ -59,14 +60,14 @@
                                         <b-col class="regiName col-4">위치분류</b-col>
                                         <b-form-input class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-input>
                                     </b-row>
-                                    <b-row>
+                                    <!-- <b-row>
                                         <b-col class="regiName col-4 lh-2">계약 시작일자</b-col>
                                         <b-form-input class="col" type="date" size="sm" v-model="fr_dt"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">계약 종료일자</b-col>
                                         <b-form-input class="col" type="date" size="sm" v-model="to_dt"></b-form-input>
-                                    </b-row>
+                                    </b-row> -->
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">계약여부</b-col>
                                         <b-col class="col-8">
@@ -120,7 +121,7 @@
 </template>
 
 <script>
-import Vue from "vue";
+// import Vue from "vue";
 import Header from '@/components/header.vue'
 import Left from '@/components/Left2.vue'
 
@@ -129,8 +130,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import axios from 'axios';
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+import Datepicker from 'vuejs-datepicker';
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
@@ -138,23 +138,31 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 
-Vue.use(Datetime)
 import store from '@/store/index';
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
         Header,
         Left,
-        AgGridVue
-        // DatePicker,
+        AgGridVue,
+        Datepicker,
         // BootstrapVue,
     },
     data() {
         return {
-   
+            DatePickerFormat:'yyyy',
+            language:{
+                language: 'Korean', 
+                months: ['1', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 
+                monthsAbbr: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 
+                days: ['일', '월', '화', '수', '목', '금', '토'], 
+                rtl: false, 
+                ymd: false, 
+                yearSuffix: '년'
+            },
             mode: 'single',
             info: {},
-            dateFr: store.state.szCurMmTo,
+            dateFr: store.state.curYFr,
             findTp: '',
             findSz: '',
 
@@ -209,7 +217,8 @@ export default {
                 },
                 {
                     field: 'category_cd',
-                    headerName: '구분'
+                    headerName: '구분',
+                    width:'80'
                 },
                 {
                     field: 'facility_nm',
@@ -224,6 +233,11 @@ export default {
                 {
                     field: 'contact_yn',
                     headerName: '계약여부',
+                    width: '110px',
+                },
+                {
+                    field: 'success_yn',
+                    headerName: '완료여부',
                     width: '110px',
                 },
             ],
@@ -265,6 +279,9 @@ export default {
         store.state.ckEquip = [];
         store.state.ckSensor = [];
     },
+    mounted(){
+        this.getDay();
+    },
 
     created() {
         this.config = {
@@ -276,6 +293,28 @@ export default {
     },
 
     methods: {
+        getDay(){
+            // let nowDay = String(new Date()).split(" ");
+            
+            if(String(this.dateFr).length > 15){
+                let day = String(this.dateFr).split(" ");
+                let y = day[3]
+                this.dateFr = y;
+                this.fr_dt = y + "-01"
+                this.to_dt = y + "-12"
+            }
+            else{
+                let day = this.dateFr.split("-");
+                let y = day[0]
+                this.dateFr = y
+                this.fr_dt = y + "-01"
+                this.to_dt = y + "-12"
+            }
+
+            console.log(this.fr_dt, this.to_dt)
+
+
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -427,6 +466,8 @@ export default {
                 return;
             }
 
+            
+            this.getDay();
             this.onClick()
 
             let that = this;
@@ -462,6 +503,9 @@ export default {
         },
         // 등록버튼 클릭
         addOn(obj) {
+
+            this.getDay();
+
             console.log(obj)
             this.mno = obj.data.mno;
             this.fr_dt = obj.data.fr_dt;
@@ -526,7 +570,7 @@ export default {
         },
         async saveInfoProc() {
             let that = this;
-
+            this.getDay()
             await this.$Axios.post("/api/daedan/cj/ems/setting/maintenanceSave", {
                     mno: this.mno,
                     server_key:this.server_key,
@@ -650,7 +694,7 @@ export default {
 .mt_btn02,
 .mt_btn03 {
     position: absolute;
-    top: 40px;
+    top: 0px;
     width: 150px;
     height: 30px;
     display: inline-block;

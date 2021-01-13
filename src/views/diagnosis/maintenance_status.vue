@@ -240,16 +240,17 @@ export default {
     },
 
     methods: {
-
-        saveYear(year) {
-            console.log(this.$refs.menu,year)
-            this.dateSelect = year
-            this.$refs.menu.save(year)
-            // Reset activePicker to type YEAR
-            this.$refs.picker.activePicker = 'YEAR'
-
-            // Close the menu/datepicker
-            this.menu = false
+        getDay(){
+            if(String(this.dateFr).length > 15){
+                let day = String(this.dateFr).split(" ");
+                let y = day[3]
+                this.dateFr = y;
+            }
+            else{
+                let day = this.dateFr.split("-");
+                let y = day[0]
+                this.dateFr = y
+            }
         },
 
         clearTimeout() {
@@ -296,7 +297,7 @@ export default {
                 alert("날짜를 선택해주세요.")
                 return;
             }
-
+            this.getDay();
             this.onClick();
 
             let that = this;
