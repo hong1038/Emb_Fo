@@ -37,11 +37,11 @@
                                 <!-- <b-row>
                                     <b-col class="regiName col-4">전화번호</b-col>
                                     <b-form-input class="col" v-model="emInfo.tell" size="sm"></b-form-input>
-                                </b-row>
-                                <b-row>
-                                    <b-col class="regiName col-4">핸드폰번호</b-col>
-                                    <b-form-input class="col" v-model="emInfo.hp" size="sm"></b-form-input>
                                 </b-row> -->
+                                <b-row>
+                                    <b-col class="regiName col-4">비밀번호</b-col>
+                                    <b-form-input class="col" v-model="password" size="sm"></b-form-input>
+                                </b-row>
                                 <b-row>
                                     <b-col class="regiName col-4">이메일</b-col>
                                     <b-form-input class="col" v-model="email" size="sm"></b-form-input>
@@ -354,6 +354,7 @@ export default {
                     name: this.name,
                     area_code: this.area_code,
                     server_key:this.server_key,
+                    password:this.password,
                     email:this.email,
                     userId: store.state.userInfo.userId
                 }, this.config)
