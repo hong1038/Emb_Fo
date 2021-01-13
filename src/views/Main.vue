@@ -660,7 +660,10 @@ export default {
                                         }
 
                                         this.opRate = res.data.data.oper.opRate.toFixed(0)
-                                        document.getElementsByClassName("chartIn")[0].style.width = this.opRate+"%"
+                                        setTimeout(() =>{
+                                            document.getElementsByClassName("chartIn")[0].style.width = this.opRate+"%"
+                                        },500)
+                                        
                                     } catch (error) {
                                         console.log(error)
                                     }      
