@@ -274,8 +274,16 @@ export default {
                     if (e.box_code < 10) {
                         e.box_code = "0"+String(e.box_code)
                     }
-                    e.style = 'top:'+e.box_py+'px;left:'+e.box_px+'px'
+                    
+                    if(e.used_yn == "N"){
+                        e.style = 'top:'+e.box_py+'px; left:'+e.box_px+'px;' + 'display:none;'
+                    }
+                    else{
+                        e.style = 'top:'+e.box_py+'px; left:'+e.box_px+'px;'
+                    }
+                
                     e.check = true;
+                    // console.log(e)
                 })
                 this.boxList = res.data.data
                 // console.log(this.boxList)
@@ -427,7 +435,7 @@ export default {
                             graphDataIn.push(item.inlet_avg_value)                            
                         }
                         this.testUnit.push(item.unit)
-                        console.log(this.testUnit)
+                        // console.log(this.testUnit)
                     }
                 })
                 if (midlet_place === true) {
@@ -541,15 +549,16 @@ export default {
             if (item === "All") {
                 this.eqbkey = null;
                 this.boxList2 = this.boxList
+                // console.log(this.boxList2, this.boxList)
                 this.boxList2.map(e => {
-                    filterKeywords.push(e.equipment_inner_nm)
+                    filterKeywords.push(e.equipment_inner_nm)  
                 })
                 this.sensorData.map(e => {
                     filterKeywords2.push(e.equipment_inner_nm)
                 })
                 var filterKeywords3 = filterKeywords.filter((e) => !Array.from(new Set(filterKeywords2)).includes(e));
 
-                filterKeywords3.map(e=>{
+                filterKeywords3.map(e=>{  
                     this.allKeywords.push(e)
                 })
                 let filterHeight = filterKeywords3.filter(x => x.length > 15)
@@ -560,10 +569,11 @@ export default {
                 filterKeywords3.map(item => {
                    this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
                 })
+                // console.log(this.boxList2)
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm
-                this.boxList.map(e => {                    
+                this.boxList.map(e => {                
                     if (e.equipment_inner_nm === item.equipment_inner_nm) {
                         this.boxList2.push(e)
                         
@@ -636,6 +646,7 @@ export default {
                     if (res.status === 200) {
                         if (res.data.statusCode === 200) {
                             res.data.data.map(e => {
+                                // console.log(e)
                                 e.check = true
                             })
 
