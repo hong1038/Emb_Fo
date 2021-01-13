@@ -5,7 +5,7 @@
     <div id="header">
         <div class=" inner clear">
             <div class="logo">
-                <router-link :to="{ name: 'login'}">
+                <router-link :to="{ name: 'Main'}">
                     <img src="../assets/logo.png" alt="logo">
                 </router-link>
             </div>
@@ -17,7 +17,7 @@
                         </span>
                         <ul class="main_nav main_nav01">
                             <li>
-                                <router-link :to="{ name: 'ㅣㅐ'}">전체</router-link>
+                                <router-link :to="{ name: 'Main'}">전체</router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'Main', }">
