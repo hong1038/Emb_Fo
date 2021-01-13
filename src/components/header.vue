@@ -17,7 +17,7 @@
                         </span>
                         <ul class="main_nav main_nav01">
                             <li>
-                                <router-link :to="{ name: 'ㅣㅐ'}">전체</router-link>
+                                <router-link :to="{ name: 'Main'}">전체</router-link>
                             </li>
                             <li>
                                 <router-link :to="{ name: 'Main', }">
