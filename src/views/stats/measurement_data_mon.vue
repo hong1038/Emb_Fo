@@ -391,12 +391,11 @@ export default {
                                 fontFamily : 'CjFontBodyRegular',
                                 fontStyle : 'bold',
                                 userCallback : function(value){
+                                    console.log("value"+value)
                                     value = value.toString();
                                     value = value.split("-");
-                                    if(value[0].length > 2){
-                                        value[0] = value[0].substring(2,4)
-                                    }
-                                    value = value.join("-");
+                                    value = value[1] + "/" + value[2]
+                                    // value = value.join("-");
                                     console.log(value)
                                     return value;
                                 }

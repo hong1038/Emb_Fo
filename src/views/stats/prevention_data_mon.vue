@@ -554,7 +554,16 @@ export default {
                             ticks: {
                                 fontSize: ctxFontSize,
                                 fontFamily : 'CjFontBodyRegular',
-                                fontStyle : 'bold'
+                                fontStyle : 'bold',
+                                userCallback : function(value){
+                                    console.log("value"+value)
+                                    value = value.toString();
+                                    value = value.split("/");
+                                    value = value[1] + "/" + value[2]
+                                    // value = value.join("-");
+                                    console.log(value)
+                                    return value;
+                                }
                             }
                         }]
                     },
