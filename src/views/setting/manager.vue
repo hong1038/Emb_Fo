@@ -20,6 +20,7 @@
                         <b-card class="right_list" v-if="show">
                             <b-row>
                                 <b-col class="popUpTitle">사용자 정보 등록</b-col>
+                                <input type="button" class="managerSaveBtn btn btn-success btn-sm" v-on:click="saveNewId" value="신규">
                                 <input type="button" class="managerSaveBtn btn btn-success btn-sm" v-on:click="saveInfo" value="저장">
                                 <input type="button" class="managerListBtn btn btn-primary btn-sm" v-on:click="showblock" value="목록">
                                 <!-- <input type="button" class="managerListBtn btn btn-danger btn-sm" v-on:click="dropInfo" value="삭제"> -->
@@ -181,11 +182,17 @@ export default {
       this.clearTimeout()
     },
     methods: {
+        saveNewId(){
+            this.name = null
+            this.server_key = null
+            this.email = null
+            this.password = null
+        },
         showblock2(){
             this.name = null
             this.server_key = null
             this.email = null
-
+            this.password = null
             this.showblock()
         },
         clearTimeout() {
@@ -328,10 +335,10 @@ export default {
             this.Loadbusy = false;
         },
         saveInfo() {
-            if (store.state.userInfo.email !== this.email) {
-                alert('자신의 아이디만 수정 가능 합니다.')
-                return;
-            }
+            // if (store.state.userInfo.email !== this.email) {
+            //     alert('자신의 아이디만 수정 가능 합니다.')
+            //     return;
+            // }
             if (!this.name) {
                 alert("성명은 필수 입력 항목 입니다.")
                 return;
