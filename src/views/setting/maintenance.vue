@@ -59,14 +59,14 @@
                                         <b-col class="regiName col-4">위치분류</b-col>
                                         <b-form-input class="col" v-model="location" :options="comboLocations" size="sm" disabled></b-form-input>
                                     </b-row>
-                                    <b-row>
+                                    <!-- <b-row>
                                         <b-col class="regiName col-4 lh-2">계약 시작일자</b-col>
                                         <b-form-input class="col" type="date" size="sm" v-model="fr_dt"></b-form-input>
                                     </b-row>
                                     <b-row>
                                         <b-col class="regiName col-4 lh-2">계약 종료일자</b-col>
                                         <b-form-input class="col" type="date" size="sm" v-model="to_dt"></b-form-input>
-                                    </b-row>
+                                    </b-row> -->
                                     <b-row class="line1_box">
                                         <b-col class="regiName col-4">계약여부</b-col>
                                         <b-col class="col-8">
