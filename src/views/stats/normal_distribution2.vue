@@ -39,7 +39,15 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="canvasWrap canvasLoc container-fluid mt-3" style="display:flex;flex-flow:wrap;">
                         <b-col cols="4" v-for="(item , idx) in List" :key="idx">
+                            <p>{{item[0].yearlist}}</p>
                             <canvas :id="'chart'+idx"></canvas>
+                             <!-- <div>
+                                <div>
+                                    <div class="yAxisBar yAxisBar1" :id="'yAxisBar1_'+idx"></div>
+                                    <div class="yAxisBar yAxisBar2" :id="'yAxisBar2_'+idx"></div>
+                                    <div class="yAxisBar yAxisBar3" :id="'yAxisBar3_'+idx"></div>
+                                </div>
+                            </div> -->
                         </b-col>
                     </div>
                     </b-overlay>
@@ -270,43 +278,157 @@ export default {
                 })
         },
         randarChart() {
-            if (this.Chart) {
-                this.Chart.destroy();
+            if (this.Chart != undefined) {   
+                // this.Chart.destroy();
             }
-            
+            // if (this.dailyChart2) {
+            //     this.dailyChart2.destroy();
+            // }
             this.List.map((e,idx) => {
-                const chartList = []
+                // console.log()
+                // if (e[0].place !== 512) {
+                //     retu
+                // }
+                const chartList = [
+                    {
+                        x: 10000,
+                        y: 0,
+                        r: 0
+                    },
+                    {
+                        x: 0,
+                        y: e.length,
+                        r: 0
+                    }
+                ]
+                const val100 = []
+                const val1000 = []
+                const val2000 = []
+                const val3000 = []
+                const val4000 = []
+                const val5000 = []
+                const val6000 = []
+                const val7000 = []
+                const val8000 = []
+                const val9000 = []
+                const val10000 = []
+
+                const chartAvgBar = []; 
+                // let overBar = 0;
+                // let underBar = 0;
+
                 this.inletgraphLabel = []
+                console.log(e)
                 e.map(item => {
-                    chartList.push(item.outlet_data_value)
-                    this.inletgraphLabel.push(item.to_char)
+                        if(item.outlet_data_value < 1000 ) {
+                            val100.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 1000 && item.outlet_data_value < 2000 ){
+                            val1000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 2000 && item.outlet_data_value < 3000 ){
+                            val2000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 3000 && item.outlet_data_value < 4000 ){
+                            val3000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 4000 && item.outlet_data_value < 5000 ){
+                            val4000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 5000 && item.outlet_data_value < 6000 ){
+                            val5000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 6000 && item.outlet_data_value < 7000 ){
+                            val6000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 7000 && item.outlet_data_value < 8000 ){
+                            val7000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 8000 && item.outlet_data_value < 9000 ){
+                            val8000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value > 9000 && item.outlet_data_value < 10000 ){
+                            val9000.push(item.outlet_data_value)
+                        }else if(item.outlet_data_value >= 10000){
+                            val10000.push(item.outlet_data_value)
+                        }
+                        // chartList.push(item.outlet_avg_value)
+                        // overBar = item.outlet_standard_value * 1.2
+                        // underBar = item.outlet_standard_value * 0.8
+                        chartAvgBar.push(item.outlet_avg_value)
+                        this.inletgraphLabel.push(item.to_char)
                 })
+                const arr = chartAvgBar.reduce(function add(sum, currValue) {
+                return sum + currValue;
+                }, 0);
 
+                let chartAvgBarVal = arr / chartAvgBar.length;
+                if (chartAvgBarVal > 10000) {
+                    chartAvgBarVal = 10000
+                }
+
+
+                // if (underBar > 10000 || underBar < 0) {
+                //     document.getElementById('yAxisBar1_'+idx).style.display = 'none'    
+                // }else{
+                //     document.getElementById('yAxisBar1_'+idx).style.left = underBar/100+"%"    
+                // }
+
+                // document.getElementById('yAxisBar2_'+idx).style.left = chartAvgBarVal/100+"%"
+
+                // if (overBar > 10000 || overBar < 0) {
+                //     document.getElementById('yAxisBar3_'+idx).style.display = 'none'    
+                // }else{
+                //     document.getElementById('yAxisBar3_'+idx).style.left = overBar/100+"%"    
+                // }
+
+                if (val100.length !== 0) {
+                    chartList.push({x:100,y:val100.length,r:5})
+                } 
+                if (val1000.length !== 0) {
+                    chartList.push({x:1000,y:val1000.length,r:5})
+                } 
+                if (val2000.length !== 0) {
+                    chartList.push({x:2000,y:val2000.length,r:5})
+                } 
+                if (val3000.length !== 0) {
+                    chartList.push({x:3000,y:val3000.length,r:5})
+                } 
+                if (val4000.length !== 0) {
+                    chartList.push({x:4000,y:val4000.length,r:5})
+                } 
+                if (val5000.length !== 0) {
+                    chartList.push({x:5000,y:val5000.length,r:5})
+                } 
+                if (val6000.length !== 0) {
+                    chartList.push({x:6000,y:val6000.length,r:5})
+                } 
+                if (val7000.length !== 0) {
+                    chartList.push({x:7000,y:val7000.length,r:5})
+                } 
+                if (val8000.length !== 0) {
+                    chartList.push({x:8000,y:val8000.length,r:5})
+                } 
+                if (val9000.length !== 0) {
+                    chartList.push({x:9000,y:val9000.length,r:5})
+                } 
+                if (val10000.length !== 0) {
+                    chartList.push({x:10000,y:val10000.length,r:5})
+                } 
                 this.ctxDaily = document.getElementById('chart'+idx).getContext('2d');
-
                 this.ctxDaily.height = "100%";
                 this.ctxDaily.width = "100%";
                 // this.ctxDaily.font = "5rem";
                 // console.log(this.dailyChartLabel,this.dailyChartData)
                 let ctxFontSize = 14
+
+
                 this.ctxConfig = {
-                    type: 'line',
+                    type: 'bubble',
                     options: {
+
                         position: 'bottom',
                         responsive: false,
                         scales: {
                             yAxes: [{
-
                                 ticks: {
                                     min: 0,
                                     beginAtZero: true,
                                     fontSize: ctxFontSize
-                                },
+                                }
                             }],
                             xAxes: [{
-                                gridLines : {
-                                    display : false
-                                },
                                 ticks: {
                                     fontSize: ctxFontSize
                                 }
@@ -330,7 +452,7 @@ export default {
                                 borderRadius: 4
                             }
                         },
-                        maintainAspectRatio: false,
+                        // maintainAspectRatio: false,
                     },
                     data: {
 
@@ -339,15 +461,15 @@ export default {
                             {
                                 label: '측정값',
                                 borderColor: '#42f13f',
-                                backgroundColor: 'transparent',
+                                backgroundColor: '#42f13f',
                                 data: chartList
                                 // data:this.dailyChartData
-                            }
-    
+                            },
                         ]
                     },
                 }
                 this.Chart = new Chart(this.ctxDaily, this.ctxConfig);
+                
                 this.Chart.update()
                 this.busy = false
             })
@@ -358,7 +480,6 @@ export default {
 </script>
 
 <style>
-
 * {
     margin: 0;
     padding: 0;
@@ -386,7 +507,7 @@ export default {
     background:#CCE2F8;
 }
 
-.ndDateCheck>div>div:nth-child(1)>.select02{
+.ndDateCheck>div>div:nth-child(1)>.select01{
     background:#0052BB;
 }
 
@@ -398,7 +519,7 @@ export default {
     text-decoration: none;
 }
 
-.ndDateCheck>div>div:nth-child(1)>.select02>a{
+.ndDateCheck>div>div:nth-child(1)>.select01>a{
     color:white;
 }
 
@@ -414,7 +535,7 @@ export default {
     transition: all 0.3s;
     box-sizing: border-box;
     border-radius: 10px;
-    background: white;
+    background:white;
     box-shadow: 0px 0px 3px blue;
     font-size: 16px;
 }
@@ -440,12 +561,9 @@ export default {
 .dateSelect input {
     box-sizing: border-box;
     padding-left: 10px;
+    font-size:14px;
 }
 
-.dateSelect .cell{
-    font-size:16px;
-
-}
 
 /* Contents */
 
@@ -465,21 +583,81 @@ export default {
 }
 
 .canvasWrap {
-    height:450px;
+    height:650px;
     box-sizing: border-box;
-    border-top: 2px solid #ccc;
+    border: 2px solid #ccc;
     padding: 0;
+    overflow-y:scroll;
+    background:rgb(243, 251, 255);
+    border-radius: 5px;
 }
 
 .canvasWrap>div{
+    position:relative;
     width:100%;
     height:60%;
 }
 
-.canvasWrap>div canvas{
-    width:100%;
-    height:200px;
-    outline:1px solid;
+.canvasWrap>div p{
+    font-size:14px;
 }
 
+.canvasWrap>div canvas{
+    width:100%;
+    height:250px;
+    outline:1px solid;
+}
+.canvasWrap>div>div{
+    position: absolute;
+    top: 83px;
+    left: 50px;
+    width: 418px;
+    height: 180px;
+    /* border: 1px solid red; */
+}
+.canvasWrap>div>div>div{
+    width: 100%;
+    position: relative;
+    height: 100%;
+}
+.canvasWrap>div>div>div>div.yAxisBar{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:3px;
+    height:185px;
+    border:2px dashed red;
+}
+.canvasWrap>div>div>div>div.yAxisBar1 ,.canvasWrap>div>div>div>div.yAxisBar1{
+    border:2px dashed red;
+}
+.canvasWrap>div>div>div>div.yAxisBar2{
+    border:2px solid blue;
+}
+
+.canvasWrap::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 5px;
+}
+
+.canvasWrap::-webkit-scrollbar-track {
+    background-color: #cacaca;
+    border-radius: 5px;
+}
+
+.canvasWrap::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #000000;
+}
+
+.canvasWrap::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+.ndDateSelect{
+    width:150px !important;
+}
+.ndDateSelect input{
+    width:150px;
+}
 </style>

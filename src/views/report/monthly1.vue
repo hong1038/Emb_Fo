@@ -40,31 +40,49 @@
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
                     <div class="monthlyTableWrap">
                         <div class="monthlyTable monthlyTable01">
-                            <p>1. 월말 보고 Summary</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :pagination="true" ></ag-grid-vue>
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>1. 월말 보고 Summary</p>
+                                <button class="ex_button" @click="excelBtn1()" >Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :pagination="true" :gridOptions="gridOptions1" ></ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable02">
-                            <p>2. 운전 현황(월간 통계)</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :pagination="true" ></ag-grid-vue>
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>2. 운전 현황(월간 통계)</p>
+                                <button class="ex_button" @click="excelBtn2()" >Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :pagination="true" :gridOptions="gridOptions2"></ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable03">
-                            <p>3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
+                                <button class="ex_button" @click="excelBtn3()" >Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :pagination="true" :gridOptions="gridOptions3">
                             </ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable04">
-                            <p>4. 배출구 초과이력 관리</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>4. 배출구 초과이력 관리</p>
+                                <button class="ex_button" @click="excelBtn4()" >Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" :gridOptions="gridOptions4" >
                             </ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable05">
-                            <p>5. 설비적/기계적 문제 발생 및 대응 현황</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>5. 설비적/기계적 문제 발생 및 대응 현황</p>
+                                <button class="ex_button" @click="excelBtn5()" >Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" :gridOptions="gridOptions5">
                             </ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable06">
-                            <p>6. 운영 특이사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>6. 운영 특이사항</p>
+                                <button class="ex_button" @click="excelBtn6()" >Excel</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" :gridOptions="gridOptions6">
                             </ag-grid-vue>
                         </div>
                     </div>
@@ -128,6 +146,13 @@ export default {
             pageNo: 1,
             perPage: 10,
             pageSz:store.state.paginationPageSize,
+
+            gridOptions1:{},
+            gridOptions2:{},
+            gridOptions3:{},
+            gridOptions4:{},
+            gridOptions5:{},
+            gridOptions6:{},
 
             //1. 월말 보고 Summary
             summaryListCount: 0,
@@ -479,6 +504,24 @@ export default {
         }
     },
     methods: {
+        excelBtn1(){
+            this.gridOptions1.api.exportDataAsExcel({});
+        },
+        excelBtn2(){
+            this.gridOptions2.api.exportDataAsExcel({});
+        },
+        excelBtn3(){
+            this.gridOptions3.api.exportDataAsExcel({});
+        },
+        excelBtn4(){
+            this.gridOptions4.api.exportDataAsExcel({});     
+        },
+        excelBtn5(){
+            this.gridOptions5.api.exportDataAsExcel({});
+        },
+        excelBtn6(){
+            this.gridOptions6.api.exportDataAsExcel({});
+        },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -1051,5 +1094,22 @@ export default {
 .monthlyTable05 .ag-header-cell:nth-child(6) .ag-header-cell-label,
 .monthlyTable06 .ag-header-cell:nth-child(4) .ag-header-cell-label{
     justify-content: left !important;
+}
+
+.ex_button{
+    width: 150px;
+    height: 30px;
+    padding-left: 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
+    margin-top:10px;
+    margin-right:5px;
 }
 </style>

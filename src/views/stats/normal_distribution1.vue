@@ -38,13 +38,13 @@
                         <b-col cols="4" v-for="(item , idx) in List" :key="idx">
                             <p>{{item[0].internal_name}}</p>
                             <canvas :id="'chart'+idx"></canvas>
-                            <!-- <div>
+                            <div>
                                 <div>
-                                    <div class="yAxisBar yAxisBar1" :id="'yAxisBar1_'+idx">1</div>
-                                    <div class="yAxisBar yAxisBar2" :id="'yAxisBar2_'+idx">2</div>
-                                    <div class="yAxisBar yAxisBar3" :id="'yAxisBar3_'+idx">3</div>
+                                    <div class="yAxisBar yAxisBar1" :id="'yAxisBar1_'+idx"></div>
+                                    <div class="yAxisBar yAxisBar2" :id="'yAxisBar2_'+idx"></div>
+                                    <div class="yAxisBar yAxisBar3" :id="'yAxisBar3_'+idx"></div>
                                 </div>
-                            </div> -->
+                            </div>
                         </b-col>
                     </div>
                     </b-overlay>
@@ -300,6 +300,10 @@ export default {
             //     this.dailyChart2.destroy();
             // }
             this.List.map((e,idx) => {
+                // console.log()
+                // if (e[0].place !== 512) {
+                //     retu
+                // }
                 const chartList = [
                     {
                         x: 1000,
@@ -325,11 +329,10 @@ export default {
                 const val1000 = []
 
                 const chartAvgBar = []; 
-                // const overBar = 0;
-                // const underBar = 0;
+                let overBar = 0;
+                let underBar = 0;
 
                 this.inletgraphLabel = []
-
 
                 e.map(item => {
                     console.log(item)
@@ -358,6 +361,8 @@ export default {
                             val1000.push(item.outlet_avg_value)
                         }
                         // chartList.push(item.outlet_avg_value)
+                        overBar = item.outlet_standard_value * 1.2
+                        underBar = item.outlet_standard_value * 0.8
                         chartAvgBar.push(item.outlet_avg_value)
                         this.inletgraphLabel.push(item.to_char)
                     }
@@ -386,6 +391,8 @@ export default {
                             val1000.push(item.midlet_avg_value)
                         }
                         // chartList.push(item.midlet_avg_value)
+                        overBar = item.midlet_standard_value * 1.2
+                        underBar = item.midlet_standard_value * 0.8
                         chartAvgBar.push(item.midlet_avg_value)
                         this.inletgraphLabel.push(item.to_char)
                     }
@@ -414,6 +421,8 @@ export default {
                             val1000.push(item.inlet_avg_value) 
                         }
                         // chartList.push(item.inlet_avg_value)
+                        overBar = item.inlet_standard_value * 1.2
+                        underBar = item.inlet_standard_value * 0.8
                         chartAvgBar.push(item.inlet_avg_value)
                         this.inletgraphLabel.push(item.to_char)
                     }
@@ -421,12 +430,31 @@ export default {
                 const arr = chartAvgBar.reduce(function add(sum, currValue) {
                 return sum + currValue;
                 }, 0);
-                const chartAvgBarVal = arr / chartAvgBar.length;
-                // console.log(document.getElementById('yAxisBar2_'+idx),chartAvgBarVal/10+"%")
-                // document.getElementById('yAxisBar2_'+idx)[0].style.left = chartAvgBarVal/10+"%"
+
+                let chartAvgBarVal = arr / chartAvgBar.length;
+                if (chartAvgBarVal > 1000) {
+                    chartAvgBarVal = 1000
+                }
 
 
-                console.log(chartAvgBarVal)
+                if (underBar > 1000 || underBar < 0) {
+                    document.getElementById('yAxisBar1_'+idx).style.display = 'none'    
+                }else{
+                    document.getElementById('yAxisBar1_'+idx).style.left = underBar/10+"%"    
+                }
+
+                document.getElementById('yAxisBar2_'+idx).style.left = chartAvgBarVal/10+"%"
+
+                if (overBar > 1000 || overBar < 0) {
+                    document.getElementById('yAxisBar3_'+idx).style.display = 'none'    
+                }else{
+                    document.getElementById('yAxisBar3_'+idx).style.left = overBar/10+"%"    
+                }
+
+                
+
+          
+
                 if (val10.length !== 0) {
                     chartList.push({x:10,y:val10.length,r:5})
                 } 

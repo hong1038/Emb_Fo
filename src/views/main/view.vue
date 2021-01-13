@@ -541,7 +541,6 @@ export default {
             if (item === "All") {
                 this.eqbkey = null;
                 this.boxList2 = this.boxList
-                console.log(this.boxList2, this.boxList)
                 this.boxList2.map(e => {
                     filterKeywords.push(e.equipment_inner_nm)
                 })
@@ -549,7 +548,6 @@ export default {
                     filterKeywords2.push(e.equipment_inner_nm)
                 })
                 var filterKeywords3 = filterKeywords.filter((e) => !Array.from(new Set(filterKeywords2)).includes(e));
-                // console.log(this.boxList2,filterKeywords3)
 
                 filterKeywords3.map(e=>{
                     this.allKeywords.push(e)
@@ -562,7 +560,6 @@ export default {
                 filterKeywords3.map(item => {
                    this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
                 })
-                console.log(this.boxList2)
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm

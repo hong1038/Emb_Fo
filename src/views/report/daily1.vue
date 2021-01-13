@@ -1097,7 +1097,11 @@ export default {
             app2.style.display = 'block' 
             printDiv.style.display = 'none' 
             printDiv.innerHTML = ''
-        }
+        },
+
+        graph(){
+            
+        },
         
     },
 }
