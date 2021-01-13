@@ -426,7 +426,6 @@ export default {
                             align: 'center',
                             anchor: 'end',
                             font: {
-                                family: 'Roboto',
                                 size: 14,
                                 weight: 700
                             },
@@ -434,7 +433,6 @@ export default {
                             //     return context.dataset.data[context.dataIndex] > 0;
                             // },
 
-                            backgroundColor: 'white',
                             borderRadius: 4
                         },
                     },
@@ -442,7 +440,7 @@ export default {
                     legend:{
                         labels:{
                             fontFamily : 'CjFontBodyRegular',
-                            fontStyle : 'bold'
+                            fontStyle : 'bold',
                         }
                     },
                 },
@@ -454,25 +452,28 @@ export default {
 
                             label: '최대',
                             borderColor: '#f13f3f',
-                            backgroundColor: 'transparent',
-                            data: this.graphDataMax
-                            // data:this.dailyChartData
+                            // backgroundColor: 'transparent',
+                            data: this.graphDataMax,
+                            fill: false,
+                            
                         },
 
                         {
                             label: '평균',
                             borderColor: '#42f13f',
-                            backgroundColor: 'transparent',
-                            data: this.graphDataAvg
-                            // data:this.dailyChartData
+                            // backgroundColor: 'transparent',
+                            data: this.graphDataAvg,
+                            fill: false,
+                            
                         },
 
                         {
                             label: '최소',
                             borderColor: '#3f5df1',
-                            backgroundColor: 'transparent',
-                            data: this.graphDataMin
-                            // data:this.dailyChartData
+                            // backgroundColor: 'transparent',
+                            data: this.graphDataMin,
+                            fill: false,
+                            
                         },
 
                     ]

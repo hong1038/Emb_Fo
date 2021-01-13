@@ -288,6 +288,50 @@ export default {
             this.pageNo = 1;
         },
         getList() {
+            if(String(this.dateFr._d).length > 15){
+                let y = String(this.dateFr._d).substring(11,15);
+                let m = String(this.dateFr._d).substring(4,7);
+                if(m == "Jan"){
+                    m = "01"
+                }
+                else if(m == "Feb"){
+                    m = "02"
+                }
+                else if(m == "Feb"){
+                    m = "02"
+                }
+                else if(m == "Mar"){
+                    m = "03"
+                }
+                else if(m == "Apr"){
+                    m = "04"
+                }
+                else if(m == "May"){
+                    m = "05"
+                }
+                else if(m == "Jun"){
+                    m = "06"
+                }
+                else if(m == "Jul"){
+                    m = "07"
+                }
+                else if(m == "Aug"){
+                    m = "08"
+                }
+                else if(m == "Sep"){
+                    m = "09"
+                }
+                else if(m == "Oct"){
+                    m = "10"
+                }
+                else if(m == "Nov"){
+                    m = "11"
+                }
+                else if(m == "Dec"){
+                    m = "12"
+                }
+                this.dateFr = y +"-"+ m   
+            }
             if (store.state.ckServer.length == 0) {
                 alert("사업장은 필수 선택 항목 입니다.")
                 return;
@@ -555,35 +599,40 @@ export default {
                                                 {
                             label: '흡입최대',
                             borderColor: '#f13f3f',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.inletgraphDataMax,
                             // data:this.dailyChartData
                         },
                                                 {
                             label: '흡입평균',
                             borderColor: '#42f13f',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.inletgraphDataAvg
                             // data:this.dailyChartData
                         },
                         {
                             label: '흡입최소',
                             borderColor: '#3f5df1',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.inletgraphDataMin
                             // data:this.dailyChartData
                         },
                                                 {
                             label: '배출최대',
                             borderColor: '#9966ff',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.outletgraphDataMax
                             // data:this.dailyChartData
                         },
                         {
                             label: '배출평균',
                             borderColor: '#ffcd56',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.outletgraphDataAvg
                             // data:this.dailyChartData
                         },
@@ -591,7 +640,8 @@ export default {
                         {
                             label: '배출최소',
                             borderColor: '#c9cbcf',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.outletgraphDataMin
                             // data:this.dailyChartData
                         },

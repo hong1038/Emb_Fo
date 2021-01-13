@@ -457,21 +457,24 @@ export default {
                         {
                             label: '최대',
                             borderColor: '#f13f3f',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.graphDataMax
                             // data:this.dailyChartData
                         },
                         {
                             label: '평균',
                             borderColor: '#42f13f',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.graphDataAvg
                             // data:this.dailyChartData
                         },
                         {
                             label: '최소',
                             borderColor: '#3f5df1',
-                            backgroundColor: 'transparent',
+                            // backgroundColor: 'transparent',
+                            fill:false,
                             data: this.graphDataMin
                             // data:this.dailyChartData
                         },
