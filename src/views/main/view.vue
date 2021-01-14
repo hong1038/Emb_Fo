@@ -565,11 +565,48 @@ export default {
                 filterHeight.map(e => {
                     this.boxHeight.push(e)
                 })
-                
+                console.log(this.boxList2)
+                if(this.boxList2[0].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey01')[0].style.display = "none"
+                }
+                if(this.boxList2[1].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey02')[0].style.display = "none"
+                }
+                if(this.boxList2[2].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey03')[0].style.display = "none"
+                }
+                if(this.boxList2[3].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey04')[0].style.display = "none"
+                }
+                if(this.boxList2[4].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey05')[0].style.display = "none"
+                }
+                if(this.boxList2[5].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey06')[0].style.display = "none"
+                }
+                if(this.boxList2[6].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey07')[0].style.display = "none"
+                }
+                if(this.boxList2[7].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey08')[0].style.display = "none"
+                }
+                if(this.boxList2[8].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey09')[0].style.display = "none"
+                }
+                if(this.boxList2[9].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey10')[0].style.display = "none"
+                }
+                if(this.boxList2[10].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey11')[0].style.display = "none"
+                }
+                if(this.boxList2[11].used_yn !== "Y"){
+                    document.getElementsByClassName('eqKey12')[0].style.display = "none"
+                }
+
                 filterKeywords3.map(item => {
-                   this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)
+                   this.boxList2 = this.boxList2.filter(e => e.equipment_inner_nm !== item)   
                 })
-                // console.log(this.boxList2)
+                
                 
             }else{
                 this.eqbkey = item.equipment_inner_nm
@@ -580,6 +617,8 @@ export default {
                     }
                 });
             }
+
+            
 
 
             for (let index = 0; index < this.boxList.length+1; index++) {
