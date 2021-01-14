@@ -333,10 +333,12 @@ export default {
                 let underBar = 0;
 
                 this.inletgraphLabel = []
+                let placeNum = 0
 
                 e.map(item => {
                     console.log(item)
                     if (item.place === 512) {
+                        placeNum = 512;
                         if(item.outlet_avg_value < 100 ) {
                             val10.push(item.outlet_avg_value)
                         }else if(item.outlet_avg_value > 100 && item.outlet_avg_value < 200 ){
@@ -367,6 +369,7 @@ export default {
                         this.inletgraphLabel.push(item.to_char)
                     }
                     if (item.place === 511) {
+                        placeNum = 511;
                         if(item.midlet_avg_value < 100 ) {
                             val10.push(item.midlet_avg_value)
                         }else if(item.midlet_avg_value > 100 && item.midlet_avg_value < 200 ){
@@ -397,6 +400,7 @@ export default {
                         this.inletgraphLabel.push(item.to_char)
                     }
                     if (item.place === 510) {
+                        placeNum = 510
                         if(item.inlet_avg_value < 100 ) {
                             val10.push(item.inlet_avg_value)
                         }else if(item.inlet_avg_value > 100 && item.inlet_avg_value < 200 ){
@@ -432,62 +436,124 @@ export default {
                 }, 0);
 
                 let chartAvgBarVal = arr / chartAvgBar.length;
-                if (chartAvgBarVal > 1000) {
-                    chartAvgBarVal = 1000
+                if (placeNum === 512 || placeNum === 511) {
+                    
+                    if (chartAvgBarVal > 1000) {
+                        chartAvgBarVal = 1000
+                    }
+
+
+                    if (underBar > 1000 || underBar < 0) {
+                        document.getElementById('yAxisBar1_'+idx).style.display = 'none'    
+                    }else{
+                        document.getElementById('yAxisBar1_'+idx).style.left = underBar/10+"%"    
+                    }
+
+                    document.getElementById('yAxisBar2_'+idx).style.left = chartAvgBarVal/10+"%"
+
+                    if (overBar > 1000 || overBar < 0) {
+                        document.getElementById('yAxisBar3_'+idx).style.display = 'none'    
+                    }else{
+                        document.getElementById('yAxisBar3_'+idx).style.left = overBar/10+"%"    
+                    }
+
+                    
+
+            
+
+                    if (val10.length !== 0) {
+                        chartList.push({x:10,y:val10.length,r:5})
+                    } 
+                    if (val100.length !== 0) {
+                        chartList.push({x:100,y:val100.length,r:5})
+                    } 
+                    if (val200.length !== 0) {
+                        chartList.push({x:200,y:val200.length,r:5})
+                    } 
+                    if (val300.length !== 0) {
+                        chartList.push({x:300,y:val300.length,r:5})
+                    } 
+                    if (val400.length !== 0) {
+                        chartList.push({x:400,y:val400.length,r:5})
+                    } 
+                    if (val500.length !== 0) {
+                        chartList.push({x:500,y:val500.length,r:5})
+                    } 
+                    if (val600.length !== 0) {
+                        chartList.push({x:600,y:val600.length,r:5})
+                    } 
+                    if (val700.length !== 0) {
+                        chartList.push({x:700,y:val700.length,r:5})
+                    } 
+                    if (val800.length !== 0) {
+                        chartList.push({x:800,y:val800.length,r:5})
+                    } 
+                    if (val900.length !== 0) {
+                        chartList.push({x:900,y:val900.length,r:5})
+                    } 
+                    if (val1000.length !== 0) {
+                        chartList.push({x:1000,y:val1000.length,r:5})
+                    } 
                 }
+                if (placeNum === 510) {
+
+                    if (chartAvgBarVal > 10000) {
+                        chartAvgBarVal = 10000
+                    }
 
 
-                if (underBar > 1000 || underBar < 0) {
-                    document.getElementById('yAxisBar1_'+idx).style.display = 'none'    
-                }else{
-                    document.getElementById('yAxisBar1_'+idx).style.left = underBar/10+"%"    
+                    if (underBar > 10000 || underBar < 0) {
+                        document.getElementById('yAxisBar1_'+idx).style.display = 'none'    
+                    }else{
+                        document.getElementById('yAxisBar1_'+idx).style.left = underBar/100+"%"    
+                    }
+
+                    document.getElementById('yAxisBar2_'+idx).style.left = chartAvgBarVal/100+"%"
+
+                    if (overBar > 10000 || overBar < 0) {
+                        document.getElementById('yAxisBar3_'+idx).style.display = 'none'    
+                    }else{
+                        document.getElementById('yAxisBar3_'+idx).style.left = overBar/100+"%"    
+                    }
+
+                    
+
+            
+
+                    if (val10.length !== 0) {
+                        chartList.push({x:100,y:val10.length,r:5})
+                    } 
+                    if (val100.length !== 0) {
+                        chartList.push({x:1000,y:val100.length,r:5})
+                    } 
+                    if (val200.length !== 0) {
+                        chartList.push({x:2000,y:val200.length,r:5})
+                    } 
+                    if (val300.length !== 0) {
+                        chartList.push({x:3000,y:val300.length,r:5})
+                    } 
+                    if (val400.length !== 0) {
+                        chartList.push({x:4000,y:val400.length,r:5})
+                    } 
+                    if (val500.length !== 0) {
+                        chartList.push({x:5000,y:val500.length,r:5})
+                    } 
+                    if (val600.length !== 0) {
+                        chartList.push({x:6000,y:val600.length,r:5})
+                    } 
+                    if (val700.length !== 0) {
+                        chartList.push({x:7000,y:val700.length,r:5})
+                    } 
+                    if (val800.length !== 0) {
+                        chartList.push({x:8000,y:val800.length,r:5})
+                    } 
+                    if (val900.length !== 0) {
+                        chartList.push({x:9000,y:val900.length,r:5})
+                    } 
+                    if (val1000.length !== 0) {
+                        chartList.push({x:10000,y:val1000.length,r:5})
+                    }   
                 }
-
-                document.getElementById('yAxisBar2_'+idx).style.left = chartAvgBarVal/10+"%"
-
-                if (overBar > 1000 || overBar < 0) {
-                    document.getElementById('yAxisBar3_'+idx).style.display = 'none'    
-                }else{
-                    document.getElementById('yAxisBar3_'+idx).style.left = overBar/10+"%"    
-                }
-
-                
-
-          
-
-                if (val10.length !== 0) {
-                    chartList.push({x:10,y:val10.length,r:5})
-                } 
-                if (val100.length !== 0) {
-                    chartList.push({x:100,y:val100.length,r:5})
-                } 
-                if (val200.length !== 0) {
-                    chartList.push({x:200,y:val200.length,r:5})
-                } 
-                if (val300.length !== 0) {
-                    chartList.push({x:300,y:val300.length,r:5})
-                } 
-                if (val400.length !== 0) {
-                    chartList.push({x:400,y:val400.length,r:5})
-                } 
-                if (val500.length !== 0) {
-                    chartList.push({x:500,y:val500.length,r:5})
-                } 
-                if (val600.length !== 0) {
-                    chartList.push({x:600,y:val600.length,r:5})
-                } 
-                if (val700.length !== 0) {
-                    chartList.push({x:700,y:val700.length,r:5})
-                } 
-                if (val800.length !== 0) {
-                    chartList.push({x:800,y:val800.length,r:5})
-                } 
-                if (val900.length !== 0) {
-                    chartList.push({x:900,y:val900.length,r:5})
-                } 
-                if (val1000.length !== 0) {
-                    chartList.push({x:1000,y:val1000.length,r:5})
-                } 
                 this.ctxDaily = document.getElementById('chart'+idx).getContext('2d');
                 this.ctxDaily.height = "100%";
                 this.ctxDaily.width = "100%";
