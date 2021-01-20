@@ -7,7 +7,7 @@
                     <div class="title clear">
                         <h5>사업장</h5> 
                         <div class="btn_area">
-                            <input type="button" value="전체선택" @click="checkAll('1')" class="check_all" id="categoryCheckAll">
+                            <!-- <input type="button" value="전체선택" @click="checkAll('1')" class="check_all" id="categoryCheckAll"> -->
                             <input type="button" value="새로고침" @click="checkReset('1')" class="clear_btn" id="serverClearAll">
                         </div>
                     </div>
@@ -52,6 +52,23 @@ export default {
     },
     watch: {
         checkListVal1() {
+            if (this.checkListVal1.length > 1) {
+                let checkitems = []
+                checkitems = document.getElementsByClassName(1 + '_checkbox')
+                let checkitems2 = [...checkitems]
+                checkitems2.map((e) => {
+                    console.log(
+                        e.id,
+                        this.checkListVal1[0]
+                    )
+                    if (Number(e.id) !== this.checkListVal1[0]) {
+                        e.checked = false
+                    }  
+                })
+                this.checkListVal1 = [this.checkListVal1[0]]
+                alert("사업장은 2곳 이상 선택이 불가능 합니다.")
+                return false
+            }
             store.state.ckServer = this.checkListVal1;
         },
     },
