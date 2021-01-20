@@ -509,7 +509,8 @@ export default {
                         datasets: [{
                                 label: '흡입구',
                                 borderColor: '#f2c84c',
-                                backgroundColor: 'transparent',
+                                backgroundColor: '#f2c84c',
+                                fill:false,
                                 pointRadius: 1,
                                 data: graphDataIn,
                                 borderWidth:5,
@@ -518,7 +519,8 @@ export default {
                             {
                                 label: '배출구',
                                 borderColor: '#2cd2f6',
-                                backgroundColor: 'transparent',
+                                backgroundColor: '#2cd2f6',
+                                fill:false,
                                 pointRadius: 1,
                                 data: graphDataOut,
                                 borderWidth:5
@@ -527,7 +529,8 @@ export default {
                             {
                                 label: '기준값',
                                 borderColor: 'red',
-                                backgroundColor: 'transparent',
+                                backgroundColor: 'red',
+                                fill:false,
                                 pointRadius: 1,
                                 data: outlet_standard_value,
                                 borderDash: [10,5],

@@ -452,7 +452,7 @@ export default {
 
                             label: '최대',
                             borderColor: '#f13f3f',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#f13f3f',
                             data: this.graphDataMax,
                             fill: false,
                             
@@ -461,7 +461,7 @@ export default {
                         {
                             label: '평균',
                             borderColor: '#42f13f',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#42f13f',
                             data: this.graphDataAvg,
                             fill: false,
                             
@@ -470,7 +470,7 @@ export default {
                         {
                             label: '최소',
                             borderColor: '#3f5df1',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#3f5df1',
                             data: this.graphDataMin,
                             fill: false,
                             

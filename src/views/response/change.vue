@@ -927,14 +927,16 @@ export default {
    {
                             label: '흡입최대',
                             borderColor: '#f13f3f',
-                            backgroundColor: 'transparent',
+                            backgroundColor: '#f13f3f',
+                            fill:false,
                             data: this.inletgraphDataMax
                             // data:this.dailyChartData
                         },
                         {
                             label: '흡입평균',
                             borderColor: '#42f13f',
-                            backgroundColor: 'transparent',
+                            backgroundColor: '#42f13f',
+                            fill:false,
                             data: this.inletgraphDataAvg
                             // data:this.dailyChartData
                         },
@@ -942,7 +944,8 @@ export default {
                         {
                             label: '흡입최소',
                             borderColor: '#3f5df1',
-                            backgroundColor: 'transparent',
+                            backgroundColor: '#3f5df1',
+                            fill:false,
                             data: this.inletgraphDataMin
                             // data:this.dailyChartData
                         },

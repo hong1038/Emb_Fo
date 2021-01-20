@@ -600,7 +600,7 @@ export default {
                         {
                             label: '기준값',
                             borderColor: 'red',
-                            backgroundColor: 'transparent',
+                            backgroundColor: 'red',
                             data: this.standard_value,
                             borderDash: [10,5]
                             // data:this.dailyChartData
@@ -608,7 +608,7 @@ export default {
                                                 {
                             label: '흡입최대',
                             borderColor: '#f13f3f',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#f13f3f',
                             fill:false,
                             data: this.inletgraphDataMax,
                             // data:this.dailyChartData
@@ -616,7 +616,7 @@ export default {
                                                 {
                             label: '흡입평균',
                             borderColor: '#42f13f',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#42f13f',
                             fill:false,
                             data: this.inletgraphDataAvg
                             // data:this.dailyChartData
@@ -624,7 +624,7 @@ export default {
                         {
                             label: '흡입최소',
                             borderColor: '#3f5df1',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#3f5df1',
                             fill:false,
                             data: this.inletgraphDataMin
                             // data:this.dailyChartData
@@ -632,7 +632,7 @@ export default {
                                                 {
                             label: '배출최대',
                             borderColor: '#9966ff',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#9966ff',
                             fill:false,
                             data: this.outletgraphDataMax
                             // data:this.dailyChartData
@@ -640,7 +640,7 @@ export default {
                         {
                             label: '배출평균',
                             borderColor: '#ffcd56',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#ffcd56',
                             fill:false,
                             data: this.outletgraphDataAvg
                             // data:this.dailyChartData
@@ -649,7 +649,7 @@ export default {
                         {
                             label: '배출최소',
                             borderColor: '#c9cbcf',
-                            // backgroundColor: 'transparent',
+                            backgroundColor: '#c9cbcf',
                             fill:false,
                             data: this.outletgraphDataMin
                             // data:this.dailyChartData
