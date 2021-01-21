@@ -83,7 +83,7 @@
                         <p>일일 모니터링 통계</p>
                         <div v-for="(item , index) in graphDatas1" v-bind:item="item" v-bind:index="index" v-bind:key="item.id">
                             <p>{{item[0].equipment_inner_nm}}</p>
-                            <canvas :id="'line-graph1_'+index" width="560" height="200">{{index}}</canvas>
+                            <canvas :id="'line-graph1_'+index" width="1500" height="200">{{index}}</canvas>
                         </div>
                     </div>
                     </b-overlay>
