@@ -640,6 +640,7 @@ export default {
                             label: '배출최대',
                             borderColor: '#9966ff',
                             backgroundColor: '#9966ff',
+                             fill:false,
                             data: this.outletgraphDataMax
                             // data:this.dailyChartData
                         },
@@ -647,6 +648,7 @@ export default {
                             label: '배출평균',
                             borderColor: '#ffcd56',
                             backgroundColor: '#ffcd56',
+                             fill:false,
                             data: this.outletgraphDataAvg
                             // data:this.dailyChartData
                         },
@@ -655,6 +657,7 @@ export default {
                             label: '배출최소',
                             borderColor: '#c9cbcf',
                             backgroundColor: '#c9cbcf',
+                             fill:false,
                             data: this.outletgraphDataMin
                             // data:this.dailyChartData
                         },

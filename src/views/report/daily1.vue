@@ -37,7 +37,7 @@
                         </b-row>
                     </div>
                     <b-overlay :show="busy" rounded opacity="0.7" spinner-variant="primary" @hidden="onHidden">
-                    <div class="dailyTableWrap"  id="printMe">
+                    <div class="dailyTableWrap"  id="printMe" style="display:block;">
                         <div class="dailyTable dailyTable01">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>1. 일일 모니터링 통계</p>
@@ -79,6 +79,13 @@
                             </ag-grid-vue>
                         </div>
                     </div>
+                    <div v-if="graphDatas1.length > 0" class="reportgraph1">
+                        <p>일일 모니터링 통계</p>
+                        <div v-for="(item , index) in graphDatas1" v-bind:item="item" v-bind:index="index" v-bind:key="item.id">
+                            <p>{{item[0].equipment_inner_nm}}</p>
+                            <canvas :id="'line-graph1_'+index" width="560" height="200">{{index}}</canvas>
+                        </div>
+                    </div>
                     </b-overlay>
                 </div>
             </div>
@@ -106,7 +113,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
 import {
     AgGridVue,
 } from "ag-grid-vue"
-
+import Chart from 'chart.js'
 export default {
     components: {
         /* eslint-disable vue/no-unused-components */
@@ -524,7 +531,7 @@ export default {
                     width: '1100px'
                 },
             ],
-
+            graphDatas1:[],
 
         }
 
@@ -742,6 +749,9 @@ export default {
                             })
                             // that.monitorList = res.data.data
                             that.monitorListCount = res.data.totalCount
+                            // measurementsByDayList
+                            console.log(that.monitorList)
+                            this.dayMoniGraph();
                         }
                     }
                 })
@@ -1099,9 +1109,148 @@ export default {
             printDiv.innerHTML = ''
         },
 
-        graph(){
+        dayMoniGraph(){
+            let graph1Eqkey = [];
+            this.monitorList.map(e => {
+                graph1Eqkey.push(e.equipment_key)
+            });
             
+            
+            this.$Axios.post("/api/daedan/cj/ems/measurements/measurementsByDayList", {
+                dateFr: this.dateFr,
+                equipList: graph1Eqkey,
+                userId: store.state.userInfo.userId
+            }, this.config)
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        let graphDatas = []
+                        graph1Eqkey.map(e => {
+                            graphDatas.push(res.data.data.filter(item => item.equipment_key === e))
+                        })
+                        this.graphDatas1 = graphDatas;
+                        setTimeout(() => {
+                            this.graph1()
+                        }, 500);
+                    }
+                }
+            })
+            .catch(err => {
+                alert("센서테이터목록 추출 실패 \n" + err);
+            })
+
         },
+
+        graph1(){
+            this.graphDatas1.map((e,idx) => {
+                
+                let graphLabel = []
+                let graphDataAvg = []
+                let graphDataMax = []
+                let graphDataMin = []
+
+                e.map(item => {
+                    graphLabel.push(item.measurement_tm)
+                    graphDataAvg.push(item.measurement_avg_value)
+                    graphDataMax.push(item.max_value)
+                    graphDataMin.push(item.min_value)
+                })
+                
+                this.ctxDaily = document.getElementById('line-graph1_' + idx).getContext('2d');
+
+                this.ctxDaily.height = "100%";
+                this.ctxDaily.width = "100%";
+                let ctxFontSize = 14
+                if (this.winWidth === 3840) {
+                    ctxFontSize = 26
+                }
+                this.ctxConfig = {
+                    type: 'line',
+                    options: {
+ 
+                        responsive: false,
+                        scales: {
+                            
+                            yAxes: [{
+
+                                ticks: {
+                                    min: 0,
+                                    beginAtZero: true,
+                                    fontSize: ctxFontSize
+                                    
+                                },
+                            }],
+                            xAxes: [{
+                                gridLines : {
+                                    display : false
+                                },
+                                ticks: {
+                                    fontSize: ctxFontSize
+                                }
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#444',
+                                align: 'center',
+                                anchor: 'end',
+                                font: {
+                                    family: 'Roboto',
+                                    size: 14,
+                                    weight: 700
+                                },
+                                // display: function(context) {
+                                //     return context.dataset.data[context.dataIndex] > 0;
+                                // },
+
+                                //backgroundColor: 'rgba(255.255.255,0.8)',
+                                borderRadius: 4
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        // legend: {display: false},
+                    },
+                    data: {
+
+                        labels: graphLabel,
+                        datasets: [
+                            {
+                                label: '평균',
+                                borderColor: '#42f13f',
+                                backgroundColor: '#42f13f',
+                                fill:false,
+                                pointRadius: 1,
+                                data: graphDataAvg,
+                                borderWidth:5,
+                                // data:dailyChartData
+                            },
+                            {
+                                label: '최대',
+                                borderColor: '#f13f3f',
+                                backgroundColor: '#f13f3f',
+                                fill:false,
+                                pointRadius: 1,
+                                data: graphDataMax,
+                                borderWidth:5,
+                                // data:dailyChartData
+                            },
+                            {
+                                label: '최소',
+                                borderColor: '#3f5df1',
+                                backgroundColor: '#3f5df1',
+                                fill:false,
+                                pointRadius: 1,
+                                data: graphDataMin,
+                                borderWidth:5,
+                                // data:dailyChartData
+                            },
+                        ]
+                    },
+                }
+                this.Chart = new Chart(this.ctxDaily, this.ctxConfig);
+                this.Chart.update()
+            })
+        }
         
     },
 }
@@ -1224,7 +1373,7 @@ export default {
 /*Table Select */
 .dailyTableWrap{
     width:100%;
-    height:700px;
+    /* height:700px; */
     border-radius: 7px;
 }
 
@@ -1279,5 +1428,17 @@ export default {
     font-size: 16px;
     margin-top:10px;
     margin-right:5px;
+}
+.reportgraph1 > p{
+    margin-top: 15px;
+    font-family: CjFontTitleBold;
+    font-size: 20px;
+}
+.reportgraph1 > div:not(:nth-child(2)){
+    margin-top:50px;
+}
+.reportgraph1 > div > p{
+    font-family: CjFontTitleBold;
+    font-size: 16px;
 }
 </style>

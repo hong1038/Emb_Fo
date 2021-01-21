@@ -86,6 +86,13 @@
                             </ag-grid-vue>
                         </div>
                     </div>
+                    <div v-if="graphDatas1.length > 0" class="reportgraph1">
+                        <p>운전 현황(월간 통계)</p>
+                        <div v-for="(item , index) in graphDatas1" v-bind:item="item" v-bind:index="index" v-bind:key="item.id">
+                            <p>{{item[0].equipment_inner_nm}}</p>
+                            <canvas :id="'line-graph1_'+index" width="560" height="200">{{index}}</canvas>
+                        </div>
+                    </div>
                     </b-overlay>
                 </div>
             </div>
@@ -114,7 +121,7 @@ import {
     AgGridVue
 } from "ag-grid-vue"
 import VueMonthlyPicker from 'vue-monthly-picker'
-
+import Chart from 'chart.js'
 // Vue.use(Datetime)
 export default {
     components: {
@@ -489,7 +496,8 @@ export default {
                     width: '1050px',
                     cellStyle: {textAlign: 'left'}
                 },
-            ]
+            ],
+            graphDatas1:[],
         }
     },
     beforeDestroy() {
@@ -631,9 +639,10 @@ export default {
                 alert("센서테이터목록 추출 실패 \n" + err);
             })
             this.busy = false;
-
+            
             this.getList02();
         },
+
         async getList02() {
 
             this.onClick();
@@ -657,7 +666,7 @@ export default {
                         let list2 = []
                         let listStandart = []
                         test = res.data.data.reduce((acc,v) => {
-                            console.log( Object.values(v).slice(0,30))
+                            // console.log( Object.values(v).slice(0,30))
                             let key = Object.values(v).slice(0,25).filter((e,idx)=> idx === 0 || idx === 13 || idx === 17).join('')
                             listStandart.push(key)
                             acc[key] = acc[key] ? [...acc[key], v] : [v]
@@ -750,6 +759,25 @@ export default {
 
                         // that.operList = res.data.data
                         that.operListCount = res.data.totalCount
+
+                        let graph1Eqkey = []
+
+                        that.operList.map(e => {
+                            if (e.equipment_key !== undefined && e.equipment_key !== '' && e.equipment_key !== null) {    
+                                graph1Eqkey.push(e.equipment_key)
+                            }
+                        })
+                        graph1Eqkey = [...new Set(graph1Eqkey)] 
+
+                        let graphDatas = []
+                        graph1Eqkey.map(e => {
+                            graphDatas.push(this.operList.filter(item => item.equipment_key === e))
+                        })
+                        console.log(graphDatas)
+                        this.graphDatas1 = graphDatas;
+                        setTimeout(() => {
+                            this.graph1()
+                        }, 500);
                     }
                 }
             })
@@ -758,7 +786,7 @@ export default {
             })
 
             this.busy = false;
-
+            
             this.getList03();
         } ,
         async getList03(){
@@ -977,6 +1005,117 @@ export default {
             })
 
             this.busy = false;
+        },
+
+        graph1(){
+            this.graphDatas1.map((e,idx) => {
+                
+                let graphLabel = []
+                let graphDataAvg = []
+                let graphDataMax = []
+                let graphDataMin = []
+
+                e.map(item => {
+                    graphLabel.push(item.prevention_date)
+                    graphDataAvg.push(item.outlet_avg_value)
+                    graphDataMax.push(item.outlet_max_value)
+                    graphDataMin.push(item.outlet_min_value)
+                })
+                
+                this.ctxDaily = document.getElementById('line-graph1_' + idx).getContext('2d');
+
+                this.ctxDaily.height = "100%";
+                this.ctxDaily.width = "100%";
+                let ctxFontSize = 14
+                if (this.winWidth === 3840) {
+                    ctxFontSize = 26
+                }
+                this.ctxConfig = {
+                    type: 'line',
+                    options: {
+ 
+                        responsive: false,
+                        scales: {
+                            
+                            yAxes: [{
+
+                                ticks: {
+                                    min: 0,
+                                    beginAtZero: true,
+                                    fontSize: ctxFontSize
+                                    
+                                },
+                            }],
+                            xAxes: [{
+                                gridLines : {
+                                    display : false
+                                },
+                                ticks: {
+                                    fontSize: ctxFontSize
+                                }
+                            }]
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#444',
+                                align: 'center',
+                                anchor: 'end',
+                                font: {
+                                    family: 'Roboto',
+                                    size: 14,
+                                    weight: 700
+                                },
+                                // display: function(context) {
+                                //     return context.dataset.data[context.dataIndex] > 0;
+                                // },
+
+                                //backgroundColor: 'rgba(255.255.255,0.8)',
+                                borderRadius: 4
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        // legend: {display: false},
+                    },
+                    data: {
+
+                        labels: graphLabel,
+                        datasets: [
+                            {
+                                label: '평균',
+                                borderColor: '#42f13f',
+                                backgroundColor: '#42f13f',
+                                fill:false,
+                                pointRadius: 1,
+                                data: graphDataAvg,
+                                borderWidth:5,
+                                // data:dailyChartData
+                            },
+                            {
+                                label: '최대',
+                                borderColor: '#f13f3f',
+                                backgroundColor: '#f13f3f',
+                                fill:false,
+                                pointRadius: 1,
+                                data: graphDataMax,
+                                borderWidth:5,
+                                // data:dailyChartData
+                            },
+                            {
+                                label: '최소',
+                                borderColor: '#3f5df1',
+                                backgroundColor: '#3f5df1',
+                                fill:false,
+                                pointRadius: 1,
+                                data: graphDataMin,
+                                borderWidth:5,
+                                // data:dailyChartData
+                            },
+                        ]
+                    },
+                }
+                this.Chart = new Chart(this.ctxDaily, this.ctxConfig);
+                this.Chart.update()
+            })
         }
     }
 }
@@ -1056,7 +1195,7 @@ export default {
 
 .monthlyTableWrap{
     width:100%;
-    height:700px;
+    /* height:700px; */
     border-radius: 7px;
 }
 
@@ -1111,5 +1250,17 @@ export default {
     font-size: 16px;
     margin-top:10px;
     margin-right:5px;
+}
+.reportgraph1 > p{
+    margin-top: 15px;
+    font-family: CjFontTitleBold;
+    font-size: 20px;
+}
+.reportgraph1 > div:not(:nth-child(2)){
+    margin-top:50px;
+}
+.reportgraph1 > div > p{
+    font-family: CjFontTitleBold;
+    font-size: 16px;
 }
 </style>
