@@ -77,7 +77,7 @@
                             <div v-else>
                                 <div class="pinTitle" v-if="Number(boxlistvalout[index]) >= Number(boxlistvalstandard[index]) || boxlistvalstandard[index] == '-' && Number(boxlistvalout[index]) > 0 && boxlistvalout[index] != '-'" style="background:red;color:white;">{{item.equipment_inner_nm}}</div>
                                 <div class="pinTitle" v-else>{{item.equipment_inner_nm}}</div>
-                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511">
+                                <div class="scrollbox" v-if="boxlistvalplace[index] != 511 || boxlistvalplace[index] !== 516">
                                     <div  class="container" >
                                         <b-row class="pinBody">
                                             <b-col cols="4">기준<span style="font-size:8px">({{boxlistvalunit[index]}})</span></b-col>
@@ -307,7 +307,7 @@ export default {
                         this.boxlistvalunit = [],
                         this.boxlistvalplace = [],
                         this.boxList.map(e => {
-                            // console.log(e)
+                            console.log(this.sensorData)
                             let inval = null
                             let outval = null
                             let midval = null
@@ -315,7 +315,8 @@ export default {
                             let unit = null
                             let place = null
                             let inletstandard = null
-                            this.sensorData.map(el => {              
+                            this.sensorData.map(el => {        
+                                console.log(el,1)      
                                 if (e.equipment_inner_nm == el.equipment_inner_nm) {
                                     if (el.place === 510) {
                                         inval = el.inlet_avg_value    
@@ -369,7 +370,7 @@ export default {
                             this.boxlistvalunit.push(unit)
                             this.boxlistvalplace.push(place)
                         })
-                        // console.log(this.boxlistvalout)
+                        // console.log(this.boxlistvalplace)
                         // console.log(this.boxlistvalin)
                         // console.log(this.boxlistvalmid)
 
