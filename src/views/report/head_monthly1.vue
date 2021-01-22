@@ -35,7 +35,7 @@
                             <v-spacer></v-spacer>
                             <b-col cols="1">
                                 <button type="button" class="hmPlus" v-on:click="getList1">조회</button>
-                                <!-- <input class="mtz_btn01" type="button" v-on:click="excelBtn" value="엑셀 저장"> -->
+                                
                             </b-col>
                             
                         </b-row>
@@ -86,18 +86,27 @@
                             </div>
                         </div>
                         <div class="hmTable hmTable02">
-                            <p>2. 유형별 통계</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttListA" :gridOptions="gridOptions" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>2. 유형별 통계</p>
+                                <button class="ex_button" @click="excelBtn1()" >엑셀 저장</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="ttfields" :rowData="ttListA" :gridOptions="gridOptions1" :pagination="true" >
                         </ag-grid-vue>
                         </div>
                         <div class="hmTable hmTable03">
-                            <p>3. 문제점 / 이슈사항</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="eiFields" :rowData="eiList" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>3. 문제점 / 이슈사항</p>
+                                <button class="ex_button" @click="excelBtn2()" >엑셀 저장</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="eiFields" :rowData="eiList" :gridOptions="gridOptions2" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                         <div class="hmTable hmTable04">
-                            <p>4. 이상점 및 비정상 대응확인</p>
-                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="erFields" :rowData="erList" :pagination="true" >
+                            <div style="display:flex;justify-content: space-between;">
+                                <p>4. 이상점 및 비정상 대응확인</p>
+                                <button class="ex_button" @click="excelBtn3()" >엑셀 저장</button>
+                            </div>
+                            <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="erFields" :rowData="erList" :gridOptions="gridOptions3" :pagination="true" >
                             </ag-grid-vue>
                         </div>
                     </div>
@@ -664,6 +673,10 @@ export default {
                     cellStyle: {textAlign: 'center'}
                 },
             ],
+            gridOptions1:{},
+            gridOptions2:{},
+            gridOptions3:{},
+
         }
     },
     beforeDestroy() {
@@ -1161,11 +1174,19 @@ export default {
                 })
                 this.busy = false;
         },
+        excelBtn1() {
+            this.gridOptions1.api.exportDataAsExcel({});
+        },
+        excelBtn2() {
+            this.gridOptions2.api.exportDataAsExcel({});
+        },
+        excelBtn3() {
+            this.gridOptions3.api.exportDataAsExcel({});
+        },
+
     },
     // 엑셀저장버튼 클릭
-        excelBtn() {
-            this.gridOptions.api.exportDataAsExcel({});
-        },
+
 }
 </script>
 
@@ -1422,5 +1443,22 @@ export default {
 .hmTable04 .ag-header-cell:nth-child(8) .ag-header-cell-label,
 .hmTable04 .ag-header-cell:nth-child(9) .ag-header-cell-label {
    justify-content: left !important;
+}
+
+.ex_button{
+    width: 150px;
+    height: 30px;
+    padding-left: 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
+    margin-top:10px;
+    margin-right:5px;
 }
 </style>
