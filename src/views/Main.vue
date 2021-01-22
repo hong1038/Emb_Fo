@@ -500,6 +500,13 @@ export default {
                             }
                         }
                     })
+                    this.datas.map(e => {
+                        this.rowData.map(item => {
+                            if (e.server_key === item.server_key) {
+                                item.odor_abnormal_yn = e.odor_abnormal_yn
+                            }
+                        })
+                    })
                 console.log(this.datas)
                 this.setTimeout(() => {
                     this.pollData();
