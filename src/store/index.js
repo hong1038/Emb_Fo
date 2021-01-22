@@ -33,7 +33,8 @@ export default new Vuex.Store({
         mArea: 1001, // 중부권역
         yArea: 1003, // 영남권역
         cArea: 1004, // 계열사
-        bArea: 1005 // 바이오
+        bArea: 1005, // 바이오
+        SArea: 1006, // 남부권역
     },
 
     mutations: {
