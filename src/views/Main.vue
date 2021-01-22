@@ -396,9 +396,9 @@ export default {
                 field: 'model'
             },
         ];
-
         // this.rowData = this.rowData
     },
+    
     created() {
         this.getWether();
         this.onClick();
@@ -500,7 +500,7 @@ export default {
                             }
                         }
                     })
-
+                console.log(this.datas)
                 this.setTimeout(() => {
                     this.pollData();
                 }, 5000);
@@ -543,6 +543,10 @@ export default {
                     })
                 }
             }, 500);
+
+            setTimeout(() => {
+                this.pinwar()
+            }, 5000);
         },  
         clearTimeout() {
             if (this.timeout) {
