@@ -363,6 +363,7 @@ export default {
             moniList: null,
             moniList2: null,
             moniList2val:[],
+            moniList3val:[],
             checkPin:false,
             areaNm:"전체",
 
@@ -439,22 +440,33 @@ export default {
         pinwar(){
             // console.log(this.moniList2)
             this.moniList2val = []
+            this.moniList3val = []
             this.moniList2.map(e=>{
                     if (e.place === 510) {
                         if (e.inlet_avg_value > e.inlet_standard_value) {
                             this.moniList2val.push(e.server_key)
+                        }  
+                        if (e.inlet_avg_value < e.inlet_standard_value && e.inlet_avg_value > 0) {
+                            this.moniList3val.push(e.server_key)
                         }          
                     }else if (e.place === 512) {
                         if (e.outlet_avg_value > e.outlet_standard_value) {
                             this.moniList2val.push(e.server_key)
                         }
+                       if (e.outlet_avg_value < e.outlet_standard_value && e.outlet_avg_value > 0) {
+                            this.moniList3val.push(e.server_key)
+                        }
                     }else if (e.place === 511) {
                         if (e.midlet_avg_value > e.midlet_standard_value) {
                             this.moniList2val.push(e.server_key)
                         }
+                       if (e.midlet_avg_value < e.midlet_standard_value && e.midlet_avg_value > 0) {
+                            this.moniList3val.push(e.server_key)
+                        }
                     }  
             })
             this.moniList2val = Array.from(new Set(this.moniList2val))
+            this.moniList3val = Array.from(new Set(this.moniList3val))
 
             this.$Axios.post("/api/daedan/cj/ems/main/omList", {
             }, this.config)
@@ -472,6 +484,14 @@ export default {
                     e.area_code !== 10013 &&
                     e.area_code !== 10003
                 )
+
+                    this.datas.map(item => {
+                        for (let index = 0; index < this.moniList3val.length; index++) {
+                            if (this.moniList3val[index] === item.server_key) {
+                                item.odor_abnormal_yn = "N"
+                            }
+                        }
+                    })
 
                     this.datas.map(item => {
                         for (let index = 0; index < this.moniList2val.length; index++) {
