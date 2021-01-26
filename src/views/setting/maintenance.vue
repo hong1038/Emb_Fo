@@ -575,6 +575,7 @@ export default {
                     mno: this.mno,
                     server_key:this.server_key,
                     equipment_key:this.equipment_key,
+                    dateFr:this.dateFr,
                     fr_dt:this.fr_dt,
                     to_dt:this.to_dt,
                     category:this.category,
