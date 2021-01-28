@@ -466,7 +466,6 @@ export default {
                 return;
             }
 
-            
             this.getDay();
             this.onClick()
 
@@ -505,7 +504,6 @@ export default {
         addOn(obj) {
 
             this.getDay();
-
             console.log(obj)
             this.mno = obj.data.mno;
             this.fr_dt = obj.data.fr_dt;

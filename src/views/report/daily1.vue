@@ -32,6 +32,7 @@
                             <b-col cols="3" class="col-3">
                                 <input type="button" class="d_btn02" value="프린트" @click="print">
                                 <input type="button" class="d_btn01" value="조회" v-on:click="getList1">
+                                <input type="button" class="d_btn03" value="엑셀" v-on:click="excelBtn">
                             </b-col>
                        
                         </b-row>
@@ -41,7 +42,7 @@
                         <div class="dailyTable dailyTable01">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>1. 일일 모니터링 통계</p>
-                                <button class="ex_button" @click="excelBtn1()">Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn1()">Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="monitorFields" :rowData="monitorList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions1"></ag-grid-vue>
                             <canvas style="background:white" id="chart1" width="1550px" height="550" ></canvas>
@@ -49,7 +50,7 @@
                         <div class="dailyTable dailyTable02">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>2. 배출시설(흡입구) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
-                                <button class="ex_button" @click="excelBtn2()">Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn2()">Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="inletFields" :rowData="inletList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions2"></ag-grid-vue>
                             <canvas style="background:white" id="chart2" width="1550px" height="550" ></canvas>
@@ -57,7 +58,7 @@
                         <div class="dailyTable dailyTable03">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>3. 배출구 초과이력 관리</p>
-                                <button class="ex_button" @click="excelBtn3()">Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn3()">Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions3"></ag-grid-vue>
                             <canvas style="background:white" id="chart3" width="1550px" height="550" ></canvas>
@@ -65,7 +66,7 @@
                         <div class="dailyTable dailyTable04">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>4. 설비적/기계적 문제 발생 및 대응 현황</p>
-                                <button class="ex_button" @click="excelBtn4()">Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn4()">Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions4">
                             </ag-grid-vue>
@@ -73,7 +74,7 @@
                         <div class="dailyTable dailyTable05">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>5. 운영 특이사항</p>
-                                <button class="ex_button" @click="excelBtn5()">Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn5()">Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" v-b-visible="handleVisibility" :gridOptions="gridOptions5">
                             </ag-grid-vue>
@@ -571,21 +572,49 @@ export default {
                 });
             }
         },
-        excelBtn1(){
-            this.gridOptions1.api.exportDataAsExcel({});
+        excelBtn(){
+            console.log("피카츄")
         },
-        excelBtn2(){
-            this.gridOptions2.api.exportDataAsExcel({});
-        },
-        excelBtn3(){
-            this.gridOptions3.api.exportDataAsExcel({});
-        },
-        excelBtn4(){
-            this.gridOptions4.api.exportDataAsExcel({});
-        },
-        excelBtn5(){
-            this.gridOptions5.api.exportDataAsExcel({});
-        },
+        // excelBtn(){
+        //     let that = this;
+        //     axios.post({
+        //     method: 'POST',
+        //     url: '/api/daedan/cj/ems/report',
+        //     responseType: 'blob',
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },   
+        //     data: {
+        //         custCode: custCodeVal,
+        //         startTime: startTimeVal,
+        //         endTime: endTimeVal       
+        //     } 
+        //     })
+        //     .then(response =>{
+        //         const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
+        //         const link = document.createElement('a');
+        //         link.href = url;
+        //         link.setAttribute('download', 'test.xlsx');
+        //         document.body.appendChild(link);
+        //         link.click();
+        //     })
+        // },
+
+        // excelBtn1(){
+        //     this.gridOptions1.api.exportDataAsExcel({});
+        // },
+        // excelBtn2(){
+        //     this.gridOptions2.api.exportDataAsExcel({});
+        // },
+        // excelBtn3(){
+        //     this.gridOptions3.api.exportDataAsExcel({});
+        // },
+        // excelBtn4(){
+        //     this.gridOptions4.api.exportDataAsExcel({});
+        // },
+        // excelBtn5(){
+        //     this.gridOptions5.api.exportDataAsExcel({});
+        // },
         
         getConditionList() {
             let that = this;
@@ -1253,6 +1282,7 @@ export default {
         }
         
     },
+    
 }
 </script>
 
@@ -1363,7 +1393,23 @@ export default {
     box-shadow: 0px 0px 3px blue;
     font-size: 16px;
 }
-
+.d_btn03{
+    position: absolute;
+    top: 0px;
+    right: 340px;
+    width: 150px;
+    height: 30px;
+    padding-left: 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
+}
 .d_btn02:hover, .d_btn01:hover {
     font-weight: bold;
     background: rgb(81, 81, 255);

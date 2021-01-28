@@ -34,6 +34,7 @@
                             </b-col>
                             <b-col cols="3">
                                 <input type="button" class="repM_btn01" value="조회" v-on:click="getList01">
+                                <input type="button" class="repM_btn02" value="엑셀" v-on:click="excelBtn">
                             </b-col>
                         </b-row>
                     </div>
@@ -42,21 +43,21 @@
                         <div class="monthlyTable monthlyTable01">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>1. 월말 보고 Summary</p>
-                                <button class="ex_button" @click="excelBtn1()" >Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn1()" >Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="summaryFields" :rowData="summaryList" :pagination="true" :gridOptions="gridOptions1" ></ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable02">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>2. 운전 현황(월간 통계)</p>
-                                <button class="ex_button" @click="excelBtn2()" >Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn2()" >Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="operFields" :rowData="operList" :pagination="true" :gridOptions="gridOptions2"></ag-grid-vue>
                         </div>
                         <div class="monthlyTable monthlyTable03">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>3. 배출시설(방지시설 전단) 트렌드 분석 : 이상점(농도 상승) 확인 및 조치 사항</p>
-                                <button class="ex_button" @click="excelBtn3()" >Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn3()" >Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="preventFields" :rowData="preventList" :pagination="true" :gridOptions="gridOptions3">
                             </ag-grid-vue>
@@ -64,7 +65,7 @@
                         <div class="monthlyTable monthlyTable04">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>4. 배출구 초과이력 관리</p>
-                                <button class="ex_button" @click="excelBtn4()" >Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn4()" >Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="outletFields" :rowData="outletList" :pagination="true" :gridOptions="gridOptions4" >
                             </ag-grid-vue>
@@ -72,7 +73,7 @@
                         <div class="monthlyTable monthlyTable05">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>5. 설비적/기계적 문제 발생 및 대응 현황</p>
-                                <button class="ex_button" @click="excelBtn5()" >Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn5()" >Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="errorFields" :rowData="errorList" :pagination="true" :gridOptions="gridOptions5">
                             </ag-grid-vue>
@@ -80,7 +81,7 @@
                         <div class="monthlyTable monthlyTable06">
                             <div style="display:flex;justify-content: space-between;">
                                 <p>6. 운영 특이사항</p>
-                                <button class="ex_button" @click="excelBtn6()" >Excel</button>
+                                <!-- <button class="ex_button" @click="excelBtn6()" >Excel</button> -->
                             </div>
                             <ag-grid-vue style="width: 100%; height: 600px;" class="ag-theme-alpine-dark" :columnDefs="etcFields" :rowData="etcList" :pagination="true" :gridOptions="gridOptions6">
                             </ag-grid-vue>
@@ -512,24 +513,28 @@ export default {
         }
     },
     methods: {
-        excelBtn1(){
-            this.gridOptions1.api.exportDataAsExcel({});
+        excelBtn(){
+            console.log("이상해씨")
         },
-        excelBtn2(){
-            this.gridOptions2.api.exportDataAsExcel({});
-        },
-        excelBtn3(){
-            this.gridOptions3.api.exportDataAsExcel({});
-        },
-        excelBtn4(){
-            this.gridOptions4.api.exportDataAsExcel({});     
-        },
-        excelBtn5(){
-            this.gridOptions5.api.exportDataAsExcel({});
-        },
-        excelBtn6(){
-            this.gridOptions6.api.exportDataAsExcel({});
-        },
+
+        // excelBtn1(){
+        //     this.gridOptions1.api.exportDataAsExcel({});
+        // },
+        // excelBtn2(){
+        //     this.gridOptions2.api.exportDataAsExcel({});
+        // },
+        // excelBtn3(){
+        //     this.gridOptions3.api.exportDataAsExcel({});
+        // },
+        // excelBtn4(){
+        //     this.gridOptions4.api.exportDataAsExcel({});     
+        // },
+        // excelBtn5(){
+        //     this.gridOptions5.api.exportDataAsExcel({});
+        // },
+        // excelBtn6(){
+        //     this.gridOptions6.api.exportDataAsExcel({});
+        // },
         clearTimeout() {
             if (this.timeout) {
             clearTimeout(this.timeout)
@@ -1172,6 +1177,24 @@ export default {
     position: absolute;
     top: 0px;
     right: 20px;
+    width: 150px;
+    height: 30px;
+    padding-left: 0;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background:white;
+    box-shadow: 0px 0px 3px blue;
+    font-size: 16px;
+}
+
+.repM_btn02 {
+    position: absolute;
+    top: 0px;
+    right: 180px;
     width: 150px;
     height: 30px;
     padding-left: 0;
