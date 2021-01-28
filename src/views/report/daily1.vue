@@ -535,10 +535,6 @@ export default {
             graphDatas1:[],
 
         }
-
-
-
-
     },
     beforeDestroy() {
         this.clearTimeout()
@@ -573,7 +569,14 @@ export default {
             }
         },
         excelBtn(){
-            console.log("피카츄")
+            // let that = this;
+            // axios.post("/api/daedan/cj/ems/setting/conditionList",{
+            //     monitorList : this.monitorList,
+            //     inletList : this.inletList,
+            //     outletList : this.outletList,
+            //     errorList : this.errorList,
+            //     etcList : this.etcList
+            //  }).
         },
         // excelBtn(){
         //     let that = this;
