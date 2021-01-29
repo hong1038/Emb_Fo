@@ -569,14 +569,22 @@ export default {
             }
         },
         excelBtn(){
-            // let that = this;
-            // axios.post("/api/daedan/cj/ems/setting/conditionList",{
-            //     monitorList : this.monitorList,
-            //     inletList : this.inletList,
-            //     outletList : this.outletList,
-            //     errorList : this.errorList,
-            //     etcList : this.etcList
-            //  }).
+            axios.post("/api/daedan/cj/ems/report/reportDayExcel",{
+                monitorList : this.monitorList,
+                inletList : this.inletList,
+                outletList : this.outletList,
+                errorList : this.errorList,
+                etcList : this.etcList
+             }).then(res => {
+                if (res.status === 200) {
+                    if (res.data.statusCode === 200) {
+                        console.log(res.data)
+                    }
+                }
+            })
+            .catch(err => {
+                alert("ASD"+err)
+            })  
         },
         // excelBtn(){
         //     let that = this;

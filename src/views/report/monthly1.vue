@@ -1021,7 +1021,11 @@ export default {
                 let graphDataMin = []
 
                 e.map(item => {
-                    graphLabel.push(item.prevention_date)
+                    let beforedate = item.prevention_date.split('-')
+                    let date = []
+                    date.push(beforedate[1],beforedate[2])
+                    date = date.join("-")
+                    graphLabel.push(date)
                     graphDataAvg.push(item.outlet_avg_value)
                     graphDataMax.push(item.outlet_max_value)
                     graphDataMin.push(item.outlet_min_value)

@@ -600,7 +600,7 @@ export default {
                         {
                             label: '기준값',
                             borderColor: 'red',
-                            backgroundColor: 'red',
+                            backgroundColor: 'transparent',
                             data: this.standard_value,
                             borderDash: [10,5]
                             // data:this.dailyChartData
