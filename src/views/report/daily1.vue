@@ -570,11 +570,17 @@ export default {
         },
         excelBtn(){
             axios.post("/api/daedan/cj/ems/report/reportDayExcel",{
-                monitorList : this.monitorList,
-                inletList : this.inletList,
-                outletList : this.outletList,
-                errorList : this.errorList,
-                etcList : this.etcList
+                // monitorList : this.monitorList,
+                // inletList : this.inletList,
+                // outletList : this.outletList,
+                // errorList : this.errorList,
+                // etcList : this.etcList
+                dateFr: this.dateFr,
+                dateTo: this.dateTo,
+                serverList: store.state.ckServer,
+                pageNo: this.pageNo,
+                pageSz: this.pageSz,
+                userId: store.state.userInfo.userId
              }).then(res => {
                 if (res.status === 200) {
                     if (res.data.statusCode === 200) {
