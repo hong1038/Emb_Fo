@@ -1,36 +1,48 @@
 <template>
-<v-container>
+<v-container fluid>
     <div class='back'>
         <!-- <img src="@/assets/login_back.jpg" alt='login_back'>
         <img src="@/assets/login_logo.png" class="logo"> -->
+        <v-btn @click="popUp = !popUp">로그인버튼</v-btn>
     </div>
-    <div class='loginWrap'>
-        <!-- <div class="loginTitle">Welcome to CJ Cheiljedang</div> -->
-        <div class="logoWrap">
-            <!-- <img src="../assets/logo.png" alt="logo"> -->
-            <div>## 로그인 페이지 ##</div>
-        </div>
-
-        <div class="loginForm">
-            <div>
-                <div>
-                    <input type="text" id="email" name="email" v-model="email" placeholder="아이디">
+    <v-overlay :value="popUp" opacity="0.8">
+        <v-card>
+            <v-card-title class="position-relative">## 로그인 페이지 ## <span class="popUpClose" @click="popUp = false"><b-icon icon="x-circle" scale="1.5"></b-icon> </span></v-card-title>
+            <v-card-text>
+                <div class="loginBody">
+                    <v-row>
+                        <v-col cols="4">
+                            <span class="loginText">E-mail</span>
+                        </v-col>
+                        <v-col cols="8">
+                            <input type="text" id="email" name="email" v-model="email" placeholder="E-mail 입력">
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4">
+                            <span class="loginText">Password</span>
+                        </v-col>
+                        <v-col cols="8">
+                            <input type="password" id="password" name="password" v-model="password" placeholder="Password" @keyup.enter="signin">
+                        </v-col>
+                    </v-row>
                 </div>
-            </div>
-                <div>
-                    <div>
-                        <input type="password" id="password" name="password" v-model="password" placeholder="비밀번호" @keyup.enter="signin">
-                <b-row class="measurementLookup">
-                    로그인
-                </b-row>
-                <b-row>
-                    만약 로그인 할 계정이 없다면 <router-link to="/Main.vue">여기</router-link>를 눌러주세요.
-                </b-row>
-                    </div>
-            </div>
-
-        </div>
-    </div>
+                <div class="checkBox">
+                    <v-row>
+                        <v-col cols="12">
+                            <v-btn class="loginBtn">Login</v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+                            <p>만약 로그인 할 계정이 없다면 <router-link to="/Main.vue">여기</router-link>를 눌러주세요.</p>
+                        </v-col>
+                    </v-row>
+                </div>
+            </v-card-text>
+        </v-card>
+    </v-overlay>
+    
 </v-container>
 </template>
 
@@ -41,8 +53,9 @@ export default {
             notiMsg: null,
             isError: false,
             email: '',
-            password: ''
+            password: '',
 
+            popUp : false,
         };
     },
     created() {},
@@ -102,26 +115,8 @@ export default {
 }
 </script>
 
-<style>
-.measurementLookup {
-    /* position: absolute; */
-    top: 40px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    /* font-size: 16px; */
-    /* line-height: 30px; */
-    /* display: inline-block; */
-    /* text-align: center; */
-    /* cursor: pointer; */
-    /* transition: all 0.3s; */
-    /* box-sizing: border-box; */
-    /* border-radius: 10px; */
-    background: rgb(130, 138, 138);
-    box-shadow: 0px 0px 3px blue;
-    /* text-decoration: none; */
-    /* color: black; */
-}
+<style lang='scss'>
+
 @font-face {
     font-family: CjFontBodyLight;
         font-style: normal;
@@ -209,151 +204,35 @@ input {
     line-height: inherit;
 }
 
-.back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
+p{
+    margin-bottom:0 !important;
+} 
 
-.back>img {
-    width: 100%;
-    height: 100%;
+.loginBody{
+    border-top:2px solid white;
 }
-
-.back>.logo {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    width: 550px;
-    height: 200px;
-    transform: translate(-50%, -40%);
-    opacity: 1;
+.loginForm{
+    margin-top:2%;
 }
-
-.loginWrap {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    z-index: 3;
-    width: 500px;
-    height: 100%;
-    box-sizing: border-box;
-    border: 0px solid #ccc;
-    padding: 2%;
-    background: rgba(0, 0, 0, 0.4);
-}
-
-.loginWrap>.imgWrap {
-    width: 100%;
-}
-
-.loginWrap>.imgWrap>img {
-    width: 100%;
-}
-
-/* title */
-
-.loginWrap>.loginTitle {
-    width:110%;
-    margin-left:-5%;
-    text-align: center;
-    /*margin-top: 32%;*/
-    margin-top: 32%;
-    color: white;
-    font-size: 1.8rem;
-    font-family:CjFontTitleBold;
-    font-weight:bold;
-    /*display:none;*/
-}
-.loginWrap>.logoWrap{
+.loginBtn{
     width:100%;
-    /*margin-top:40%;*/
-    margin-top:5%;
+}
+.loginText{
+    line-height:2.5;
+}
+.popUpClose{
+    margin-left:27%;
+    cursor:pointer;
+    transition:all 0.3s;
+    &:hover{
+        color:red;
+    }
+}
+#email, #password{
+    border:1px solid rgb(191, 191, 191);
+    border-radius: 2px;
+    padding:.3rem;
 }
 
-.loginWrap>.logoWrap>img{
-    /*width:100%;*/
-    width:90%;
-    margin-left:5%;
-}
-.loginWrap>.logoWrap>div{
-    color:white;
-    font-family: CjFontTitleBold;
-    font-size:1.6rem;
-    font-weight:bold;
-    text-align: center;
-}
 
-.loginForm {
-    position: relative;
-}
-
-.loginForm>div {
-    width: 110%;
-    height: 10px;
-    margin: 0 auto;
-    margin-top: 30px;
-}
-
-.loginForm>div>div {
-    width: 100%;
-    height: 100%;
-    color: white;
-}
-
-.loginForm>div>div>div:nth-child(1) {
-    height: 40px;
-    line-height: 40px;
-    color: white;
-    font-size: 1.1rem;
-    font-family: CjFontBodyRegular;
-}
-
-.loginForm>div>div>div:nth-child(2) {
-    height: 45px;
-}
-
-.loginForm>div>div>div:nth-child(2)>input {
-    height: 100%;
-    width: 100%;
-    background: white;
-    box-sizing: border-box;
-    padding-left: 10px;
-    font-size: 16px;
-}
-
-.loginForm>.loginBtnWrap {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    margin-top: 50px;
-}
-
-.loginBtnWrap>img {
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-}
-
-.loginBtnWrap>input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    background: rgb(151, 151, 151, 0.3);
-    border-radius: 100%;
-    transition: all 0.2s;
-}
-
-.loginBtnWrap>input:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.loginBtnWrap>input:focus {
-    border: none;
-    outline: none;
-}
 </style>
