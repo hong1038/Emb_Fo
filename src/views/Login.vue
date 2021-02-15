@@ -1,38 +1,34 @@
 <template>
 <v-container>
     <div class='back'>
-        <img src="@/assets/login_back.jpg" alt='login_back'>
-        <img src="@/assets/login_logo.png" class="logo">
+        <!-- <img src="@/assets/login_back.jpg" alt='login_back'>
+        <img src="@/assets/login_logo.png" class="logo"> -->
     </div>
     <div class='loginWrap'>
-        <div class="loginTitle">Welcome to CJ Cheiljedang</div>
+        <!-- <div class="loginTitle">Welcome to CJ Cheiljedang</div> -->
         <div class="logoWrap">
-            <img src="../assets/logo.png" alt="logo">
-            <div>통합 환경 모니터링 시스템</div>
+            <!-- <img src="../assets/logo.png" alt="logo"> -->
+            <div>## 로그인 페이지 ##</div>
         </div>
 
         <div class="loginForm">
-            
-            <div class="idWrap">
+            <div>
                 <div>
-                    <div>E-mail</div>
-                    <div>
-                        <input type="text" id="email" name="email" v-model="email" placeholder="E-mail">
-                    </div>
+                    <input type="text" id="email" name="email" v-model="email" placeholder="아이디">
                 </div>
             </div>
-            <div class="pwWrap">
                 <div>
-                    <div>Password</div>
                     <div>
-                        <input type="password" id="password" name="password" v-model="password" placeholder="Password" @keyup.enter="signin">
+                        <input type="password" id="password" name="password" v-model="password" placeholder="비밀번호" @keyup.enter="signin">
+                <b-row class="measurementLookup">
+                    로그인
+                </b-row>
+                <b-row>
+                    만약 로그인 할 계정이 없다면 <router-link to="/Main.vue">여기</router-link>를 눌러주세요.
+                </b-row>
                     </div>
-                </div>
             </div>
-            <div class="loginBtnWrap">
-                <img src="@/assets/loginOn.png">
-                <input type="button" @click="signin()">
-            </div>
+
         </div>
     </div>
 </v-container>
@@ -107,7 +103,25 @@ export default {
 </script>
 
 <style>
-
+.measurementLookup {
+    /* position: absolute; */
+    top: 40px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    /* font-size: 16px; */
+    /* line-height: 30px; */
+    /* display: inline-block; */
+    /* text-align: center; */
+    /* cursor: pointer; */
+    /* transition: all 0.3s; */
+    /* box-sizing: border-box; */
+    /* border-radius: 10px; */
+    background: rgb(130, 138, 138);
+    box-shadow: 0px 0px 3px blue;
+    /* text-decoration: none; */
+    /* color: black; */
+}
 @font-face {
     font-family: CjFontBodyLight;
         font-style: normal;
@@ -277,8 +291,8 @@ input {
 }
 
 .loginForm>div {
-    width: 90%;
-    height: 80px;
+    width: 110%;
+    height: 10px;
     margin: 0 auto;
     margin-top: 30px;
 }
