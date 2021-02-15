@@ -4,9 +4,9 @@
       <router-view />
    </v-main>
    
-   <v-footer color="indigo" app>
+   <!-- <v-footer color="indigo" app>
       <span class="white--text">&copy; CopyRight DAEDAN CO, LTD. Since 2020</span>
-   </v-footer>
+   </v-footer> -->
 </v-app>   
 </template>
 <script>
