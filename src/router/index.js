@@ -13,7 +13,7 @@ const routes = [{
             import ("@/views/Login.vue")
     },
     {
-        path: '/',
+        path: '/Main',
         name: 'Main',
         component: () =>
             import ("@/views/Main.vue")

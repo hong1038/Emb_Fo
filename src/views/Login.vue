@@ -35,7 +35,7 @@
                     </v-row>
                     <v-row>
                         <v-col cols="12">
-                            <p>만약 로그인 할 계정이 없다면 <router-link to="/Main.vue">여기</router-link>를 눌러주세요.</p>
+                            <p>만약 로그인 할 계정이 없다면 <router-link to="Main">여기</router-link>를 눌러주세요.</p>
                         </v-col>
                     </v-row>
                 </div>
